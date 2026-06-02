@@ -195,6 +195,7 @@ withDefaults(defineProps<Props>(), { mobile: false });
   &__phone-frame {
     width: 100%;
     height: 100%;
+
     // device frame 顏色集中在 token，variants 可單獨覆寫淺色 frame
     background: var(--device-frame-bg);
     border-radius: 24px;
@@ -212,7 +213,7 @@ withDefaults(defineProps<Props>(), { mobile: false });
     transform: translateX(-50%);
     width: 40px;
     height: 6px;
-    background: #000;
+    background: #000000;
     border-radius: 3px;
     z-index: 2;
   }
@@ -220,6 +221,7 @@ withDefaults(defineProps<Props>(), { mobile: false });
   &__phone-screen {
     width: 100%;
     height: 100%;
+
     // 螢幕內漸層走 token；variants 切配色時可單獨換暖 / 冷 / 中性
     background: var(--device-screen-overlay);
     border-radius: 18px;

@@ -80,8 +80,8 @@ const animationStyle = computed(() => ({
     mask-image: linear-gradient(
       to right,
       transparent 0,
-      #000 5%,
-      #000 95%,
+      #000000 5%,
+      #000000 95%,
       transparent 100%
     );
   }

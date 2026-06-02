@@ -1,7 +1,7 @@
 // noya 版面的替代配色
 // 透過 [data-theme="noya"][data-theme-color="xxx"] 雙重 selector
 // 確保只有 noya 套對應配色，不會被其他 theme 誤用。
-//
+// ---
 // 注意：每個 variant 都要把 _tokens.scss 內所有可見的對比 token
 // （bg-base-deep / bg-base-translucent / text-on-primary / highlight-strip
 // / provider-card-bg / footer-bg / footer-text / footer-link / badge-live）

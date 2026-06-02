@@ -68,6 +68,7 @@ function tap(item: DockItem) {
 <style lang="scss" scoped>
 .at99-dock {
   position: fixed;
+
   // 從 top header 下方開始，使用 64px 安全高度
   top: 70px;
   left: 0;

@@ -64,7 +64,7 @@ const paragraphs = [
   }
 
   &--mobile {
-    padding-left: 0;
+    // mobile 不留 dock 空間：padding shorthand 直接覆寫，左右為 0
     padding: 18px 0;
 
     .at99-about__inner {

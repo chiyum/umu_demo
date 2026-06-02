@@ -103,6 +103,7 @@ function close() {
   &__panel {
     width: 100%;
     max-width: 340px;
+
     // 紙條黃漸層走 token；切配色時可改成沙色 / 蜜綠保持公告質感
     background: var(--accent-warning-bg);
     border-radius: 14px;

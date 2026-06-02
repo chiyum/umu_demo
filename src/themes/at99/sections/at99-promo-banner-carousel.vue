@@ -153,6 +153,7 @@ onBeforeUnmount(() => stopAuto());
 .at99-promo-c {
   background: var(--bg-base);
   padding: 24px 0 12px;
+
   // PC：左側 sidebar dock 預留空間，寬度走 token，集中管理
   padding-left: var(--dock-offset);
 
@@ -345,7 +346,7 @@ onBeforeUnmount(() => stopAuto());
   }
 
   &--mobile {
-    padding-left: 0;
+    // mobile 不留 dock 空間：padding 直接覆寫，左右 0 等同移除 dock-offset
     padding: 16px 0 8px;
 
     .at99-promo-c__inner {

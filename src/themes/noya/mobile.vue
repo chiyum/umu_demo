@@ -56,6 +56,7 @@ const activeCategory = ref<string>("live");
 
   &__main {
     flex: 1;
+
     // 預留底部 tab bar 空間（高約 56px，含 safe-area 取整 60）
     // 與 at99 mobile 一致：由父層統一處理，子元件保持單純
     padding-bottom: 60px;

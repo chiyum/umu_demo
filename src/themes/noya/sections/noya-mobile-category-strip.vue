@@ -84,6 +84,7 @@ function pick(key: string) {
     }
   }
 
+  // stylelint-disable-next-line no-descending-specificity
   &__bubble {
     width: 44px;
     height: 44px;

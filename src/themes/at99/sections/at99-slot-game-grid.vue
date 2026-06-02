@@ -364,7 +364,7 @@ const activeCategory = computed(
   }
 
   &--mobile {
-    padding-left: 0;
+    // mobile 不留 dock 空間：padding shorthand 直接覆寫，左右為 0
     padding: 16px 0;
 
     .at99-slots__inner {

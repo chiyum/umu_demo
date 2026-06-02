@@ -83,6 +83,7 @@ function pick(key: string) {
 .noya-main-nav {
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border);
+
   // 接續 announce-top-bar (sticky top:0 / height:50px) 下方，
   // 捲動時 5 大類 tab 仍保留在視窗內，避免使用者下捲後找不到分類切換入口
   position: sticky;

@@ -121,6 +121,7 @@ const dealers: Dealer[] = [
     }
   }
 
+  // stylelint-disable-next-line no-descending-specificity
   &__halo {
     position: absolute;
     top: 0;
@@ -183,6 +184,7 @@ const dealers: Dealer[] = [
       height: 84px;
     }
 
+    // stylelint-disable-next-line no-descending-specificity
     .at99-live__halo {
       width: 92px;
       height: 92px;

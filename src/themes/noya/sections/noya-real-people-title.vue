@@ -90,7 +90,6 @@ function onAllClick() {
       var(--color-primary) 50%,
       var(--color-secondary) 100%
     );
-    -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 

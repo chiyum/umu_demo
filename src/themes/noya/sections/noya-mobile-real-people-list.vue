@@ -122,6 +122,7 @@ const cards: Card[] = [
 <style lang="scss" scoped>
 .noya-m-list {
   background: var(--bg-base);
+
   // padding-bottom 由父層 mobile.vue 統一給 tab bar 留空間，
   // 元件本身只關心自己的內距（與 at99 mobile 一致）
   padding: 12px 16px;
