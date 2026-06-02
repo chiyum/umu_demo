@@ -89,7 +89,7 @@ function handlePreview(themeKey: string): void {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .showcase-page {
     &__grid-wrap {
       padding: 40px 20px 64px;

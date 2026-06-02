@@ -137,6 +137,10 @@ function handleOpenDemo(): void {
     box-shadow: 0 12px 28px rgba(212, 165, 116, 0.24);
   }
 
+  // stylelint no-descending-specificity：所有低 specificity 的 base 規則
+  // （&__thumb-btn / &__thumb / &__thumb-overlay / &__thumb-overlay-text）
+  // 必須宣告在高 specificity 的 hover combo 規則（&__thumb-btn:hover .xxx）之前。
+  // 為了維持「同主題的 selector 視覺上聚在一起」，把兩條 hover combo 集中放在 thumb 區塊末尾
   &__thumb-btn {
     position: relative;
     padding: 0;
@@ -146,10 +150,6 @@ function handleOpenDemo(): void {
     overflow: hidden;
     aspect-ratio: 16 / 10;
     display: block;
-
-    &:hover .theme-card__thumb-overlay {
-      opacity: 1;
-    }
   }
 
   &__thumb {
@@ -159,10 +159,6 @@ function handleOpenDemo(): void {
     object-position: top center;
     display: block;
     transition: transform 0.4s ease;
-  }
-
-  &__thumb-btn:hover .theme-card__thumb {
-    transform: scale(1.03);
   }
 
   &__thumb-overlay {
@@ -184,6 +180,15 @@ function handleOpenDemo(): void {
     padding: 10px 22px;
     border: 1px solid rgba(255, 248, 235, 0.7);
     border-radius: 6px;
+  }
+
+  // hover combo：必須在所有 base 規則之後，避免 stylelint no-descending-specificity 違規
+  &__thumb-btn:hover .theme-card__thumb {
+    transform: scale(1.03);
+  }
+
+  &__thumb-btn:hover .theme-card__thumb-overlay {
+    opacity: 1;
   }
 
   &__body {
@@ -271,7 +276,7 @@ function handleOpenDemo(): void {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .theme-card {
     &__body {
       padding: 20px;

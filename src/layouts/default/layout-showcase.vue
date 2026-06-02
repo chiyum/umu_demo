@@ -53,6 +53,7 @@ onBeforeUnmount(() => {
   width: 100%;
   min-height: 100vh;
   background: #ffffff;
+
   // showcase 用 Outfit + 微軟正黑體（對齊 noya 字體 stack 的 body 部分）
   // 不引 noya tokens 避免被 data-theme 切換影響
   font-family: outfit, "微軟正黑體", "Microsoft JhengHei UI",

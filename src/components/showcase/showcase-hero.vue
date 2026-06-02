@@ -33,6 +33,7 @@
 .showcase-hero {
   position: relative;
   overflow: hidden;
+
   // 暖金漸層底，從奶油色淡到玫瑰金 accent
   background: linear-gradient(180deg, #faf5ef 0%, #fef9f1 100%), #ffffff;
 
@@ -40,6 +41,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
+
     // 雙 radial 角落柔光：右上玫瑰金 + 左下日落橘
     background: radial-gradient(
         ellipse 800px 600px at 100% 0%,
@@ -77,9 +79,9 @@
     color: #3d3329;
     margin: 0 0 20px;
     line-height: 1.15;
+
     // 玫瑰金漸層文字，視覺記憶點
     background: linear-gradient(135deg, #b8854a 0%, #d4a574 50%, #f0d4a7 100%);
-    -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -93,7 +95,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .showcase-hero {
     &__inner {
       padding: 64px 20px 48px;

@@ -167,6 +167,7 @@ function pickDevice(device: "desktop" | "mobile"): void {
   align-items: center;
   justify-content: center;
   padding: 24px;
+
   // 自身吃滿，內部 panel 自定義寬高
   &__panel {
     width: 100%;
@@ -256,6 +257,7 @@ function pickDevice(device: "desktop" | "mobile"): void {
     display: block;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+
     // 桌面版圖較寬，手機版較窄；用 max-width 自適應
     width: 100%;
     height: auto;
@@ -272,7 +274,7 @@ function pickDevice(device: "desktop" | "mobile"): void {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .preview {
     padding: 12px;
 
