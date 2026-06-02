@@ -228,25 +228,28 @@ const rows = computed(() =>
   }
 
   &__tabs {
+    // kingdom DNA：tab 群外殼 --radius-md（8px）
     display: inline-flex;
     background: var(--bg-surface);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     padding: 4px;
     gap: 4px;
     margin-bottom: 16px;
   }
 
   &__tab {
+    // kingdom DNA：個別 tab --radius-sm（6px）
     background: transparent;
     color: var(--text-muted);
     border: none;
-    padding: 8px 18px;
-    border-radius: 6px;
+    padding: var(--space-sm) 18px;
+    border-radius: var(--radius-sm);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     letter-spacing: 1px;
+    transition: all var(--transition-fast);
 
     &--active {
       background: var(--gradient-cta);
@@ -256,10 +259,12 @@ const rows = computed(() =>
   }
 
   &__table-wrap {
+    // kingdom DNA：表格容器 --radius-lg（10px，原 12px 改為標準 10px）
     background: var(--bg-surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
+    box-shadow: var(--shadow-md);
   }
 
   &__table {
@@ -303,12 +308,13 @@ const rows = computed(() =>
   }
 
   &__rank-badge {
+    // kingdom DNA：圓徽章走 --radius-circle
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 30px;
     height: 30px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     font-weight: 800;
     background: var(--bg-overlay);
     color: var(--text-primary);

@@ -96,17 +96,18 @@ function tap(item: DockItem) {
   z-index: 90;
   background: var(--dock-bg);
   border-right: 1px solid var(--border);
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
   padding: 12px 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  box-shadow: var(--shadow);
+  gap: var(--space-sm);
+  box-shadow: var(--shadow-lg);
 
   &__item {
+    // kingdom DNA：dock item 走 --radius-lg + var transition
     width: 100%;
     height: 64px;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     background: var(--dock-icon-bg);
     border: 1px solid transparent;
 
@@ -118,7 +119,7 @@ function tap(item: DockItem) {
     align-items: center;
     justify-content: center;
     gap: 2px;
-    transition: all 0.18s ease;
+    transition: all var(--transition-base);
 
     &:hover {
       // hover 時 icon / label 變金色（color-accent），加金色光暈模擬「漸層金」效果
@@ -143,7 +144,7 @@ function tap(item: DockItem) {
   &__icon {
     width: 22px;
     height: 22px;
-    transition: filter 0.18s ease;
+    transition: filter var(--transition-base);
   }
 
   &__label {

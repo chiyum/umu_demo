@@ -108,7 +108,7 @@ const dealers: Dealer[] = [
     gap: 10px;
     cursor: pointer;
     position: relative;
-    transition: transform 0.2s ease;
+    transition: transform var(--transition-base);
 
     &:hover,
     &:focus-visible {
@@ -129,21 +129,21 @@ const dealers: Dealer[] = [
     transform: translateX(-50%);
     width: 130px;
     height: 130px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle); // kingdom DNA：圓形容器
     background: radial-gradient(
       circle,
       var(--color-primary) 0%,
       transparent 60%
     );
     opacity: 0.5;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--transition-base);
     pointer-events: none;
   }
 
   &__avatar {
     width: 120px;
     height: 120px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle); // kingdom DNA：圓形容器
     overflow: hidden;
     border: 2px solid var(--color-primary);
     box-shadow: var(--neon-glow);
@@ -153,7 +153,7 @@ const dealers: Dealer[] = [
     :deep(.avatar-silhouette) {
       width: 100%;
       height: 100%;
-      border-radius: 50%;
+      border-radius: var(--radius-circle); // kingdom DNA：圓形容器
     }
   }
 

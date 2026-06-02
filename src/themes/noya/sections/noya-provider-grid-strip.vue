@@ -159,6 +159,7 @@ const activeProviders = computed(
   }
 
   &__card {
+    // kingdom DNA：卡片 --radius-xl（16px）+ shadow-md 預設、shadow-lg hover
     display: flex;
     align-items: center;
     gap: 12px;
@@ -166,26 +167,27 @@ const activeProviders = computed(
     padding: 12px 18px;
     background: var(--provider-card-bg);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
     transition:
-      transform 0.18s ease,
-      box-shadow 0.2s ease;
+      transform var(--transition-base),
+      box-shadow var(--transition-base);
     cursor: pointer;
     min-width: 180px;
 
     &:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px var(--border);
+      box-shadow: var(--shadow-lg);
     }
   }
 
   // 素材圖：56×56 cover，金色邊框 + 圓角，與卡片視覺一致
   &__img {
+    // kingdom DNA：小圖容器 --radius-lg（10px）
     width: 56px;
     height: 56px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     border: 1px solid var(--border);
     background: var(--bg-overlay);
     flex-shrink: 0;

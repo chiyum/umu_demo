@@ -274,12 +274,14 @@ const activeCategory = computed(
     background: var(--bg-surface);
     color: var(--text-muted);
     border: 1px solid var(--border);
-    padding: 8px 18px;
-    border-radius: 6px;
+    padding: var(--space-sm) 18px;
+
+    // kingdom DNA：tab 走 --radius-sm（6px），var transition
+    border-radius: var(--radius-sm);
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.18s ease;
+    transition: all var(--transition-base);
     letter-spacing: 1px;
 
     &:hover {
@@ -499,20 +501,22 @@ const activeCategory = computed(
   }
 
   &__play {
+    // kingdom DNA：金色 CTA 走 --radius-xs（4px）+ filter brightness soft 慣例
     margin: 6px 10px 10px;
     height: 28px;
     background: var(--gradient-gold);
     color: var(--text-on-gold);
     border: none;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
     letter-spacing: 1px;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: filter var(--transition-fast);
 
     &:hover {
-      filter: brightness(1.1);
+      filter: var(--filter-hover-soft);
     }
   }
 

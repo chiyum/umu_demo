@@ -118,12 +118,13 @@ const slides: Slide[] = [
   // banner slide：素材圖鋪滿，CTA 絕對貼右下
   // aspect-ratio 32/13 對齊原站 PC 雙 banner 視覺比例
   &__slide {
+    // kingdom DNA：圖片容器 --radius-xl（16px）+ shadow-lg 帶主色光暈
     position: relative;
     aspect-ratio: 32 / 13;
     min-height: 200px;
     overflow: hidden;
-    border-radius: 14px;
-    box-shadow: var(--shadow);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
   }
 
   // 主圖：cover 鋪滿整張 banner，center 對齊讓重點視覺不被裁
@@ -138,13 +139,14 @@ const slides: Slide[] = [
   }
 
   &__cta {
+    // kingdom DNA：金色 CTA 走 --radius-sm（6px）+ filter brightness soft
     position: absolute;
     right: 24px;
     bottom: 22px;
     background: var(--gradient-gold);
     color: var(--text-on-gold);
     border: none;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     padding: 10px 22px;
     font-size: 13px;
     font-weight: 800;
@@ -153,9 +155,10 @@ const slides: Slide[] = [
     box-shadow: 0 0 12px var(--color-accent);
     text-transform: uppercase;
     z-index: 2;
+    transition: filter var(--transition-fast);
 
     &:hover {
-      filter: brightness(1.08);
+      filter: var(--filter-hover-soft);
     }
   }
 

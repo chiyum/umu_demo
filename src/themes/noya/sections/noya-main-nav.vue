@@ -159,9 +159,10 @@ function pick(key: string) {
   }
 
   &__tab {
+    // kingdom DNA：tab 走 --radius-lg（10px）+ var transition
     background: transparent;
     border: 1px solid transparent;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     padding: 8px 18px;
     cursor: pointer;
     color: var(--text-primary);
@@ -169,7 +170,7 @@ function pick(key: string) {
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    transition: all 0.18s ease;
+    transition: all var(--transition-base);
     min-width: 80px;
 
     // tab 內 icon：26px，與大字 16px 拉開層次，並走 currentColor 跟 active 變色
@@ -201,7 +202,9 @@ function pick(key: string) {
       background: var(--gradient-cta);
       border-color: var(--color-primary);
       color: var(--text-on-primary);
-      box-shadow: var(--shadow);
+
+      // kingdom DNA：active tab shadow 走 token，配色切換時 shadow alpha 跟 theme 一致
+      box-shadow: var(--shadow-md);
 
       .noya-main-nav__tab-sub {
         color: var(--text-on-primary);
@@ -215,13 +218,14 @@ function pick(key: string) {
   }
 
   &__lang {
+    // kingdom DNA：語言切換用 pill 形按鈕（--radius-pill）
     font-size: 12px;
     color: var(--text-muted);
     padding: 6px 12px;
     border: 1px solid var(--border);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     cursor: pointer;
-    transition: color 0.15s ease;
+    transition: color var(--transition-fast);
 
     &:hover {
       color: var(--color-primary);

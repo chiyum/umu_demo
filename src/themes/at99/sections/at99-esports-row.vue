@@ -105,7 +105,8 @@ const games: Game[] = [
   }
 
   &__tile {
-    border-radius: 12px;
+    // kingdom DNA：tile --radius-lg（10px）+ var transition + shadow glow hover
+    border-radius: var(--radius-lg);
     border: 1px solid var(--border);
     overflow: hidden;
     padding: 18px 16px;
@@ -115,12 +116,12 @@ const games: Game[] = [
     gap: 10px;
     cursor: pointer;
     color: #ffffff;
-    transition: all 0.18s ease;
+    transition: all var(--transition-base);
 
     &:hover,
     &:focus-visible {
       transform: translateY(-3px);
-      box-shadow: var(--neon-glow);
+      box-shadow: var(--shadow-glow);
       outline: none;
     }
   }
@@ -149,14 +150,16 @@ const games: Game[] = [
   }
 
   &__cta {
+    // kingdom DNA：小型 CTA --radius-xs（4px）+ var transition
     background: rgba(0, 0, 0, 0.35);
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
     padding: 4px 12px;
     font-size: 11px;
     cursor: pointer;
     letter-spacing: 1px;
+    transition: all var(--transition-fast);
 
     &:hover {
       background: var(--gradient-cta);
