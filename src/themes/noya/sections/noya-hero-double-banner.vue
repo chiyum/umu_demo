@@ -2,6 +2,12 @@
 import AvatarSilhouette from "@/components/common/landing/avatar-silhouette.vue";
 import ProviderBadge from "@/components/common/landing/provider-badge.vue";
 
+// Round 9：lilian_vietvip_web 純金幣 PNG（無平台字樣）作為 hero banner 立體飛幣裝飾
+// 為何不用 CSS 畫金幣：寫實金屬高光、邊緣反射用 CSS 摹仿成本高、且容易卡住，
+// 直接用 PNG 帶 alpha 效果好且 bundle size 可接受（< 50KB / 張）
+import coinSingleImg from "@/assets/themes/noya/extra/decor/coin-single.png";
+import coinStackImg from "@/assets/themes/noya/extra/decor/coin-stack.png";
+
 /**
  * noya 雙 banner hero：左 phone promo + 右 live casino
  *
@@ -86,6 +92,25 @@ const liveProviders = [
       <!-- 右 banner：LIVE CASINO 真人視訊（對齊原站粉橘漸） -->
       <article class="noya-hero-banner__card noya-hero-banner__card--right">
         <span class="noya-hero-banner__bg-blob noya-hero-banner__bg-blob--tl" />
+
+        <!--
+          Round 9：金幣裝飾（兩枚 PNG 透明背景）
+          位置：右 banner 左下角 + 中央偏右、與 avatar 形成「玩家+金幣」場景敘事
+          aria-hidden：純裝飾，不需朗讀
+          mobile 時藉由 CSS 隱藏避免遮擋主要 CTA
+        -->
+        <img
+          :src="coinSingleImg"
+          alt=""
+          aria-hidden="true"
+          class="noya-hero-banner__coin noya-hero-banner__coin--single"
+        />
+        <img
+          :src="coinStackImg"
+          alt=""
+          aria-hidden="true"
+          class="noya-hero-banner__coin noya-hero-banner__coin--stack"
+        />
 
         <div class="noya-hero-banner__copy noya-hero-banner__copy--right">
           <span class="noya-hero-banner__eyebrow">LIVE CASINO</span>
@@ -481,6 +506,71 @@ const liveProviders = [
     .noya-hero-banner__avatar-wrap {
       width: 100px;
     }
+
+    // mobile 飛幣縮小（避免遮 CTA），位置略貼右邊
+    .noya-hero-banner__coin--single {
+      width: 50px;
+      bottom: 8px;
+      left: 8px;
+    }
+
+    .noya-hero-banner__coin--stack {
+      width: 40px;
+      top: 14px;
+      right: 50px;
+    }
+  }
+
+  // ─────────────── Round 9：金幣 PNG 立體裝飾 ───────────────
+  // 走輕微 floating 動畫 + drop-shadow，呼應 kingdom DNA 立體金屬感
+  &__coin {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 12px rgba(255, 216, 77, 0.4));
+    user-select: none;
+
+    &--single {
+      // 左下角獨立一枚，輕微傾斜
+      width: 80px;
+      bottom: 16px;
+      left: 16px;
+      transform: rotate(-12deg);
+      animation: noya-coin-float-a 3.2s ease-in-out infinite;
+    }
+
+    &--stack {
+      // 右上角兩枚堆疊，斜向飛入
+      width: 64px;
+      top: 18px;
+      right: 90px;
+      transform: rotate(8deg);
+      animation: noya-coin-float-b 2.8s ease-in-out infinite;
+    }
+  }
+}
+
+// 兩道相位錯開的 floating，避免雙金幣同步上下太機械
+@keyframes noya-coin-float-a {
+  0%,
+  100% {
+    transform: rotate(-12deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(-12deg) translateY(-6px);
+  }
+}
+
+@keyframes noya-coin-float-b {
+  0%,
+  100% {
+    transform: rotate(8deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(8deg) translateY(-8px);
   }
 }
 </style>
