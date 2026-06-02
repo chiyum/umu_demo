@@ -1,4 +1,13 @@
 <script setup lang="ts">
+// Round 9：phone screen 內 tile 升級為實際遊戲縮圖（5d_v2 中文遊戲卡）
+// 為何不畫純色塊：純色塊只能傳達「有內容」抽象感，真實縮圖能讓使用者一眼看出「啟動 App 就會看到的遊戲」
+import tileImg1 from "@/assets/themes/noya/extra/games/rocket-king.png";
+import tileImg2 from "@/assets/themes/noya/extra/games/monster-arena.png";
+import tileImg3 from "@/assets/themes/noya/extra/games/fairy-treasure.png";
+import tileImg4 from "@/assets/themes/noya/extra/games/lamp-legend.png";
+import tileImg5 from "@/assets/themes/noya/extra/games/qin-emperor.png";
+import tileImg6 from "@/assets/themes/noya/extra/games/dog-feast.png";
+
 /**
  * noya App 下載區
  *
@@ -18,6 +27,17 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), { mobile: false });
+
+// phone 中 6 格 tile 對應的縮圖（無平台 logo 純藝術素材）
+// 為何用 readonly tuple：6 格不會擴增、避免被誤改 length
+const phoneTileImages = [
+  tileImg1,
+  tileImg2,
+  tileImg3,
+  tileImg4,
+  tileImg5,
+  tileImg6
+] as const;
 </script>
 
 <template>
@@ -176,8 +196,18 @@ withDefaults(defineProps<Props>(), { mobile: false });
                 />
               </svg>
               <div class="noya-dl__phone-header" />
+              <!--
+                Round 9：6 格 tile 改為實際遊戲縮圖（5d_v2 中文遊戲卡）
+                為何 v-for + image：用實際縮圖傳達「App 內看到的遊戲」具象感
+                tile cover 裁切 + radius 統一視覺
+              -->
               <div class="noya-dl__phone-tiles">
-                <span v-for="i in 6" :key="i" />
+                <span
+                  v-for="(img, i) in phoneTileImages"
+                  :key="i"
+                  class="noya-dl__phone-tile"
+                  :style="{ backgroundImage: `url(${img})` }"
+                />
               </div>
               <div class="noya-dl__phone-cta" />
             </div>
@@ -432,11 +462,19 @@ withDefaults(defineProps<Props>(), { mobile: false });
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4px;
+    position: relative;
+    z-index: 1;
+  }
 
-    span {
-      background: rgba(255, 255, 255, 0.55);
-      border-radius: 4px;
-    }
+  // Round 9：tile 改用 background-image，cover 裁切 5d_v2 遊戲縮圖
+  // 為何不用 <img>：tile 容器走 flex 子格、固定 ratio，用 background-image 配 cover 更省版面
+  // 同時加 inset highlight 模擬 app icon 玻璃光澤（kingdom DNA）
+  &__phone-tile {
+    background-color: rgba(255, 255, 255, 0.55);
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
   &__phone-cta {
