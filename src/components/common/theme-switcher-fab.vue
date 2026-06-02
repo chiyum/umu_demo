@@ -124,16 +124,11 @@ function pickColor(key: string) {
 .fab {
   position: fixed;
   z-index: 9999;
-  display: flex;
-  align-items: center;
+  width: 56px; // 跟主鈕同寬，這樣容器不會被面板撐大；面板用 absolute 飄出
+  height: 56px;
   user-select: none;
   touch-action: none; // 阻止瀏覽器原生 pinch / scroll，讓拖曳完全可控
   transition: filter 0.2s ease;
-
-  // dock 展開方向（影響子面板在主鈕的左 / 右側）
-  &--expand-left {
-    flex-direction: row-reverse;
-  }
 
   &--dragging {
     cursor: grabbing;
@@ -177,15 +172,27 @@ function pickColor(key: string) {
 }
 
 .fab__panel {
+  position: absolute;
+  top: 0;
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(8px);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   padding: 12px 14px;
-  margin: 0 12px;
   min-width: 220px;
   color: #1f2937;
   font-size: 13px;
+}
+
+// expand 方向用 absolute 飄出，左 / 右二擇一
+// 用 calc(100% + 12px) 取代 margin，讓主鈕跟面板之間留 12px gap
+// 主鈕的 left 維持鎖在 FAB 拖曳位置，面板根據 expand 方向往外延伸不會擠出視窗
+.fab--expand-right .fab__panel {
+  left: calc(100% + 12px);
+}
+
+.fab--expand-left .fab__panel {
+  right: calc(100% + 12px);
 }
 
 .fab__section {
