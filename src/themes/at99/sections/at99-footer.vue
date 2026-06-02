@@ -44,7 +44,68 @@ const partners = Array.from({ length: 14 }, (_, i) => ({
   seed: (i + 1) * 6
 }));
 
-const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
+interface LegalItem {
+  /** Iconify icon name；走 Material Symbols Outlined 與全站一致 */
+  icon: string;
+  label: string;
+}
+
+// 為什麼法律連結加 icon：原本純文字四個連結視覺密度低，使用者反映「缺 icon」；
+// 加 icon 提供分類辨識度
+const legal: LegalItem[] = [
+  { icon: "material-symbols:shield-outline", label: "責任博彩" },
+  { icon: "material-symbols:gavel-outline", label: "服務條款" },
+  { icon: "material-symbols:lock-outline", label: "隱私政策" },
+  { icon: "material-symbols:support-agent-outline", label: "聯絡我們" }
+];
+
+// 社群連結：footer 常見的客服 / 社群入口，補齊 icon 對應
+const socials = [
+  {
+    key: "service",
+    icon: "material-symbols:headset-mic-outline",
+    label: "客服"
+  },
+  { key: "tg", icon: "material-symbols:send-outline", label: "TG" },
+  { key: "line", icon: "material-symbols:chat-outline", label: "LINE" },
+  { key: "mail", icon: "material-symbols:mail-outline", label: "信箱" }
+];
+
+// 付款方式：與 noya footer 一致的支付管道列
+const payments = [
+  {
+    key: "card",
+    icon: "material-symbols:credit-card-outline",
+    label: "信用卡"
+  },
+  {
+    key: "bank",
+    icon: "material-symbols:account-balance-outline",
+    label: "銀行轉帳"
+  },
+  {
+    key: "crypto",
+    icon: "material-symbols:currency-bitcoin",
+    label: "加密貨幣"
+  },
+  {
+    key: "wallet",
+    icon: "material-symbols:account-balance-wallet-outline",
+    label: "電子錢包"
+  },
+  {
+    key: "qr",
+    icon: "material-symbols:qr-code-2-outline",
+    label: "行動支付"
+  }
+];
+
+// 語言切換選項：footer 常見「多語系切換」入口
+const languages = [
+  { key: "zh-TW", label: "繁體中文" },
+  { key: "zh-CN", label: "简体中文" },
+  { key: "en", label: "English" }
+];
 </script>
 
 <template>
@@ -78,16 +139,83 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
             本站為前端版面 Demo，所有內容、人物、遊戲與標籤皆為通用範例，<br />
             不代表任何真實服務、品牌或營運主體。
           </p>
+          <!-- 法律連結 + icon：與全站 Material Symbols Outlined 體系一致 -->
           <nav class="at99-foot__legal" aria-label="法律連結">
-            <a v-for="l in legal" :key="l" href="#">{{ l }}</a>
+            <a
+              v-for="l in legal"
+              :key="l.label"
+              href="#"
+              class="at99-foot__legal-link"
+            >
+              <Icon :icon="l.icon" class="at99-foot__legal-icon" />
+              <span>{{ l.label }}</span>
+            </a>
           </nav>
+
+          <!-- 社群 / 客服連結：客服 + TG / LINE / Mail，補上 icon -->
+          <div class="at99-foot__socials" aria-label="社群連結">
+            <a
+              v-for="s in socials"
+              :key="s.key"
+              href="#"
+              class="at99-foot__social"
+              :aria-label="`${s.label} 入口`"
+              :title="s.label"
+            >
+              <Icon :icon="s.icon" class="at99-foot__social-icon" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 付款方式列：賭場 demo 常見的入金管道 icon 列 -->
+    <div class="at99-foot__payments" aria-label="支援的支付方式">
+      <div class="at99-foot__payments-inner">
+        <span class="at99-foot__payments-label">
+          <Icon
+            icon="material-symbols:payments-outline"
+            class="at99-foot__payments-label-icon"
+          />
+          支付方式
+        </span>
+        <ul class="at99-foot__payments-list" role="list">
+          <li
+            v-for="p in payments"
+            :key="p.key"
+            class="at99-foot__payment"
+            :title="p.label"
+          >
+            <Icon :icon="p.icon" class="at99-foot__payment-icon" />
+            <span class="at99-foot__payment-label">{{ p.label }}</span>
+          </li>
+        </ul>
+
+        <!-- 語言切換 -->
+        <div class="at99-foot__lang" aria-label="語言切換">
+          <Icon icon="material-symbols:language" class="at99-foot__lang-icon" />
+          <select class="at99-foot__lang-select" aria-label="選擇語言">
+            <option v-for="lang in languages" :key="lang.key" :value="lang.key">
+              {{ lang.label }}
+            </option>
+          </select>
+          <Icon
+            icon="material-symbols:expand-more"
+            class="at99-foot__lang-caret"
+          />
         </div>
       </div>
     </div>
 
     <!-- Partner logos 跑馬燈 -->
     <div class="at99-foot__partners">
-      <div class="at99-foot__partners-label kingdom-marquee-text">合作夥伴</div>
+      <div class="at99-foot__partners-label kingdom-marquee-text">
+        <Icon
+          icon="material-symbols:handshake-outline"
+          class="at99-foot__partners-icon"
+        />
+        合作夥伴
+      </div>
       <div class="at99-foot__partners-track">
         <div v-for="p in partners" :key="p.key" class="at99-foot__partner">
           <ProviderBadge :text="p.text" :seed="p.seed" size="sm" glow />
@@ -204,18 +332,172 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
     display: flex;
     flex-wrap: wrap;
     gap: 18px;
+    margin-bottom: 12px;
+  }
 
-    a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 12px;
-      letter-spacing: 1px;
-      transition: color var(--transition-fast);
+  // 法律連結：icon + label 並排
+  &__legal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: color var(--transition-fast);
 
-      &:hover {
-        color: var(--color-primary);
-        text-shadow: 0 0 6px var(--color-primary);
-      }
+    &:hover {
+      color: var(--color-primary);
+      text-shadow: 0 0 6px var(--color-primary);
+    }
+  }
+
+  &__legal-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  // 社群連結列：圓形 icon 按鈕，hover 主色
+  &__socials {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__social {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-circle);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    background: var(--bg-surface);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+
+    &:hover {
+      color: var(--text-on-primary);
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+  }
+
+  &__social-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  // 付款方式列：跟 noya 一致的視覺結構
+  &__payments {
+    background: var(--bg-base-deep);
+    border-bottom: 1px solid var(--border);
+  }
+
+  &__payments-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  &__payments-label {
+    font-size: 12px;
+    color: var(--color-primary);
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  &__payments-label-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  &__payments-list {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    flex: 1;
+  }
+
+  &__payment {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    color: var(--text-muted);
+    background: var(--bg-surface);
+    transition: all var(--transition-fast);
+    cursor: default;
+
+    &:hover {
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+  }
+
+  &__payment-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  &__payment-label {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  // 語言切換：原生 select 套樣式
+  &__lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    color: var(--text-muted);
+    background: var(--bg-surface);
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+
+    &:hover {
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+  }
+
+  &__lang-icon,
+  &__lang-caret {
+    width: 16px;
+    height: 16px;
+  }
+
+  &__lang-select {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+
+    // stylelint-disable-next-line no-descending-specificity
+    option {
+      color: var(--text-primary);
+      background: var(--bg-surface);
     }
   }
 
@@ -230,12 +512,21 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
     margin: 0 auto;
   }
 
+  // 合作夥伴 label：加 handshake icon 視覺一致
   &__partners-label {
     color: var(--color-primary);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__partners-icon {
+    width: 16px;
+    height: 16px;
   }
 
   &__partners-track {
@@ -300,6 +591,29 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
       flex-direction: column;
       text-align: center;
       padding: 12px 16px 16px;
+    }
+
+    // mobile 付款方式列：壓緊間距
+    .at99-foot__payments-inner {
+      padding: 10px 16px;
+      gap: 10px;
+    }
+
+    .at99-foot__payments-label {
+      width: 100%;
+      font-size: 11px;
+    }
+
+    .at99-foot__payment {
+      padding: 4px 10px;
+    }
+
+    .at99-foot__payment-label {
+      font-size: 10px;
+    }
+
+    .at99-foot__lang {
+      margin-left: auto;
     }
   }
 }
