@@ -1,0 +1,15 @@
+@use "@/assets/scss/global/reset";
+
+html,
+body {
+  // height: 100%;
+  font-family:
+    Outfit,
+    "微軟正黑體",
+    "Microsoft JhengHei",
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
+  overflow-x: hidden;
+}

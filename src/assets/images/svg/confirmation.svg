@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" tag="i"
+     class="v-icon notranslate v-theme--light iconify iconify--custom" width="1em" height="1em" viewBox="0 0 60 60"
+     style="font-size: 52px; height: 52px; width: 52px;">
+  <g fill="none">
+    <g fill="white" fill-opacity=".87" clip-path="url(#iconifyVue2)">
+      <path
+        d="M8 16h15a1 1 0 100-2H8a1 1 0 100 2Zm0-3h9a1 1 0 100-2H8a1 1 0 100 2Zm16 5a1 1 0 00-1-1H8a1 1 0 100 2h15a1 1 0 001-1Z"></path>
+      <path
+        d="M60 4H31V1a1 1 0 10-2 0v3H0v42h27.586L15.293 58.293a.999.999 0 101.414 1.414L29 47.414V57a1 1 0 102 0v-9.586l12.293 12.293a.997.997 0 001.414 0 .999.999 0 000-1.414L32.414 46H60V4Zm-2 40H2V6h56v38Z"></path>
+      <path
+        d="M41 20h4.586L33.6 31.986l-8.293-8.293a.999.999 0 00-1.414 0l-12.6 12.6a.999.999 0 101.414 1.414L24.6 25.814l8.293 8.293a.997.997 0 001.414 0L47 21.414V26a1 1 0 102 0v-7a.996.996 0 00-1-1h-7a1 1 0 100 2Z"></path>
+    </g>
+    <defs>
+      <clipPath id="iconifyVue2">
+        <path fill="#fff" d="M0 0h60v60H0z"></path>
+      </clipPath>
+    </defs>
+  </g>
+</svg>

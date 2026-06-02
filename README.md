@@ -1,0 +1,328 @@
+# 多架構專案
+腳手架為Vite，使用的語言是TS並掛載Vue
+用於多個版型、樣式適用共同維護的專案。
+
+## 主要運用的套件
+
+- quasar UI組件
+- pinia 狀態儲存
+- autoImport 自動引入
+
+## 架構說明
+
+### _app 自動化等的設定檔存放位置
+專案的路由是使用自動化。
+若有要新增頁面只需要在pages新增vue檔案，就會自動新增在Vue-router中。
+支援多層路由 example:user/phone
+
+### assets 樣式／媒體檔
+存放圖、影、scss的資料夾
+使用vite-imagetools將格式轉換為webp  getImageUrl()中 .png?format=webp
+
+
+### components 樣式／媒體檔
+存放可重用的 Vue 組件
+
+### directive
+自定義directive存放地點，已經搭配自動化載入。
+新增檔案後會自動加入Vue
+
+### interceptors
+儲存axios攔截器的資料夾，依照功能區分檔案
+
+### layouts layout存放位置
+專案的路由可以設定不同路由搭配指定layout。
+這個資料夾專門儲存layout的.vue檔
+#### layout模式
+layout的模式有三種
+- 第一種
+最簡單的就是直接在layout建立一個.vue檔，這個是rwd的layout，不管是什麼寬度都只會使用這個layout
+- 第二種
+第二種是awd模式，在layout建立一個資料夾，這個資料夾的名稱是layout名稱。裡面有分desktop與mobile兩個.vue檔。
+對應的是PC版本與手機版本的layout，在超過isMobile的寬度就會載入desktop.vue，否則載入mobile.vue
+可參考layout-vip
+- 第三種
+第三種也與第二種一樣是awd，差別在區別是不使用資料夾而是使用檔名。
+直接在layouts資料夾新增兩個.vue檔案，PC版本就直接命名layout名稱，而手機版則是在檔名後面加上-mobile
+可以參考layout-default
+
+
+### locales
+儲存語系檔的資料夾，依照語系區分檔案
+
+### pages 頁面存放位置
+放入此資料夾的檔案，會自動設定並加入Vue-router
+但第一層最主要的是樣式的環境。
+例如當環境設定是base就是會載入base裡面的元件檔案
+路由會依照檔案名稱或資料夾自動設定
+
+#### 頁面版型設置
+頁面以及layout有分為rwd與awd兩種版型
+rwd頁面亦可以搭配awd的layout
+awd頁面也可以搭配rwd的layout
+根據放在defineOption的setting物件中的設置決定
+
+- rwd頁面 + rwd layout
+直接指定layout的名稱即可
+```JS
+defineOptions({
+  layout: "layout-rwd"
+});
+```
+
+- rwd頁面 + awd layout
+搭配useAwd的參數
+```JS
+defineOptions({
+  layout: "layout-vip",
+  setting: {
+    useAwdLayout: true // 使用awdLayout
+  }
+});
+```
+
+- awd頁面 + awd layout
+只要你有使用awd的頁面，預設就會是awd的layout
+```JS
+defineOptions({
+  layout: "layout-vip",
+});
+```
+
+- awd頁面 + rwd layout
+若使用awd頁面但想要使用rwd的layout就需要搭配useAwd的參數
+```JS
+defineOptions({
+  layout: "layout-vip",
+  setting: {
+    useAwdLayout: false // 關閉awdLayout
+  }
+});
+```
+
+- awd頁面 + 電腦版與手機版要使用不同的layout
+在手機版的layout中使用awdAssignLayout的參數
+```JS
+defineOptions({
+  layout: "layout-vip",
+  setting: {
+    awdAssignLayout: "layout-vip-mobile" // 使用不awdLayout
+  }
+});
+```
+
+#### awd頁面
+目前有分awd以及一般頁面
+awd的話就需要建立一個資料夾。這個資料夾將會是路由名稱。
+接著將檔案分成desktop以及mobile，當超過App.vue設定的寬度就會依照寬度載入對應的元件。
+
+#### 一般頁面
+如果是一般頁面，只需要在pages建立一個vue檔案即可。可以有無限層的路由。
+例如
+- pages/trade/deposit.vue => /trade/deposit
+- pages/trade/detail/withdraw.vue => /trade/detail/withdraw
+
+### store 狀態儲存的資料夾
+儲存pinia的資料夾，pinia會根據功能分成不同的ts檔
+
+### utils
+儲存小函式所存的資料夾，目前是一個函式一個檔案。
+可以依照個人需求更改。
+
+### apis
+API的資料夾，戳API都撰寫在此資料夾便於管理。
+
+### models
+定義轉換後的資料型別的資料夾，依照功能區分檔案。
+此資料夾的檔名需要夾上.model
+example: user.model.ts
+
+### types
+定義API資料型別的資料夾，依照功能區分檔案。
+此資料夾的檔名需要夾上.type
+example: user.type.ts
+
+### adapters
+資料轉換接口與實例的資料夾，一樣按照功能區分檔案。
+base為最原始的街口定義。
+
+#### adapters開發流程建議
+1. 先在models定義好資料型別
+2. 在types定義好API資料型別
+3. 在adapters中撰寫轉換的處理
+
+### public
+存放不會打包的靜態檔
+
+### 環境的模板與樣式設置
+因為是多版型，所以會根據環境變數中的來載入不同的html模板與樣式。
+#### 環境全域sass變數與樣式設定
+```
+VITE_STYLE_ENV="base"
+```
+會根據設定去載入scss中的main.[env].scss
+
+#### 環境模板設置
+```
+VITE_TEMPLATE_ENV="base"                # 樣式模板環境
+```
+會根據設定去載入pages中的env資料夾的頁面並自動轉為路由。
+### 其他設定檔
+
+- auto-imports.d.ts 自動引入產生的設定檔 ts用
+
+- vite-env.d.ts 可以在專案中運用vite環境的設定檔
+
+- .eslintrc-auto-import.json 自動引入的設定檔
+
+- tsconfig.node.json tsconfig.json的額外設定檔
+
+- quasar-variables.scss quasar的變數檔，可以在此檔案中設定quasar的變數
+
+- variables.[env].scss 環境變數的設定檔，根據不同的環境變數設置全域的scss變數
+
+## Version
+
+- **Node.js** v20.9.0
+- **yarn** v1.22.18
+- **vue** v3.4.31
+
+## Config
+
+- **.env.development** 開發模式
+- **.env.production** 生產模式
+- **.env.uat** 測試模式
+
+## Setup
+
+```
+yarn install
+```
+
+### Compiles and minifies for production
+
+```
+yarn run dev 開發模式
+yarn build 生產模式
+yarn build:uat 測試模式
+```
+
+### Deploy
+
+執行 compile 之後根目錄下產生 `/dist` 檔案夾
+
+## 結構概覽
+```
+VUE_VITE_TS_START/                # 專案根目錄
+├── env/                          # 環境變數文件，包含 .env.development、.env.production、.env.uat 等
+├── mock/                         # 模擬數據資料夾，用於本地開發測試 API 數據
+├── node_modules/                 # 安裝的依賴包，由 Yarn 或 npm 管理
+├── public/                       # 不會被打包的靜態資源，例如 favicon 圖標
+├── src/                          # 主應用程式的源代碼目錄
+│   ├── _app/                     # 全局設定和自動化配置檔案
+│   ├── assets/                   # 靜態資源資料夾，包含圖片、影片、樣式等
+│   ├── components/               # 可重用的 Vue 組件資料夾
+│   ├── directives/               # 自定義指令的資料夾，新增指令會自動註冊
+│   ├── interceptors/             # axios 攔截器資料夾，根據功能區分文件
+│   ├── layouts/                  # 儲存不同路由版型的 .vue 檔案
+│   ├── locales/                  # 多語系支援資料夾，語言包檔案按語系區分
+│   ├── pages/                    # 頁面組件資料夾，檔案會自動生成路由
+│   ├── store/                    # Pinia 狀態管理資料夾，按功能分成多個 ts 文件
+│   ├── apis/                     # API管理資料夾
+│   ├── models/                   # 轉換後的資料型別的資料夾
+│   ├── types/                    # 定義API資料型別的資料夾
+│   ├── adapters/                 # 資料轉換接口與實例的資料夾
+│   ├── utils/                    # 小工具函數資料夾，根據功能分文件
+│   ├── App.vue                   # Vue 根組件
+│   ├── auto-imports.d.ts         # 自動引入插件生成的類型定義檔案
+│   ├── axios.ts                  # axios 配置和初始化文件
+│   ├── i18n.ts                   # 國際化配置檔案
+│   ├── main.ts                   # 應用的入口文件，初始化 Vue 實例
+│   ├── quasar-variables.sass     # Quasar 的變數文件，用於自訂 Quasar 样式
+│   ├── router.ts                 # 路由設定文件，負責管理應用的路由
+│   └── vite-env.d.ts             # Vite 環境變數的 TypeScript 類型定義文件
+├── .editorconfig                 # 編碼風格設定文件，為不同編輯器提供一致的代碼格式
+├── .eslintrc-auto-import.json    # 自動引入插件的 ESLint 配置
+├── .gitignore                    # Git 忽略文件，用於排除不需要追蹤的文件
+├── .prettierrc                   # Prettier 配置文件，用於統一代碼格式
+├── eslint.config.js              # ESLint 配置文件，用於代碼風格檢查
+├── index.html                    # 應用的 HTML 入口文件
+├── package.json                  # 專案的依賴、腳本和其他配置信息
+├── README.md                     # 專案的說明文件，包含安裝、使用說明
+├── tsconfig.json                 # TypeScript 配置文件
+├── tsconfig.node.json            # TypeScript 的 Node.js 環境配置補充文件
+├── vite.config.ts                # Vite 配置文件，包含插件和構建設定
+└── yarn.lock                     # Yarn 鎖定文件，確保相同的依賴版本
+```
+
+## Theme（版面）系統
+
+本專案的 `/home` 頁面採用「單一 Route + 動態 Layout Component + CSS Var」架構，
+支援多個版面（layout）與多組配色（color variant）即時切換，
+切換時 URL 會帶 `?theme=<layoutKey>&color=<colorKey>` 並寫入 localStorage。
+
+### 目錄結構
+
+```
+src/themes/
+├── _types.ts          # ThemeMeta / ColorVariant / FabPosition 型別
+├── _registry.ts       # 集中註冊所有版面，給 store 與 host 讀取
+├── noya/
+│   ├── index.ts
+│   ├── desktop.vue    # 桌面入口
+│   ├── mobile.vue     # 手機入口
+│   ├── _tokens.scss   # 該版面預設配色（CSS var）
+│   ├── _variants.scss # 該版面替代配色
+│   ├── sections/      # 大區塊：hero / cta / grid / footer ...
+│   └── atoms/         # 共用小元件：按鈕、卡片
+└── at99/              # 結構同上
+```
+
+### 新增第三個版面流程
+
+1. **建檔**：複製 `src/themes/noya/` 為 `src/themes/<your-key>/`，依需求調整 sections / atoms
+2. **配色**：在 `_tokens.scss` 中定義預設配色（key 為 `[data-theme="<your-key>"]`）；
+   在 `_variants.scss` 中加 1-N 組替代配色（`[data-theme="<your-key>"][data-theme-color="xxx"]`）
+3. **註冊**：在 `src/themes/_registry.ts` 加 import 與 `themes` 物件項目，
+   `desktop` / `mobile` 用 lazy import：`() => import("./<your-key>/desktop.vue")`
+4. **SCSS 整合**：在 `src/assets/scss/main.default.scss` 加上 `@use "@/themes/<your-key>/tokens";`
+   與 `@use "@/themes/<your-key>/variants";`
+5. **驗證**：`yarn build` 跑過後到 `/home?theme=<your-key>` 看效果
+
+### CSS Var 命名公約
+
+所有 theme 的 `_tokens.scss` 都遵守相同 var 名稱，這樣 section 元件不必為每個 theme 改寫：
+
+| Var | 用途 |
+|---|---|
+| `--color-primary` | 主色（CTA、強調） |
+| `--color-secondary` | 輔助色 |
+| `--color-accent` | 亮點、徽章 |
+| `--bg-base` | 頁面背景 |
+| `--bg-surface` | 卡片、panel 背景 |
+| `--bg-overlay` | 半透明遮罩 |
+| `--text-primary` | 主要文字 |
+| `--text-muted` | 次要文字 |
+| `--border` | 分隔線、邊框 |
+| `--shadow` | 通用陰影 |
+| `--gradient-hero` | hero 區漸層背景 |
+| `--gradient-cta` | CTA 按鈕漸層 |
+
+### Theme Switcher FAB（浮標）
+
+`src/components/common/theme-switcher-fab.vue`（桌面）與
+`theme-switcher-fab.mobile.vue`（手機）兩個版本，
+由 `layout-theme-host` 依 `useDevice.isMobile` 動態載入。
+
+特性：
+- **可拖曳**：PC 滑鼠 + Mobile 觸控（使用 Pointer Events 統一處理）
+- **邊緣吸附**：拖到距邊 < 20px 自動吸到邊
+- **位置持久化**：位置存 ratio（百分比）寫入 localStorage，視窗縮放後不失真
+- **URL 同步**：layout / color 雙向同步 `?theme=&color=`，用 `router.replace` 不污染 history
+- **多 fallback**：URL query > localStorage > 預設值
+
+### 切換版面的 URL 範例
+
+- `/home?theme=noya&color=sunset` — noya 版面 + 日落橘配色
+- `/home?theme=at99&color=neon-purple` — at99 版面 + 霓虹紫配色
+

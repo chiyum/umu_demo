@@ -1,0 +1,59 @@
+.drawer-router {
+  .q-expansion-item__content {
+    margin-left: 18px;
+    padding-left: 4px !important;
+
+    // border-left: 1px solid rgba(0, 0, 0, 0.12); // 左側線條
+  }
+}
+
+// .dark-mode .drawer-router {
+//  .q-expansion-item__content {
+//    border-left: 1px solid lightgrey;
+//  }
+// }
+
+.q-item__section--avatar {
+  min-width: unset !important;
+  padding-right: 10px !important;
+
+  .q-drawer--mini & {
+    padding-right: 0 !important;
+
+    i {
+      margin: 0 !important;
+    }
+  }
+}
+
+.drawer-router-item {
+  display: flex;
+  align-items: center;
+}
+
+
+.header-toolbar {
+  display: flex;
+  justify-content: space-between;
+
+  &-right {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.page-wrap {
+  .page-main {
+    padding-top: 12px !important;
+  }
+
+  &--tab-state {
+    padding-top: 70px !important;
+
+    .page-main {
+      margin-top: 0 !important;
+      padding-top: 66px !important; // tab高度36px + 預留高度30px
+
+    }
+  }
+}
