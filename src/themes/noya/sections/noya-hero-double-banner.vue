@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import AvatarSilhouette from "@/components/common/landing/avatar-silhouette.vue";
+import ProviderBadge from "@/components/common/landing/provider-badge.vue";
 
 /**
  * noya 雙 banner hero：左 phone promo + 右 live casino
  *
- * 設計：
- * - 左 banner：深綠藍底，左側標題副標，右側 phone mockup（純 CSS 繪製）
- * - 右 banner：粉色漸層，含真人剪影，可橫向 swipe 視覺暗示
- * - 兩 banner 都帶圓角、陰影、立體感
- * - 完全不用真實圖檔，phone mockup 與真人剪影都是程式繪製
+ * 設計（對齊原站 5168th.com 雙 banner 結構）：
+ * - 左 banner：深綠藍底（banner-dark-bg），「APP 下載」主標 + 桌機下載 CTA + phone mockup
+ * - 右 banner：粉橘漸層（warm-start → accent），LIVE CASINO eyebrow + 大白字「真人視訊」
+ *   + 4×2 provider 小圓徽章 + 真人剪影
+ * - 兩 banner 都帶圓角、立體陰影、背景 radial blob 製造景深
+ * - 完全不用真實圖檔，phone mockup / 真人剪影 / provider 都是程式繪製
  *
  * 為何 phone mockup 用 CSS：避免外部素材授權問題；
  * 黑色圓角矩形 + 螢幕色塊 + 缺口已足以表達手機概念。
@@ -21,6 +23,19 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), { mobile: false });
+
+// 右 banner 的 provider 小圓 logo（4×2 共 8 個）
+// 走 ProviderBadge 共用元件，避免散落寫死 logo 圖
+const liveProviders = [
+  { key: "lp1", text: "DA", seed: 6 },
+  { key: "lp2", text: "DB", seed: 14 },
+  { key: "lp3", text: "DC", seed: 22 },
+  { key: "lp4", text: "DD", seed: 30 },
+  { key: "lp5", text: "EA", seed: 38 },
+  { key: "lp6", text: "EB", seed: 46 },
+  { key: "lp7", text: "SA", seed: 54 },
+  { key: "lp8", text: "SB", seed: 62 }
+];
 </script>
 
 <template>
@@ -29,15 +44,21 @@ withDefaults(defineProps<Props>(), { mobile: false });
     :class="{ 'noya-hero-banner--mobile': mobile }"
   >
     <div class="noya-hero-banner__inner">
-      <!-- 左 banner：phone promo -->
+      <!-- 左 banner：phone promo（對齊原站深綠藍） -->
       <article class="noya-hero-banner__card noya-hero-banner__card--left">
+        <!-- 背景立體裝飾光：左上、右下兩顆 radial 製造景深 -->
+        <span class="noya-hero-banner__bg-blob noya-hero-banner__bg-blob--tl" />
+        <span class="noya-hero-banner__bg-blob noya-hero-banner__bg-blob--br" />
+
         <div class="noya-hero-banner__copy">
-          <h3 class="noya-hero-banner__title">隨時隨地</h3>
-          <p class="noya-hero-banner__desc">
-            最齊全的精選娛樂，<br />
-            支援行動裝置即刻體驗。
-          </p>
-          <button type="button" class="noya-hero-banner__cta">立即體驗</button>
+          <h3 class="noya-hero-banner__title">DEMO APP 即刻下載</h3>
+          <p class="noya-hero-banner__desc">安卓 / iOS 系統．行動體驗無界</p>
+          <button
+            type="button"
+            class="noya-hero-banner__cta noya-hero-banner__cta--solid"
+          >
+            桌機下載
+          </button>
         </div>
         <!-- 純 CSS phone mockup -->
         <div class="noya-hero-banner__phone" aria-hidden="true">
@@ -62,18 +83,29 @@ withDefaults(defineProps<Props>(), { mobile: false });
         </div>
       </article>
 
-      <!-- 右 banner：live casino -->
+      <!-- 右 banner：LIVE CASINO 真人視訊（對齊原站粉橘漸） -->
       <article class="noya-hero-banner__card noya-hero-banner__card--right">
+        <span class="noya-hero-banner__bg-blob noya-hero-banner__bg-blob--tl" />
+
         <div class="noya-hero-banner__copy noya-hero-banner__copy--right">
-          <h3 class="noya-hero-banner__title noya-hero-banner__title--accent">
-            LIVE CASINO
+          <span class="noya-hero-banner__eyebrow">LIVE CASINO</span>
+          <h3 class="noya-hero-banner__title noya-hero-banner__title--white">
+            真人視訊
           </h3>
-          <p class="noya-hero-banner__desc">
-            真人視訊．沉浸體驗<br />
-            專業荷官 24 小時不打烊
-          </p>
-          <button type="button" class="noya-hero-banner__cta">立即進入</button>
+          <p class="noya-hero-banner__desc">沉浸體驗．專業荷官 24 小時不打烊</p>
+
+          <!-- provider 小圓 4×2 -->
+          <div class="noya-hero-banner__provider-grid" aria-label="合作提供商">
+            <div
+              v-for="p in liveProviders"
+              :key="p.key"
+              class="noya-hero-banner__provider-cell"
+            >
+              <ProviderBadge :text="p.text" :seed="p.seed" size="sm" />
+            </div>
+          </div>
         </div>
+
         <div class="noya-hero-banner__avatar-wrap" aria-hidden="true">
           <AvatarSilhouette :seed="42" variant="vivid" />
         </div>
@@ -104,33 +136,79 @@ withDefaults(defineProps<Props>(), { mobile: false });
 
   &__card {
     position: relative;
-    border-radius: 18px;
-    padding: 28px 32px;
+    border-radius: 20px;
+    padding: 34px 40px;
     overflow: hidden;
-    box-shadow: var(--shadow);
-    min-height: 220px;
+
+    // 雙層 shadow 強化立體感：外暗影 + 內亮邊（仿原站玻璃質地）
+    box-shadow:
+      0 12px 28px rgba(0, 0, 0, 0.18),
+      0 2px 6px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    min-height: 260px;
     display: flex;
     align-items: center;
-    transition: transform 0.2s ease;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
 
     &:hover {
       transform: translateY(-4px);
+      box-shadow:
+        0 18px 36px rgba(0, 0, 0, 0.22),
+        0 4px 10px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
     }
 
     // 左 banner：深底（token 控制，配色變動只改 _tokens.scss）
+    // 多疊一層暗角 vignette 強化深度
     &--left {
-      background: var(--banner-dark-bg);
+      background: radial-gradient(
+          circle at 100% 100%,
+          rgba(0, 0, 0, 0.35) 0%,
+          transparent 60%
+        ),
+        var(--banner-dark-bg);
       color: var(--banner-dark-text);
     }
 
     // 右 banner：暖色起點 + accent 終點，串成日落漸層
+    // 額外多一道高光 highlight 仿玻璃反射
     &--right {
-      background: linear-gradient(
-        135deg,
-        var(--banner-warm-start) 0%,
-        var(--color-accent) 100%
-      );
+      background: radial-gradient(
+          ellipse at 0% 0%,
+          rgba(255, 255, 255, 0.4) 0%,
+          transparent 50%
+        ),
+        linear-gradient(
+          135deg,
+          var(--banner-warm-start) 0%,
+          var(--color-accent) 100%
+        );
       color: var(--text-primary);
+    }
+  }
+
+  // 背景裝飾 blob — 雙 banner 共用，營造光暈景深
+  &__bg-blob {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(50px);
+    z-index: 0;
+
+    &--tl {
+      top: -100px;
+      left: -80px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    &--br {
+      bottom: -120px;
+      right: -100px;
+      background: rgba(255, 255, 255, 0.08);
     }
   }
 
@@ -138,31 +216,79 @@ withDefaults(defineProps<Props>(), { mobile: false });
     flex: 1;
     z-index: 2;
     max-width: 55%;
+    position: relative;
 
     &--right {
-      max-width: 60%;
+      max-width: 58%;
     }
+  }
+
+  // eyebrow：右 banner 的 LIVE CASINO 小英文 label
+  &__eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.18);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
   }
 
   &__title {
     font-family: var(--font-display);
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 800;
     line-height: 1.1;
-    margin: 0 0 12px;
-    letter-spacing: 2px;
+    margin: 0 0 14px;
+    letter-spacing: 3px;
 
     &--accent {
       color: var(--color-primary);
       text-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
+    }
+
+    // 白字大標題：右 banner 用，與粉橘漸層形成高對比
+    &--white {
+      color: #ffffff;
+      text-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.25),
+        0 4px 16px rgba(255, 255, 255, 0.3);
     }
   }
 
   &__desc {
     font-size: 13px;
     line-height: 1.6;
-    opacity: 0.9;
+    opacity: 0.92;
     margin: 0 0 20px;
+  }
+
+  // provider 4×2 小圓徽章（右 banner）
+  &__provider-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 36px);
+    gap: 10px 12px;
+    margin-top: 4px;
+  }
+
+  &__provider-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // 用 ProviderBadge 的 sm size，再加一圈白色背景作為原站效果
+    :deep(.provider-badge) {
+      width: 32px;
+      height: 32px;
+      font-size: 11px;
+      border-radius: 50%;
+      box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
   }
 
   &__cta {
@@ -179,6 +305,18 @@ withDefaults(defineProps<Props>(), { mobile: false });
 
     &:hover {
       filter: brightness(1.05);
+    }
+
+    // 實心橘金漸層按鈕：左 banner 「桌機下載」用
+    // 對齊原站視覺：較大字、較粗 padding、白字
+    &--solid {
+      padding: 11px 26px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
   }
 

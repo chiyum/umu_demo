@@ -69,6 +69,13 @@
   --banner-gradient-3: linear-gradient(135deg, #ffd54f 0%, #ffab40 100%);
 
   // 字體
-  --font-display: "Playfair Display", "Outfit", serif;
-  --font-body: "Outfit", "微軟正黑體", sans-serif;
+  // 對齊原站：原站使用 `微软雅黑 / 微軟正黑體 / Microsoft JhengHei UI / PMingLiU`
+  // 體系，是繁中網站娛樂城常見字體 stack；display 變體保留 Playfair Display 給
+  // 標題的金屬感裝飾用（與書法手寫感金字風味相近）
+  --font-display:
+    "Playfair Display", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "微軟正黑體", "Microsoft JhengHei UI", "Microsoft JhengHei", pmingliu,
+    "Segoe UI", tahoma, arial, sans-serif;
 }
