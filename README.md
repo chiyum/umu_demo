@@ -285,8 +285,10 @@ src/themes/
    在 `_variants.scss` 中加 1-N 組替代配色（`[data-theme="<your-key>"][data-theme-color="xxx"]`）
 3. **註冊**：在 `src/themes/_registry.ts` 加 import 與 `themes` 物件項目，
    `desktop` / `mobile` 用 lazy import：`() => import("./<your-key>/desktop.vue")`
-4. **SCSS 整合**：在 `src/assets/scss/main.default.scss` 加上 `@use "@/themes/<your-key>/tokens";`
-   與 `@use "@/themes/<your-key>/variants";`
+4. **SCSS 整合**：**不需要動 main.default.scss**。
+   `vite.config.ts` 的 `buildThemeScssImports()` 會在 build 時掃描
+   `src/themes/<your-key>/_tokens.scss` 與 `_variants.scss` 並自動 `@use` 進去；
+   只要檔名是 `_tokens.scss` / `_variants.scss` 就會被認到（variants 為可選）。
 5. **驗證**：`yarn build` 跑過後到 `/home?theme=<your-key>` 看效果
 
 ### CSS Var 命名公約

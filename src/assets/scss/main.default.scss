@@ -1,13 +1,9 @@
 @use "@/assets/scss/global/setting";
 @use "@/assets/scss/default/layouts";
 
-// 各 theme 的 tokens 與 variants：用 [data-theme] selector 定義 CSS var
-// 由 layout-theme-host 在 <html> 掛 data-theme / data-theme-color 屬性後生效
-// 加 as alias 避免不同 theme 同檔名造成 module namespace collision
-@use "@/themes/noya/tokens" as noya-tokens;
-@use "@/themes/noya/variants" as noya-variants;
-@use "@/themes/at99/tokens" as at99-tokens;
-@use "@/themes/at99/variants" as at99-variants;
+// 注意：各 theme 的 tokens / variants（_tokens.scss / _variants.scss）
+// 由 vite.config.ts buildThemeScssImports() 自動掃 src/themes/* 後注入 additionalData，
+// 新增版面不必再來這裡手動 @use。
 
 html, body {
   font-size: 1rem;

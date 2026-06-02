@@ -11,6 +11,46 @@ import fs from "fs";
 import path from "path";
 import stylelint from "vite-plugin-stylelint";
 
+/**
+ * 自動掃描 src/themes/<key>/ 下的 _tokens.scss 與 _variants.scss
+ * 組成 @use 字串，給 vite css.preprocessorOptions.additionalData 用
+ *
+ * 動機：原本每次新增版面要去 main.default.scss 手動加兩行 @use；
+ * 這跟 registry 一行就能新增版面的設計精神不符。
+ * 改成 build-time 掃資料夾自動產生 @use 列表，新增版面就只動 _registry.ts。
+ *
+ * 為何不放在 theme 的 index.ts 用 SFC import：theme 是 lazy chunk，
+ * tokens 會被切到對應 chunk 裡，首次載入未切到的 theme 配色不會在 :root 注入，
+ * 違反「CSS var 一開始就要可用」的需求，故必須走 build-time。
+ *
+ * 注意：tokens 與 variants 都是 [data-theme] selector，沒有真正的 export，
+ * 所以 @use ... as alias 只是避免 namespace collision 警告。
+ */
+function buildThemeScssImports(): string {
+  const themesDir = path.resolve(__dirname, "src/themes");
+  if (!fs.existsSync(themesDir)) return "";
+
+  const lines: string[] = [];
+  for (const entry of fs.readdirSync(themesDir, { withFileTypes: true })) {
+    // 跳過 _registry.ts / _types.ts 等檔案，只看資料夾
+    if (!entry.isDirectory()) continue;
+    const themeKey = entry.name;
+    const themePath = path.join(themesDir, themeKey);
+    const tokensPath = path.join(themePath, "_tokens.scss");
+    const variantsPath = path.join(themePath, "_variants.scss");
+    // tokens 為必要（定義 CSS var 主體），不存在就跳過
+    if (!fs.existsSync(tokensPath)) continue;
+    lines.push(`@use "@/themes/${themeKey}/tokens" as ${themeKey}-tokens;`);
+    // variants 為可選（單一配色 theme 可能不需要 variants）
+    if (fs.existsSync(variantsPath)) {
+      lines.push(
+        `@use "@/themes/${themeKey}/variants" as ${themeKey}-variants;`
+      );
+    }
+  }
+  return lines.join("\n");
+}
+
 // 自定義插件：把每個頁面 defineOptions 內容抽到虛擬模組 virtual:page-meta
 // 用途：讓 pages.ts 不必 eager import 頁面就能拿到 layout / setting / title
 // 這是 bundle 體積優化的關鍵 — 避免所有 page component 被打進主 chunk
@@ -193,9 +233,12 @@ export default defineConfig(({ mode }) => {
       preprocessorOptions: {
         scss: {
           // 自動引入全域 SCSS 變數
+          // themeScssImports 動態掃 src/themes/*/_tokens.scss + _variants.scss，
+          // 新增版面只需動 _registry.ts，不必再來這裡 / main.scss 手動 @use
           additionalData: `
           @use "@/assets/scss/variables.${currentEnvStyle}.scss" as *;
           @use "@/assets/scss/main.${currentEnvStyle}.scss" as *;
+          ${buildThemeScssImports()}
           `
         }
       }
