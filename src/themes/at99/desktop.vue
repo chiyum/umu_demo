@@ -1,25 +1,46 @@
 <script setup lang="ts">
-import At99Header from "./sections/at99-header.vue";
-import At99PromoBanner from "./sections/at99-promo-banner.vue";
-import At99GameGrid from "./sections/at99-game-grid.vue";
-import At99LiveDealerGrid from "./sections/at99-live-dealer-grid.vue";
+import At99TopHeader from "./sections/at99-top-header.vue";
+import At99LeftSidebarDock from "./sections/at99-left-sidebar-dock.vue";
+import At99PromoBannerCarousel from "./sections/at99-promo-banner-carousel.vue";
+import At99SlotGameGrid from "./sections/at99-slot-game-grid.vue";
+import At99EsportsRow from "./sections/at99-esports-row.vue";
+import At99LiveDealerRow from "./sections/at99-live-dealer-row.vue";
 import At99Leaderboard from "./sections/at99-leaderboard.vue";
-import At99ProviderStrip from "./sections/at99-provider-strip.vue";
+import At99AboutSection from "./sections/at99-about-section.vue";
 import At99Footer from "./sections/at99-footer.vue";
 
-/** at99 桌面版佈局 */
+/**
+ * at99 桌面版佈局：依 GAP_ANALYSIS 10 大區順序排列
+ *
+ * 1. TopHeader            logo + 11 nav + 登入/開戶 + 音訊
+ * 2. LeftSidebarDock      fixed 左側垂直 icon dock
+ * 3. PromoBannerCarousel  雙 banner + 分頁圓點
+ * 4-5. SlotGameGrid       4 tab + 6×2 = 12 tile（tabs 已合併在 grid 元件內）
+ * 6. EsportsRow           電競賽事 5 tile
+ * 7. LiveDealerRow        真人 5 圓形
+ * 8. Leaderboard          排行榜 + tab + 表格
+ * 9. AboutSection         平台介紹
+ * 10. Footer              mascot + Partner + Disclaimer
+ *
+ * 注意：dock 為 fixed left，內容區所有 section 都會 padding-left: 60px
+ * 避免被 dock 蓋住。padding 在每個 section 內 by class 控制（避免 flex 容器干擾）
+ */
 </script>
 
 <template>
   <div class="at99-layout">
-    <At99Header />
+    <At99TopHeader />
+    <At99LeftSidebarDock />
+
     <main class="at99-layout__main">
-      <At99PromoBanner />
-      <At99GameGrid />
-      <At99LiveDealerGrid />
+      <At99PromoBannerCarousel />
+      <At99SlotGameGrid />
+      <At99EsportsRow />
+      <At99LiveDealerRow />
       <At99Leaderboard />
-      <At99ProviderStrip />
+      <At99AboutSection />
     </main>
+
     <At99Footer />
   </div>
 </template>
@@ -28,14 +49,10 @@ import At99Footer from "./sections/at99-footer.vue";
 .at99-layout {
   background: radial-gradient(
       circle at 20% 10%,
-      rgba(45, 212, 255, 0.08) 0%,
+      var(--bg-overlay) 0%,
       transparent 50%
     ),
-    radial-gradient(
-      circle at 80% 90%,
-      rgba(168, 85, 247, 0.05) 0%,
-      transparent 50%
-    ),
+    radial-gradient(circle at 80% 90%, var(--bg-overlay) 0%, transparent 50%),
     var(--bg-base);
   color: var(--text-primary);
   font-family: var(--font-body);

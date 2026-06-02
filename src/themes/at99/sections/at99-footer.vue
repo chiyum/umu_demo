@@ -1,105 +1,291 @@
 <script setup lang="ts">
-// 真實素材：at99 官方 logo（與 header 共用同檔）
-import at99Logo from "@/assets/themes/at99/images/logos/at99-logo.png";
+import ProviderBadge from "@/components/common/landing/provider-badge.vue";
+import AvatarSilhouette from "@/components/common/landing/avatar-silhouette.vue";
+
+/**
+ * at99 footer：左下角色立繪 + Partner logos 跑馬燈 + 法律連結 + 版權
+ *
+ * 設計：
+ * - 左：抽象人形 silhouette（取代原站的具體角色立繪）
+ * - 中：partner logos 横排（用共用 ProviderBadge）
+ * - 右：4 個法律連結
+ * - 底部：版權字樣 + 18+ 提醒
+ */
 
 interface Props {
   mobile?: boolean;
 }
+
 withDefaults(defineProps<Props>(), { mobile: false });
 
-const links = [
-  { label: "關於 AT99", href: "#" },
-  { label: "服務條款", href: "#" },
-  { label: "隱私政策", href: "#" },
-  { label: "聯絡客服", href: "#" }
-];
+const partners = Array.from({ length: 14 }, (_, i) => ({
+  key: `pt-${i}`,
+  text: [
+    "DA",
+    "DB",
+    "DC",
+    "DD",
+    "DE",
+    "DF",
+    "DG",
+    "DH",
+    "EA",
+    "EB",
+    "EC",
+    "ED",
+    "SA",
+    "SB"
+  ][i],
+  seed: (i + 1) * 6
+}));
+
+const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
 </script>
 
 <template>
-  <footer class="at99-footer" :class="{ 'at99-footer--mobile': mobile }">
-    <div class="at99-footer__inner">
-      <div class="at99-footer__left">
-        <img class="at99-footer__logo" :src="at99Logo" alt="AT99" />
-        <p class="at99-footer__desc">
-          AT99 娛樂城，提供最完整的遊戲體驗，本網站僅供娛樂展示用途。
-        </p>
+  <footer class="at99-foot" :class="{ 'at99-foot--mobile': mobile }">
+    <!-- 上半：左 mascot + 右文字 + 連結 -->
+    <div class="at99-foot__top">
+      <div class="at99-foot__top-inner">
+        <!-- 左下角色立繪 -->
+        <div v-if="!mobile" class="at99-foot__mascot" aria-hidden="true">
+          <div class="at99-foot__mascot-halo" />
+          <div class="at99-foot__mascot-figure">
+            <AvatarSilhouette :seed="71" variant="vivid" />
+          </div>
+        </div>
+
+        <!-- 中文字 -->
+        <div class="at99-foot__text">
+          <div class="at99-foot__brand">DEMO CASINO B</div>
+          <p class="at99-foot__desc">
+            本站為前端版面 Demo，所有內容、人物、遊戲與標籤皆為通用範例，<br />
+            不代表任何真實服務、品牌或營運主體。
+          </p>
+          <nav class="at99-foot__legal" aria-label="法律連結">
+            <a v-for="l in legal" :key="l" href="#">{{ l }}</a>
+          </nav>
+        </div>
       </div>
-      <nav class="at99-footer__nav">
-        <a v-for="l in links" :key="l.label" :href="l.href">
-          {{ l.label }}
-        </a>
-      </nav>
     </div>
-    <div class="at99-footer__copy">© 2025 AT99 Demo. All rights reserved.</div>
+
+    <!-- Partner logos 跑馬燈 -->
+    <div class="at99-foot__partners">
+      <div class="at99-foot__partners-label">合作夥伴</div>
+      <div class="at99-foot__partners-track">
+        <div v-for="p in partners" :key="p.key" class="at99-foot__partner">
+          <ProviderBadge :text="p.text" :seed="p.seed" size="sm" glow />
+        </div>
+        <!-- duplicate 做無縫 -->
+        <div
+          v-for="p in partners"
+          :key="`dup-${p.key}`"
+          class="at99-foot__partner"
+          aria-hidden="true"
+        >
+          <ProviderBadge :text="p.text" :seed="p.seed" size="sm" glow />
+        </div>
+      </div>
+    </div>
+
+    <!-- 版權 + 18+ -->
+    <div class="at99-foot__copy">
+      <span>© 2025 DEMO CASINO. 本站為前端 Demo，僅供版面展示用途</span>
+      <span class="at99-foot__age">18+ 請理性娛樂</span>
+    </div>
   </footer>
 </template>
 
 <style lang="scss" scoped>
-.at99-footer {
+.at99-foot {
   background: var(--bg-base-deep);
-  color: var(--text-muted);
   border-top: 1px solid var(--border);
 
-  &__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 32px 24px 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: flex-start;
+  // PC：左側 dock 60px 預留
+  padding-left: 60px;
+
+  &__top {
+    border-bottom: 1px solid var(--border);
   }
 
-  &__logo {
-    display: block;
-    height: 40px;
-    width: auto;
+  &__top-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 24px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__mascot {
+    position: relative;
+    width: 140px;
+    height: 200px;
+    flex-shrink: 0;
+  }
+
+  &__mascot-halo {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse,
+      var(--color-primary) 0%,
+      transparent 70%
+    );
+    opacity: 0.5;
+  }
+
+  &__mascot-figure {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    :deep(.avatar-silhouette) {
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      border: 2px solid var(--color-primary);
+      box-shadow: var(--neon-glow);
+    }
+  }
+
+  &__text {
+    flex: 1;
+    color: var(--text-primary);
+  }
+
+  &__brand {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--color-primary);
+    text-shadow: var(--neon-glow);
+    margin-bottom: 8px;
+    letter-spacing: 3px;
   }
 
   &__desc {
-    margin: 10px 0 0;
-    font-size: 13px;
-    line-height: 1.6;
-    max-width: 360px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin: 0 0 12px;
   }
 
-  &__nav {
+  &__legal {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    text-align: right;
+    flex-wrap: wrap;
+    gap: 18px;
 
     a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 13px;
+      font-size: 12px;
+      letter-spacing: 1px;
       transition: color 0.15s ease;
 
       &:hover {
         color: var(--color-primary);
+        text-shadow: 0 0 6px var(--color-primary);
       }
     }
   }
 
-  &__copy {
-    text-align: center;
-    padding: 12px 24px;
-    color: rgba(255, 255, 255, 0.3);
+  &__partners {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 24px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  &__partners-label {
+    color: var(--color-primary);
     font-size: 11px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-weight: 700;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+  }
+
+  &__partners-track {
+    display: inline-flex;
+    gap: 14px;
+    animation: at99-foot-marquee 50s linear infinite;
+    will-change: transform;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000000 8%,
+      #000000 92%,
+      transparent 100%
+    );
+  }
+
+  &__partner {
+    flex-shrink: 0;
+  }
+
+  &__copy {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    gap: 12px;
+  }
+
+  &__age {
+    color: var(--color-primary);
+    font-weight: 600;
+    letter-spacing: 1px;
   }
 
   &--mobile {
-    .at99-footer__inner {
-      grid-template-columns: 1fr;
-      padding: 24px 14px 14px;
+    padding-left: 0;
+
+    .at99-foot__top-inner {
+      padding: 22px 16px;
     }
 
-    .at99-footer__nav {
-      flex-flow: row wrap;
-      gap: 14px;
-      text-align: left;
+    .at99-foot__partners {
+      padding: 12px 16px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
     }
+
+    .at99-foot__partners-track {
+      // 手機禁用 mask（過窄 mask 會吃掉內容）
+      mask-image: none;
+    }
+
+    .at99-foot__copy {
+      flex-direction: column;
+      text-align: center;
+      padding: 12px 16px 16px;
+    }
+  }
+}
+
+@keyframes at99-foot-marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
   }
 }
 </style>

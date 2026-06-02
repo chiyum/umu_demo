@@ -1,7 +1,8 @@
 // at99 版面替代配色：霓虹紫、霓虹綠
 // 每個 variant 都要把 _tokens.scss 內所有 token 一起覆寫，
-// 包含「對比 token」（bg-base-deep / translucent / text-on-primary / shadow-primary）
-// 否則切換時 header / footer / active tab / button hover 會殘留藍色。
+// 包含「對比 token」（bg-base-deep / translucent / text-on-primary / shadow-primary
+// / dock-bg / dock-icon-bg / slot-tile-bg / table-row-alt）
+// 否則切換時 header / footer / dock / slot tile 等會殘留藍色。
 
 [data-theme="at99"][data-theme-color="neon-purple"] {
   --color-primary: #a855f7;
@@ -16,13 +17,18 @@
   --shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
   --gradient-hero: linear-gradient(135deg, #14082e 0%, #2d1b69 50%, #14082e 100%);
   --gradient-cta: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-  --neon-glow: 0 0 8px rgba(168, 85, 247, 0.6), 0 0 24px rgba(168, 85, 247, 0.3);
+  --neon-glow:
+    0 0 8px rgba(168, 85, 247, 0.6), 0 0 24px rgba(168, 85, 247, 0.3);
 
   // 對比 token：搭配紫色系
   --bg-base-deep: #0a041a;
   --bg-base-translucent: rgba(20, 8, 46, 0.85);
   --text-on-primary: #14082e;
   --shadow-primary: 0 0 12px var(--color-primary), 0 0 32px rgba(168, 85, 247, 0.5);
+  --dock-bg: #0a041a;
+  --dock-icon-bg: rgba(168, 85, 247, 0.15);
+  --slot-tile-bg: linear-gradient(180deg, #2d1b5e 0%, #1f0f4a 100%);
+  --table-row-alt: rgba(168, 85, 247, 0.05);
 }
 
 [data-theme="at99"][data-theme-color="neon-green"] {
@@ -38,11 +44,16 @@
   --shadow: 0 4px 20px rgba(34, 211, 164, 0.3);
   --gradient-hero: linear-gradient(135deg, #08291f 0%, #114a3a 50%, #08291f 100%);
   --gradient-cta: linear-gradient(135deg, #22d3a4 0%, #10b981 100%);
-  --neon-glow: 0 0 8px rgba(34, 211, 164, 0.6), 0 0 24px rgba(34, 211, 164, 0.3);
+  --neon-glow:
+    0 0 8px rgba(34, 211, 164, 0.6), 0 0 24px rgba(34, 211, 164, 0.3);
 
   // 對比 token：搭配綠色系
   --bg-base-deep: #041510;
   --bg-base-translucent: rgba(8, 41, 31, 0.85);
   --text-on-primary: #08291f;
   --shadow-primary: 0 0 12px var(--color-primary), 0 0 32px rgba(34, 211, 164, 0.5);
+  --dock-bg: #041510;
+  --dock-icon-bg: rgba(34, 211, 164, 0.15);
+  --slot-tile-bg: linear-gradient(180deg, #134a3a 0%, #0f3b30 100%);
+  --table-row-alt: rgba(34, 211, 164, 0.05);
 }
