@@ -1,20 +1,28 @@
 <script setup lang="ts">
-import AvatarSilhouette from "@/components/common/landing/avatar-silhouette.vue";
+// 六角卡中央視覺：改用整合自 kingdom_front 的 platform demo 圖
+// 四張遊戲類別卡片圖：真人 / 體育 / 棋牌 / 電子
+import imgLive from "@/assets/themes/noya/images/games/live.png";
+import imgSport from "@/assets/themes/noya/images/games/sport.png";
+import imgChess from "@/assets/themes/noya/images/games/chess.png";
+import imgSlot from "@/assets/themes/noya/images/games/slot.png";
 
 /**
  * noya 熱門遊戲區 — Round 5 改版：4 張六角形大卡（橫排）
  *
  * 設計：
  * - 從原本 4 欄 × 2 列 = 8 張矩形卡，改為 1 欄 × 4 張橫排「六角形大卡」
- * - 每張卡：頂部分類大字（真人視訊 / 體育 / 棋牌 / 電子）+ 中央 silhouette + 底部 CTA
+ * - 每張卡：頂部分類大字（真人視訊 / 體育 / 棋牌 / 電子）+ 中央素材圖 + 底部 CTA
  * - 六角形邊界用 clip-path: polygon(...) 達成，外層金色細線（用 background gradient + clip-path 套疊）
  * - hover 浮起 + 金色發光（box-shadow 因 clip-path 會被裁掉，改用內層 drop-shadow filter 在父層）
  *
  * 為何 4 張不是 5 張：使用者要求「4 張六角形大卡（橫排）」對齊真人/體育/棋牌/電子四大主分類；
  * 捕魚另外放在 main-nav 跳轉，不佔熱門卡片版面
  *
- * 為何不用 SVG <polygon>：clip-path 對 div 比 SVG 嵌套 silhouette + 文字更簡單，
+ * 為何不用 SVG <polygon>：clip-path 對 div 比 SVG 嵌套圖片 + 文字更簡單，
  * 且讓內部 layout 用一般 flex 排版，不必處理 SVG 內 foreignObject
+ *
+ * 第六輪：原本中央用 AvatarSilhouette 純抽象剪影，改為實際素材圖（platform demo 系列）
+ *   讓六角卡有實際遊戲視覺，且仍保留六角金邊外型與 LIVE 徽章
  *
  * 文字：類別名通用佔位（不抄原站）
  */
@@ -31,8 +39,10 @@ interface HexCard {
   category: string;
   /** 副標（英文） */
   sub: string;
-  /** silhouette 用的 seed 與 variant */
-  avatarSeed: number;
+  /** 中央素材圖（已 import 後的 url） */
+  image: string;
+  /** 圖片 alt 文字 */
+  alt: string;
   /** 是否上 LIVE 徽章 */
   isLive: boolean;
 }
@@ -42,28 +52,32 @@ const cards: HexCard[] = [
     key: "live",
     category: "真人視訊",
     sub: "Live Casino",
-    avatarSeed: 8,
+    image: imgLive,
+    alt: "真人視訊示意圖",
     isLive: true
   },
   {
     key: "sport",
     category: "體育賽事",
     sub: "Sports Betting",
-    avatarSeed: 22,
+    image: imgSport,
+    alt: "體育賽事示意圖",
     isLive: true
   },
   {
     key: "chess",
     category: "棋牌遊戲",
     sub: "Card Games",
-    avatarSeed: 36,
+    image: imgChess,
+    alt: "棋牌遊戲示意圖",
     isLive: false
   },
   {
     key: "slot",
     category: "電子遊戲",
     sub: "Slots & Arcade",
-    avatarSeed: 50,
+    image: imgSlot,
+    alt: "電子遊戲示意圖",
     isLive: true
   }
 ];
@@ -96,11 +110,19 @@ const cards: HexCard[] = [
               <span class="noya-popular__hex-sub">{{ c.sub }}</span>
             </header>
 
-            <!-- 中央 silhouette -->
+            <!-- 中央素材圖 -->
             <div class="noya-popular__hex-media">
-              <AvatarSilhouette
-                :seed="c.avatarSeed"
-                :variant="c.isLive ? 'vivid' : 'default'"
+              <!--
+                img 用 object-fit: cover 填滿六角內部矩形容器，
+                超出 clip-path 範圍的會被外層自動裁掉
+                loading=lazy 給首屏外的卡片省流量
+              -->
+              <img
+                :src="c.image"
+                :alt="c.alt"
+                class="noya-popular__hex-img"
+                loading="lazy"
+                decoding="async"
               />
               <!-- LIVE 徽章保留，讓有 stream 的卡片更搶眼 -->
               <span v-if="c.isLive" class="noya-popular__live">LIVE</span>
@@ -223,12 +245,22 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
     text-transform: uppercase;
   }
 
-  // 中央 silhouette：填滿剩餘空間
+  // 中央素材圖容器：填滿剩餘空間
   &__hex-media {
     position: relative;
     flex: 1;
     margin: 8px 6px;
     overflow: hidden;
+    border-radius: 6px;
+  }
+
+  // 中央素材圖 cover 整個 media 區域；
+  // 因為 hex-card 已套 clip-path，超出的邊角會自然被裁掉
+  &__hex-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   &__live {
