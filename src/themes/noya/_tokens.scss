@@ -6,6 +6,15 @@
 // --color-primary 主色 / --color-secondary 輔助色 / --color-accent 亮點色
 // --bg-base 頁面背景 / --bg-surface 卡片背景 / --text-primary 主要文字
 // --text-muted 次要文字 / --border 分隔線 / --shadow 通用陰影
+//
+// 對比 token（避免元件硬寫顏色）：
+// --bg-base-deep         footer / 比 bg-base 更暗的底，營造層次
+// --bg-base-translucent  sticky top bar 半透明背景（surface + alpha）
+// --text-on-primary      落在 primary 色塊上的對比文字色（按鈕內、徽章內等）
+// --highlight-strip      跑馬燈底色 / 強調條，柔色低飽和
+// --provider-card-bg     provider 卡片淺色底，介於 surface 與 overlay
+// --footer-text          footer 上文字顏色（深底時為亮色，亮底時為主色）
+// --footer-link          footer 連結顏色
 
 [data-theme="noya"] {
   // 預設值（rose-gold）— 由 _variants.scss 在 data-theme-color 不同時覆寫
@@ -21,6 +30,17 @@
   --shadow: 0 4px 12px rgba(212, 165, 116, 0.18);
   --gradient-hero: linear-gradient(135deg, #faf5ef 0%, #f0d4a7 100%);
   --gradient-cta: linear-gradient(135deg, #d4a574 0%, #c79968 100%);
+
+  // 對比 / 結構 token：tag 字體都要走 var()
+  --bg-base-deep: #f3ece1;
+  --bg-base-translucent: rgba(255, 255, 255, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #fff8eb;
+  --provider-card-bg: #fdf5ec;
+  --footer-bg: #fef9f1;
+  --footer-text: #6b5a48;
+  --footer-link: #8a7a6a;
+  --badge-live: #ff5a36;
 
   // 字體
   --font-display: "Playfair Display", "Outfit", serif;

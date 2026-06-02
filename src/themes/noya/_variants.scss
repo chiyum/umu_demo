@@ -1,6 +1,11 @@
 // noya 版面的替代配色
 // 透過 [data-theme="noya"][data-theme-color="xxx"] 雙重 selector
 // 確保只有 noya 套對應配色，不會被其他 theme 誤用。
+//
+// 注意：每個 variant 都要把 _tokens.scss 內所有可見的對比 token
+// （bg-base-deep / bg-base-translucent / text-on-primary / highlight-strip
+// / provider-card-bg / footer-bg / footer-text / footer-link / badge-live）
+// 一起覆寫，否則切換時會殘色（例：sunset 切完後跑馬燈底還是 rose-gold 的奶色）。
 
 // 日落橘：偏暖、活潑、適合節慶活動
 [data-theme="noya"][data-theme-color="sunset"] {
@@ -19,6 +24,17 @@
   --shadow: 0 4px 12px rgba(255, 90, 54, 0.18);
   --gradient-hero: linear-gradient(135deg, #fff5ef 0%, #ffb38a 100%);
   --gradient-cta: linear-gradient(135deg, #ff7e47 0%, #ff5a36 100%);
+
+  // 對比 / 結構 token：搭配日落橘
+  --bg-base-deep: #ffe4d3;
+  --bg-base-translucent: rgba(255, 248, 243, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #fff0e3;
+  --provider-card-bg: #fff1e5;
+  --footer-bg: #fff5ef;
+  --footer-text: #7a3a24;
+  --footer-link: #a36a52;
+  --badge-live: #ff3b1f;
 }
 
 // 青檸綠：偏中性、活力、適合年輕族群
@@ -37,4 +53,15 @@
   --shadow: 0 4px 12px rgba(126, 188, 58, 0.2);
   --gradient-hero: linear-gradient(135deg, #f4faec 0%, #d3f0a4 100%);
   --gradient-cta: linear-gradient(135deg, #9fd356 0%, #7ebc3a 100%);
+
+  // 對比 / 結構 token：搭配青檸綠
+  --bg-base-deep: #e6f2d2;
+  --bg-base-translucent: rgba(247, 251, 242, 0.94);
+  --text-on-primary: #1a2a08;
+  --highlight-strip: #eff8de;
+  --provider-card-bg: #eef7df;
+  --footer-bg: #f4faec;
+  --footer-text: #4a5a2c;
+  --footer-link: #6a7a5a;
+  --badge-live: #ef4444;
 }

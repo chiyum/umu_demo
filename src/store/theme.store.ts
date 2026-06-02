@@ -12,13 +12,15 @@ import type { FabPosition } from "@/themes/_types";
 /** localStorage 鍵名（統一在這邊管理，避免散在各處難找） */
 const LS_LAYOUT_KEY = "casino-demo:layoutKey";
 const LS_COLOR_KEY = "casino-demo:colorKey";
-const LS_FAB_POSITION = "casino-demo:fabPosition";
+// v2：FAB 預設位置從右下改左下（避開原站客服浮標衝突）
+// 使用版本後綴讓舊使用者的右下角位置失效，直接拿到新預設左下角
+const LS_FAB_POSITION = "casino-demo:fabPosition:v2";
 
-/** FAB 預設位置：右下角（距邊 24px 用比例近似，避免不同視窗大小偏移） */
+/** FAB 預設位置：左下角（避開原站常駐的右下角客服浮標 / 回到頂部按鈕） */
 const DEFAULT_FAB_POSITION: FabPosition = {
-  xRatio: 0.92,
+  xRatio: 0.02,
   yRatio: 0.88,
-  edge: "right"
+  edge: "left"
 };
 
 /**

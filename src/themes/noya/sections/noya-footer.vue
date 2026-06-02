@@ -1,60 +1,172 @@
 <script setup lang="ts">
+import ProviderBadge from "@/components/common/landing/provider-badge.vue";
+
 /**
- * noya footer：版權 + 社群連結 + 客服資訊
+ * noya footer：4 欄連結 + provider logo strip + 版權
+ *
+ * 結構（依 GAP_ANALYSIS）：
+ * 上半 — 4 欄連結（關於 / 聯絡 / 常見問題 / 服務條款）+ 品牌與社群
+ * 中段 — provider 跑馬燈（用共用 ProviderBadge 取代真實 logo）
+ * 下半 — 版權字樣
+ *
+ * 文字：「關於 NOYA」改成「關於本平台」這類通用佔位
+ *       品牌名「示範娛樂城 A」一致延續上方 nav 用法
+ *
+ * 注意：footer 走 footer-bg / footer-text token，配色切換時跟著走
  */
+
 interface Props {
   mobile?: boolean;
 }
 withDefaults(defineProps<Props>(), { mobile: false });
 
-const links = [
-  { label: "關於 NOYA", href: "#" },
-  { label: "服務條款", href: "#" },
-  { label: "隱私政策", href: "#" },
-  { label: "客服中心", href: "#" }
+interface FooterColumn {
+  title: string;
+  items: string[];
+}
+
+const columns: FooterColumn[] = [
+  {
+    title: "關於本平台",
+    items: ["平台介紹", "經營理念", "合作夥伴", "媒體報導"]
+  },
+  {
+    title: "聯絡我們",
+    items: ["24h 客服中心", "聯絡信箱", "意見回饋", "媒體合作"]
+  },
+  {
+    title: "常見問題",
+    items: ["註冊存款", "提領流程", "帳戶安全", "活動規則"]
+  },
+  {
+    title: "服務條款",
+    items: ["使用協議", "隱私政策", "免責聲明", "未成年保護"]
+  }
 ];
 
 const socials = ["IG", "FB", "LINE", "TG"];
+
+// Provider 跑馬燈：產生足夠多項用於橫排展示
+const providerStrip = Array.from({ length: 14 }, (_, i) => ({
+  key: `pp-${i}`,
+  text: [
+    "DA",
+    "DB",
+    "DC",
+    "DD",
+    "DE",
+    "DF",
+    "DG",
+    "DH",
+    "EA",
+    "EB",
+    "EC",
+    "ED",
+    "SA",
+    "SB"
+  ][i],
+  seed: (i + 1) * 5
+}));
 </script>
 
 <template>
   <footer class="noya-footer" :class="{ 'noya-footer--mobile': mobile }">
-    <div class="noya-footer__inner">
-      <div class="noya-footer__brand">
-        <div class="noya-footer__logo">N</div>
-        <div>
-          <div class="noya-footer__brand-name">NOYA</div>
-          <div class="noya-footer__brand-sub">優雅真人娛樂</div>
+    <!-- 上半：4 欄連結 + 品牌 -->
+    <div class="noya-footer__top">
+      <div class="noya-footer__top-inner">
+        <!-- 左側品牌資訊 -->
+        <div class="noya-footer__brand-col">
+          <div class="noya-footer__brand">
+            <div class="noya-footer__logo">A</div>
+            <div>
+              <div class="noya-footer__brand-name">示範娛樂城 A</div>
+              <div class="noya-footer__brand-sub">DEMO CASINO · 版面展示用</div>
+            </div>
+          </div>
+          <p class="noya-footer__brand-desc">
+            本站僅供前端版面 Demo，<br />
+            所有內容、文案、人物均為通用示例。
+          </p>
+          <div class="noya-footer__socials">
+            <a
+              v-for="s in socials"
+              :key="s"
+              href="#"
+              class="noya-footer__social"
+              :aria-label="`${s} 社群`"
+            >
+              {{ s }}
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 欄連結 -->
+        <div class="noya-footer__cols">
+          <div v-for="col in columns" :key="col.title" class="noya-footer__col">
+            <div class="noya-footer__col-title">{{ col.title }}</div>
+            <ul class="noya-footer__list">
+              <li v-for="it in col.items" :key="it">
+                <a href="#">{{ it }}</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <nav class="noya-footer__nav">
-        <a v-for="l in links" :key="l.label" :href="l.href">
-          {{ l.label }}
-        </a>
-      </nav>
-      <div class="noya-footer__socials">
-        <a v-for="s in socials" :key="s" href="#" class="noya-footer__social">
-          {{ s }}
-        </a>
+    </div>
+
+    <!-- 中段：provider 跑馬燈 -->
+    <div class="noya-footer__providers">
+      <div class="noya-footer__providers-track">
+        <div
+          v-for="p in providerStrip"
+          :key="p.key"
+          class="noya-footer__provider-item"
+        >
+          <ProviderBadge :text="p.text" :seed="p.seed" size="sm" />
+        </div>
+        <!-- 再放一份做無縫接續 -->
+        <div
+          v-for="p in providerStrip"
+          :key="`dup-${p.key}`"
+          class="noya-footer__provider-item"
+          aria-hidden="true"
+        >
+          <ProviderBadge :text="p.text" :seed="p.seed" size="sm" />
+        </div>
       </div>
     </div>
-    <div class="noya-footer__copy">© 2025 NOYA. 本站僅供娛樂示範用途</div>
+
+    <!-- 下半：版權 -->
+    <div class="noya-footer__copy">
+      <span>© 2025 DEMO CASINO. 本站為前端 Demo 範例，非真實營運網站。</span>
+      <span class="noya-footer__age">18+ 請理性娛樂</span>
+    </div>
   </footer>
 </template>
 
 <style lang="scss" scoped>
 .noya-footer {
-  background: var(--text-primary);
-  color: rgba(255, 255, 255, 0.8);
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  border-top: 1px solid var(--border);
 
-  &__inner {
-    max-width: 1200px;
+  &__top {
+    border-bottom: 1px solid var(--border);
+  }
+
+  &__top-inner {
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 48px 24px 24px;
+    padding: 44px 24px 32px;
     display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 32px;
-    align-items: center;
+    grid-template-columns: 1fr 2.4fr;
+    gap: 48px;
+  }
+
+  &__brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
 
   &__brand {
@@ -67,58 +179,54 @@ const socials = ["IG", "FB", "LINE", "TG"];
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: var(--color-primary);
-    color: #ffffff;
+    background: var(--gradient-cta);
+    color: var(--text-on-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-weight: 800;
     font-size: 22px;
+    box-shadow: var(--shadow);
   }
 
   &__brand-name {
     font-family: var(--font-display);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-    color: var(--color-accent);
-    letter-spacing: 2px;
+    color: var(--color-primary);
+    letter-spacing: 1.5px;
   }
 
   &__brand-sub {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.55);
+    font-size: 11px;
+    color: var(--footer-link);
+    letter-spacing: 1px;
+    margin-top: 2px;
   }
 
-  &__nav {
-    display: flex;
-    gap: 24px;
-    justify-content: center;
-
-    a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      font-size: 14px;
-
-      &:hover {
-        color: var(--color-accent);
-      }
-    }
+  &__brand-desc {
+    font-size: 12px;
+    color: var(--footer-link);
+    line-height: 1.7;
+    margin: 0;
   }
 
   &__socials {
     display: flex;
     gap: 8px;
+    margin-top: 4px;
   }
 
   &__social {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--border);
+    color: var(--footer-link);
     text-decoration: none;
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -127,38 +235,122 @@ const socials = ["IG", "FB", "LINE", "TG"];
     &:hover {
       background: var(--color-primary);
       border-color: var(--color-primary);
-      color: #ffffff;
+      color: var(--text-on-primary);
     }
+  }
+
+  &__cols {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  &__col-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    a {
+      font-size: 12px;
+      color: var(--footer-link);
+      text-decoration: none;
+      transition: color 0.15s ease;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
+
+  // Provider 跑馬燈
+  &__providers {
+    overflow: hidden;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-base-deep);
+
+    // 邊緣淡出
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000000 5%,
+      #000000 95%,
+      transparent 100%
+    );
+  }
+
+  &__providers-track {
+    display: inline-flex;
+    gap: 18px;
+    animation: noya-footer-marquee 60s linear infinite;
+    white-space: nowrap;
+  }
+
+  &__provider-item {
+    flex-shrink: 0;
   }
 
   &__copy {
-    text-align: center;
-    padding: 16px 24px;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--footer-link);
   }
 
+  &__age {
+    color: var(--color-primary);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  // 手機版
   &--mobile {
-    .noya-footer__inner {
+    .noya-footer__top-inner {
       grid-template-columns: 1fr;
-      text-align: center;
-      gap: 20px;
-      padding: 32px 16px 16px;
+      padding: 28px 16px 20px;
+      gap: 28px;
     }
 
     .noya-footer__brand {
-      justify-content: center;
+      justify-content: flex-start;
     }
 
-    .noya-footer__nav {
-      flex-wrap: wrap;
-      gap: 14px;
+    .noya-footer__cols {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
     }
 
-    .noya-footer__socials {
-      justify-content: center;
+    .noya-footer__copy {
+      flex-direction: column;
+      text-align: center;
+      padding: 12px 16px 16px;
     }
+  }
+}
+
+@keyframes noya-footer-marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
   }
 }
 </style>

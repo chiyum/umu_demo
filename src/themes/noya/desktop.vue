@@ -1,30 +1,71 @@
 <script setup lang="ts">
-import NoyaHeader from "./sections/noya-header.vue";
-import NoyaHero from "./sections/noya-hero.vue";
-import NoyaLiveCasinoCta from "./sections/noya-live-casino-cta.vue";
-import NoyaGameGrid from "./sections/noya-game-grid.vue";
-import NoyaStatsCounter from "./sections/noya-stats-counter.vue";
+import { ref } from "vue";
+import NoyaAnnounceTopBar from "./sections/noya-announce-top-bar.vue";
+import NoyaMainNav from "./sections/noya-main-nav.vue";
+import NoyaProviderGridStrip from "./sections/noya-provider-grid-strip.vue";
+import NoyaHeroDoubleBanner from "./sections/noya-hero-double-banner.vue";
+import NoyaRealPeopleTitle from "./sections/noya-real-people-title.vue";
+import NoyaPopularGamesGrid from "./sections/noya-popular-games-grid.vue";
 import NoyaAppDownload from "./sections/noya-app-download.vue";
+import NoyaStatsCounter from "./sections/noya-stats-counter.vue";
 import NoyaFooter from "./sections/noya-footer.vue";
 
 /**
- * noya 桌面版佈局：依設計圖順序排列各個 section
+ * noya 桌面版佈局：依 GAP_ANALYSIS 9 大區順序排列
+ *
+ * 1. AnnounceTopBar   跑馬燈 + 登入區（sticky）
+ * 2. MainNav          品牌 + 5 大分類 tab
+ * 3. ProviderGridStrip 當前 tab 對應的 provider 橫排
+ * 4. HeroDoubleBanner 雙 banner 並排
+ * 5. RealPeopleTitle  金色標題列
+ * 6. PopularGamesGrid 4 欄熱門遊戲
+ * 7. AppDownload      手機 mockup + QR
+ * 8. StatsCounter     4 數字
+ * 9. Footer           4 欄連結 + provider 跑馬燈 + 版權
+ *
+ * 互動：MainNav 切換 tab → ProviderGridStrip 顯示對應 provider
+ * （本層用一個 ref 串接，避免共享 store；demo 單頁不需要 Pinia）
  *
  * 注意：所有顏色都由 [data-theme="noya"] CSS var 提供，
- * 不寫死任何顏色，這樣切換配色時不必碰元件。
+ * 不寫死任何顏色，切換配色時不必碰元件。
  */
+
+/** 當前 active 的分類，由 MainNav 控制，傳給 ProviderGridStrip */
+const activeCategory = ref<string>("live");
 </script>
 
 <template>
   <div class="noya-layout">
-    <NoyaHeader />
+    <!-- 1. 跑馬燈 + 登入區（sticky 在最頂） -->
+    <NoyaAnnounceTopBar />
+
+    <!-- 2. 主導覽 -->
+    <NoyaMainNav
+      :active-category="activeCategory"
+      @update:active-category="activeCategory = $event"
+    />
+
     <main class="noya-layout__main">
-      <NoyaHero />
-      <NoyaLiveCasinoCta />
-      <NoyaGameGrid />
-      <NoyaStatsCounter />
+      <!-- 3. provider 橫排 -->
+      <NoyaProviderGridStrip :active-category="activeCategory" />
+
+      <!-- 4. 雙 banner hero -->
+      <NoyaHeroDoubleBanner />
+
+      <!-- 5. 真人視訊標題列 -->
+      <NoyaRealPeopleTitle />
+
+      <!-- 6. 熱門遊戲 4 欄 -->
+      <NoyaPopularGamesGrid />
+
+      <!-- 7. App 下載 -->
       <NoyaAppDownload />
+
+      <!-- 8. Stats 4 數字 -->
+      <NoyaStatsCounter />
     </main>
+
+    <!-- 9. Footer -->
     <NoyaFooter />
   </div>
 </template>
