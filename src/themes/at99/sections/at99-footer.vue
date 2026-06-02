@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import ProviderBadge from "@/components/common/landing/provider-badge.vue";
-import AvatarSilhouette from "@/components/common/landing/avatar-silhouette.vue";
 import at99Logo from "@/assets/themes/at99/images/logo.png";
+
+// Round 9：5d_v2 example/game2.jpg（財神立繪 + 元寶，純藝術無平台 logo）
+// 取代原 AvatarSilhouette 純抽象剪影，讓 at99 footer 左下角具備「賭場吉祥物」具象視覺
+// 為何用 jpg：原圖即為 jpg 格式，不必為了 transparent 改檔，背景配合 mascot wrap 玻璃效果即可
+import footerMascotImg from "@/assets/themes/at99/extra/illustrations/footer-mascot.jpg";
 
 /**
  * at99 footer：左下角色立繪 + Partner logos 跑馬燈 + 法律連結 + 版權
@@ -48,11 +52,22 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
     <!-- 上半：左 mascot + 右文字 + 連結 -->
     <div class="at99-foot__top">
       <div class="at99-foot__top-inner">
-        <!-- 左下角色立繪 -->
+        <!--
+          Round 9：左下角色立繪改為 5d_v2 財神立繪圖
+          原 AvatarSilhouette 抽象剪影 → 真實場景圖（財神 + 元寶 + 燈籠 + 廟宇）
+          aria-hidden 維持，純裝飾不需朗讀
+          mobile 隱藏：footer 空間有限不適合塞大圖
+        -->
         <div v-if="!mobile" class="at99-foot__mascot" aria-hidden="true">
           <div class="at99-foot__mascot-halo" />
           <div class="at99-foot__mascot-figure">
-            <AvatarSilhouette :seed="71" variant="vivid" />
+            <img
+              :src="footerMascotImg"
+              alt=""
+              class="at99-foot__mascot-img"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
 
@@ -147,14 +162,20 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
     width: 100%;
     height: 100%;
 
-    :deep(.avatar-silhouette) {
-      // kingdom DNA：圖片容器 --radius-xl + shadow-glow（與主色一致的霓虹光暈）
-      width: 100%;
-      height: 100%;
-      border-radius: var(--radius-xl);
-      border: 2px solid var(--color-primary);
-      box-shadow: var(--shadow-glow);
-    }
+    // Round 9：直接放真實立繪圖，原 :deep(.avatar-silhouette) 規則已不需要
+    // kingdom DNA：圖片容器 --radius-xl + shadow-glow（與主色一致的霓虹光暈）+ 2px 主色細邊
+    // object-fit: cover 配 object-position: top 確保財神頭部不被裁掉
+  }
+
+  &__mascot-img {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--color-primary);
+    box-shadow: var(--shadow-glow);
+    object-fit: cover;
+    object-position: center top;
+    display: block;
   }
 
   &__text {
