@@ -9,8 +9,8 @@ const options = {
 
 /* 建立router */
 const router = createRouter({
-  //hash模式
-  history: createWebHistory(),
+  // 用 import.meta.env.BASE_URL 餵 base，部署到 GitHub Pages 子路徑 (/umu_demo/) 時 router 才認得到 root
+  history: createWebHistory(import.meta.env.BASE_URL),
   //掛載處理好的routes
   routes: createRoutes(options) as Array<RouteRecordRaw>,
   scrollBehavior() {
