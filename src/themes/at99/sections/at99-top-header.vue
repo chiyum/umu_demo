@@ -43,9 +43,54 @@ const loginOpen = ref(false);
 <template>
   <header class="at99-top" :class="{ 'at99-top--mobile': mobile }">
     <div class="at99-top__inner">
-      <!-- 左：logo -->
+      <!-- 左：logo（金色 monogram 圖徽 + 雙層字標） -->
       <a class="at99-top__brand" href="#" aria-label="回首頁">
-        <span class="at99-top__brand-mark">DC</span>
+        <!-- 金色 monogram：用 SVG 畫一個帶王冠的 D，比純文字 DC 更有識別度 -->
+        <span class="at99-top__brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 36 36" width="100%" height="100%">
+            <defs>
+              <linearGradient
+                id="at99-brand-grad"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
+                <stop offset="0%" stop-color="#fff5b4" />
+                <stop offset="50%" stop-color="var(--color-accent)" />
+                <stop offset="100%" stop-color="#c79c1a" />
+              </linearGradient>
+            </defs>
+            <!-- 小皇冠 -->
+            <path
+              d="M10 11 L13 6 L18 9 L23 6 L26 11 L24 13 L12 13 Z"
+              fill="url(#at99-brand-grad)"
+              stroke="rgba(0,0,0,0.2)"
+              stroke-width="0.5"
+            />
+            <!-- 主字 D（圓弧 + 直邊） -->
+            <text
+              x="50%"
+              y="58%"
+              dominant-baseline="middle"
+              text-anchor="middle"
+              font-family="Outfit, sans-serif"
+              font-size="18"
+              font-weight="900"
+              fill="var(--text-on-gold)"
+            >
+              D
+            </text>
+            <!-- 底部裝飾線 -->
+            <rect
+              x="9"
+              y="30"
+              width="18"
+              height="1.5"
+              fill="var(--text-on-gold)"
+            />
+          </svg>
+        </span>
         <span class="at99-top__brand-text">
           <span class="at99-top__brand-title">DEMO CASINO</span>
           <span class="at99-top__brand-sub">示範娛樂城 B</span>
@@ -126,20 +171,24 @@ const loginOpen = ref(false);
   }
 
   &__brand-mark {
+    // SVG monogram 容器：深底 + 金光暈 + 內亮邊
     width: 42px;
     height: 42px;
-    border-radius: 8px;
-    background: var(--gradient-gold);
-    color: var(--text-on-gold);
+    border-radius: 10px;
+    background: radial-gradient(
+        circle at 50% 30%,
+        rgba(255, 255, 255, 0.15) 0%,
+        transparent 60%
+      ),
+      var(--dock-bg);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 900;
-    font-size: 16px;
-    letter-spacing: 1px;
+    padding: 4px;
     box-shadow:
-      0 0 12px var(--color-accent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      0 0 14px var(--color-accent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 0 0 1px var(--color-accent);
   }
 
   &__brand-text {
