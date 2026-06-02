@@ -108,23 +108,27 @@ function onRegister() {
   flex-shrink: 0;
 
   &__input {
-    height: 30px;
-    padding: 0 10px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
+    // 對齊原站：橘色 outline + 圓角細高度（28px），focus 時 outline 加深
+    height: 28px;
+    padding: 0 12px;
+    border: 1px solid var(--color-primary);
+    border-radius: 14px;
     font-size: 12px;
     background: var(--bg-surface);
     color: var(--text-primary);
     width: 110px;
     outline: none;
-    transition: border-color 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
 
     &::placeholder {
       color: var(--text-muted);
     }
 
     &:focus {
-      border-color: var(--color-primary);
+      border-color: var(--color-secondary);
+      box-shadow: 0 0 0 2px var(--bg-overlay);
     }
 
     &--captcha {
@@ -133,10 +137,10 @@ function onRegister() {
   }
 
   &__captcha-img {
-    height: 30px;
+    height: 28px;
     padding: 0 10px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
+    border: 1px solid var(--color-primary);
+    border-radius: 14px;
     background: var(--highlight-strip);
     color: var(--color-primary);
     font-family: var(--font-display);
@@ -158,11 +162,13 @@ function onRegister() {
   }
 
   &__btn {
-    height: 30px;
-    padding: 0 14px;
-    border-radius: 4px;
+    // 對齊原站：實心橘金漸層、圓角、白字、稍粗 padding
+    height: 28px;
+    padding: 0 16px;
+    border-radius: 14px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 1px;
     cursor: pointer;
     border: 1px solid transparent;
     transition: all 0.15s ease;
@@ -172,12 +178,15 @@ function onRegister() {
       background: var(--gradient-cta);
       color: var(--text-on-primary);
       border-color: var(--color-primary);
+      box-shadow: 0 2px 4px var(--bg-overlay);
 
       &:hover {
-        box-shadow: 0 2px 8px var(--color-primary);
+        box-shadow: 0 4px 10px var(--color-primary);
+        filter: brightness(1.05);
       }
     }
 
+    // ghost 按鈕用於「註冊」— 同樣圓角，留橘色 outline + 透明底
     &--ghost {
       background: transparent;
       color: var(--color-primary);

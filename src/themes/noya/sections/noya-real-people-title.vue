@@ -77,24 +77,25 @@ function onAllClick() {
 
   &__main {
     font-family: var(--font-display);
-    font-size: 38px;
-    font-weight: 800;
+    font-size: 44px;
+    font-weight: 900;
     margin: 0;
-    letter-spacing: 4px;
+    letter-spacing: 6px;
     line-height: 1;
 
-    // 金屬光澤：用 gradient + text-fill
+    // 金屬光澤：用 gradient + text-fill 做書法手寫感金字立體感（對齊原站）
     background: linear-gradient(
       180deg,
       var(--color-accent) 0%,
-      var(--color-primary) 50%,
+      var(--color-primary) 45%,
       var(--color-secondary) 100%
     );
     background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    // 額外加層投影，立體感
-    filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.08));
+    // 多層 drop-shadow 強化立體感：深咖啡 base + 金色光暈
+    filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.12))
+      drop-shadow(0 4px 12px var(--bg-overlay));
   }
 
   &__sub {
@@ -106,24 +107,27 @@ function onAllClick() {
   }
 
   &__more {
+    // 對齊原站：白底圓角 + 暖橘 outline + 暖橘字
     background: var(--bg-surface);
     color: var(--color-primary);
-    border: 1px solid var(--border);
+    border: 1.5px solid var(--color-primary);
     border-radius: 999px;
-    padding: 8px 18px;
+    padding: 8px 20px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 1px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 2px 6px var(--bg-overlay);
     transition: all 0.18s ease;
     white-space: nowrap;
 
     &:hover {
       background: var(--bg-overlay);
       transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--bg-overlay);
     }
   }
 

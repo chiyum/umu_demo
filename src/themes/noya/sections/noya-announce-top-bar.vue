@@ -28,7 +28,7 @@ const announceMessages = [
   <div class="noya-announce-bar">
     <div class="noya-announce-bar__inner">
       <AnnounceMarquee
-        label="最新公告"
+        label="系統公告"
         :items="announceMessages"
         :duration-sec="40"
       />
@@ -39,8 +39,10 @@ const announceMessages = [
 
 <style lang="scss" scoped>
 .noya-announce-bar {
-  background: var(--bg-base-translucent);
-  backdrop-filter: blur(10px);
+  // 對齊原站：純白底 + 細灰線（不再走 bg-base-translucent 略帶顏色感），
+  // 用 surface 而非寫死 #fff 是因為各 variant 已把 surface 微調過色溫，
+  // 這樣切換配色不會顯得突兀
+  background: var(--bg-surface);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
