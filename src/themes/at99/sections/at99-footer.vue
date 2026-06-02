@@ -126,13 +126,14 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
   }
 
   &__mascot-halo {
+    // kingdom DNA：圓形光暈 --radius-circle
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 160px;
     height: 60px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: radial-gradient(
       ellipse,
       var(--color-primary) 0%,
@@ -147,11 +148,12 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
     height: 100%;
 
     :deep(.avatar-silhouette) {
+      // kingdom DNA：圖片容器 --radius-xl + shadow-glow（與主色一致的霓虹光暈）
       width: 100%;
       height: 100%;
-      border-radius: 14px;
+      border-radius: var(--radius-xl);
       border: 2px solid var(--color-primary);
-      box-shadow: var(--neon-glow);
+      box-shadow: var(--shadow-glow);
     }
   }
 
@@ -187,7 +189,7 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
       text-decoration: none;
       font-size: 12px;
       letter-spacing: 1px;
-      transition: color 0.15s ease;
+      transition: color var(--transition-fast);
 
       &:hover {
         color: var(--color-primary);

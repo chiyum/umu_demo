@@ -191,9 +191,10 @@ function tapDock(item: DockItem) {
   }
 
   &__menu-btn {
+    // kingdom DNA：方形 icon 按鈕 --radius-sm
     width: 36px;
     height: 36px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     background: var(--bg-overlay);
     border: 1px solid var(--border);
     color: var(--color-primary);
@@ -202,6 +203,11 @@ function tapDock(item: DockItem) {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    transition: all var(--transition-fast);
+
+    &:hover {
+      box-shadow: var(--shadow-glow);
+    }
   }
 
   // hamburger Icon 走 currentColor 跟父層 button 顏色一致
@@ -230,9 +236,10 @@ function tapDock(item: DockItem) {
   }
 
   &__login-btn {
+    // kingdom DNA：mobile CTA 走 --radius-pill 對齊 PC at99-button atom
     height: 32px;
-    padding: 0 14px;
-    border-radius: 6px;
+    padding: 0 18px;
+    border-radius: var(--radius-pill);
     background: var(--gradient-cta);
     color: var(--text-on-primary);
     border: 1px solid var(--color-primary);
@@ -242,6 +249,11 @@ function tapDock(item: DockItem) {
     flex-shrink: 0;
     letter-spacing: 1px;
     box-shadow: var(--neon-glow);
+    transition: filter var(--transition-fast);
+
+    &:hover {
+      filter: var(--filter-hover-strong);
+    }
   }
 }
 
@@ -284,16 +296,23 @@ function tapDock(item: DockItem) {
   }
 
   &__close {
+    // kingdom DNA：圓形 icon 按鈕 --radius-circle
     margin-left: auto;
     width: 32px;
     height: 32px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: var(--bg-overlay);
     border: 1px solid var(--border);
     color: var(--text-muted);
     font-size: 20px;
     cursor: pointer;
     line-height: 1;
+    transition: all var(--transition-fast);
+
+    &:hover {
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
   }
 
   &__list {
@@ -314,7 +333,7 @@ function tapDock(item: DockItem) {
     gap: 14px;
     font-size: 13px;
     cursor: pointer;
-    transition: background 0.15s ease;
+    transition: background var(--transition-fast);
 
     &:hover,
     &:active {
@@ -343,17 +362,23 @@ function tapDock(item: DockItem) {
   }
 
   &__cta {
+    // kingdom DNA：drawer 底部金色 CTA 走 --radius-pill 對齊 at99-button gold
     width: 100%;
     height: 42px;
     background: var(--gradient-gold);
     color: var(--text-on-gold);
     border: none;
-    border-radius: 6px;
+    border-radius: var(--radius-pill);
     font-size: 14px;
     font-weight: 800;
     letter-spacing: 2px;
     cursor: pointer;
     box-shadow: 0 0 12px var(--color-accent);
+    transition: filter var(--transition-fast);
+
+    &:hover {
+      filter: var(--filter-hover-soft);
+    }
   }
 }
 
