@@ -64,6 +64,19 @@
   --shadow-lg: 0 8px 16px rgba(255, 90, 54, 0.22);
   --shadow-xl: 3px 7px 12px rgba(255, 90, 54, 0.28);
   --shadow-glow: 0 0 14px rgba(255, 126, 71, 0.5);
+
+  // kingdom DNA #9 角落柔光 — sunset 暖橘版本（與整頁日落色調呼應）
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(255, 179, 138, 0.38) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(255, 126, 71, 0.22) 0%,
+      transparent 65%
+    );
 }
 
 // 青檸綠：偏中性、活力、適合年輕族群
@@ -121,4 +134,17 @@
   --shadow-lg: 0 8px 16px rgba(126, 188, 58, 0.24);
   --shadow-xl: 3px 7px 12px rgba(126, 188, 58, 0.3);
   --shadow-glow: 0 0 14px rgba(159, 211, 86, 0.5);
+
+  // kingdom DNA #9 角落柔光 — lime 嫩綠版本（與整頁青檸色調呼應）
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(211, 240, 164, 0.42) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(159, 211, 86, 0.22) 0%,
+      transparent 65%
+    );
 }

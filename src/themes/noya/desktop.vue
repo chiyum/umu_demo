@@ -72,7 +72,14 @@ const activeCategory = ref<string>("live");
 
 <style lang="scss" scoped>
 .noya-layout {
-  background: var(--bg-base);
+  // kingdom DNA #9：layout 角落 radial 柔光（暖金 / 配色變化跟著走）
+  // 底層 bg-base 先鋪平，上層 bg-decoration 兩顆 radial 提供右上 / 左下角光暈
+  // 沒有 --bg-decoration 時退回單純 bg-base，不會破畫面
+  background: var(--bg-decoration, none), var(--bg-base);
+
+  // 角落柔光需要鋪滿整個 viewport 而不重複，避免長頁面下尾段補光不自然
+  background-repeat: no-repeat;
+  background-attachment: scroll;
   color: var(--text-primary);
   font-family: var(--font-body);
   min-height: 100vh;

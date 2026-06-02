@@ -74,4 +74,20 @@
     0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 12px rgba(45, 212, 255, 0.18);
   --shadow-glow: 0 0 12px var(--color-primary),
     0 0 28px rgba(45, 212, 255, 0.5);
+
+  // ─────────────── kingdom DNA #9：layout 角落 radial 柔光（深底霓虹版） ────
+  // 深底 at99 走「霓虹光暈版本」：左上 / 右下 兩顆主色 alpha 大型 radial 模擬賭場霓虹外洩。
+  // 比 noya 暖金版更強烈（alpha 落在 0.16~0.22 而非 0.18~0.32），因為深底襯托後對比強。
+  // variants（neon-purple / neon-green）會在 _variants.scss 覆寫成各自紫 / 綠霓虹。
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1100px 800px at 100% 0%,
+      rgba(45, 212, 255, 0.18) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 900px 700px at 0% 100%,
+      rgba(30, 136, 229, 0.16) 0%,
+      transparent 65%
+    );
 }

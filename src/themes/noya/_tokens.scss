@@ -100,4 +100,22 @@
   --shadow-xl: 3px 7px 12px rgba(212, 165, 116, 0.22);
   --shadow-sticky: 0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
   --shadow-glow: 0 0 12px rgba(212, 165, 116, 0.45);
+
+  // ─────────────── kingdom DNA #9：layout 角落 radial 柔光 ───────────────
+  // 對應 kingdom_front introduction 元件的「雙 radial-gradient 角落柔光」模式，
+  // 讓淺底頁面在四角產生柔暈光、增加景深層次。
+  // 套用方式：layout 容器（desktop.vue / mobile.vue）背景接 var(--bg-decoration, ...) + var(--bg-base)。
+  // 預設玫瑰金：右上 / 左下 兩顆暖金柔光 + 中央透明，讓 hero / footer 之間有呼吸感。
+  // variants（sunset / lime）會在 _variants.scss 覆寫成各自暖橘 / 嫩綠柔光。
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(240, 212, 167, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(212, 165, 116, 0.18) 0%,
+      transparent 65%
+    );
 }

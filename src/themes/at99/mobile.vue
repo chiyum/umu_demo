@@ -65,12 +65,10 @@ const tabItems = [
 
 <style lang="scss" scoped>
 .at99-m-layout {
-  background: radial-gradient(
-      circle at 20% 10%,
-      var(--bg-overlay) 0%,
-      transparent 50%
-    ),
-    var(--bg-base);
+  // kingdom DNA #9：mobile 同樣套角落柔光（霓虹版），與 desktop 一致
+  background: var(--bg-decoration, none), var(--bg-base);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
   color: var(--text-primary);
   font-family: var(--font-body);
   min-height: 100vh;

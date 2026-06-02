@@ -75,7 +75,10 @@ const tabItems = [
 
 <style lang="scss" scoped>
 .noya-m-layout {
-  background: var(--bg-base);
+  // kingdom DNA #9：mobile layout 同樣套角落柔光，與 desktop 視覺語言一致
+  background: var(--bg-decoration, none), var(--bg-base);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
   color: var(--text-primary);
   font-family: var(--font-body);
   min-height: 100vh;

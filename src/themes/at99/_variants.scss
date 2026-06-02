@@ -50,6 +50,19 @@
     0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 12px rgba(168, 85, 247, 0.22);
   --shadow-glow: 0 0 12px var(--color-primary),
     0 0 28px rgba(168, 85, 247, 0.55);
+
+  // kingdom DNA #9 角落柔光 — neon-purple 紫色霓虹版本
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1100px 800px at 100% 0%,
+      rgba(168, 85, 247, 0.22) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 900px 700px at 0% 100%,
+      rgba(124, 58, 237, 0.18) 0%,
+      transparent 65%
+    );
 }
 
 [data-theme="at99"][data-theme-color="neon-green"] {
@@ -96,4 +109,17 @@
     0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 12px rgba(34, 211, 164, 0.22);
   --shadow-glow: 0 0 12px var(--color-primary),
     0 0 28px rgba(34, 211, 164, 0.55);
+
+  // kingdom DNA #9 角落柔光 — neon-green 綠色霓虹版本
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1100px 800px at 100% 0%,
+      rgba(34, 211, 164, 0.22) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 900px 700px at 0% 100%,
+      rgba(16, 185, 129, 0.18) 0%,
+      transparent 65%
+    );
 }

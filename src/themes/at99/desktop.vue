@@ -47,13 +47,13 @@ import At99Footer from "./sections/at99-footer.vue";
 
 <style lang="scss" scoped>
 .at99-layout {
-  background: radial-gradient(
-      circle at 20% 10%,
-      var(--bg-overlay) 0%,
-      transparent 50%
-    ),
-    radial-gradient(circle at 80% 90%, var(--bg-overlay) 0%, transparent 50%),
-    var(--bg-base);
+  // kingdom DNA #9：layout 角落 radial 柔光（霓虹版，跟 noya 統一語言）
+  // 原本就有兩顆 bg-overlay radial 模擬霓虹，這次抽 token 後改走 --bg-decoration，
+  // variants 切色時不再寫死 bg-overlay alpha，紫 / 綠霓虹會跟著 _variants 走。
+  // 不再用 circle 而是 kingdom DNA 規律的 ellipse（與 noya 視覺一致）
+  background: var(--bg-decoration, none), var(--bg-base);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
   color: var(--text-primary);
   font-family: var(--font-body);
   min-height: 100vh;
