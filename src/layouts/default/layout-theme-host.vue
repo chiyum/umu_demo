@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, inject, watchEffect, type Ref } from "vue";
-import { useThemeStore } from "@/store/theme.store";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
 import { useThemeUrlSync } from "@/utils/use-theme-url-sync";
-import ThemeSwitcherFab from "@/components/common/theme-switcher-fab.vue";
-import ThemeSwitcherFabMobile from "@/components/common/theme-switcher-fab.mobile.vue";
+import ThemeColorFab from "@/components/common/theme-color-fab.vue";
+import ThemeColorFabMobile from "@/components/common/theme-color-fab.mobile.vue";
 
 /**
- * Theme host layout — 給 theme demo 頁專用的薄殼 layout
+ * Theme host layout — 給 /demo/:layoutkey demo 頁專用的薄殼 layout
  *
  * 為什麼不用 layout-default：
  * - layout-default 是 Quasar admin 風骨架（header / drawer / page-container），
@@ -14,12 +14,18 @@ import ThemeSwitcherFabMobile from "@/components/common/theme-switcher-fab.mobil
  * - theme 要的是「整個 viewport 完全交給我」
  *
  * 這個 layout 的職責：
- * 1. 把 [data-theme] / [data-theme-color] 屬性掛到根 div，讓 CSS var 接管整頁
- * 2. 掛載 FAB 浮標（依 isMobile 切版本），全頁都會看到
- * 3. 啟動 URL <-> store 雙向同步（useThemeUrlSync）
+ * 1. 把 [data-theme] / [data-theme-color] 屬性掛到 documentElement，讓 CSS var 接管整頁
+ * 2. 掛載 ThemeColorFab 浮標（依 isMobile 切版本）— 只切配色，不切版面
+ *    版面由 URL :layoutkey 鎖定，FAB 不該再有切版面功能
+ * 3. 啟動 URL <-> store 雙向同步（useThemeUrlSync）— 只同步 colorKey
+ *    layoutKey 是 demo store 從 route.params 算出來的 computed，不用 sync 回 URL
+ *
+ * Store 切換：
+ * - 改用 useDemoThemeStore（layoutKey 由 route 動態算、不寫 LS）
+ * - 舊 useThemeStore 已不再被 layout / demo page 使用，下一個 chore commit 標 deprecated
  */
 
-const themeStore = useThemeStore();
+const themeStore = useDemoThemeStore();
 const isMobile = inject<Ref<boolean>>("isMobile");
 
 // 啟動 URL 同步（內部會 watch route.query 與 store）
@@ -51,8 +57,9 @@ const isMobileView = computed(() => !!isMobile?.value);
     <slot />
 
     <!-- FAB：固定定位，跑出 slot 之外，故放在末尾不影響佈局 -->
-    <ThemeSwitcherFabMobile v-if="isMobileView" />
-    <ThemeSwitcherFab v-else />
+    <!-- 改用 ThemeColorFab：只切配色（版面由 URL 鎖定，不該被 FAB 改） -->
+    <ThemeColorFabMobile v-if="isMobileView" />
+    <ThemeColorFab v-else />
   </div>
 </template>
 

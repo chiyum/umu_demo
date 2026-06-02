@@ -4,11 +4,10 @@ import {
   defineAsyncComponent,
   inject,
   watchEffect,
-  onMounted,
   type Ref
 } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useThemeStore } from "@/store/theme.store";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
 import { themes } from "@/themes/_registry";
 
 defineOptions({
@@ -46,7 +45,7 @@ defineOptions({
 
 const route = useRoute();
 const router = useRouter();
-const themeStore = useThemeStore();
+const themeStore = useDemoThemeStore();
 
 // isMobile 由 App.vue 透過 provide 注入（已是 Ref）
 const isMobile = inject<Ref<boolean>>("isMobile");
@@ -54,7 +53,7 @@ const isMobile = inject<Ref<boolean>>("isMobile");
 /**
  * 從 route 拿 layoutkey；型別保護：可能是 string / string[] / undefined
  *
- * vue-router 對動態段 catch 預設給 string；用 catch-all（*）才會是 string[]。
+ * vue-router 對動態段預設給 string；用 catch-all（*）才會是 string[]。
  * 仍守住型別以策安全。
  */
 const routeLayoutKey = computed<string | null>(() => {
@@ -70,6 +69,13 @@ const routeLayoutKey = computed<string | null>(() => {
  * 為什麼用 watchEffect + immediate：
  * - 首次進站、route 改變、HMR 都要驗
  * - replace 而非 push，避免使用者點上一頁回到壞網址無限 loop
+ *
+ * 為什麼不用 router beforeEach guard：
+ * - guard 在 route enter 前跑，但 page setup 才能讀 themes registry，
+ *   把驗證放在 page 內 watchEffect 邏輯更內聚（route + theme 都已 ready）
+ *
+ * 注意：本檔不再呼叫 hydrateLayoutFromRoute / setLayout
+ * demo-theme store 的 layoutKey 已是 computed from route.params，無需手動 sync
  */
 watchEffect(() => {
   const key = routeLayoutKey.value;
@@ -79,31 +85,10 @@ watchEffect(() => {
 });
 
 /**
- * 把 URL 的 layoutkey 推進 store
- *
- * 為什麼用 onMounted + watchEffect 雙保險：
- * - onMounted：確保 store 在首次渲染前已被 hydrate（避免 ThemeComponent computed 先用到舊值）
- * - watchEffect：使用者手動改 URL（從 /demo/noya 改 /demo/at99）時即時切換
- *
- * 為什麼用 hydrateLayoutFromRoute 而不 setLayout：
- * - setLayout 會觸發 watch persist 寫 LS；demo 頁的 layoutKey 是 URL-driven，
- *   不該污染下次 LS 讀取的「使用者偏好」（colorKey 才該 persist）
- * - hydrateLayoutFromRoute 是新增的 silent 賦值 API（見 theme.store.ts）
- */
-function syncStoreFromRoute(): void {
-  const key = routeLayoutKey.value;
-  if (key && themes[key]) {
-    themeStore.hydrateLayoutFromRoute(key);
-  }
-}
-
-onMounted(syncStoreFromRoute);
-watchEffect(syncStoreFromRoute);
-
-/**
  * 動態挑出當前 theme 的入口元件
  *
  * 沿用原 home.vue 的邏輯：依 store.layoutKey + isMobile 動態切 desktop / mobile chunk
+ * demo-theme store 的 layoutKey 是 computed from route，URL 改變這個 computed 會自動更新
  */
 const ThemeComponent = computed(() => {
   const theme = themeStore.currentTheme;
