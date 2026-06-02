@@ -24,6 +24,15 @@
 import imgDeposit from "@/assets/themes/at99/images/banners/banner-deposit.png";
 import imgNew from "@/assets/themes/at99/images/banners/banner-new.png";
 
+// Round 9：sub-banner 4 張節慶素材（5d_v2，無平台字樣純中文藝術）
+// 為何加 sub-banner 而非取代主 banner：主 banner 已是「入金 / 新會員」實際 promo 主題，
+// sub-banner 走「節慶活動 / 限定遊戲」副推，與主推不打架且擴充 promo 覆蓋面
+import subGoldenSnake from "@/assets/themes/at99/extra/banners/golden-snake.png";
+import subQinBanner from "@/assets/themes/at99/extra/banners/qin-banner.png";
+import subMiniSnake from "@/assets/themes/at99/extra/banners/mini-snake.png";
+// 重複拿 homeGame2 怪獸當第 4 張，可避免再 cp 一張，bundle 更小
+import subMonster from "@/assets/themes/noya/extra/games/monster-arena.png";
+
 interface Props {
   mobile?: boolean;
 }
@@ -54,6 +63,26 @@ const slides: Slide[] = [
     cta: "查看詳情",
     image: imgNew
   }
+];
+
+interface SubBanner {
+  key: string;
+  alt: string;
+  label: string;
+  image: string;
+}
+
+// Round 9：sub-banner 4 張（節慶 / 限定遊戲）
+const subBanners: SubBanner[] = [
+  {
+    key: "sb1",
+    alt: "霸旺大金蛇 限定",
+    label: "新春限定",
+    image: subGoldenSnake
+  },
+  { key: "sb2", alt: "秦皇霸業", label: "熱門推薦", image: subQinBanner },
+  { key: "sb3", alt: "霸旺小金蛇", label: "新春限定", image: subMiniSnake },
+  { key: "sb4", alt: "怪獸大決戰", label: "玩家最愛", image: subMonster }
 ];
 </script>
 
@@ -100,6 +129,29 @@ const slides: Slide[] = [
         <span class="at99-promo-c__dot at99-promo-c__dot--on" />
         <span class="at99-promo-c__dot" />
       </div>
+
+      <!--
+        Round 9：sub-banner 4 張橫條（節慶 / 限定遊戲，5d_v2 素材）
+        為何放在 pagination 下：先看主推、再看分頁、最後 sub-banner 是「同 promo 區的次層延伸」
+        每張卡覆蓋對應 label 與遊戲名，hover 上浮 + 金色邊框立體感
+      -->
+      <ul class="at99-promo-c__sub-row" role="list">
+        <li
+          v-for="sb in subBanners"
+          :key="sb.key"
+          class="at99-promo-c__sub-card"
+          tabindex="0"
+        >
+          <img
+            :src="sb.image"
+            :alt="sb.alt"
+            class="at99-promo-c__sub-img"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="at99-promo-c__sub-label">{{ sb.label }}</span>
+        </li>
+      </ul>
     </div>
   </section>
 </template>
@@ -204,6 +256,67 @@ const slides: Slide[] = [
     }
   }
 
+  // ─────────────── Round 9：sub-banner row（4 張小卡） ───────────────
+  &__sub-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: var(--space-md);
+    padding: 0;
+    list-style: none;
+  }
+
+  &__sub-card {
+    position: relative;
+    aspect-ratio: 5 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    cursor: pointer;
+    transition: all var(--transition-base);
+
+    // hover：金邊光暈 + 上浮 + 多層 shadow，kingdom 立體金屬感
+    &:hover,
+    &:focus-visible {
+      transform: translateY(-4px);
+      border-color: var(--color-accent);
+      box-shadow:
+        0 6px 14px var(--bg-overlay),
+        0 0 18px rgba(255, 216, 77, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      outline: none;
+    }
+  }
+
+  // stylelint-disable-next-line no-descending-specificity
+  &__sub-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform var(--transition-base);
+  }
+
+  &__sub-card:hover &__sub-img {
+    transform: scale(1.05);
+  }
+
+  &__sub-label {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.55);
+    color: var(--color-accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 9px;
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(4px);
+  }
+
   &--mobile {
     // mobile 不留 dock 空間：padding 直接覆寫，左右 0 等同移除 dock-offset
     padding: 16px 0 8px;
@@ -228,6 +341,17 @@ const slides: Slide[] = [
       bottom: 12px;
       padding: 7px 14px;
       font-size: 11px;
+    }
+
+    // sub-banner mobile 改 2 欄 2 列，避免 4 欄擠
+    .at99-promo-c__sub-row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .at99-promo-c__sub-label {
+      font-size: 10px;
+      padding: 2px 6px;
     }
   }
 }
