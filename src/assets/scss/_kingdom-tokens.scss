@@ -1,0 +1,111 @@
+// kingdom_front 設計語言：跨 theme 共用的結構性 token
+// =====================================================
+// 從 kingdom_front 萃取出的「不分顏色」DNA：
+//   - 圓角系統（4 / 6 / 8 / 10 / 999px pill）
+//   - 間距系統（8 倍數階梯 + max(px, vw) 雙保護）
+//   - shadow stack（淺底 4 階 + 帶品牌色 glow）
+//   - transition 時長慣例
+//   - 動畫 keyframes（rotate / pulse / float-up）
+// 設計理念：
+//   - 結構性 token 全 theme 共用，掛在 :root，所有 theme 都能讀到
+//   - 顏色相關（含 shadow 的 alpha、glow color）由各 theme 的
+//     _tokens.scss 在 [data-theme="xxx"] selector 內覆寫
+// 為何抽出獨立檔案：
+//   - 每個 theme 的 _tokens.scss 不再需要重複定義圓角 / 間距等共用 token
+//   - 元件層改用 var(--radius-md) 等通用 token，色相切換不會誤觸結構
+//   - 未來新增 theme 不必複製這份結構 token
+
+:root {
+  // ─────────────── 圓角系統（kingdom DNA：4/6/8/10/pill） ───────────────
+  --radius-xs: 4px; // 小標籤、輸入框內框、submit-btn
+  --radius-sm: 6px; // 中型按鈕、tab 卡、radio button 外殼
+  --radius-md: 8px; // 一般卡片、計數器格子
+  --radius-lg: 10px; // 大型卡片、dialog card
+  --radius-xl: 16px; // 圖片容器、大型 hero card
+  --radius-pill: 999px; // 主 CTA pill 形按鈕（kingdom big-btn = 100px，這裡走更圓潤）
+  --radius-circle: 50%; // icon 圓底、頭像
+
+  // ─────────────── 間距系統（kingdom DNA：8 倍數 + max(px, vw)） ───────
+  // 小型 demo 在多數 viewport 仍走固定 px，保留 vw 對應給 RWD 大螢幕參考
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-2xl: 30px;
+  --space-3xl: 40px;
+  --space-4xl: 60px;
+
+  // ─────────────── transition 時長（kingdom DNA：0.15/0.2/0.3） ───────
+  --transition-fast: 0.15s ease; // 小型 hover：bg 色變、按鈕 brightness
+  --transition-base: 0.2s ease; // 標準 hover：陰影、border、color
+  --transition-slow: 0.3s ease; // menu 展開、image transform
+
+  // ─────────────── filter hover/active（kingdom DNA：brightness 慣例） ──
+  // 主 CTA / 卡片 hover 用 filter brightness 是 kingdom 整站慣例，
+  // 避免色相切換造成 RGB 數值跳動，brightness 隨主色自動加深變淺
+  --filter-hover-strong: brightness(1.1); // 藍色系等主色 CTA
+  --filter-hover-soft: brightness(1.05); // 金色系 CTA（避免過曝）
+  --filter-active-strong: brightness(0.9); // 主色 active
+  --filter-active-soft: brightness(0.95); // 金色 active
+
+  // ─────────────── 字型 stack（kingdom DNA：Outfit + 微軟正黑體） ───────
+  // 結構性預設，theme 內可用 --font-display / --font-body 再覆寫成主題化字體
+  --font-stack-base:
+    outfit, "微軟正黑體", "Microsoft JhengHei", tahoma, geneva, verdana,
+    sans-serif;
+  --font-stack-display:
+    "Inknut Antiqua", "Playfair Display", "微軟正黑體", "Microsoft JhengHei",
+    serif;
+}
+
+// ─────────────── 鍵畫框（kingdom DNA：rotate / pulse / breathe） ────────
+// 兩個 theme 都會用到，集中定義避免 noya / at99 各自寫一份
+
+// 旋轉（main.long.scss `.continued-rotate`）
+@keyframes kingdom-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// pulse（呼吸式縮放：徽章、live dot、簽到提示）
+@keyframes kingdom-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.06);
+    opacity: 0.85;
+  }
+}
+
+// float-up（卡片 hover 浮起的關鍵動作參考用，多數場合直接寫 translateY 即可）
+@keyframes kingdom-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+// progress（漸層橫向流動，跑馬燈 / loading 條共用）
+@keyframes kingdom-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}

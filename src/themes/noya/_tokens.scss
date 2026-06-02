@@ -80,14 +80,24 @@
   --banner-gradient-2: linear-gradient(135deg, #ce93d8 0%, #ffccbc 100%);
   --banner-gradient-3: linear-gradient(135deg, #ffd54f 0%, #ffab40 100%);
 
-  // 字體
-  // 對齊原站：原站使用 `微软雅黑 / 微軟正黑體 / Microsoft JhengHei UI / PMingLiU`
-  // 體系，是繁中網站娛樂城常見字體 stack；display 變體保留 Playfair Display 給
-  // 標題的金屬感裝飾用（與書法手寫感金字風味相近）
+  // 字體 — Round 7 對齊 kingdom_front DNA
+  // 主字 stack 走 `Outfit + 微軟正黑體`（kingdom 整站慣例），西文走 Outfit 銳利字面、
+  // 中文走系統繁中；display 改用 `Inknut Antiqua`（kingdom 標誌性 serif）
+  // 取代原本的 Playfair Display，視覺記憶點更貼近 kingdom 高貴娛樂城風
   --font-display:
-    "Playfair Display", "微軟正黑體", "Microsoft JhengHei UI",
+    "Inknut Antiqua", "Playfair Display", "微軟正黑體", "Microsoft JhengHei UI",
     "Microsoft JhengHei", pmingliu, serif;
   --font-body:
-    "微軟正黑體", "Microsoft JhengHei UI", "Microsoft JhengHei", pmingliu,
-    "Segoe UI", tahoma, arial, sans-serif;
+    outfit, "微軟正黑體", "Microsoft JhengHei UI", "Microsoft JhengHei",
+    pmingliu, "Segoe UI", tahoma, arial, sans-serif;
+
+  // ─────────────── kingdom shadow stack（暖金 alpha 帶色） ───────────────
+  // 對應 kingdom 整站的卡片 / sticky / hover 陰影規律，附帶玫瑰金 alpha 增加層次
+  // 元件改用 var(--shadow-md) 等替代寫死陰影，色相切換時 variants 可一併覆寫
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px rgba(212, 165, 116, 0.12);
+  --shadow-lg: 0 8px 16px rgba(212, 165, 116, 0.18);
+  --shadow-xl: 3px 7px 12px rgba(212, 165, 116, 0.22);
+  --shadow-sticky: 0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 12px rgba(212, 165, 116, 0.45);
 }

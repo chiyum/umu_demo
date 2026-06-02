@@ -40,6 +40,16 @@
     var(--color-accent) 50%,
     #b86b13 100%
   );
+
+  // kingdom shadow stack — neon-purple 變體（紫色光暈）
+  // 深底版的 shadow 走「紫色 alpha 帶色」+「紫色 neon glow」，視覺與 color-primary 一致
+  --shadow-md: 0 4px 8px rgba(168, 85, 247, 0.18);
+  --shadow-lg: 0 8px 20px rgba(168, 85, 247, 0.28);
+  --shadow-xl: 0 12px 28px rgba(168, 85, 247, 0.34);
+  --shadow-sticky:
+    0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 12px rgba(168, 85, 247, 0.22);
+  --shadow-glow: 0 0 12px var(--color-primary),
+    0 0 28px rgba(168, 85, 247, 0.55);
 }
 
 [data-theme="at99"][data-theme-color="neon-green"] {
@@ -77,4 +87,13 @@
     var(--color-accent) 50%,
     #7c8a15 100%
   );
+
+  // kingdom shadow stack — neon-green 變體（綠色光暈）
+  --shadow-md: 0 4px 8px rgba(34, 211, 164, 0.18);
+  --shadow-lg: 0 8px 20px rgba(34, 211, 164, 0.28);
+  --shadow-xl: 0 12px 28px rgba(34, 211, 164, 0.34);
+  --shadow-sticky:
+    0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 12px rgba(34, 211, 164, 0.22);
+  --shadow-glow: 0 0 12px var(--color-primary),
+    0 0 28px rgba(34, 211, 164, 0.55);
 }

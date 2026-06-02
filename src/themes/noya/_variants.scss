@@ -57,6 +57,13 @@
   // top bar 深色 token：sunset 配色用偏咖啡的深底，搭配暖橘整頁色調
   --top-bar-dark: linear-gradient(135deg, #2a1810 0%, #3a2818 100%);
   --top-bar-dark-text: #fff0e0;
+
+  // kingdom shadow stack — sunset 變體（暖橘色相 alpha）
+  // 預設 rose-gold 的 shadow 走 #d4a574 系，sunset 改為更飽和的橘紅 alpha
+  --shadow-md: 0 4px 8px rgba(255, 90, 54, 0.14);
+  --shadow-lg: 0 8px 16px rgba(255, 90, 54, 0.22);
+  --shadow-xl: 3px 7px 12px rgba(255, 90, 54, 0.28);
+  --shadow-glow: 0 0 14px rgba(255, 126, 71, 0.5);
 }
 
 // 青檸綠：偏中性、活力、適合年輕族群
@@ -108,4 +115,10 @@
   // top bar 深色 token：lime 配色用深森林綠的深底
   --top-bar-dark: linear-gradient(135deg, #0a1d10 0%, #1f3a25 100%);
   --top-bar-dark-text: #e8f5c8;
+
+  // kingdom shadow stack — lime 變體（青綠色相 alpha）
+  --shadow-md: 0 4px 8px rgba(126, 188, 58, 0.16);
+  --shadow-lg: 0 8px 16px rgba(126, 188, 58, 0.24);
+  --shadow-xl: 3px 7px 12px rgba(126, 188, 58, 0.3);
+  --shadow-glow: 0 0 14px rgba(159, 211, 86, 0.5);
 }

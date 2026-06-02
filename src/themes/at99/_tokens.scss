@@ -52,6 +52,26 @@
   // 若改 dock 寬度只動這個 var，全 section 一起跟著走，免去散落 7 處手改
   // round 4 對齊原站：at99tw.net header DOM `nav` 量到寬 101px，所以拉寬到 100px
   --dock-offset: 100px;
-  --font-display: "Outfit", "微軟正黑體", sans-serif;
-  --font-body: "Outfit", "微軟正黑體", sans-serif;
+
+  // 字體 — Round 7 對齊 kingdom_front DNA
+  // 主字 stack 走 `Outfit + 微軟正黑體`（kingdom 整站慣例）
+  // display 走 `Inknut Antiqua`（kingdom 標誌性 serif）讓賭場 logo / 大字標題帶古典感
+  --font-display:
+    "Inknut Antiqua", outfit, "微軟正黑體", "Microsoft JhengHei", serif;
+  --font-body:
+    outfit, "微軟正黑體", "Microsoft JhengHei", tahoma, geneva, verdana,
+    sans-serif;
+
+  // ─────────────── kingdom shadow stack（深底 + 霓虹 glow） ──────────────
+  // 對齊 kingdom 整站陰影規律但走深底版：深底用「主色 alpha 帶色」+「neon glow」雙軌
+  // 預設 neon-blue：藍色光暈作為 sticky / 卡片陰影底色，glow 與 color-primary 同色系
+  // variants（neon-purple / neon-green）會獨立覆寫 shadow / glow 色相
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(45, 212, 255, 0.15);
+  --shadow-lg: 0 8px 20px rgba(45, 212, 255, 0.25);
+  --shadow-xl: 0 12px 28px rgba(45, 212, 255, 0.3);
+  --shadow-sticky:
+    0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 12px rgba(45, 212, 255, 0.18);
+  --shadow-glow: 0 0 12px var(--color-primary),
+    0 0 28px rgba(45, 212, 255, 0.5);
 }

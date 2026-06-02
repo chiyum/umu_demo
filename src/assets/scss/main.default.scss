@@ -1,6 +1,11 @@
 @use "@/assets/scss/global/setting";
 @use "@/assets/scss/default/layouts";
 
+// 跨 theme 共用的結構性 token（圓角 / 間距 / shadow / transition / 字型 / 動畫）
+// 從 kingdom_front 萃取的 DNA，不分顏色、不分主題，掛在 :root 全域可用
+// 元件層改用 var(--radius-md) / var(--space-lg) / var(--shadow-md) 等替代寫死值
+@use "@/assets/scss/kingdom-tokens";
+
 // 注意：各 theme 的 tokens / variants（_tokens.scss / _variants.scss）
 // 由 vite.config.ts buildThemeScssImports() 自動掃 src/themes/* 後注入 additionalData，
 // 新增版面不必再來這裡手動 @use。
