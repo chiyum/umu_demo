@@ -37,7 +37,7 @@ const games: Game[] = [
   <section class="at99-esports" :class="{ 'at99-esports--mobile': mobile }">
     <div class="at99-esports__inner">
       <header class="at99-esports__header">
-        <h2 class="at99-esports__heading">電競賽事</h2>
+        <h2 class="at99-esports__heading kingdom-block-label">電競賽事</h2>
         <span class="at99-esports__sub">E-Sports Center</span>
       </header>
 

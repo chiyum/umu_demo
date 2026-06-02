@@ -24,7 +24,7 @@ const paragraphs = [
   <section class="at99-about" :class="{ 'at99-about--mobile': mobile }">
     <div class="at99-about__inner">
       <div class="at99-about__copy">
-        <h2 class="at99-about__heading">關於本平台</h2>
+        <h2 class="at99-about__heading kingdom-block-label">關於本平台</h2>
         <p v-for="(p, i) in paragraphs" :key="i" class="at99-about__paragraph">
           {{ p }}
         </p>

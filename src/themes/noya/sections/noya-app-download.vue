@@ -32,7 +32,12 @@ withDefaults(defineProps<Props>(), { mobile: false });
         <!-- 左：文案 + 下載按鈕 -->
         <div class="noya-dl__copy">
           <span class="noya-dl__eyebrow">DEMO CASINO APP</span>
-          <h2 class="noya-dl__title">行動裝置．即時暢玩</h2>
+          <!-- DNA #8：app-download 區塊大標題加金色 block-label 粗條 -->
+          <h2
+            class="noya-dl__title kingdom-block-label kingdom-block-label--gold"
+          >
+            行動裝置．即時暢玩
+          </h2>
           <p class="noya-dl__desc">
             iOS 與 Android 雙平台支援，<br />
             隨時隨地登入，掃描右側 QR Code 立即下載。

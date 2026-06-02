@@ -90,6 +90,15 @@ const cards: HexCard[] = [
     :class="{ 'noya-popular--mobile': mobile }"
   >
     <div class="noya-popular__inner">
+      <!--
+        DNA #8：補上熱門遊戲 section 標題列（原本只有六角卡無大標題）
+        kingdom-block-label 套主漸層 cta 粗條，與右側英文副標構成 kingdom 風 header
+      -->
+      <header class="noya-popular__header">
+        <h2 class="noya-popular__heading kingdom-block-label">熱門遊戲</h2>
+        <span class="noya-popular__heading-sub">Popular Categories</span>
+      </header>
+
       <div class="noya-popular__grid">
         <article
           v-for="c in cards"
@@ -156,6 +165,30 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 24px;
+  }
+
+  // section 大標題列：DNA #8 block-label 粗條 + 英文副標
+  &__header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  &__heading {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--color-primary);
+    letter-spacing: 2px;
+    margin: 0;
+  }
+
+  &__heading-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
   }
 
   // 4 張橫排，gap 給金色發光不互相蓋住
@@ -314,6 +347,17 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
 
     .noya-popular__inner {
       padding: 0 16px;
+    }
+
+    // mobile section 標題縮一級避免佔太多版面
+    .noya-popular__heading {
+      font-size: 20px;
+      letter-spacing: 1.5px;
+    }
+
+    .noya-popular__heading-sub {
+      font-size: 10px;
+      letter-spacing: 2px;
     }
 
     .noya-popular__grid {

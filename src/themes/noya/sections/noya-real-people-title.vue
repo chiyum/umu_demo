@@ -37,7 +37,16 @@ function onAllClick() {
   >
     <div class="noya-rp-title__inner">
       <div class="noya-rp-title__heading">
-        <h2 class="noya-rp-title__main">真人視訊</h2>
+        <!--
+          DNA #8：金標題前置金色 block-label 粗條（gold 變體）
+          走 kingdom-block-label--gold 讓粗條用 var(--gradient-gold) 而非 cta 漸層，
+          與下方金字 text-fill 同色系，視覺統一
+        -->
+        <h2
+          class="noya-rp-title__main kingdom-block-label kingdom-block-label--gold"
+        >
+          真人視訊
+        </h2>
         <p class="noya-rp-title__sub">Real People · Live Show</p>
       </div>
 

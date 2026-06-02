@@ -38,7 +38,7 @@ const dealers: Dealer[] = [
   <section class="at99-live" :class="{ 'at99-live--mobile': mobile }">
     <div class="at99-live__inner">
       <header class="at99-live__header">
-        <h2 class="at99-live__heading">真人館別</h2>
+        <h2 class="at99-live__heading kingdom-block-label">真人館別</h2>
         <span class="at99-live__sub">Live Dealer</span>
       </header>
 

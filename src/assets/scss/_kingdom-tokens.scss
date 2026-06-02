@@ -109,3 +109,48 @@
     background-position: 200% 50%;
   }
 }
+
+// ─────────────── kingdom DNA #8：block-label 左漸層粗條 ─────────────────
+// 對應 kingdom_front main.long.scss 的 .block-label 模式：
+//   標題前置一條主漸層粗 bar，是 kingdom 整站「區塊標題」最強的視覺記憶點
+// 套用方式（任一 section 的 h2/h3 標題加 .kingdom-block-label）：
+//   <h2 class="at99-lb__heading kingdom-block-label">排行榜</h2>
+// 元件自己的 SCSS 仍可繼續微調 font / color，因為 :where 0 specificity
+// 不會壓掉元件 scoped 樣式。
+// 為何用全域 class：
+//   - 跨 theme 共用，配色切換時粗條色相自動跟著 --gradient-cta
+//   - 不需在每個 section 重寫 ::before 偽元素 + radial gradient（DRY）
+//   - 走 :where(...) 把 specificity 降到 0，元件 scoped 樣式仍能蓋過特殊需求
+:where(.kingdom-block-label) {
+  position: relative;
+
+  // 與粗條之間留 padding-left 才不會貼字，吃 token 比例化（手機自動縮）
+  padding-left: calc(var(--space-md) + 6px);
+  display: inline-flex;
+  align-items: center;
+}
+
+// stylelint-disable-next-line no-descending-specificity
+.kingdom-block-label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  // 粗條寬度與高度：kingdom main.long.scss 用 max(10px, 0.5208vw) × max(26px, 1.354vw)
+  // 這裡走固定 5px 寬 × 70% 字高，PC / mobile 自動隨字級縮
+  width: 5px;
+  height: 70%;
+  background: var(--gradient-cta);
+  border-radius: var(--radius-pill);
+
+  // 主色光暈讓粗條更立體（與 shadow-glow 同色系，配色切換跟著走）
+  box-shadow: 0 0 8px var(--bg-overlay);
+}
+
+// 金色變體：套在「真人視訊金標題」這類需要 gradient-gold 而非主色 cta 漸層的場合
+// stylelint-disable-next-line no-descending-specificity
+.kingdom-block-label--gold::before {
+  background: var(--gradient-gold, var(--gradient-cta));
+}
