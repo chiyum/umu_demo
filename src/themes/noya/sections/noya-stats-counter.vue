@@ -77,20 +77,29 @@ const stats = [
 
   &__value {
     font-family: var(--font-display);
-    font-size: clamp(48px, 5vw, 72px);
-    font-weight: 800;
-    color: var(--color-primary);
+
+    // 對齊原站：60px 大金字立體感（不是橙色！）
+    // 用 gradient-gold + text-fill-color 做金屬光澤
+    font-size: clamp(48px, 5vw, 64px);
+    font-weight: 900;
     line-height: 1;
-    letter-spacing: 2px;
-    text-shadow: 0 2px 6px var(--bg-overlay);
+    letter-spacing: 3px;
+    background: var(--gradient-gold);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    // 雙層 drop-shadow 強化立體感
+    filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.1))
+      drop-shadow(0 4px 12px var(--bg-overlay));
   }
 
+  // 金色細分隔線：每個 counter 下方
   &__rule {
-    width: 36px;
+    width: 40px;
     height: 2px;
-    background: var(--color-primary);
+    background: var(--gradient-gold);
     border-radius: 1px;
-    opacity: 0.75;
+    box-shadow: 0 1px 4px var(--bg-overlay);
   }
 
   &__label {
