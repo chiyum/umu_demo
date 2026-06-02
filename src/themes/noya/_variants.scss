@@ -1,0 +1,33 @@
+// noya 版面的替代配色
+// 透過 [data-theme="noya"][data-theme-color="xxx"] 雙重 selector
+// 確保只有 noya 套對應配色，不會被其他 theme 誤用。
+
+// 日落橘：偏暖、活潑、適合節慶活動
+[data-theme="noya"][data-theme-color="sunset"] {
+  --color-primary: #ff7e47;
+  --color-secondary: #ff5a36;
+  --color-accent: #ffb38a;
+  --bg-base: #fff5ef;
+  --bg-overlay: rgba(255, 126, 71, 0.08);
+  --text-primary: #4a2418;
+  --text-muted: #a36a52;
+  --border: rgba(255, 126, 71, 0.25);
+  --shadow: 0 4px 12px rgba(255, 90, 54, 0.18);
+  --gradient-hero: linear-gradient(135deg, #fff5ef 0%, #ffb38a 100%);
+  --gradient-cta: linear-gradient(135deg, #ff7e47 0%, #ff5a36 100%);
+}
+
+// 青檸綠：偏中性、活力、適合年輕族群
+[data-theme="noya"][data-theme-color="lime"] {
+  --color-primary: #9fd356;
+  --color-secondary: #7ebc3a;
+  --color-accent: #d3f0a4;
+  --bg-base: #f4faec;
+  --bg-overlay: rgba(159, 211, 86, 0.08);
+  --text-primary: #2a3a18;
+  --text-muted: #6a7a5a;
+  --border: rgba(159, 211, 86, 0.3);
+  --shadow: 0 4px 12px rgba(126, 188, 58, 0.2);
+  --gradient-hero: linear-gradient(135deg, #f4faec 0%, #d3f0a4 100%);
+  --gradient-cta: linear-gradient(135deg, #9fd356 0%, #7ebc3a 100%);
+}

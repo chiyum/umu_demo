@@ -1,0 +1,28 @@
+// noya 版面預設配色：玫瑰金 / 暖色系
+// 設計理念：把所有顏色、陰影、邊框統一抽成 CSS var，
+// 後續所有 noya section 組件用 var(--color-primary) 等讀取，
+// 切換配色時不必碰元件，只要動 data-theme-color 屬性就會切換。
+// 命名公約（全 theme 共用）：
+// --color-primary 主色 / --color-secondary 輔助色 / --color-accent 亮點色
+// --bg-base 頁面背景 / --bg-surface 卡片背景 / --text-primary 主要文字
+// --text-muted 次要文字 / --border 分隔線 / --shadow 通用陰影
+
+[data-theme="noya"] {
+  // 預設值（rose-gold）— 由 _variants.scss 在 data-theme-color 不同時覆寫
+  --color-primary: #d4a574;
+  --color-secondary: #c79968;
+  --color-accent: #f0d4a7;
+  --bg-base: #faf5ef;
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(212, 165, 116, 0.08);
+  --text-primary: #3d3329;
+  --text-muted: #8a7a6a;
+  --border: rgba(212, 165, 116, 0.25);
+  --shadow: 0 4px 12px rgba(212, 165, 116, 0.18);
+  --gradient-hero: linear-gradient(135deg, #faf5ef 0%, #f0d4a7 100%);
+  --gradient-cta: linear-gradient(135deg, #d4a574 0%, #c79968 100%);
+
+  // 字體
+  --font-display: "Playfair Display", "Outfit", serif;
+  --font-body: "Outfit", "微軟正黑體", sans-serif;
+}
