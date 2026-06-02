@@ -6,6 +6,15 @@ import imgSport from "@/assets/themes/noya/images/games/sport.png";
 import imgChess from "@/assets/themes/noya/images/games/chess.png";
 import imgSlot from "@/assets/themes/noya/images/games/slot.png";
 
+// Round 9：5d_v2 中文遊戲卡（無平台 logo，可作為「精選熱門」橫滾條）
+// 6 張遊戲卡作為類別大卡下方的「實際熱門款」展示
+import gameRocket from "@/assets/themes/noya/extra/games/rocket-king.png";
+import gameMonster from "@/assets/themes/noya/extra/games/monster-arena.png";
+import gameFairy from "@/assets/themes/noya/extra/games/fairy-treasure.png";
+import gameLamp from "@/assets/themes/noya/extra/games/lamp-legend.png";
+import gameQin from "@/assets/themes/noya/extra/games/qin-emperor.png";
+import gameDog from "@/assets/themes/noya/extra/games/dog-feast.png";
+
 /**
  * noya 熱門遊戲區 — Round 5 改版：4 張六角形大卡（橫排）
  *
@@ -46,6 +55,28 @@ interface HexCard {
   /** 是否上 LIVE 徽章 */
   isLive: boolean;
 }
+
+interface FeaturedGame {
+  key: string;
+  /** 遊戲名（中文，純展示） */
+  name: string;
+  /** 副標籤（HOT / NEW / LIVE） */
+  tag: "HOT" | "NEW" | "LIVE";
+  /** 遊戲圖（已 import 的 url） */
+  image: string;
+}
+
+// 精選熱門遊戲（6 張）：5d_v2 中文遊戲卡素材
+// 為何放這裡而不另開 section：六角分類卡是「分類入口」抽象，精選遊戲是「實際款」具象，
+//  兩者同屬「熱門遊戲」section 上下層級，視覺連貫且 ribbon 動線一致
+const featured: FeaturedGame[] = [
+  { key: "rocket", name: "無敵火箭王", tag: "HOT", image: gameRocket },
+  { key: "monster", name: "怪獸大決戰", tag: "NEW", image: gameMonster },
+  { key: "fairy", name: "精靈寶藏", tag: "HOT", image: gameFairy },
+  { key: "lamp", name: "神燈奇譚", tag: "LIVE", image: gameLamp },
+  { key: "qin", name: "秦皇霸業", tag: "HOT", image: gameQin },
+  { key: "dog", name: "狗狗當家", tag: "NEW", image: gameDog }
+];
 
 const cards: HexCard[] = [
   {
@@ -100,6 +131,7 @@ const cards: HexCard[] = [
       </header>
 
       <div class="noya-popular__grid">
+        <!-- 4 張六角形分類大卡（live / sport / chess / slot） -->
         <article
           v-for="c in cards"
           :key="c.key"
@@ -143,6 +175,47 @@ const cards: HexCard[] = [
             </footer>
           </div>
         </article>
+      </div>
+
+      <!--
+        Round 9：精選熱門遊戲橫條（6 張，5d_v2 中文遊戲卡素材）
+        為何放在六角分類卡之下：六角是「分類入口」抽象、featured 是「實際款」具象，
+        從抽象到具象的層級會讓使用者第一眼看到分類後再看到實際遊戲；
+        手機版改為 2 欄 3 列以避免橫滾消費過多版面
+      -->
+      <div class="noya-popular__featured-block">
+        <header class="noya-popular__featured-header">
+          <h3 class="noya-popular__featured-heading kingdom-block-label">
+            精選熱門
+          </h3>
+          <span class="noya-popular__featured-sub">Featured Picks</span>
+        </header>
+
+        <ul class="noya-popular__featured-list" role="list">
+          <li
+            v-for="g in featured"
+            :key="g.key"
+            class="noya-popular__featured-item"
+            tabindex="0"
+          >
+            <div class="noya-popular__featured-media">
+              <img
+                :src="g.image"
+                :alt="`${g.name} 示意圖`"
+                class="noya-popular__featured-img"
+                loading="lazy"
+                decoding="async"
+              />
+              <span
+                class="noya-popular__featured-tag"
+                :class="`noya-popular__featured-tag--${g.tag.toLowerCase()}`"
+              >
+                {{ g.tag }}
+              </span>
+            </div>
+            <p class="noya-popular__featured-name">{{ g.name }}</p>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -341,6 +414,122 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
     }
   }
 
+  // ─────────────── Round 9：精選熱門遊戲橫條（5d_v2 中文遊戲卡） ───────────────
+  // 為何用獨立 sub-block：與六角卡分離視覺層級，但共用同一 section 動線
+  &__featured-block {
+    margin-top: var(--space-xl);
+  }
+
+  &__featured-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  &__featured-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--color-primary);
+    letter-spacing: 1.5px;
+    margin: 0;
+  }
+
+  &__featured-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+
+  &__featured-list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  // stylelint-disable-next-line no-descending-specificity
+  &__featured-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--transition-base);
+
+    // hover：金邊 + 上浮 + 多層 drop-shadow（kingdom DNA 立體金屬感）
+    &:hover,
+    &:focus-visible {
+      transform: translateY(-4px);
+      border-color: var(--color-accent);
+      box-shadow:
+        0 6px 14px var(--bg-overlay),
+        0 0 18px var(--bg-overlay),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      outline: none;
+    }
+  }
+
+  &__featured-media {
+    position: relative;
+    aspect-ratio: 5 / 3;
+    overflow: hidden;
+  }
+
+  // stylelint-disable-next-line no-descending-specificity
+  &__featured-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-base);
+  }
+
+  &__featured-item:hover &__featured-img {
+    transform: scale(1.06);
+  }
+
+  &__featured-tag {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 2px 7px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+
+    // 三種 tag 各自走 token，配色變主題時自動跟著走
+    &--hot {
+      background: var(--badge-live);
+    }
+
+    &--new {
+      background: var(--gradient-cta);
+    }
+
+    &--live {
+      background: var(--badge-live);
+      animation: noya-live-pulse 1.6s ease-in-out infinite;
+    }
+  }
+
+  &__featured-name {
+    margin: 0;
+    padding: 8px 10px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
   // mobile 版：4 張仍橫排會太擠，改為 2 × 2
   &--mobile {
     padding: 16px 0 24px;
@@ -378,6 +567,25 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
     .noya-popular__play {
       padding: 6px 14px;
       font-size: 10px;
+    }
+
+    // featured 區改 2 欄 3 列，避免 6 欄擠到看不清
+    .noya-popular__featured-list {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .noya-popular__featured-heading {
+      font-size: 17px;
+    }
+
+    .noya-popular__featured-sub {
+      font-size: 10px;
+    }
+
+    .noya-popular__featured-name {
+      font-size: 12px;
+      padding: 6px 8px 8px;
     }
   }
 }
