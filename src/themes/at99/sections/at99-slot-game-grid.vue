@@ -376,7 +376,7 @@ const activeCategory = computed(
     background: var(--gradient-gold);
     opacity: 0.85;
     z-index: 5;
-    transition: all 0.2s ease;
+    transition: all var(--transition-base);
     box-shadow: 0 0 6px var(--color-accent);
   }
 
@@ -411,7 +411,7 @@ const activeCategory = computed(
     left: 50%;
     width: 70%;
     height: 60%;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: radial-gradient(
       circle,
       var(--tile-color-glow) 0%,
@@ -421,7 +421,7 @@ const activeCategory = computed(
     opacity: 0.5;
     pointer-events: none;
     z-index: 1;
-    transition: all 0.25s ease;
+    transition: all var(--transition-slow);
     mix-blend-mode: screen;
   }
 
@@ -431,7 +431,7 @@ const activeCategory = computed(
     position: absolute;
     width: 5px;
     height: 5px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: var(--color-accent);
     box-shadow:
       0 0 4px var(--color-accent),

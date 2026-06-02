@@ -197,7 +197,7 @@ const liveProviders = [
     position: absolute;
     width: 280px;
     height: 280px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     pointer-events: none;
     filter: blur(50px);
     z-index: 0;
@@ -287,7 +287,7 @@ const liveProviders = [
       width: 32px;
       height: 32px;
       font-size: 11px;
-      border-radius: 50%;
+      border-radius: var(--radius-circle);
       box-shadow:
         0 2px 6px rgba(0, 0, 0, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -432,7 +432,7 @@ const liveProviders = [
   &__dot {
     width: 6px;
     height: 6px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: rgba(255, 255, 255, 0.55);
 
     &--on {

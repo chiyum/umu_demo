@@ -121,7 +121,7 @@ function close() {
     height: 28px;
     border: none;
     background: var(--accent-warning-overlay);
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     font-size: 18px;
     color: var(--accent-warning-text);
     cursor: pointer;
