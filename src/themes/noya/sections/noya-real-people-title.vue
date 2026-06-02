@@ -107,11 +107,11 @@ function onAllClick() {
   }
 
   &__more {
-    // 對齊原站：白底圓角 + 暖橘 outline + 暖橘字
+    // kingdom DNA：pill 形描邊按鈕（與 noya-button ghost 一致）+ var token
     background: var(--bg-surface);
     color: var(--color-primary);
     border: 1.5px solid var(--color-primary);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     padding: 8px 20px;
     font-size: 13px;
     font-weight: 700;
@@ -119,15 +119,16 @@ function onAllClick() {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    box-shadow: 0 2px 6px var(--bg-overlay);
-    transition: all 0.18s ease;
+    gap: var(--space-xs);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
     white-space: nowrap;
 
     &:hover {
       background: var(--bg-overlay);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px var(--bg-overlay);
+      box-shadow: var(--shadow-lg);
+      filter: var(--filter-hover-strong);
     }
   }
 

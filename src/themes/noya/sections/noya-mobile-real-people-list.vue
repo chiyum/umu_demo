@@ -155,16 +155,17 @@ const banners: Banner[] = [
   // 單張 banner：素材圖鋪滿，CTA 絕對定位貼右下；
   // aspect-ratio 維持 16/7 的廣告 banner 視覺比例，避免不同尺寸圖切版抖動
   &__banner {
+    // kingdom DNA：圖片容器 --radius-xl + shadow stack 對齊
     position: relative;
     aspect-ratio: 16 / 7;
-    border-radius: 14px;
+    border-radius: var(--radius-xl);
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.18s ease;
+    transition: transform var(--transition-base);
 
-    // 淺陰影 + 內陰影加質感
+    // 主色光暈 shadow-lg + 內陰影模仿玻璃高光
     box-shadow:
-      0 4px 14px rgba(0, 0, 0, 0.08),
+      var(--shadow-lg),
       inset 0 1px 0 rgba(255, 255, 255, 0.25);
 
     &:active {
@@ -186,12 +187,13 @@ const banners: Banner[] = [
 
   // CTA 絕對定位右下，半透明白底；不擋圖但 hover 浮起
   &__cta {
+    // kingdom DNA：CTA 走 --radius-pill + var transition
     position: absolute;
     right: 10px;
     bottom: 10px;
     background: rgba(255, 255, 255, 0.9);
     border: none;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     padding: 5px 12px;
     font-size: 11px;
     font-weight: 700;
@@ -199,10 +201,10 @@ const banners: Banner[] = [
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--space-xs);
     color: #4a2d18;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
-    transition: all 0.15s ease;
+    transition: all var(--transition-fast);
     z-index: 2;
 
     &:hover {

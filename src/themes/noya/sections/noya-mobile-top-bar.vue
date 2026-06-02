@@ -106,32 +106,42 @@ function openLogin() {
   }
 
   &__btn {
+    // kingdom DNA：mobile CTA 改 pill 形對齊 PC（與 announce-bar 一致）
     height: 30px;
-    padding: 0 10px;
-    border-radius: 6px;
+    padding: 0 14px;
+    border-radius: var(--radius-pill);
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     border: 1px solid var(--color-primary);
-    transition: all 0.15s ease;
+    transition: all var(--transition-fast);
 
     &--ghost {
       background: transparent;
       color: var(--color-primary);
+
+      &:hover {
+        filter: var(--filter-hover-strong);
+      }
     }
 
     &--primary {
       background: var(--gradient-cta);
       color: var(--text-on-primary);
+
+      &:hover {
+        filter: var(--filter-hover-strong);
+      }
     }
   }
 
   &__lang {
+    // kingdom DNA：語言切換用 pill 形（與 PC main-nav 一致）
     height: 30px;
-    padding: 0 6px;
+    padding: 0 10px;
     background: transparent;
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: var(--radius-pill);
     color: var(--text-muted);
     font-size: 12px;
     cursor: pointer;

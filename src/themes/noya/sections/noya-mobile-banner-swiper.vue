@@ -129,10 +129,11 @@ onBeforeUnmount(() => stopAuto());
   position: relative;
 
   &__viewport {
+    // kingdom DNA：圖片容器 --radius-xl + shadow-lg 主色光暈
     overflow: hidden;
     margin: 0 16px;
-    border-radius: 14px;
-    box-shadow: var(--shadow);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
   }
 
   &__track {
@@ -185,12 +186,13 @@ onBeforeUnmount(() => stopAuto());
     :deep(.avatar-silhouette) {
       width: 100%;
       height: 100%;
-      border-radius: 0 14px 14px 0;
+      border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
       opacity: 0.9;
     }
   }
 
   &__dots {
+    // kingdom DNA：swiper-pagination 圓點走 --radius-circle
     display: flex;
     justify-content: center;
     gap: 6px;
@@ -200,11 +202,11 @@ onBeforeUnmount(() => stopAuto());
   &__dot {
     width: 6px;
     height: 6px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     border: none;
     background: var(--border);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-base);
 
     &--on {
       width: 18px;

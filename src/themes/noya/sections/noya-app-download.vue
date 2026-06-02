@@ -255,10 +255,11 @@ withDefaults(defineProps<Props>(), { mobile: false });
   }
 
   &__card {
+    // kingdom DNA：大型容器走 --radius-xl + shadow-lg
     background: var(--bg-surface);
     border: 1px solid var(--border);
-    border-radius: 18px;
-    box-shadow: var(--shadow);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
     padding: 36px 40px;
     display: grid;
     grid-template-columns: 1fr auto auto;
@@ -304,6 +305,7 @@ withDefaults(defineProps<Props>(), { mobile: false });
   }
 
   &__btn {
+    // kingdom DNA：App Store / Google Play 按鈕走 --radius-lg + var transition
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -311,11 +313,11 @@ withDefaults(defineProps<Props>(), { mobile: false });
     background: var(--text-primary);
     color: #ffffff;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     cursor: pointer;
     transition:
-      transform 0.15s ease,
-      box-shadow 0.15s ease;
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
     box-shadow:
       0 2px 6px rgba(0, 0, 0, 0.18),
       inset 0 1px 0 rgba(255, 255, 255, 0.08);

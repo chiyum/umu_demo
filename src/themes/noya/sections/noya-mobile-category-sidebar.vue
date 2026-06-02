@@ -98,8 +98,8 @@ function pick(key: string) {
     color: var(--text-muted);
     padding: 10px 4px;
     transition:
-      background 0.15s ease,
-      color 0.15s ease;
+      background var(--transition-fast),
+      color var(--transition-fast);
 
     // stylelint-disable-next-line no-descending-specificity
     &--active {
@@ -122,14 +122,14 @@ function pick(key: string) {
   &__bubble {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: var(--bg-base);
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    transition: all 0.18s ease;
+    transition: all var(--transition-base);
   }
 
   // Iconify icon 用 currentColor，靠 bubble 父層 color 控色
