@@ -211,6 +211,32 @@ yarn build:uat 測試模式
 
 執行 compile 之後根目錄下產生 `/dist` 檔案夾
 
+### GitHub Pages 自動部署
+
+本專案已配置 GitHub Action（`.github/workflows/deploy.yml`），將 SPA 自動部署到 GitHub Pages。
+
+**部署流程：**
+
+- push 任何 commit 到 `main` 分支，會自動觸發 build + deploy
+- 也可至 GitHub Repo 的 `Actions` 頁手動觸發 `Deploy to GitHub Pages` workflow
+- 同時間最多跑一個 workflow（concurrency cancel-in-progress），新推送會中止前一次部署
+
+**首次啟用需要手動設定一次：**
+
+1. 進到 Repo `Settings` → `Pages`
+2. `Build and deployment` → `Source` 選擇 `GitHub Actions`（**不是** Deploy from a branch）
+3. 第一次推送後 Action 跑完即可在 `Actions` 結果頁看到部署 URL
+
+**部署位址：** [https://chiyum.github.io/umu_demo/](https://chiyum.github.io/umu_demo/)
+
+**關鍵設計：**
+
+- `vite.config.ts` 的 `base` 在 production 模式自動切到 `/umu_demo/`，確保子路徑部署下 asset 路徑正確
+- `public/.nojekyll` 防止 Pages 用 Jekyll 處理底線開頭目錄
+- workflow build 後將 `dist/index.html` 複製成 `dist/404.html`，作為 SPA 路由 fallback（`createWebHistory` 直連子路徑 refresh 時，Pages 會回 404.html，由瀏覽器載入 SPA 後 vue-router 接手）
+
+**若 repo 改名：** 需同步更新 `vite.config.ts` 內的 base 字串以及本說明的部署位址。
+
 ## 結構概覽
 ```
 VUE_VITE_TS_START/                # 專案根目錄
