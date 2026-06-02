@@ -402,6 +402,7 @@ const activeCategory = computed(
   }
 
   // 金色頂飾條：橫跨 tile 頂部，hover 時加粗加亮
+  // stylelint-disable-next-line no-descending-specificity
   &__top-accent {
     position: absolute;
     inset: 0 0 auto;
@@ -452,6 +453,7 @@ const activeCategory = computed(
   }
 
   // 中央獎金光暈：橢圓光球放在 icon 下方，加深「中獎」氛圍
+  // stylelint-disable-next-line no-descending-specificity
   &__halo {
     position: absolute;
     top: 50%;

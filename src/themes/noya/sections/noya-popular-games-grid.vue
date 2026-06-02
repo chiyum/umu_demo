@@ -171,6 +171,7 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
 
   // 金邊：用 clip-path 在「絕對定位 inset:0」的 div 上跑金色 gradient
   // 內層 hex-card 縮 2px，留出金線寬度
+  // stylelint-disable-next-line no-descending-specificity
   &__hex-frame {
     position: absolute;
     inset: 0;

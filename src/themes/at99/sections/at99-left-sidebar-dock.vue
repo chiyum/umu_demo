@@ -139,6 +139,7 @@ function tap(item: DockItem) {
 
   // 走 22px 與使用者指定一致，currentColor 跟隨父層 color；
   // 預設白色（dock 深底環境），hover 轉金色
+  // stylelint-disable-next-line no-descending-specificity
   &__icon {
     width: 22px;
     height: 22px;
