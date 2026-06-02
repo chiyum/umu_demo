@@ -15,7 +15,7 @@ import type { ThemeMeta } from "./_types";
 /** noya 版面（玫瑰金 / 暖色系） */
 const noya: ThemeMeta = {
   key: "noya",
-  label: "NOYA 暖金",
+  label: "版面 A · 暖金",
   // 重點：箭頭函式內部才呼叫 dynamic import，這樣才會切 chunk
   desktop: () => import("./noya/desktop.vue"),
   mobile: () => import("./noya/mobile.vue"),
@@ -30,7 +30,7 @@ const noya: ThemeMeta = {
 /** at99 版面（深藍霓虹 / 賭場風） */
 const at99: ThemeMeta = {
   key: "at99",
-  label: "AT99 深藍霓虹",
+  label: "版面 B · 霓虹",
   desktop: () => import("./at99/desktop.vue"),
   mobile: () => import("./at99/mobile.vue"),
   defaultColor: "neon-blue",
