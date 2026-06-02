@@ -3,28 +3,41 @@ import { ref } from "vue";
 import NoyaMobileTopBar from "./sections/noya-mobile-top-bar.vue";
 import NoyaMobileAnnounceDialog from "./sections/noya-mobile-announce-dialog.vue";
 import NoyaMobileBannerSwiper from "./sections/noya-mobile-banner-swiper.vue";
-import NoyaMobileCategoryStrip from "./sections/noya-mobile-category-strip.vue";
+import NoyaMobileCategorySidebar from "./sections/noya-mobile-category-sidebar.vue";
 import NoyaMobileRealPeopleList from "./sections/noya-mobile-real-people-list.vue";
 import MobileBottomTabBar from "@/components/common/landing/mobile-bottom-tab-bar.vue";
 
 /**
- * noya 手機版佈局：依 GAP_ANALYSIS 6 大區
+ * noya 手機版佈局 — round 4 結構對齊：類別「左側 sidebar」
  *
- * 1. MobileTopBar           fixed top bar (50px)
- * 2. MobileAnnounceDialog   開站 modal
- * 3. MobileBannerSwiper     橫向 swiper
- * 4. MobileCategoryStrip    分類橫條
- * 5. MobileRealPeopleList   直式卡片列表
- * 6. MobileBottomTabBar     fixed bottom (共用元件)
+ * 對齊原站 5168th.com/noya/：
+ * - TopBar (sticky 50px) + 公告 modal 維持不動
+ * - Banner swiper 在頂部，全寬
+ * - 主內容區分兩欄：左 76px sidebar + 右 main（捲動）
+ *   原本是 banner → 橫排 category strip → list；
+ *   round 4 改為 banner → 二欄 row（sidebar 在左、list 在右）
+ * - 底部 fixed tab bar，中央凸起「登入」由共用元件 prop 控制
  *
- * 動機：手機版 layout 不能與桌面共用，因為 sticky top + bottom tab 都是
- * 行動裝置特化模式；桌面版的雙 banner / 4 欄 grid 也不適合直接縮給手機看。
- *
- * activeCategory 只在前端 demo 切高亮，不真正改 list 內容
- * （要做也可以，但 GAP 沒要求，留空間給後續擴充）
+ * 為何不把 banner 也納入 row（讓 sidebar 從畫面頂到底）：
+ * 原站 banner 仍是全寬橫向佔據頂部，sidebar 只從跑馬燈下方開始；
+ * 與原站視覺結構一致。
  */
 
 const activeCategory = ref<string>("live");
+
+/**
+ * noya mobile 的 bottom tab 對齊原站結構：5 個 icon，中央「登入」凸起
+ *
+ * 原站順序：首頁 / 在線客服 / 登入 / APP 下載 / 進入官網
+ * 用 Material icon 模擬同樣語意，並把 raised 旗標交給共用元件處理
+ */
+const tabItems = [
+  { key: "home", icon: "home", label: "首頁" },
+  { key: "service", icon: "support_agent", label: "客服" },
+  { key: "login", icon: "person", label: "登入", raised: true },
+  { key: "app", icon: "smartphone", label: "APP" },
+  { key: "site", icon: "language", label: "官網" }
+];
 </script>
 
 <template>
@@ -32,16 +45,21 @@ const activeCategory = ref<string>("live");
     <NoyaMobileTopBar />
     <NoyaMobileAnnounceDialog />
 
-    <main class="noya-m-layout__main">
-      <NoyaMobileBannerSwiper />
-      <NoyaMobileCategoryStrip
+    <!-- Banner 全寬，獨立在 row 上方 -->
+    <NoyaMobileBannerSwiper />
+
+    <!-- 左 sidebar + 右 main 的 row（對齊原站 5168th.com/noya/ 結構） -->
+    <div class="noya-m-layout__row">
+      <NoyaMobileCategorySidebar
         :active-category="activeCategory"
         @update:active-category="activeCategory = $event"
       />
-      <NoyaMobileRealPeopleList />
-    </main>
+      <main class="noya-m-layout__main">
+        <NoyaMobileRealPeopleList />
+      </main>
+    </div>
 
-    <MobileBottomTabBar />
+    <MobileBottomTabBar :items="tabItems" />
   </div>
 </template>
 
@@ -54,12 +72,21 @@ const activeCategory = ref<string>("live");
   display: flex;
   flex-direction: column;
 
-  &__main {
+  &__row {
     flex: 1;
+    display: flex;
+    align-items: stretch;
 
     // 預留底部 tab bar 空間（高約 56px，含 safe-area 取整 60）
-    // 與 at99 mobile 一致：由父層統一處理，子元件保持單純
     padding-bottom: 60px;
+  }
+
+  &__main {
+    flex: 1;
+    min-width: 0;
+
+    // main 自身可捲動（與 sidebar 平行），避免 sidebar 被推下去
+    overflow-y: auto;
   }
 }
 </style>

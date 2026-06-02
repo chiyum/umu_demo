@@ -22,6 +22,14 @@ interface TabItem {
   icon: string;
   /** 文字標籤 */
   label: string;
+  /**
+   * 是否為「中央凸起」項目
+   *
+   * noya / at99 mobile 的原站 bottom tab 中央都有一顆凸起按鈕（登入 / 存提），
+   * 設這個旗標讓共用元件用同一份結構處理，避免各自做一份。
+   * 一個 tab bar 內最多一個 raised；若多個會視覺打架，但元件層不擋。
+   */
+  raised?: boolean;
 }
 
 interface Props {
@@ -81,10 +89,15 @@ function handleTap(item: TabItem) {
       :key="item.key"
       type="button"
       class="mobile-tab-bar__item"
-      :class="{ 'mobile-tab-bar__item--active': internalActive === item.key }"
+      :class="{
+        'mobile-tab-bar__item--active': internalActive === item.key,
+        'mobile-tab-bar__item--raised': item.raised
+      }"
       @click="handleTap(item)"
     >
-      <q-icon :name="item.icon" size="22px" />
+      <span class="mobile-tab-bar__icon-wrap">
+        <q-icon :name="item.icon" size="22px" />
+      </span>
       <span class="mobile-tab-bar__label">{{ item.label }}</span>
     </button>
   </nav>
@@ -117,6 +130,7 @@ function handleTap(item: TabItem) {
     padding: 6px 4px;
     cursor: pointer;
     transition: color 0.15s ease;
+    position: relative;
 
     &--active {
       color: var(--color-primary);
@@ -127,10 +141,50 @@ function handleTap(item: TabItem) {
     }
   }
 
+  // 中央凸起樣式：把 icon 容器放大成圓並用 primary 漸層
+  // 對齊 noya / at99 mobile 原站 bottom tab 的 raised 中央按鈕視覺
+  &__icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: inherit;
+    transition: all 0.18s ease;
+  }
+
   &__label {
     font-size: 11px;
     line-height: 1.2;
     letter-spacing: 0.5px;
   }
+
+  // 中央凸起樣式：raised 旗標為 true 的 item 把 icon 圓鈕浮到 tab bar 上方
+  // 對齊 noya / at99 mobile 原站 bottom tab 的 raised 中央按鈕視覺
+  // stylelint-disable no-descending-specificity
+  &__item--raised {
+    color: var(--text-on-primary);
+
+    // raised 用 margin-top 負值把 icon 提到 tab bar 上方，
+    // 視覺上像凸起的圓鈕；下方 label 仍維持原位置
+    .mobile-tab-bar__icon-wrap {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-cta);
+      box-shadow:
+        0 4px 12px var(--bg-overlay),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      margin-top: -22px;
+      border: 3px solid var(--bg-base);
+    }
+
+    .mobile-tab-bar__label {
+      color: var(--color-primary);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+  }
+  // stylelint-enable no-descending-specificity
 }
 </style>
