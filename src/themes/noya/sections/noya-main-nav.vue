@@ -90,6 +90,11 @@ function pick(key: string) {
   top: 50px;
   z-index: 150;
 
+  // 同 announce-top-bar：flex 父層 stretch 在 Chromium 會讓 sticky 失效，
+  // 顯式宣告 align-self: flex-start + width: 100% 才會 stick 住。
+  align-self: flex-start;
+  width: 100%;
+
   &__inner {
     max-width: 1280px;
     margin: 0 auto;

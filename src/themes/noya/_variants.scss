@@ -35,6 +35,20 @@
   --footer-text: #7a3a24;
   --footer-link: #a36a52;
   --badge-live: #ff3b1f;
+
+  // 公告 modal 警告色：日落橘版本 — 紙條走暖橘黃漸，CTA 走橘金
+  // 預設值是黃 + 暖橘金，sunset 改為更飽和的橘黃 + 烤橘 CTA，跟整頁日落色一致
+  --accent-warning-bg: linear-gradient(180deg, #ffe5b8 0%, #ffc170 100%);
+  --accent-warning-text: #5a2a10;
+  --accent-warning-cta: linear-gradient(135deg, #ff7e47 0%, #d9531c 100%);
+  --accent-warning-cta-shadow: 0 2px 6px rgba(217, 83, 28, 0.45);
+  --accent-warning-overlay: rgba(90, 42, 16, 0.1);
+  --accent-warning-paper: rgba(255, 255, 255, 0.45);
+
+  // device frame：sunset 走暖咖啡色 phone frame，搭配整體暖系
+  --device-frame-bg: linear-gradient(180deg, #1a0f08 0%, #3a2818 100%);
+  --device-frame-inner: #3a2818;
+  --device-screen-overlay: linear-gradient(180deg, #ffe1c4 0%, #ff7e47 100%);
 }
 
 // 青檸綠：偏中性、活力、適合年輕族群
@@ -64,4 +78,18 @@
   --footer-text: #4a5a2c;
   --footer-link: #6a7a5a;
   --badge-live: #ef4444;
+
+  // 公告 modal 警告色：lime 版本 — 紙條走黃綠漸，CTA 走青綠
+  // 與 sunset 的暖橘對比，lime 走冷感清新的草綠，與整頁青檸色一致
+  --accent-warning-bg: linear-gradient(180deg, #f0f8c0 0%, #c8e88c 100%);
+  --accent-warning-text: #25381a;
+  --accent-warning-cta: linear-gradient(135deg, #6db834 0%, #4a8a1f 100%);
+  --accent-warning-cta-shadow: 0 2px 6px rgba(74, 138, 31, 0.4);
+  --accent-warning-overlay: rgba(37, 56, 26, 0.1);
+  --accent-warning-paper: rgba(255, 255, 255, 0.5);
+
+  // device frame：lime 走深綠 phone frame，與 lime 主色呼應
+  --device-frame-bg: linear-gradient(180deg, #0a1a0d 0%, #1f3a25 100%);
+  --device-frame-inner: #1f3a25;
+  --device-screen-overlay: linear-gradient(180deg, #e8f5c8 0%, #9fd356 100%);
 }

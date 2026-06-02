@@ -100,6 +100,13 @@ const loginOpen = ref(false);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
 
+  // 父層 .at99-layout 為 flex column container，flex item 預設 stretch 會在
+  // Chromium 把 sticky 拉到 cross-axis 滿版尺寸，導致 sticky 失效（QA scrollY=1500
+  // 時 rectTop=-1500 完全捲走）。顯式 align-self: flex-start + width: 100%
+  // 維持原 stretch 視覺寬度但不參與 stretch 計算。
+  align-self: flex-start;
+  width: 100%;
+
   &__inner {
     max-width: 1280px;
     margin: 0 auto;

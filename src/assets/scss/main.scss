@@ -11,5 +11,16 @@ body {
     Geneva,
     Verdana,
     sans-serif;
+}
+
+// overflow-x: hidden 只掛在 html，不能掛在 body。
+// 原因：當 body 設 overflow-x: hidden 時，瀏覽器會把 body 計算成
+// overflow-x: hidden / overflow-y: auto，導致 body 變成「最近的滾動祖先」。
+// 但實際捲動的是 html（documentElement.scrollTop），body.scrollTop 始終為 0，
+// 於是 position: sticky 元素以 body 為 containing block 卻拿不到 scrollTop，
+// sticky 完全失效（QA noya scrollY=1200 量到 announce-bar rectTop=-1200 即此狀況）。
+// 改成只掛 html 後，body 維持 overflow: visible，sticky 元素就會以 html 為
+// scroll container 正常 stick 在 viewport 頂端。
+html {
   overflow-x: hidden;
 }

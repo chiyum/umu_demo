@@ -47,6 +47,13 @@ const announceMessages = [
   z-index: 200;
   height: 50px;
 
+  // 父層 .noya-layout 是 flex column container，flex item 預設
+  // align-self: stretch 在部分瀏覽器（含 Chromium）會讓 sticky 無效，
+  // 加上 align-self: flex-start 強制 sticky 子層保持原大小，sticky 才會生效。
+  // 同時加 width: 100% 補回原 stretch 撐滿的寬度行為。
+  align-self: flex-start;
+  width: 100%;
+
   &__inner {
     max-width: 1280px;
     margin: 0 auto;
