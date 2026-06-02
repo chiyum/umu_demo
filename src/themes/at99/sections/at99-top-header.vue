@@ -8,7 +8,7 @@ import LoginModal from "@/components/common/landing/login-modal.vue";
  *
  * 設計：
  * - sticky 在頁面最頂，背景 bg-base-translucent
- * - logo 用 CSS 文字繪製（黃漸層 + 描邊），避免使用原站 at99-logo.png
+ * - logo 用 CSS 文字繪製（黃漸層 + 描邊），避免使用任何外部品牌素材
  * - 11 個 nav 項目，水平排列
  * - 右側登入（實心 cyan）+ 免費開戶（金色漸層）+ 音訊 toggle
  *
