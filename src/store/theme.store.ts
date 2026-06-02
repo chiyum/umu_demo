@@ -149,6 +149,26 @@ export const useThemeStore = defineStore("theme", () => {
     colorKey.value = themes[key].defaultColor;
   }
 
+  /**
+   * Hydrate layoutKey from route param（demo 頁專用）
+   *
+   * 為什麼跟 setLayout 分開：
+   * - demo 頁的 layoutKey 由 URL 鎖定，是「當下要顯示什麼」，不是「使用者偏好」
+   * - 雖然目前 setLayout 也會寫 LS（與 hydrate 行為差異尚小），但分兩個函式讓
+   *   呼叫端意圖清楚：「我是 URL-driven」vs「我是使用者主動切」
+   * - 階段 5 store 拆分後，此函式會搬到 demo-theme.store，
+   *   layoutKey 也會改為 computed from route param 完全不寫 LS
+   *
+   * 為什麼重置 colorKey：跨 theme 的 colorKey 不共用（noya 的 rose-gold ≠ at99 的 neon-blue）
+   * URL 上若帶 ?color=xxx，useThemeUrlSync 會在之後覆寫成 URL 指定值
+   */
+  function hydrateLayoutFromRoute(key: string): void {
+    if (!themes[key]) return;
+    if (layoutKey.value === key) return;
+    layoutKey.value = key;
+    colorKey.value = themes[key].defaultColor;
+  }
+
   /** 切換配色（限定在當前 theme 的配色清單中） */
   function setColor(key: string): void {
     const theme = currentTheme.value;
@@ -190,6 +210,7 @@ export const useThemeStore = defineStore("theme", () => {
     allThemes,
     // actions
     setLayout,
+    hydrateLayoutFromRoute,
     setColor,
     setFabPosition,
     resetFabPosition
