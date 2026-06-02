@@ -45,6 +45,10 @@ body,
 
 body {
   font-family: var(--font-body, var(--font-stack-base)) !important;
+
+  // 同步把下方 .btn_style 後的單獨 body { background-color } 合併進來
+  // 避免 stylelint no-duplicate-selectors 觸發
+  background-color: #f3f3f7;
 }
 
 // app global css in SCSS form
@@ -242,10 +246,6 @@ body {
   border-radius: 4px !important;
 }
 
-
-body {
-  background-color: #f3f3f7;
-}
 
 body.body--dark {
   background: #232333

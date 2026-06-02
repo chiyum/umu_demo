@@ -154,3 +154,97 @@
 .kingdom-block-label--gold::before {
   background: var(--gradient-gold, var(--gradient-cta));
 }
+
+// ─────────────── kingdom DNA #13：立體金屬字光澤（gold-metal-text） ────────
+// 對應 kingdom_front 大字標題的「金屬光澤層疊」記憶點：
+//   - background gradient 走 gold 多階（亮金 → 中金 → 暗金 → 高光金）
+//   - -webkit-background-clip: text 把 gradient 切到字本身
+//   - 多層 drop-shadow 模擬厚實金屬（暗陰影 + 暖光暈 + 淺浮雕）
+// 套用方式：
+//   <h2 class="noya-popular__heading kingdom-metal-gold">熱門遊戲</h2>
+// 為何不用 text-shadow：text-shadow 無法做漸層、且無法做出真實金屬反光；
+//   background-clip: text + filter: drop-shadow 是 CSS 唯一能逼近金屬感的組合
+// fallback：不支援 background-clip 的舊瀏覽器降級為純 --color-accent 實色
+:where(.kingdom-metal-gold) {
+  color: var(--color-accent);
+  background: linear-gradient(
+    180deg,
+    #fff5b4 0%,
+    var(--color-accent) 35%,
+    #d4951a 65%,
+    var(--color-accent) 85%,
+    #fff5b4 100%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  // 多層 drop-shadow 模擬「金屬厚度」+「下方陰影」+「金光暈」
+  // 為何用 filter drop-shadow 不用 text-shadow：drop-shadow 對 background-clip 文字才有效；
+  // text-shadow 會疊在 transparent 字色上看不到
+  filter:
+    drop-shadow(0 1px 0 rgba(0, 0, 0, 0.35))
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0 0 12px rgba(255, 216, 77, 0.45));
+  letter-spacing: 3px;
+}
+
+// 主色（藍 / 紫 / 綠）金屬字光澤：跟 metal-gold 一樣的結構但走 var(--color-primary)
+// 套用場合：標題希望走主色金屬而非金色（如電競 / 玩家排行）
+:where(.kingdom-metal-primary) {
+  color: var(--color-primary);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    var(--color-primary) 35%,
+    var(--color-secondary) 65%,
+    var(--color-primary) 85%,
+    rgba(255, 255, 255, 0.85) 100%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter:
+    drop-shadow(0 1px 0 rgba(0, 0, 0, 0.3))
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))
+    drop-shadow(0 0 14px var(--bg-overlay));
+  letter-spacing: 3px;
+}
+
+// ─────────────── kingdom DNA #14：玻璃霧面 glass surface ────────────────
+// 對應 kingdom_front sidebar / modal / dropdown 共有的「磨砂玻璃」記憶點：
+//   - 半透明深色 / 淺色底
+//   - backdrop-filter: blur 讓背景模糊
+//   - 1px 內亮邊 + 1px 主色邊框，玻璃厚度感
+// 套用方式：<div class="kingdom-glass-surface">...</div>
+// 為何抽 utility：sidebar / FAB / login modal / dock 同款效果之前散落在 3-4 個元件
+// fallback：不支援 backdrop-filter 時退回半透明色塊
+:where(.kingdom-glass-surface) {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+// ─────────────── kingdom DNA #15：Inknut Antiqua serif 字距 ───────────────
+// 對齊 kingdom_front 跑馬燈 / 標誌性 serif 大字的字距規律：
+//   - font-family: var(--font-display)（Inknut Antiqua）
+//   - letter-spacing 3-4px 強化古典感
+//   - line-height 1.1 緊湊（serif 大字不需要寬鬆 leading）
+// 套用場合：noya / at99 跑馬燈、hero 大標、玩家暱稱排行
+// 為何抽 utility：之前 7-8 處散落寫死 font-display + letter-spacing，
+//   抽 class 讓「kingdom 標誌性字感」可一鍵套用，配色切換時 letter-spacing 不會漂移
+:where(.kingdom-display-serif) {
+  font-family: var(--font-display);
+  letter-spacing: 3px;
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+// 跑馬燈專用版本：字距更寬（古典感）+ 文字大寫
+:where(.kingdom-marquee-text) {
+  font-family: var(--font-display);
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+}

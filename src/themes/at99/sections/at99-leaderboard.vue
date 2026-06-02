@@ -126,7 +126,11 @@ const rows = computed(() =>
   <section class="at99-lb" :class="{ 'at99-lb--mobile': mobile }">
     <div class="at99-lb__inner">
       <header class="at99-lb__header">
-        <h2 class="at99-lb__heading kingdom-block-label">排行榜</h2>
+        <h2
+          class="at99-lb__heading kingdom-block-label kingdom-metal-gold kingdom-display-serif"
+        >
+          排行榜
+        </h2>
         <span class="at99-lb__sub">Leaderboard</span>
       </header>
 

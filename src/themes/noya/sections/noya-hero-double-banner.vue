@@ -57,7 +57,11 @@ const liveProviders = [
         <span class="noya-hero-banner__bg-blob noya-hero-banner__bg-blob--br" />
 
         <div class="noya-hero-banner__copy">
-          <h3 class="noya-hero-banner__title">DEMO APP 即刻下載</h3>
+          <h3
+            class="noya-hero-banner__title kingdom-metal-gold kingdom-display-serif"
+          >
+            DEMO APP 即刻下載
+          </h3>
           <p class="noya-hero-banner__desc">安卓 / iOS 系統．行動體驗無界</p>
           <button
             type="button"
@@ -523,6 +527,7 @@ const liveProviders = [
 
   // ─────────────── Round 9：金幣 PNG 立體裝飾 ───────────────
   // 走輕微 floating 動畫 + drop-shadow，呼應 kingdom DNA 立體金屬感
+  // stylelint-disable-next-line no-descending-specificity
   &__coin {
     position: absolute;
     z-index: 1;
@@ -531,6 +536,7 @@ const liveProviders = [
       drop-shadow(0 0 12px rgba(255, 216, 77, 0.4));
     user-select: none;
 
+    // stylelint-disable-next-line no-descending-specificity
     &--single {
       // 左下角獨立一枚，輕微傾斜
       width: 80px;
@@ -540,6 +546,7 @@ const liveProviders = [
       animation: noya-coin-float-a 3.2s ease-in-out infinite;
     }
 
+    // stylelint-disable-next-line no-descending-specificity
     &--stack {
       // 右上角兩枚堆疊，斜向飛入
       width: 64px;

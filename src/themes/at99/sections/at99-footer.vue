@@ -87,7 +87,7 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
 
     <!-- Partner logos 跑馬燈 -->
     <div class="at99-foot__partners">
-      <div class="at99-foot__partners-label">合作夥伴</div>
+      <div class="at99-foot__partners-label kingdom-marquee-text">合作夥伴</div>
       <div class="at99-foot__partners-track">
         <div v-for="p in partners" :key="p.key" class="at99-foot__partner">
           <ProviderBadge :text="p.text" :seed="p.seed" size="sm" glow />
