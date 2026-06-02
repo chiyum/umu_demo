@@ -1,0 +1,80 @@
+# GitHub Pages 部署 workflow
+# 觸發時機：push 到 main 分支即自動跑 build + deploy
+# 部署目標：https://chiyum.github.io/umu_demo/
+# 注意：Repo Settings → Pages → Source 必須手動設為 "GitHub Actions"，本檔才會真正生效
+name: Deploy to GitHub Pages
+
+on:
+  # 推送到 main 自動觸發
+  push:
+    branches: [main]
+  # 允許從 Actions 頁面手動觸發，方便重跑
+  workflow_dispatch:
+
+# Pages 部署需要的最小權限集合
+# - contents: read     讀取 repo 內容（checkout）
+# - pages: write       寫入 Pages 部署資源
+# - id-token: write    OIDC token，actions/deploy-pages 需要
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一時間只跑一次部署；新推送進來時若舊的還在跑就中止舊的
+# 避免重複部署造成資源浪費與可能的部署順序錯亂
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # 第一階段：build 出 dist 並上傳成 Pages artifact
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      # 取出原始碼
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 安裝 Node 22 LTS，並啟用 yarn cache 加速安裝
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "yarn"
+
+      # frozen-lockfile 確保 CI build 鎖檔不被動到，可重現性高
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # 跑 production build，產出 dist 目錄
+      # vite.config.ts 內已根據 mode 自動把 base 切到 /umu_demo/
+      - name: Build
+        run: yarn build
+
+      # SPA fallback：把 dist/index.html 複製成 dist/404.html
+      # GitHub Pages 對 SPA 直連子路徑會 404；用同樣的 index.html 當 404 頁面，
+      # 讓瀏覽器收到 404 仍能載入 SPA，由 vue-router (createWebHistory) 接手路由
+      # 注意：public/404.html 也會被 vite 原封不動 copy 過去，這步是雙保險（若 public 內已存在會被覆蓋為最新 build 的 HTML，避免內容過期）
+      - name: Generate SPA fallback (404.html)
+        run: cp dist/index.html dist/404.html
+
+      # 把 dist 整個包成 Pages 專用 artifact
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  # 第二階段：拿前一階段的 artifact 部署到 Pages
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    # 部署成功後在 Actions UI 顯示連結
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
