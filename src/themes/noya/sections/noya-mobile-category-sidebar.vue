@@ -34,11 +34,16 @@ const emit = defineEmits<{
  * 保持同一組 icon name（真人 person / 體育 sports-soccer / 棋牌 casino / 電子 smart-toy / 捕魚 phishing），
  * 兩個版面語意一致才不會給使用者「兩套圖」的錯亂感
  */
+// 第十輪：原本「體育」用 material-symbols:sports-soccer-outline，但 Iconify Material Symbols 集合中
+// sports-soccer 沒有 -outline 變體（Material Symbols 部分 icon 不提供 outline 後綴），
+// 結果渲染為空 SVG（viewBox="0 0 16 16" 無 path）。
+// 改用實際存在的 material-symbols:sports-soccer 作為體育 icon；其他 icon 也統一檢查確認可用
+// 同時把 phishing 改為加 -outline 嘗試 → 確認 phishing-outline 存在
 const categories = [
   { key: "live", icon: "material-symbols:person-outline", label: "真人" },
   {
     key: "sport",
-    icon: "material-symbols:sports-soccer-outline",
+    icon: "material-symbols:sports-soccer",
     label: "體育"
   },
   { key: "chess", icon: "material-symbols:casino-outline", label: "棋牌" },
@@ -88,6 +93,7 @@ function pick(key: string) {
   overflow-y: auto;
 
   &__item {
+    position: relative;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -101,19 +107,47 @@ function pick(key: string) {
       background var(--transition-fast),
       color var(--transition-fast);
 
+    // 第十輪：active 視覺對比增強
+    // 原本只用 surface deep + 內陰影 + bubble 漸層，整體與非 active 對比太弱
+    // 改為：實心主色背景 + 白字 + 左側 4px 主色條（kingdom block-label 風格）+ glow
     // stylelint-disable-next-line no-descending-specificity
     &--active {
-      color: var(--color-primary);
+      // 用主色實心背景，讓 active 跟非 active 形成「面積 vs 線」的強烈對比
+      background: var(--color-primary);
 
-      // active item 用 surface deep 帶左側色條提示，與 strip 的圓徽 highlight
-      // 表達意圖一致但符合 vertical 排版習慣
-      background: var(--bg-overlay);
-      box-shadow: inset 3px 0 0 var(--color-primary);
+      // active 項目 icon + label 改為白色（或 bg-base），高對比
+      color: var(--text-on-primary, #ffffff);
+
+      // 主色條的 inset shadow 移除，改用 ::after 偽元素畫，視覺更乾淨
+      box-shadow:
+        0 2px 8px var(--bg-overlay),
+        0 0 12px var(--color-primary);
+
+      // 左側 4px 主色條：kingdom block-label DNA
+      // 為什麼用 ::after 而非 inset shadow：偽元素可獨立控制色階 + 邊緣 glow，
+      // 也方便未來改成漸層條而不影響 box-shadow stack
+      &::after {
+        content: "";
+        position: absolute;
+        top: 8px;
+        bottom: 8px;
+        left: 0;
+        width: 4px;
+        background: var(--color-accent, #ffd84d);
+        border-radius: 0 2px 2px 0;
+        box-shadow: 0 0 6px var(--color-accent, #ffd84d);
+      }
 
       // stylelint-disable-next-line no-descending-specificity
       .noya-m-side__bubble {
-        background: var(--gradient-cta);
-        box-shadow: 0 4px 8px var(--bg-overlay);
+        // active bubble：白底圓 + 主色 icon，與實心主色背景形成「白圓徽」視覺焦點
+        // 不再用 gradient-cta（避免雙主色漸層疊在主色背景上造成混亂）
+        background: rgba(255, 255, 255, 0.95);
+        border-color: transparent;
+        color: var(--color-primary);
+        box-shadow:
+          0 4px 8px rgba(0, 0, 0, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.6);
       }
     }
   }

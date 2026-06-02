@@ -46,7 +46,8 @@ const categories = [
     key: "sport",
     label: "體育",
     subLabel: "Sports",
-    icon: "material-symbols:sports-soccer-outline"
+    // Iconify Material Symbols 集合中 sports-soccer 沒有 -outline 變體，原 -outline 會渲染為空 SVG
+    icon: "material-symbols:sports-soccer"
   },
   {
     key: "chess",
