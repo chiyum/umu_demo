@@ -17,19 +17,52 @@ import at99Logo from "@/assets/themes/at99/images/logo.png";
 
 interface DockItem {
   key: string;
+  /** Iconify icon 名稱 */
   icon: string;
   label: string;
 }
 
+/**
+ * Drawer 內 8 項與 at99 PC dock 共用同一組 icon name，
+ * 跨版面同樣語意對齊同視覺，但 mobile 用較長的「客服中心 / VIP 會員」等說明字
+ */
 const dockItems: DockItem[] = [
-  { key: "service", icon: "support_agent", label: "客服中心" },
-  { key: "vip", icon: "diamond", label: "VIP 會員" },
-  { key: "promo", icon: "card_giftcard", label: "優惠活動" },
-  { key: "rank", icon: "emoji_events", label: "排行榜" },
-  { key: "app", icon: "smartphone", label: "App 下載" },
-  { key: "faq", icon: "help_outline", label: "常見問題" },
-  { key: "agent", icon: "groups", label: "代理合作" },
-  { key: "deposit", icon: "account_balance_wallet", label: "存提資訊" }
+  {
+    key: "service",
+    icon: "material-symbols:support-agent-outline",
+    label: "客服中心"
+  },
+  {
+    key: "vip",
+    icon: "material-symbols:workspace-premium-outline",
+    label: "VIP 會員"
+  },
+  {
+    key: "promo",
+    icon: "material-symbols:redeem-outline",
+    label: "優惠活動"
+  },
+  {
+    key: "rank",
+    icon: "material-symbols:emoji-events-outline",
+    label: "排行榜"
+  },
+  {
+    key: "app",
+    icon: "material-symbols:smartphone-outline",
+    label: "App 下載"
+  },
+  { key: "faq", icon: "material-symbols:help-outline", label: "常見問題" },
+  {
+    key: "agent",
+    icon: "material-symbols:handshake-outline",
+    label: "代理合作"
+  },
+  {
+    key: "deposit",
+    icon: "material-symbols:account-balance-wallet-outline",
+    label: "存提資訊"
+  }
 ];
 
 const drawerOpen = ref(false);
@@ -57,7 +90,7 @@ function tapDock(item: DockItem) {
         aria-label="開啟選單"
         @click="drawerOpen = true"
       >
-        <q-icon name="menu" size="22px" />
+        <Icon icon="material-symbols:menu" class="at99-m-top__menu-icon" />
       </button>
 
       <!-- 中：大亨 ONLINE 品牌 logo -->
@@ -105,11 +138,10 @@ function tapDock(item: DockItem) {
                 class="at99-m-drawer__item"
                 @click="tapDock(item)"
               >
-                <q-icon :name="item.icon" size="20px" />
+                <Icon :icon="item.icon" class="at99-m-drawer__item-icon" />
                 <span>{{ item.label }}</span>
-                <q-icon
-                  name="chevron_right"
-                  size="18px"
+                <Icon
+                  icon="material-symbols:chevron-right"
                   class="at99-m-drawer__arrow"
                 />
               </button>
@@ -170,6 +202,12 @@ function tapDock(item: DockItem) {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+  }
+
+  // hamburger Icon 走 currentColor 跟父層 button 顏色一致
+  &__menu-icon {
+    width: 22px;
+    height: 22px;
   }
 
   &__brand {
@@ -285,9 +323,18 @@ function tapDock(item: DockItem) {
     }
   }
 
+  // drawer 內項目 icon：與 dock PC 一致 20px，主項目色
+  &__item-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
   &__arrow {
     margin-left: auto;
     color: var(--text-muted);
+    width: 18px;
+    height: 18px;
   }
 
   &__footer {

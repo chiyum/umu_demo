@@ -77,7 +77,14 @@ const loginOpen = ref(false);
           :aria-label="audioOn ? '靜音' : '開啟音訊'"
           @click="audioOn = !audioOn"
         >
-          <q-icon :name="audioOn ? 'volume_up' : 'volume_off'" size="20px" />
+          <Icon
+            :icon="
+              audioOn
+                ? 'material-symbols:volume-up-outline'
+                : 'material-symbols:volume-off-outline'
+            "
+            class="at99-top__audio-icon"
+          />
         </button>
       </div>
     </div>
@@ -199,6 +206,12 @@ const loginOpen = ref(false);
     &:hover {
       transform: scale(1.05);
     }
+  }
+
+  // audio toggle icon：currentColor 跟父層狀態色（off 灰、on 主色）
+  &__audio-icon {
+    width: 20px;
+    height: 20px;
   }
 
   &--mobile {

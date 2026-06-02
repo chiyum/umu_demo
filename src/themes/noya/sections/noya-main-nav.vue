@@ -30,12 +30,42 @@ const emit = defineEmits<{
   (e: "update:activeCategory", value: string): void;
 }>();
 
+/**
+ * 5 大類 icon：全站統一走 Iconify Material Symbols Outlined
+ * 對齊使用者指定：真人=person / 體育=sports-soccer / 棋牌=casino / 電子=smart-toy / 捕魚=phishing
+ * mobile sidebar 也用同一組（noya-mobile-category-sidebar.vue），跨版面同語意同視覺
+ */
 const categories = [
-  { key: "live", label: "真人", subLabel: "Live Casino" },
-  { key: "sport", label: "體育", subLabel: "Sports" },
-  { key: "chess", label: "棋牌", subLabel: "Card Games" },
-  { key: "slot", label: "電子", subLabel: "Slots" },
-  { key: "fish", label: "捕魚", subLabel: "Fishing" }
+  {
+    key: "live",
+    label: "真人",
+    subLabel: "Live Casino",
+    icon: "material-symbols:person-outline"
+  },
+  {
+    key: "sport",
+    label: "體育",
+    subLabel: "Sports",
+    icon: "material-symbols:sports-soccer-outline"
+  },
+  {
+    key: "chess",
+    label: "棋牌",
+    subLabel: "Card Games",
+    icon: "material-symbols:casino-outline"
+  },
+  {
+    key: "slot",
+    label: "電子",
+    subLabel: "Slots",
+    icon: "material-symbols:smart-toy-outline"
+  },
+  {
+    key: "fish",
+    label: "捕魚",
+    subLabel: "Fishing",
+    icon: "material-symbols:phishing"
+  }
 ];
 
 const localActive = ref("live");
@@ -64,6 +94,8 @@ function pick(key: string) {
           :class="{ 'noya-main-nav__tab--active': localActive === cat.key }"
           @click="pick(cat.key)"
         >
+          <!-- icon 用 Iconify，視覺上比純文字更明確分類 -->
+          <Icon :icon="cat.icon" class="noya-main-nav__tab-icon" />
           <span class="noya-main-nav__tab-label">{{ cat.label }}</span>
           <span class="noya-main-nav__tab-sub">{{ cat.subLabel }}</span>
         </button>
@@ -139,6 +171,13 @@ function pick(key: string) {
     gap: 2px;
     transition: all 0.18s ease;
     min-width: 80px;
+
+    // tab 內 icon：26px，與大字 16px 拉開層次，並走 currentColor 跟 active 變色
+    &-icon {
+      width: 26px;
+      height: 26px;
+      margin-bottom: 2px;
+    }
 
     &-label {
       font-size: 16px;

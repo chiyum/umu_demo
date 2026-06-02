@@ -23,19 +23,25 @@ import MobileBottomTabBar from "@/components/common/landing/mobile-bottom-tab-ba
  * at99 mobile 的 bottom tab 對齊 m.at99tw.net 結構：5 個 icon，中央「存提」凸起
  *
  * 原站順序：優惠 / 線上客服 / 存提(凸) / 帳號 / 我們
- * 用 Material icon 模擬同樣語意，raised 旗標讓共用元件套用凸起樣式
+ * Round 5：全部統一走 Iconify Material Symbols Outlined；
+ * 客服 / 帳號 / 存提 三項與 noya / at99 dock 共用相同 icon name，
+ * 跨版面同樣語意 → 相同視覺
  */
 const tabItems = [
-  { key: "promo", icon: "redeem", label: "優惠" },
-  { key: "service", icon: "support_agent", label: "線上客服" },
+  { key: "promo", icon: "material-symbols:redeem-outline", label: "優惠" },
+  {
+    key: "service",
+    icon: "material-symbols:support-agent-outline",
+    label: "線上客服"
+  },
   {
     key: "deposit",
-    icon: "account_balance_wallet",
+    icon: "material-symbols:account-balance-wallet-outline",
     label: "存提",
     raised: true
   },
-  { key: "account", icon: "person", label: "帳號" },
-  { key: "mine", icon: "apps", label: "我們" }
+  { key: "account", icon: "material-symbols:person-outline", label: "帳號" },
+  { key: "mine", icon: "material-symbols:apps", label: "我們" }
 ];
 </script>
 

@@ -29,14 +29,24 @@ const activeCategory = ref<string>("live");
  * noya mobile 的 bottom tab 對齊原站結構：5 個 icon，中央「登入」凸起
  *
  * 原站順序：首頁 / 在線客服 / 登入 / APP 下載 / 進入官網
- * 用 Material icon 模擬同樣語意，並把 raised 旗標交給共用元件處理
+ * Round 5：icon 全部走 Iconify Material Symbols Outlined（全站統一），
+ * 同樣語意（客服 / APP / 登入）跨版面用相同 icon name，視覺保持一致
  */
 const tabItems = [
-  { key: "home", icon: "home", label: "首頁" },
-  { key: "service", icon: "support_agent", label: "客服" },
-  { key: "login", icon: "person", label: "登入", raised: true },
-  { key: "app", icon: "smartphone", label: "APP" },
-  { key: "site", icon: "language", label: "官網" }
+  { key: "home", icon: "material-symbols:home-outline", label: "首頁" },
+  {
+    key: "service",
+    icon: "material-symbols:support-agent-outline",
+    label: "客服"
+  },
+  {
+    key: "login",
+    icon: "material-symbols:person-outline",
+    label: "登入",
+    raised: true
+  },
+  { key: "app", icon: "material-symbols:smartphone-outline", label: "APP" },
+  { key: "site", icon: "material-symbols:language", label: "官網" }
 ];
 </script>
 

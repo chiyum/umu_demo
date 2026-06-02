@@ -133,8 +133,13 @@ const games: GameCard[] = [
             />
             <!-- LIVE 徽章（紅底白字） -->
             <span v-if="g.isLive" class="noya-popular__live">LIVE</span>
-            <!-- 右上角金徽章（小金角，仿原站 corner 點綴） -->
-            <span class="noya-popular__corner" aria-hidden="true">★</span>
+            <!-- 右上角金徽章：原本寫死 ★ 字符，改用 Iconify star 與全站風格一致 -->
+            <span class="noya-popular__corner" aria-hidden="true">
+              <Icon
+                icon="material-symbols:star-rounded"
+                class="noya-popular__corner-icon"
+              />
+            </span>
           </div>
 
           <!-- 底部白條：provider 小 logo + 標題 + 立即遊玩 按鈕 -->
@@ -221,12 +226,11 @@ const games: GameCard[] = [
   }
 
   &__corner {
-    // 對齊原站右上小金徽章：金色背景圓徽 + 黑字 ★
+    // 對齊原站右上小金徽章：金色背景圓徽 + 黑色 star icon（Iconify）
     position: absolute;
     top: 8px;
     right: 10px;
     color: var(--text-on-gold, var(--text-primary));
-    font-size: 12px;
     z-index: 2;
     width: 22px;
     height: 22px;
@@ -235,10 +239,15 @@ const games: GameCard[] = [
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
     box-shadow:
       0 2px 6px rgba(0, 0, 0, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  // 星形 icon 用 currentColor 與父層 corner 文字色一致
+  &__corner-icon {
+    width: 14px;
+    height: 14px;
   }
 
   // 底部白條：左側 provider + 名稱、右側 「立即遊玩」 按鈕

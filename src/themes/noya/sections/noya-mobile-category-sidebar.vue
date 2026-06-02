@@ -29,12 +29,21 @@ const emit = defineEmits<{
   (e: "update:activeCategory", v: string): void;
 }>();
 
+/**
+ * 分類 icon 統一走 Iconify Material Symbols Outlined，與 noya PC main nav
+ * 保持同一組 icon name（真人 person / 體育 sports-soccer / 棋牌 casino / 電子 smart-toy / 捕魚 phishing），
+ * 兩個版面語意一致才不會給使用者「兩套圖」的錯亂感
+ */
 const categories = [
-  { key: "live", emoji: "🎴", label: "真人" },
-  { key: "sport", emoji: "⚽", label: "體育" },
-  { key: "chess", emoji: "♟️", label: "棋牌" },
-  { key: "slot", emoji: "🎰", label: "電子" },
-  { key: "fish", emoji: "🐟", label: "捕魚" }
+  { key: "live", icon: "material-symbols:person-outline", label: "真人" },
+  {
+    key: "sport",
+    icon: "material-symbols:sports-soccer-outline",
+    label: "體育"
+  },
+  { key: "chess", icon: "material-symbols:casino-outline", label: "棋牌" },
+  { key: "slot", icon: "material-symbols:smart-toy-outline", label: "電子" },
+  { key: "fish", icon: "material-symbols:phishing", label: "捕魚" }
 ];
 
 const localActive = ref("live");
@@ -55,7 +64,9 @@ function pick(key: string) {
       :class="{ 'noya-m-side__item--active': localActive === c.key }"
       @click="pick(c.key)"
     >
-      <span class="noya-m-side__bubble">{{ c.emoji }}</span>
+      <span class="noya-m-side__bubble">
+        <Icon :icon="c.icon" class="noya-m-side__icon" />
+      </span>
       <span class="noya-m-side__label">{{ c.label }}</span>
     </button>
   </nav>
@@ -119,6 +130,12 @@ function pick(key: string) {
     justify-content: center;
     font-size: 18px;
     transition: all 0.18s ease;
+  }
+
+  // Iconify icon 用 currentColor，靠 bubble 父層 color 控色
+  &__icon {
+    width: 22px;
+    height: 22px;
   }
 
   &__label {

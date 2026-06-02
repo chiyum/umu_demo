@@ -8,17 +8,20 @@ import { useQuasar } from "quasar";
  * 設計：
  * - 5 個 icon + label 平均分配
  * - 點擊只跳 Notify 提示，純 demo
- * - icon 用 Quasar 內建 material symbol（避免再下載額外字型）
+ * - icon 走全站統一的 Iconify Material Symbols Outlined（@iconify/vue 已在 main.ts 註冊為 Icon 元件）
  * - 顏色全走 var()，配色切換時跟著走
  *
  * 為何是共用元件而非各 theme 自己寫：手機底部 tab bar 結構幾乎一樣，
  * 只是配色差異；用 CSS var 已可解決配色，沒理由重複實作。
+ *
+ * Round 5：icon 從 Quasar Material Icons 字型統一遷移至 Iconify Material Symbols Outlined，
+ * 全站 outline 風格一致；icon 名稱以完整 iconify 格式傳入（含 `material-symbols:` prefix）。
  */
 
 interface TabItem {
   /** 識別 key */
   key: string;
-  /** Quasar / Material icon 名稱 */
+  /** Iconify icon 名稱（完整格式，例：material-symbols:home-outline） */
   icon: string;
   /** 文字標籤 */
   label: string;
@@ -42,11 +45,15 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   activeKey: "home",
   items: () => [
-    { key: "home", icon: "home", label: "首頁" },
-    { key: "promo", icon: "redeem", label: "優惠" },
-    { key: "service", icon: "support_agent", label: "客服" },
-    { key: "member", icon: "person", label: "會員" },
-    { key: "more", icon: "menu", label: "更多" }
+    { key: "home", icon: "material-symbols:home-outline", label: "首頁" },
+    { key: "promo", icon: "material-symbols:redeem-outline", label: "優惠" },
+    {
+      key: "service",
+      icon: "material-symbols:support-agent-outline",
+      label: "客服"
+    },
+    { key: "member", icon: "material-symbols:person-outline", label: "會員" },
+    { key: "more", icon: "material-symbols:menu", label: "更多" }
   ]
 });
 
@@ -96,7 +103,8 @@ function handleTap(item: TabItem) {
       @click="handleTap(item)"
     >
       <span class="mobile-tab-bar__icon-wrap">
-        <q-icon :name="item.icon" size="22px" />
+        <!-- 全站統一 Iconify Material Symbols Outlined（width / height 走 css 控制以利調整） -->
+        <Icon :icon="item.icon" class="mobile-tab-bar__icon" />
       </span>
       <span class="mobile-tab-bar__label">{{ item.label }}</span>
     </button>
@@ -152,6 +160,13 @@ function handleTap(item: TabItem) {
     border-radius: 50%;
     color: inherit;
     transition: all 0.18s ease;
+  }
+
+  // Iconify <Icon> 預設用 currentColor，靠父層 color 控色；
+  // 統一給 22px 與舊 q-icon size 一致
+  &__icon {
+    width: 22px;
+    height: 22px;
   }
 
   &__label {
