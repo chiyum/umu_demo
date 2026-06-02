@@ -38,12 +38,14 @@ withDefaults(defineProps<Props>(), { mobile: false });
             隨時隨地登入，掃描右側 QR Code 立即下載。
           </p>
           <div class="noya-dl__btns">
+            <!-- App Store 按鈕：Apple 公開商標 + 黑底白字 brand asset 慣例 -->
             <button type="button" class="noya-dl__btn">
               <svg
                 viewBox="0 0 24 24"
-                width="22"
-                height="22"
+                width="26"
+                height="26"
                 aria-hidden="true"
+                class="noya-dl__btn-logo"
               >
                 <path
                   fill="currentColor"
@@ -55,16 +57,69 @@ withDefaults(defineProps<Props>(), { mobile: false });
                 <strong>App Store</strong>
               </div>
             </button>
+            <!-- Google Play 按鈕：4 色三角公開 brand mark -->
             <button type="button" class="noya-dl__btn">
               <svg
                 viewBox="0 0 24 24"
-                width="22"
-                height="22"
+                width="26"
+                height="26"
                 aria-hidden="true"
+                class="noya-dl__btn-logo"
               >
+                <defs>
+                  <linearGradient
+                    id="gp-blue"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stop-color="#00c0ff" />
+                    <stop offset="100%" stop-color="#0066ff" />
+                  </linearGradient>
+                  <linearGradient
+                    id="gp-green"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stop-color="#00d97e" />
+                    <stop offset="100%" stop-color="#089b59" />
+                  </linearGradient>
+                  <linearGradient
+                    id="gp-yellow"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stop-color="#ffd900" />
+                    <stop offset="100%" stop-color="#f8a000" />
+                  </linearGradient>
+                  <linearGradient
+                    id="gp-red"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stop-color="#ff4040" />
+                    <stop offset="100%" stop-color="#e60023" />
+                  </linearGradient>
+                </defs>
+                <path fill="url(#gp-blue)" d="M3.6 2.4v19.2L13.5 12 3.6 2.4z" />
                 <path
-                  fill="currentColor"
-                  d="M3 20.5V3.5c0-.4.2-.7.6-.9l10 8.6c.3.2.3.6 0 .8l-10 8.6c-.4-.2-.6-.5-.6-.9zm12.7-7.4l2.6-1.6c.4-.2.4-.8 0-1l-2.6-1.6L13 11l2.7 2.1zm-1.4-3.3L4.6 4l7.7 6.7-3.7 3.6 5.7-2.5zM4.6 19l9.7-5.8-3.7-3.6L4.6 19z"
+                  fill="url(#gp-green)"
+                  d="M16.8 8.7l-3.3 3.3 3.3 3.3 4.2-2.4c.8-.5.8-1.7 0-2.2l-4.2-2z"
+                />
+                <path
+                  fill="url(#gp-yellow)"
+                  d="M13.5 12L3.6 21.6 16.8 15.3 13.5 12z"
+                />
+                <path
+                  fill="url(#gp-red)"
+                  d="M3.6 2.4L13.5 12l3.3-3.3L3.6 2.4z"
                 />
               </svg>
               <div class="noya-dl__btn-meta">
@@ -75,11 +130,46 @@ withDefaults(defineProps<Props>(), { mobile: false });
           </div>
         </div>
 
-        <!-- 中：phone mockup（純 CSS 繪製） -->
+        <!-- 中：插畫風 phone mockup（CSS frame + SVG 山形/太陽插畫） -->
         <div class="noya-dl__phone" aria-hidden="true">
           <div class="noya-dl__phone-frame">
             <div class="noya-dl__phone-notch" />
             <div class="noya-dl__phone-screen">
+              <!-- 插畫：太陽 + 雙層山形剪影，營造度假 / 沉浸感 -->
+              <svg
+                class="noya-dl__phone-illust"
+                viewBox="0 0 100 90"
+                preserveAspectRatio="xMidYMid slice"
+                aria-hidden="true"
+              >
+                <defs>
+                  <radialGradient id="noya-dl-sun" cx="50%" cy="50%" r="50%">
+                    <stop
+                      offset="0%"
+                      stop-color="#ffffff"
+                      stop-opacity="0.95"
+                    />
+                    <stop
+                      offset="60%"
+                      stop-color="#ffeacb"
+                      stop-opacity="0.8"
+                    />
+                    <stop offset="100%" stop-color="#ffcd8a" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+                <!-- 大太陽 / 月亮 -->
+                <circle cx="50" cy="34" r="18" fill="url(#noya-dl-sun)" />
+                <!-- 遠山 -->
+                <path
+                  d="M0 70 L24 48 L48 62 L72 42 L100 68 L100 90 L0 90 Z"
+                  fill="rgba(255,255,255,0.45)"
+                />
+                <!-- 近山 -->
+                <path
+                  d="M0 80 L20 60 L40 72 L65 52 L85 68 L100 60 L100 90 L0 90 Z"
+                  fill="rgba(255,255,255,0.3)"
+                />
+              </svg>
               <div class="noya-dl__phone-header" />
               <div class="noya-dl__phone-tiles">
                 <span v-for="i in 6" :key="i" />
@@ -89,62 +179,64 @@ withDefaults(defineProps<Props>(), { mobile: false });
           </div>
         </div>
 
-        <!-- 右：QR card -->
+        <!-- 右：QR card（金色相框 + 內白底放 QR） -->
         <div class="noya-dl__qr-card">
-          <div class="noya-dl__qr-title">立即掃描</div>
-          <div
-            class="noya-dl__qr"
-            aria-label="下載 QR Code（示意圖）"
-            role="img"
-          >
-            <!-- 21x21 二維碼示意，含三個定位點與假裝的資料區 -->
-            <svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
-              <rect width="21" height="21" fill="#ffffff" />
-              <g fill="var(--text-primary)">
-                <!-- 三個定位點 -->
-                <rect x="0" y="0" width="7" height="7" />
-                <rect x="1" y="1" width="5" height="5" fill="#ffffff" />
-                <rect x="2" y="2" width="3" height="3" />
+          <div class="noya-dl__qr-card-inner">
+            <div class="noya-dl__qr-title">立即掃描</div>
+            <div
+              class="noya-dl__qr"
+              aria-label="下載 QR Code（示意圖）"
+              role="img"
+            >
+              <!-- 21x21 二維碼示意，含三個定位點與假裝的資料區 -->
+              <svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+                <rect width="21" height="21" fill="#ffffff" />
+                <g fill="var(--text-primary)">
+                  <!-- 三個定位點 -->
+                  <rect x="0" y="0" width="7" height="7" />
+                  <rect x="1" y="1" width="5" height="5" fill="#ffffff" />
+                  <rect x="2" y="2" width="3" height="3" />
 
-                <rect x="14" y="0" width="7" height="7" />
-                <rect x="15" y="1" width="5" height="5" fill="#ffffff" />
-                <rect x="16" y="2" width="3" height="3" />
+                  <rect x="14" y="0" width="7" height="7" />
+                  <rect x="15" y="1" width="5" height="5" fill="#ffffff" />
+                  <rect x="16" y="2" width="3" height="3" />
 
-                <rect x="0" y="14" width="7" height="7" />
-                <rect x="1" y="15" width="5" height="5" fill="#ffffff" />
-                <rect x="2" y="16" width="3" height="3" />
-              </g>
-              <!-- 假資料區 -->
-              <g fill="var(--text-primary)">
-                <rect x="9" y="1" width="1" height="1" />
-                <rect x="10" y="2" width="1" height="1" />
-                <rect x="11" y="1" width="1" height="1" />
-                <rect x="12" y="3" width="1" height="1" />
-                <rect x="9" y="5" width="1" height="1" />
-                <rect x="11" y="6" width="1" height="1" />
-                <rect x="2" y="9" width="1" height="1" />
-                <rect x="4" y="9" width="1" height="1" />
-                <rect x="6" y="10" width="1" height="1" />
-                <rect x="8" y="9" width="1" height="1" />
-                <rect x="10" y="10" width="1" height="1" />
-                <rect x="11" y="9" width="1" height="1" />
-                <rect x="13" y="11" width="1" height="1" />
-                <rect x="15" y="10" width="1" height="1" />
-                <rect x="17" y="9" width="1" height="1" />
-                <rect x="19" y="11" width="1" height="1" />
-                <rect x="9" y="13" width="1" height="1" />
-                <rect x="11" y="14" width="1" height="1" />
-                <rect x="13" y="13" width="1" height="1" />
-                <rect x="15" y="15" width="1" height="1" />
-                <rect x="17" y="14" width="1" height="1" />
-                <rect x="19" y="16" width="1" height="1" />
-                <rect x="9" y="17" width="1" height="1" />
-                <rect x="11" y="19" width="1" height="1" />
-                <rect x="13" y="17" width="1" height="1" />
-              </g>
-            </svg>
+                  <rect x="0" y="14" width="7" height="7" />
+                  <rect x="1" y="15" width="5" height="5" fill="#ffffff" />
+                  <rect x="2" y="16" width="3" height="3" />
+                </g>
+                <!-- 假資料區 -->
+                <g fill="var(--text-primary)">
+                  <rect x="9" y="1" width="1" height="1" />
+                  <rect x="10" y="2" width="1" height="1" />
+                  <rect x="11" y="1" width="1" height="1" />
+                  <rect x="12" y="3" width="1" height="1" />
+                  <rect x="9" y="5" width="1" height="1" />
+                  <rect x="11" y="6" width="1" height="1" />
+                  <rect x="2" y="9" width="1" height="1" />
+                  <rect x="4" y="9" width="1" height="1" />
+                  <rect x="6" y="10" width="1" height="1" />
+                  <rect x="8" y="9" width="1" height="1" />
+                  <rect x="10" y="10" width="1" height="1" />
+                  <rect x="11" y="9" width="1" height="1" />
+                  <rect x="13" y="11" width="1" height="1" />
+                  <rect x="15" y="10" width="1" height="1" />
+                  <rect x="17" y="9" width="1" height="1" />
+                  <rect x="19" y="11" width="1" height="1" />
+                  <rect x="9" y="13" width="1" height="1" />
+                  <rect x="11" y="14" width="1" height="1" />
+                  <rect x="13" y="13" width="1" height="1" />
+                  <rect x="15" y="15" width="1" height="1" />
+                  <rect x="17" y="14" width="1" height="1" />
+                  <rect x="19" y="16" width="1" height="1" />
+                  <rect x="9" y="17" width="1" height="1" />
+                  <rect x="11" y="19" width="1" height="1" />
+                  <rect x="13" y="17" width="1" height="1" />
+                </g>
+              </svg>
+            </div>
+            <div class="noya-dl__qr-hint">掃描下載 App</div>
           </div>
-          <div class="noya-dl__qr-hint">掃描下載 App</div>
         </div>
       </div>
     </div>
@@ -221,11 +313,24 @@ withDefaults(defineProps<Props>(), { mobile: false });
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: transform 0.15s ease;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
     &:hover {
       transform: translateY(-2px);
+      box-shadow:
+        0 6px 14px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
     }
+  }
+
+  // App Store / Google Play 按鈕 logo 顏色：Apple 用白、Google 走原 SVG 漸層
+  &__btn-logo {
+    flex-shrink: 0;
   }
 
   &__btn-meta {
@@ -292,6 +397,21 @@ withDefaults(defineProps<Props>(), { mobile: false });
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  // 插畫 SVG：絕對定位疊在 screen 頂端 1/3，給「插畫風」氛圍
+  &__phone-illust {
+    position: absolute;
+    top: 14px;
+    left: 8px;
+    right: 8px;
+    width: calc(100% - 16px);
+    height: 50%;
+    pointer-events: none;
+    border-radius: 10px;
+    overflow: hidden;
   }
 
   &__phone-header {
@@ -318,31 +438,47 @@ withDefaults(defineProps<Props>(), { mobile: false });
     border-radius: 4px;
   }
 
-  // QR card
+  // QR card：對齊原站「金色邊框 + 內 QR + hint」結構
+  // 用 padding + bg gradient 模擬金色相框，內層白底放 QR code
   &__qr-card {
-    background: var(--bg-base);
-    border: 1px solid var(--border);
+    background: var(--gradient-gold);
+    border: none;
     border-radius: 14px;
-    padding: 14px;
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    box-shadow:
+      0 8px 20px var(--bg-overlay),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  // 金邊內的白色容器：包住標題、QR、hint
+  &__qr-card-inner {
+    background: var(--bg-surface);
+    border-radius: 11px;
+    padding: 14px 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    width: 100%;
   }
 
   &__qr-title {
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--color-primary);
     letter-spacing: 1px;
   }
 
   &__qr {
     background: var(--bg-surface);
-    padding: 8px;
+    padding: 6px;
     border-radius: 8px;
     border: 1px solid var(--border);
-    box-shadow: var(--shadow);
+    box-shadow: 0 2px 6px var(--bg-overlay);
 
     svg {
       width: 140px;

@@ -55,6 +55,12 @@
   // hero 雙 banner 右卡起點色（與 accent 串成日落漸層）
   --banner-warm-start: #fde2d3;
 
+  // 金色系 token：熱門遊戲卡片「立即遊玩」按鈕 / 右上角徽章共用
+  // 與 at99 同名 token 結構（gradient-gold + text-on-gold），方便跨主題共用元件
+  // 預設 rose-gold：玫瑰金漸層 + 深咖啡近黑字
+  --gradient-gold: linear-gradient(135deg, #f0d4a7 0%, #b8854a 100%);
+  --text-on-gold: #3d2818;
+
   // 公告 modal 警告色（紙條黃 + 橘色 CTA）
   --accent-warning-bg: linear-gradient(180deg, #fff4cc 0%, #ffd97a 100%);
   --accent-warning-text: #4a3318;

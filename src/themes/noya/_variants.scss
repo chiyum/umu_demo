@@ -49,6 +49,10 @@
   --device-frame-bg: linear-gradient(180deg, #1a0f08 0%, #3a2818 100%);
   --device-frame-inner: #3a2818;
   --device-screen-overlay: linear-gradient(180deg, #ffe1c4 0%, #ff7e47 100%);
+
+  // 金色系 token：sunset 走更飽和的橘金漸（與整頁暖色調呼應）
+  --gradient-gold: linear-gradient(135deg, #ffb38a 0%, #d9531c 100%);
+  --text-on-gold: #4a1e08;
 }
 
 // 青檸綠：偏中性、活力、適合年輕族群
@@ -92,4 +96,8 @@
   --device-frame-bg: linear-gradient(180deg, #0a1a0d 0%, #1f3a25 100%);
   --device-frame-inner: #1f3a25;
   --device-screen-overlay: linear-gradient(180deg, #e8f5c8 0%, #9fd356 100%);
+
+  // 金色系 token：lime 走偏綠的金漸（與 accent 黃綠對比但同色系）
+  --gradient-gold: linear-gradient(135deg, #d3f0a4 0%, #4a8a1f 100%);
+  --text-on-gold: #1a2a08;
 }

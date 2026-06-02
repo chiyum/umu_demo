@@ -131,24 +131,26 @@ const games: GameCard[] = [
               :seed="g.avatarSeed"
               :variant="g.isLive ? 'vivid' : 'default'"
             />
-            <!-- LIVE 徽章 -->
+            <!-- LIVE 徽章（紅底白字） -->
             <span v-if="g.isLive" class="noya-popular__live">LIVE</span>
-            <!-- 右上裝飾小圖（CSS 繪製，金屬光澤點） -->
+            <!-- 右上角金徽章（小金角，仿原站 corner 點綴） -->
             <span class="noya-popular__corner" aria-hidden="true">★</span>
-            <!-- 左下 provider 標籤 -->
-            <div class="noya-popular__provider">
+          </div>
+
+          <!-- 底部白條：provider 小 logo + 標題 + 立即遊玩 按鈕 -->
+          <div class="noya-popular__meta">
+            <div class="noya-popular__meta-left">
               <ProviderBadge
                 :text="g.providerBadge"
                 :seed="g.providerSeed"
                 size="sm"
               />
+              <div class="noya-popular__name-stack">
+                <span class="noya-popular__title">{{ g.title }}</span>
+                <span class="noya-popular__sub">{{ g.sub }}</span>
+              </div>
             </div>
-          </div>
-
-          <!-- 底部文字 -->
-          <div class="noya-popular__meta">
-            <span class="noya-popular__title">{{ g.title }}</span>
-            <span class="noya-popular__sub">{{ g.sub }}</span>
+            <button type="button" class="noya-popular__play">立即遊玩</button>
           </div>
         </article>
       </div>
@@ -176,18 +178,20 @@ const games: GameCard[] = [
   &__card {
     background: var(--bg-surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow);
     cursor: pointer;
     transition:
       transform 0.2s ease,
       box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
 
     &:hover,
     &:focus-visible {
       transform: translateY(-4px);
-      box-shadow: 0 10px 24px var(--border);
+      box-shadow: 0 12px 28px var(--border);
       outline: none;
     }
   }
@@ -217,46 +221,99 @@ const games: GameCard[] = [
   }
 
   &__corner {
+    // 對齊原站右上小金徽章：金色背景圓徽 + 黑字 ★
     position: absolute;
     top: 8px;
     right: 10px;
-    color: var(--color-accent);
-    font-size: 18px;
+    color: var(--text-on-gold, var(--text-primary));
+    font-size: 12px;
     z-index: 2;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+    width: 22px;
+    height: 22px;
+    background: var(--gradient-gold, var(--gradient-cta));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
-  &__provider {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    z-index: 2;
+  // 底部白條：左側 provider + 名稱、右側 「立即遊玩」 按鈕
+  &__meta {
+    padding: 10px 12px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: var(--bg-surface);
+  }
 
-    // 略縮小 size=sm 已 36px，這裡再縮 80% 配合卡片
+  &__meta-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+
+    // 縮小 ProviderBadge 為更適合的小尺寸（28x28，原本 sm 是 36x36）
     :deep(.provider-badge) {
-      transform: scale(0.85);
-      transform-origin: bottom left;
+      width: 28px;
+      height: 28px;
+      font-size: 10px;
+      flex-shrink: 0;
     }
   }
 
-  &__meta {
-    padding: 10px 14px 14px;
+  &__name-stack {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
+    min-width: 0;
+    overflow: hidden;
   }
 
   &__title {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__sub {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-muted);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // 立即遊玩按鈕：金色漸層圓角，貼近原站 CTA
+  &__play {
+    flex-shrink: 0;
+    background: var(--gradient-gold, var(--gradient-cta));
+    color: var(--text-on-gold, var(--text-on-primary));
+    border: none;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 800;
     letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow:
+      0 2px 6px var(--bg-overlay),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: filter 0.15s ease;
+
+    &:hover {
+      filter: brightness(1.08);
+    }
   }
 
   &--mobile {
