@@ -109,27 +109,40 @@ function tap(item: DockItem) {
     border-radius: 12px;
     background: var(--dock-icon-bg);
     border: 1px solid transparent;
-    color: var(--text-muted);
+
+    // Round 5：預設白色（使用者指定），hover 才漸層金色
+    color: #ffffff;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 2px;
-    transition: all 0.15s ease;
+    transition: all 0.18s ease;
 
     &:hover {
-      color: var(--color-primary);
-      border-color: var(--color-primary);
-      box-shadow: var(--neon-glow);
+      // hover 時 icon / label 變金色（color-accent），加金色光暈模擬「漸層金」效果
+      // SVG icon 的 currentColor 會跟著 color 切換，無需另外處理
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+      box-shadow:
+        0 0 8px var(--color-accent),
+        0 0 18px var(--bg-overlay);
       transform: translateX(2px);
+
+      .at99-dock__icon {
+        // hover 時 icon 加 drop-shadow 強化漸層金色光暈感
+        filter: drop-shadow(0 0 4px var(--color-accent));
+      }
     }
   }
 
-  // 走 22px 與使用者指定一致，currentColor 跟隨父層 color，hover 變金色
+  // 走 22px 與使用者指定一致，currentColor 跟隨父層 color；
+  // 預設白色（dock 深底環境），hover 轉金色
   &__icon {
     width: 22px;
     height: 22px;
+    transition: filter 0.18s ease;
   }
 
   &__label {
