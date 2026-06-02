@@ -180,8 +180,9 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
       transform: translateY(-6px);
 
       // clip-path 會吃掉 box-shadow，改用 drop-shadow 在父層
+      // kingdom DNA：兩層 drop-shadow（柔陰影 + 金色光暈），與 shadow-lg/glow 規律一致
       filter: drop-shadow(0 8px 18px var(--bg-overlay))
-        drop-shadow(0 0 14px var(--color-accent));
+        drop-shadow(var(--shadow-glow));
       outline: none;
 
       // hover 時 frame 提亮一層
@@ -286,11 +287,12 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
   }
 
   // 立即遊玩按鈕：金色實心圓角，集中對齊
+  // kingdom DNA：pill 形 CTA + var token / filter brightness hover 慣例
   &__play {
     background: var(--gradient-gold, var(--gradient-cta));
     color: var(--text-on-gold, var(--text-on-primary));
     border: none;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     padding: 7px 18px;
     font-size: 11px;
     font-weight: 800;
@@ -299,10 +301,10 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
     box-shadow:
       0 2px 6px var(--bg-overlay),
       inset 0 1px 0 rgba(255, 255, 255, 0.35);
-    transition: filter 0.15s ease;
+    transition: filter var(--transition-fast);
 
     &:hover {
-      filter: brightness(1.1);
+      filter: var(--filter-hover-strong);
     }
   }
 

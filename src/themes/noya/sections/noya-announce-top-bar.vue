@@ -81,6 +81,9 @@ function onRegister() {
   // 深底配色使用 banner-dark-text（淺奶色），與下方主 nav 區分
   color: var(--top-bar-dark-text, var(--banner-dark-text));
   border-bottom: 1px solid var(--border);
+
+  // kingdom DNA：sticky bar 雙層陰影規律（細線分隔 + 主色 alpha 軟光暈）
+  box-shadow: var(--shadow-sticky);
   position: sticky;
   top: 0;
   z-index: 200;
@@ -125,16 +128,17 @@ function onRegister() {
   }
 
   // 兩顆按鈕共用基底：圓角小型 CTA
+  // kingdom DNA：CTA 用 pill 形 (--radius-pill)，與下方主 CTA 模式統一
   &__btn {
     height: 28px;
     padding: 0 18px;
-    border-radius: 14px;
+    border-radius: var(--radius-pill);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 1px;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: all 0.15s ease;
+    transition: all var(--transition-fast);
     white-space: nowrap;
   }
 
@@ -152,6 +156,7 @@ function onRegister() {
   }
 
   // solid 金色實心免費註冊按鈕：與全站金色 CTA 一致
+  // kingdom DNA：金色 CTA 用較柔的 filter（避免過曝）
   &__btn--solid {
     background: var(--gradient-gold, var(--gradient-cta));
     color: var(--text-on-gold, var(--text-on-primary));
@@ -159,7 +164,7 @@ function onRegister() {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 
     &:hover {
-      filter: brightness(1.08);
+      filter: var(--filter-hover-soft);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
     }
   }

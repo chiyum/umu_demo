@@ -197,7 +197,9 @@ const providerStrip = Array.from({ length: 14 }, (_, i) => ({
   &__social {
     width: 32px;
     height: 32px;
-    border-radius: 50%;
+
+    // kingdom DNA：圓 icon 走 --radius-circle
+    border-radius: var(--radius-circle);
     border: 1px solid var(--border);
     color: var(--footer-link);
     text-decoration: none;
@@ -206,12 +208,16 @@ const providerStrip = Array.from({ length: 14 }, (_, i) => ({
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.15s ease;
+    transition: all var(--transition-fast);
 
     &:hover {
       background: var(--color-primary);
       border-color: var(--color-primary);
       color: var(--text-on-primary);
+
+      // kingdom DNA：hover 浮起加 glow，視覺有反饋
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
     }
   }
 

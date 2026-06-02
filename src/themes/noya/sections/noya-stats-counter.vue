@@ -50,10 +50,10 @@ const stats = [
   &__inner {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 56px 24px;
+    padding: var(--space-4xl) var(--space-xl); // kingdom DNA：8 倍數階梯間距
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: var(--space-xl);
   }
 
   &__item {

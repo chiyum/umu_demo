@@ -136,27 +136,30 @@ const liveProviders = [
 
   &__card {
     position: relative;
-    border-radius: 20px;
-    padding: 34px 40px;
+    border-radius: var(--radius-xl); // kingdom DNA：圖片容器級別大圓角
+    padding: var(--space-2xl) var(--space-3xl);
     overflow: hidden;
 
-    // 雙層 shadow 強化立體感：外暗影 + 內亮邊（仿原站玻璃質地）
+    // kingdom shadow stack：var(--shadow-xl) 大型容器 + 黑色 alpha 玻璃陰影 + 內亮邊
+    // 外層走 theme 色相帶色光 (shadow-xl)，第二層深灰加強立體感，最後 inset 模仿玻璃高光
     box-shadow:
+      var(--shadow-xl),
       0 12px 28px rgba(0, 0, 0, 0.18),
-      0 2px 6px rgba(0, 0, 0, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.15);
     min-height: 260px;
     display: flex;
     align-items: center;
     transition:
-      transform 0.25s ease,
-      box-shadow 0.25s ease;
+      transform var(--transition-slow),
+      box-shadow var(--transition-slow);
 
     &:hover {
       transform: translateY(-4px);
+
+      // kingdom hover：陰影向外擴張一階（變 lg→xl 增強），保留內亮邊
       box-shadow:
+        var(--shadow-xl),
         0 18px 36px rgba(0, 0, 0, 0.22),
-        0 4px 10px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.18);
     }
 
@@ -292,19 +295,21 @@ const liveProviders = [
   }
 
   &__cta {
+    // kingdom DNA：pill 形 CTA + filter brightness hover + var token 化
     background: var(--gradient-cta);
     color: var(--text-on-primary);
     border: none;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     padding: 10px 22px;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     letter-spacing: 1px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-md);
+    transition: filter var(--transition-fast);
 
     &:hover {
-      filter: brightness(1.05);
+      filter: var(--filter-hover-soft);
     }
 
     // 實心橘金漸層按鈕：左 banner 「桌機下載」用

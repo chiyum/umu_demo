@@ -104,6 +104,9 @@ const loginOpen = ref(false);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
 
+  // kingdom DNA：sticky header 帶雙層陰影（細線 + 軟光暈），主色 alpha 與 theme 一致
+  box-shadow: var(--shadow-sticky);
+
   // 父層 .at99-layout 為 flex column container，flex item 預設 stretch 會在
   // Chromium 把 sticky 拉到 cross-axis 滿版尺寸，導致 sticky 失效（QA scrollY=1500
   // 時 rectTop=-1500 完全捲走）。顯式 align-self: flex-start + width: 100%
@@ -150,8 +153,10 @@ const loginOpen = ref(false);
     font-size: 13px;
     font-weight: 600;
     padding: 6px 10px;
-    border-radius: 4px;
-    transition: all 0.15s ease;
+
+    // kingdom DNA：nav item 走小圓角 (--radius-xs)
+    border-radius: var(--radius-xs);
+    transition: all var(--transition-fast);
     white-space: nowrap;
 
     &:hover {
@@ -187,7 +192,9 @@ const loginOpen = ref(false);
   &__audio {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+
+    // kingdom DNA：圓 icon 走 --radius-circle + var transition
+    border-radius: var(--radius-circle);
     background: var(--bg-overlay);
     border: 1px solid var(--border);
     color: var(--text-muted);
@@ -195,7 +202,7 @@ const loginOpen = ref(false);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.15s ease;
+    transition: all var(--transition-fast);
 
     &--on {
       color: var(--color-primary);
