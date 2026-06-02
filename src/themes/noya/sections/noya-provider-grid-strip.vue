@@ -1,20 +1,39 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import ProviderBadge from "@/components/common/landing/provider-badge.vue";
 
 /**
  * noya provider 橫排：依當前 active 分類顯示對應 provider 卡片
  *
  * 設計：
- * - 左 56×53 徽章（用共用 ProviderBadge 取代真實 logo），右標題
+ * - 左 56×53 視覺圖（platform desktop bg 系列），右標題
  * - 可橫向 scroll，超過視窗寬度時拖曳查看
- * - 各分類對應 5-7 個 provider
+ * - 各分類對應 4-6 個 provider
  *
  * 為何把 provider 表寫死在這：純前端 demo，沒打 API；
  * 之後若要接後端，把 providersByCategory 改成 prop 即可。
  *
- * 文字內容：通用佔位（不抄原站文案），徽章字母為通用 2-3 字組合。
+ * 第六輪：把 ProviderBadge 抽象徽章換成 kingdom_front desktop_platform_*_bg 實際素材，
+ *   讓 provider 視覺更具體；保留橫向 scroll + meta 區（標題 + 立即體驗）結構不變
+ *
+ * 文字內容：通用佔位（不抄原站文案）。
  */
+
+// 用 import.meta.glob 一次抓 providers 目錄全部圖
+// eager:true 直接打進 chunk，避免 runtime 動態載入造成首屏閃白；
+// query/import 拿到 default export（URL）
+const providerImages = import.meta.glob<string>(
+  "@/assets/themes/noya/images/providers/*.png",
+  { eager: true, query: "?url", import: "default" }
+);
+
+/**
+ * 依檔名（如 live-1）拿到對應的素材 URL，
+ * 找不到就回空字串，避免 runtime 噴 undefined
+ */
+function getProviderImg(name: string): string {
+  const key = `/src/assets/themes/noya/images/providers/${name}.png`;
+  return providerImages[key] ?? "";
+}
 
 interface Props {
   /** 當前 active 分類 key（live / sport / chess / slot / fish） */
@@ -28,9 +47,8 @@ const props = withDefaults(defineProps<Props>(), {
 interface ProviderItem {
   key: string;
   title: string;
-  badge: string;
-  /** seed 用來讓徽章配色不同 */
-  seed: number;
+  /** 對應 providers/ 內的圖檔名（不含副檔名） */
+  img: string;
 }
 
 /**
@@ -39,40 +57,40 @@ interface ProviderItem {
  */
 const providersByCategory: Record<string, ProviderItem[]> = {
   live: [
-    { key: "live-1", title: "示範真人 A", badge: "DA", seed: 1 },
-    { key: "live-2", title: "示範真人 B", badge: "DB", seed: 7 },
-    { key: "live-3", title: "示範真人 C", badge: "DC", seed: 13 },
-    { key: "live-4", title: "示範真人 D", badge: "DD", seed: 19 },
-    { key: "live-5", title: "示範真人 E", badge: "DE", seed: 25 },
-    { key: "live-6", title: "示範真人 F", badge: "DF", seed: 31 }
+    { key: "live-1", title: "示範真人 A", img: "live-1" },
+    { key: "live-2", title: "示範真人 B", img: "live-2" },
+    { key: "live-3", title: "示範真人 C", img: "live-3" },
+    { key: "live-4", title: "示範真人 D", img: "live-4" },
+    { key: "live-5", title: "示範真人 E", img: "live-5" },
+    { key: "live-6", title: "示範真人 F", img: "live-6" }
   ],
   sport: [
-    { key: "sp-1", title: "示範體育 A", badge: "SA", seed: 2 },
-    { key: "sp-2", title: "示範體育 B", badge: "SB", seed: 8 },
-    { key: "sp-3", title: "示範體育 C", badge: "SC", seed: 14 },
-    { key: "sp-4", title: "示範體育 D", badge: "SD", seed: 20 },
-    { key: "sp-5", title: "示範體育 E", badge: "SE", seed: 26 }
+    { key: "sp-1", title: "示範體育 A", img: "sport-1" },
+    { key: "sp-2", title: "示範體育 B", img: "sport-2" },
+    { key: "sp-3", title: "示範體育 C", img: "sport-3" },
+    { key: "sp-4", title: "示範體育 D", img: "sport-4" },
+    { key: "sp-5", title: "示範體育 E", img: "sport-5" }
   ],
   chess: [
-    { key: "ch-1", title: "示範棋牌 A", badge: "CA", seed: 3 },
-    { key: "ch-2", title: "示範棋牌 B", badge: "CB", seed: 9 },
-    { key: "ch-3", title: "示範棋牌 C", badge: "CC", seed: 15 },
-    { key: "ch-4", title: "示範棋牌 D", badge: "CD", seed: 21 },
-    { key: "ch-5", title: "示範棋牌 E", badge: "CE", seed: 27 }
+    { key: "ch-1", title: "示範棋牌 A", img: "chess-1" },
+    { key: "ch-2", title: "示範棋牌 B", img: "chess-2" },
+    { key: "ch-3", title: "示範棋牌 C", img: "chess-3" },
+    { key: "ch-4", title: "示範棋牌 D", img: "chess-4" },
+    { key: "ch-5", title: "示範棋牌 E", img: "chess-5" }
   ],
   slot: [
-    { key: "sl-1", title: "示範電子 A", badge: "EA", seed: 4 },
-    { key: "sl-2", title: "示範電子 B", badge: "EB", seed: 10 },
-    { key: "sl-3", title: "示範電子 C", badge: "EC", seed: 16 },
-    { key: "sl-4", title: "示範電子 D", badge: "ED", seed: 22 },
-    { key: "sl-5", title: "示範電子 E", badge: "EE", seed: 28 },
-    { key: "sl-6", title: "示範電子 F", badge: "EF", seed: 34 }
+    { key: "sl-1", title: "示範電子 A", img: "slot-1" },
+    { key: "sl-2", title: "示範電子 B", img: "slot-2" },
+    { key: "sl-3", title: "示範電子 C", img: "slot-3" },
+    { key: "sl-4", title: "示範電子 D", img: "slot-4" },
+    { key: "sl-5", title: "示範電子 E", img: "slot-5" },
+    { key: "sl-6", title: "示範電子 F", img: "slot-6" }
   ],
   fish: [
-    { key: "fi-1", title: "示範捕魚 A", badge: "FA", seed: 5 },
-    { key: "fi-2", title: "示範捕魚 B", badge: "FB", seed: 11 },
-    { key: "fi-3", title: "示範捕魚 C", badge: "FC", seed: 17 },
-    { key: "fi-4", title: "示範捕魚 D", badge: "FD", seed: 23 }
+    { key: "fi-1", title: "示範捕魚 A", img: "fish-1" },
+    { key: "fi-2", title: "示範捕魚 B", img: "fish-2" },
+    { key: "fi-3", title: "示範捕魚 C", img: "fish-3" },
+    { key: "fi-4", title: "示範捕魚 D", img: "fish-4" }
   ]
 };
 
@@ -91,7 +109,17 @@ const activeProviders = computed(
           :key="p.key"
           class="noya-provider-strip__card"
         >
-          <ProviderBadge :text="p.badge" :seed="p.seed" size="md" />
+          <!--
+            素材圖：cover 進 56×56 容器、加金邊圓角；
+            lazy + async 讓非首屏 provider 不阻塞首屏載入
+          -->
+          <img
+            :src="getProviderImg(p.img)"
+            :alt="p.title"
+            class="noya-provider-strip__img"
+            loading="lazy"
+            decoding="async"
+          />
           <div class="noya-provider-strip__meta">
             <span class="noya-provider-strip__title">{{ p.title }}</span>
             <span class="noya-provider-strip__sub">立即體驗</span>
@@ -150,6 +178,18 @@ const activeProviders = computed(
       transform: translateY(-3px);
       box-shadow: 0 8px 20px var(--border);
     }
+  }
+
+  // 素材圖：56×56 cover，金色邊框 + 圓角，與卡片視覺一致
+  &__img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-overlay);
+    flex-shrink: 0;
+    display: block;
   }
 
   &__meta {
