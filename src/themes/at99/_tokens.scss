@@ -14,6 +14,17 @@
   --gradient-hero: linear-gradient(135deg, #0a1535 0%, #1e2d5c 50%, #0a1535 100%);
   --gradient-cta: linear-gradient(135deg, #2dd4ff 0%, #1e88e5 100%);
   --neon-glow: 0 0 8px rgba(45, 212, 255, 0.6), 0 0 24px rgba(45, 212, 255, 0.3);
+
+  // 額外 token：避免元件寫死深色
+  // --bg-base-deep      : footer / 比 bg-base 更暗的底，營造層次
+  // --bg-base-translucent: header sticky 半透明背景（bg-base + alpha）
+  // --text-on-primary   : 落在 primary 色塊 / SVG logo 內的對比文字色（讀做 ink）
+  // --shadow-primary    : primary button hover 用的彩色光暈（與 color-primary 同色系）
+  --bg-base-deep: #060d24;
+  --bg-base-translucent: rgba(10, 21, 53, 0.85);
+  --text-on-primary: #0a1535;
+  --shadow-primary: 0 0 12px var(--color-primary), 0 0 32px rgba(45, 212, 255, 0.5);
+
   --font-display: "Outfit", "微軟正黑體", sans-serif;
   --font-body: "Outfit", "微軟正黑體", sans-serif;
 }

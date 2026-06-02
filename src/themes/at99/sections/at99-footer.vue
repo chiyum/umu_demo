@@ -35,7 +35,7 @@ const links = [
 
 <style lang="scss" scoped>
 .at99-footer {
-  background: #060d24;
+  background: var(--bg-base-deep);
   color: var(--text-muted);
   border-top: 1px solid var(--border);
 

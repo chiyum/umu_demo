@@ -41,9 +41,7 @@ withDefaults(defineProps<Props>(), { variant: "primary", type: "button" });
     box-shadow: var(--neon-glow);
 
     &:hover {
-      box-shadow:
-        0 0 12px var(--color-primary),
-        0 0 32px rgba(45, 212, 255, 0.5);
+      box-shadow: var(--shadow-primary);
     }
   }
 

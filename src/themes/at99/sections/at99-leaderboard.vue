@@ -115,7 +115,7 @@ const data = [
 
     &--active {
       background: var(--gradient-cta);
-      color: #0a1535;
+      color: var(--text-on-primary);
       border-color: var(--color-primary);
       box-shadow: var(--neon-glow);
     }

@@ -44,7 +44,7 @@ const navItems = [
             text-anchor="middle"
             font-size="14"
             font-weight="800"
-            fill="#0a1535"
+            fill="var(--text-on-primary)"
           >
             AT99
           </text>
@@ -73,7 +73,7 @@ const navItems = [
 
 <style lang="scss" scoped>
 .at99-header {
-  background: rgba(10, 21, 53, 0.85);
+  background: var(--bg-base-translucent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
   position: sticky;

@@ -33,7 +33,7 @@ withDefaults(defineProps<Props>(), { mobile: false });
               rx="10"
               fill="var(--color-secondary)"
             />
-            <rect x="50" y="50" width="100" height="80" fill="#0a1535" />
+            <rect x="50" y="50" width="100" height="80" fill="var(--bg-base)" />
             <text
               x="100"
               y="100"
