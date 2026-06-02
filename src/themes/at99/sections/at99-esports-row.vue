@@ -67,7 +67,7 @@ const games: Game[] = [
 .at99-esports {
   background: var(--bg-base);
   padding: 16px 0;
-  padding-left: 60px;
+  padding-left: var(--dock-offset);
 
   &__inner {
     max-width: 1280px;

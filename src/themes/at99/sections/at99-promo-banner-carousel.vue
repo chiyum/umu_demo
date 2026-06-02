@@ -153,8 +153,8 @@ onBeforeUnmount(() => stopAuto());
 .at99-promo-c {
   background: var(--bg-base);
   padding: 24px 0 12px;
-  // PC：左側有 dock 60px，內容往右擠
-  padding-left: 60px;
+  // PC：左側 sidebar dock 預留空間，寬度走 token，集中管理
+  padding-left: var(--dock-offset);
 
   &__inner {
     max-width: 1280px;
@@ -215,17 +215,18 @@ onBeforeUnmount(() => stopAuto());
     margin-bottom: 12px;
 
     &--cyan {
-      background: rgba(45, 212, 255, 0.18);
-      color: #2dd4ff;
-      text-shadow: 0 0 6px #2dd4ff;
-      border: 1px solid rgba(45, 212, 255, 0.5);
+      background: var(--bg-overlay);
+      color: var(--color-primary);
+      text-shadow: 0 0 6px var(--color-primary);
+      border: 1px solid var(--color-primary);
     }
 
     &--gold {
-      background: rgba(255, 216, 77, 0.18);
+      // tag bg / border 用 accent 主色帶 alpha；切換 variants 時跟著走
+      background: color-mix(in srgb, var(--color-accent) 18%, transparent);
       color: var(--color-accent);
       text-shadow: 0 0 6px var(--color-accent);
-      border: 1px solid rgba(255, 216, 77, 0.5);
+      border: 1px solid color-mix(in srgb, var(--color-accent) 50%, transparent);
     }
   }
 
@@ -247,8 +248,8 @@ onBeforeUnmount(() => stopAuto());
   }
 
   &__cta {
-    background: linear-gradient(135deg, var(--color-accent) 0%, #d4951a 100%);
-    color: #1a0e00;
+    background: var(--gradient-gold);
+    color: var(--text-on-gold);
     border: none;
     border-radius: 6px;
     padding: 10px 22px;
@@ -292,12 +293,7 @@ onBeforeUnmount(() => stopAuto());
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: radial-gradient(
-      circle at 30% 30%,
-      #fff5b4 0%,
-      var(--color-accent) 50%,
-      #c79c1a 100%
-    );
+    background: var(--coin-gradient);
     box-shadow:
       inset 0 -3px 6px rgba(120, 70, 0, 0.5),
       0 4px 12px rgba(0, 0, 0, 0.3);

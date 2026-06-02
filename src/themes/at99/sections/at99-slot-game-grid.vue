@@ -192,7 +192,7 @@ const activeCategory = computed(
           <div
             class="at99-slots__art"
             :style="{
-              background: `radial-gradient(circle at 50% 40%, hsl(${t.hue}, 65%, 45%) 0%, hsl(${(t.hue + 30) % 360}, 70%, 22%) 70%, #0a0a14 100%)`
+              background: `radial-gradient(circle at 50% 40%, hsl(${t.hue}, 65%, 45%) 0%, hsl(${(t.hue + 30) % 360}, 70%, 22%) 70%, var(--bg-base-deep) 100%)`
             }"
           >
             <span class="at99-slots__icon">{{ t.icon }}</span>
@@ -213,7 +213,7 @@ const activeCategory = computed(
 .at99-slots {
   background: var(--bg-base);
   padding: 24px 0;
-  padding-left: 60px; // 留 dock 空間
+  padding-left: var(--dock-offset); // 留 dock 空間，走 token 集中管理
 
   &__inner {
     max-width: 1280px;
@@ -348,8 +348,8 @@ const activeCategory = computed(
   &__play {
     margin: 6px 10px 10px;
     height: 28px;
-    background: linear-gradient(135deg, var(--color-accent) 0%, #d4951a 100%);
-    color: #1a0e00;
+    background: var(--gradient-gold);
+    color: var(--text-on-gold);
     border: none;
     border-radius: 4px;
     font-size: 11px;

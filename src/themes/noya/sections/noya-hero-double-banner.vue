@@ -117,15 +117,19 @@ withDefaults(defineProps<Props>(), { mobile: false });
       transform: translateY(-4px);
     }
 
-    // 左 banner：深綠藍底，搭配文字色 #ffffff
+    // 左 banner：深底（token 控制，配色變動只改 _tokens.scss）
     &--left {
-      background: linear-gradient(135deg, #2d4a4a 0%, #1a3030 100%);
-      color: #f5f0e8;
+      background: var(--banner-dark-bg);
+      color: var(--banner-dark-text);
     }
 
-    // 右 banner：粉色漸層 + 玫瑰金強調
+    // 右 banner：暖色起點 + accent 終點，串成日落漸層
     &--right {
-      background: linear-gradient(135deg, #fde2d3 0%, var(--color-accent) 100%);
+      background: linear-gradient(
+        135deg,
+        var(--banner-warm-start) 0%,
+        var(--color-accent) 100%
+      );
       color: var(--text-primary);
     }
   }
@@ -191,12 +195,13 @@ withDefaults(defineProps<Props>(), { mobile: false });
   &__phone-frame {
     width: 100%;
     height: 100%;
-    background: #0d1818;
+    // device frame 顏色集中在 token，variants 可單獨覆寫淺色 frame
+    background: var(--device-frame-bg);
     border-radius: 24px;
     padding: 8px;
     box-shadow:
       0 12px 24px rgba(0, 0, 0, 0.35),
-      inset 0 0 0 2px #2a3535;
+      inset 0 0 0 2px var(--device-frame-inner);
     position: relative;
   }
 
@@ -215,7 +220,8 @@ withDefaults(defineProps<Props>(), { mobile: false });
   &__phone-screen {
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, #f5e8d2 0%, #d4a574 100%);
+    // 螢幕內漸層走 token；variants 切配色時可單獨換暖 / 冷 / 中性
+    background: var(--device-screen-overlay);
     border-radius: 18px;
     padding: 24px 12px 12px;
     display: flex;

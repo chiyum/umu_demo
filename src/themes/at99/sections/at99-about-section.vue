@@ -37,7 +37,7 @@ const paragraphs = [
 .at99-about {
   background: var(--bg-base);
   padding: 30px 0;
-  padding-left: 60px;
+  padding-left: var(--dock-offset);
   border-top: 1px solid var(--border);
 
   &__inner {

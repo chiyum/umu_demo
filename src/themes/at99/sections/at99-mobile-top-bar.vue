@@ -191,8 +191,8 @@ function tapDock(item: DockItem) {
     width: 32px;
     height: 32px;
     border-radius: 6px;
-    background: linear-gradient(180deg, var(--color-accent) 0%, #d4951a 100%);
-    color: #1a0e00;
+    background: var(--gradient-gold);
+    color: var(--text-on-gold);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -324,8 +324,8 @@ function tapDock(item: DockItem) {
   &__cta {
     width: 100%;
     height: 42px;
-    background: linear-gradient(135deg, var(--color-accent) 0%, #d4951a 100%);
-    color: #1a0e00;
+    background: var(--gradient-gold);
+    color: var(--text-on-gold);
     border: none;
     border-radius: 6px;
     font-size: 14px;

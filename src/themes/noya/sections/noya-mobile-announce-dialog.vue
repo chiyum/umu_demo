@@ -103,12 +103,13 @@ function close() {
   &__panel {
     width: 100%;
     max-width: 340px;
-    background: linear-gradient(180deg, #fff4cc 0%, #ffd97a 100%);
+    // 紙條黃漸層走 token；切配色時可改成沙色 / 蜜綠保持公告質感
+    background: var(--accent-warning-bg);
     border-radius: 14px;
     padding: 20px 20px 16px;
     position: relative;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-    color: #4a3318;
+    color: var(--accent-warning-text);
   }
 
   &__close {
@@ -118,10 +119,10 @@ function close() {
     width: 28px;
     height: 28px;
     border: none;
-    background: rgba(0, 0, 0, 0.08);
+    background: var(--accent-warning-overlay);
     border-radius: 50%;
     font-size: 18px;
-    color: #4a3318;
+    color: var(--accent-warning-text);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -161,7 +162,7 @@ function close() {
     list-style: none;
     padding: 8px 12px;
     margin: 8px 0 0;
-    background: rgba(255, 255, 255, 0.4);
+    background: var(--accent-warning-paper);
     border-radius: 8px;
     font-size: 11px;
     line-height: 1.6;
@@ -185,7 +186,7 @@ function close() {
     margin-top: 14px;
     width: 100%;
     height: 38px;
-    background: linear-gradient(135deg, #d4842a 0%, #b8651a 100%);
+    background: var(--accent-warning-cta);
     color: #ffffff;
     border: none;
     border-radius: 6px;
@@ -193,7 +194,7 @@ function close() {
     font-weight: 700;
     letter-spacing: 4px;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(184, 101, 26, 0.4);
+    box-shadow: var(--accent-warning-cta-shadow);
   }
 }
 

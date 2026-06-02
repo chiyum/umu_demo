@@ -256,12 +256,13 @@ withDefaults(defineProps<Props>(), { mobile: false });
   &__phone-frame {
     width: 100%;
     height: 100%;
-    background: #0d1818;
+    // device frame 顏色集中在 token，與 hero banner 同一份 token
+    background: var(--device-frame-bg);
     border-radius: 24px;
     padding: 8px;
     box-shadow:
       0 10px 24px rgba(0, 0, 0, 0.25),
-      inset 0 0 0 2px #2a3535;
+      inset 0 0 0 2px var(--device-frame-inner);
     position: relative;
   }
 

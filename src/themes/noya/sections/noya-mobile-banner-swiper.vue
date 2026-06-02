@@ -24,26 +24,28 @@ interface Slide {
   seed: number;
 }
 
+// 3 張 slide 的漸層由 _tokens.scss 的 --banner-gradient-{1,2,3} 控制，
+// 元件只持 var() reference；切配色時不必動元件就能換漸層
 const slides: Slide[] = [
   {
     key: "s1",
     title: "新會員首存好禮",
     sub: "註冊即享專屬迎新方案",
-    gradient: "linear-gradient(135deg, #ff8a65 0%, #ffd180 100%)",
+    gradient: "var(--banner-gradient-1)",
     seed: 21
   },
   {
     key: "s2",
     title: "真人視訊．沉浸體驗",
     sub: "專業荷官 24 小時服務",
-    gradient: "linear-gradient(135deg, #ce93d8 0%, #ffccbc 100%)",
+    gradient: "var(--banner-gradient-2)",
     seed: 53
   },
   {
     key: "s3",
     title: "電子遊戲．歡樂無限",
     sub: "上百款熱門機台等你來",
-    gradient: "linear-gradient(135deg, #ffd54f 0%, #ffab40 100%)",
+    gradient: "var(--banner-gradient-3)",
     seed: 88
   }
 ];

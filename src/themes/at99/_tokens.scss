@@ -33,6 +33,24 @@
   --dock-icon-bg: rgba(45, 212, 255, 0.12);
   --slot-tile-bg: linear-gradient(180deg, #1c2f5c 0%, #122145 100%);
   --table-row-alt: rgba(45, 212, 255, 0.04);
+
+  // 金色系 token：logo / CTA / 金幣 / leaderboard rank-1 共用，避免散落寫死 hex
+  // --gradient-gold     金漸層（logo mark、CTA 按鈕、rank-1 徽章用）
+  // --text-on-gold      落在金色塊上的對比文字（深褐近黑）
+  // --coin-gradient     金幣 radial gradient（promo carousel token 裝飾用）
+  // 改 variants 配色（紫 / 綠）時可單獨覆寫，讓金色不殘留藍系印象
+  --gradient-gold: linear-gradient(135deg, var(--color-accent) 0%, #d4951a 100%);
+  --text-on-gold: #1a0e00;
+  --coin-gradient: radial-gradient(
+    circle at 30% 30%,
+    #fff5b4 0%,
+    var(--color-accent) 50%,
+    #c79c1a 100%
+  );
+
+  // dock 寬度：PC 左側 sidebar dock 在所有 section 都需要留出空間
+  // 若改 dock 寬度只動這個 var，全 section 一起跟著走，免去散落 7 處手改
+  --dock-offset: 60px;
   --font-display: "Outfit", "微軟正黑體", sans-serif;
   --font-body: "Outfit", "微軟正黑體", sans-serif;
 }

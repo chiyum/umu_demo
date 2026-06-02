@@ -29,6 +29,17 @@
   --dock-icon-bg: rgba(168, 85, 247, 0.15);
   --slot-tile-bg: linear-gradient(180deg, #2d1b5e 0%, #1f0f4a 100%);
   --table-row-alt: rgba(168, 85, 247, 0.05);
+
+  // 金色系 token：紫底搭配偏暖橘金漸，與紫色主色形成對比但不刺眼
+  // text-on-gold 維持深褐，金色 token 可讀性最佳
+  --gradient-gold: linear-gradient(135deg, var(--color-accent) 0%, #c97a1c 100%);
+  --text-on-gold: #1a0e00;
+  --coin-gradient: radial-gradient(
+    circle at 30% 30%,
+    #fff0b0 0%,
+    var(--color-accent) 50%,
+    #b86b13 100%
+  );
 }
 
 [data-theme="at99"][data-theme-color="neon-green"] {
@@ -56,4 +67,14 @@
   --dock-icon-bg: rgba(34, 211, 164, 0.15);
   --slot-tile-bg: linear-gradient(180deg, #134a3a 0%, #0f3b30 100%);
   --table-row-alt: rgba(34, 211, 164, 0.05);
+
+  // 金色系 token：綠底走偏綠金漸，與 accent 黃形成「金 + 蜜綠」對比
+  --gradient-gold: linear-gradient(135deg, var(--color-accent) 0%, #9ca81b 100%);
+  --text-on-gold: #1a1f00;
+  --coin-gradient: radial-gradient(
+    circle at 30% 30%,
+    #fff8a8 0%,
+    var(--color-accent) 50%,
+    #7c8a15 100%
+  );
 }

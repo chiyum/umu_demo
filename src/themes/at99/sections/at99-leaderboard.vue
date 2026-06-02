@@ -196,7 +196,7 @@ const rows = computed(() =>
 .at99-lb {
   background: var(--bg-base);
   padding: 24px 0;
-  padding-left: 60px;
+  padding-left: var(--dock-offset);
 
   &__inner {
     max-width: 1280px;
@@ -314,9 +314,11 @@ const rows = computed(() =>
     color: var(--text-primary);
 
     // 前 3 名特殊配色
+    // r1 走 theme 金色 token，配色切換時跟著走；r2 銀 / r3 銅是
+    // 普世「銀 / 銅牌」直覺，故維持寫死讓視覺辨識度不受 variants 影響
     &--r1 {
-      background: linear-gradient(135deg, #ffd84d 0%, #d4951a 100%);
-      color: #1a0e00;
+      background: var(--gradient-gold);
+      color: var(--text-on-gold);
       box-shadow: 0 0 10px var(--color-accent);
     }
 

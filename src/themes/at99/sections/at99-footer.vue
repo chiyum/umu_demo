@@ -101,8 +101,8 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
   background: var(--bg-base-deep);
   border-top: 1px solid var(--border);
 
-  // PC：左側 dock 60px 預留
-  padding-left: 60px;
+  // PC：左側 dock 預留空間，寬度走 token 集中管理
+  padding-left: var(--dock-offset);
 
   &__top {
     border-bottom: 1px solid var(--border);
