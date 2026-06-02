@@ -5,17 +5,24 @@ import type { ThemeMeta } from "./_types";
  *
  * 新增版面流程：
  * 1. 在 src/themes/<your-key>/ 建立 desktop.vue、mobile.vue、_tokens.scss、_variants.scss
- * 2. 在這份檔案 import meta，並加入 themes 物件
- * 3. 在 src/assets/scss/main.default.scss 引入該 theme 的 tokens / variants
+ * 2. 在 src/assets/previews/ 放 <key>-desktop.png 與 <key>-mobile.png 截圖
+ * 3. 在這份檔案加入 themes 物件（含 previewDesktop / previewMobile）
+ * 4. main.default.scss 不必動，vite.config.ts 的 buildThemeScssImports 會自動掃資料夾
  *
  * 為什麼用 lazy import：每個版面是獨立 chunk，切換才下載；
  * 主 bundle 只帶這份 registry（純 metadata），不會把所有版面 SFC 塞進去。
+ *
+ * 為什麼預覽圖用 `new URL(..., import.meta.url).href`：
+ * - vite 會把它轉成帶 base path（含 GitHub Pages 子路徑 /umu_demo/）的正確 URL，
+ *   並掛 hash 指紋；showcase 主頁用 <img src> 拿圖即可
+ * - 圖片走 asset pipeline 而不是被 import 進 JS bundle
  */
 
 /** noya 版面（玫瑰金 / 暖色系） */
 const noya: ThemeMeta = {
   key: "noya",
   label: "版面 A · 暖金",
+  description: "暖金奶油調的真人視訊風格，玫瑰金 / 日落橘 / 青檸綠三種配色",
   // 重點：箭頭函式內部才呼叫 dynamic import，這樣才會切 chunk
   desktop: () => import("./noya/desktop.vue"),
   mobile: () => import("./noya/mobile.vue"),
@@ -24,13 +31,18 @@ const noya: ThemeMeta = {
     { key: "rose-gold", label: "玫瑰金", swatch: "#d4a574" },
     { key: "sunset", label: "日落橘", swatch: "#ff7e47" },
     { key: "lime", label: "青檸綠", swatch: "#9fd356" }
-  ]
+  ],
+  previewDesktop: new URL("@/assets/previews/noya-desktop.png", import.meta.url)
+    .href,
+  previewMobile: new URL("@/assets/previews/noya-mobile.png", import.meta.url)
+    .href
 };
 
 /** at99 版面（深藍霓虹 / 賭場風） */
 const at99: ThemeMeta = {
   key: "at99",
   label: "版面 B · 霓虹",
+  description: "深藍霓虹的賭場風格，霓虹藍 / 紫 / 綠三種配色",
   desktop: () => import("./at99/desktop.vue"),
   mobile: () => import("./at99/mobile.vue"),
   defaultColor: "neon-blue",
@@ -38,7 +50,11 @@ const at99: ThemeMeta = {
     { key: "neon-blue", label: "霓虹藍", swatch: "#2dd4ff" },
     { key: "neon-purple", label: "霓虹紫", swatch: "#a855f7" },
     { key: "neon-green", label: "霓虹綠", swatch: "#22d3a4" }
-  ]
+  ],
+  previewDesktop: new URL("@/assets/previews/at99-desktop.png", import.meta.url)
+    .href,
+  previewMobile: new URL("@/assets/previews/at99-mobile.png", import.meta.url)
+    .href
 };
 
 /** 對外暴露的 theme 表，key 是 layoutKey */

@@ -34,14 +34,23 @@ export interface ColorVariant {
  * - desktop / mobile：兩個入口元件，由 home host 依 useDevice 動態切
  * - defaultColor：未指定 colorKey 時的預設值
  * - colors：本版面支援的所有配色
+ * - description：showcase 卡片下方顯示的一句話說明
+ * - previewDesktop / previewMobile：showcase 卡片縮圖與 lightbox 預覽用的截圖 URL
+ *   ─ 為什麼用 string（URL）而非 import 整張圖：
+ *     用 `new URL('@/assets/previews/xxx.png', import.meta.url).href` 在 registry 動態算 URL，
+ *     vite 會幫我們處理 base path（含 GitHub Pages 子路徑 /umu_demo/）+ hash 指紋，
+ *     圖片不會塞進首頁 JS bundle，純靠 <img src> 帶 URL 即可
  */
 export interface ThemeMeta {
   key: string;
   label: string;
+  description: string;
   desktop: AsyncVueComponent;
   mobile: AsyncVueComponent;
   defaultColor: string;
   colors: ColorVariant[];
+  previewDesktop: string;
+  previewMobile: string;
 }
 
 /**
