@@ -14,6 +14,21 @@ html, body {
   font-size: 1rem;
 }
 
+// Quasar 預設 body 強掛 Roboto，會壓掉各 theme 的 --font-body（Outfit + 微軟正黑體 kingdom DNA）
+// 必須在比 Quasar 載入順序晚的 main scss 內顯式覆寫 body / .q-app / .q-page 三層，
+// 才能讓 body 真的繼承到 theme token 字體，畫面上看到 kingdom DNA 字面樣式
+// 為什麼三層都要寫：
+//   - body：Quasar 直接掛在 body 的 font-family 來源
+//   - .q-app：Quasar Vue plugin 包在 #app 的 wrapper class
+//   - .q-page：Quasar Page wrapper，部分 component 從 .q-page 算 inherited font
+// fallback：未設 theme 時退回 --font-stack-base（_kingdom-tokens.scss 內預設）
+// 確保即使尚未掛 [data-theme] 屬性也不至於落回 Quasar Roboto
+body,
+.q-app,
+.q-page {
+  font-family: var(--font-body, var(--font-stack-base));
+}
+
 // app global css in SCSS form
 
 .card_style {
