@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent, inject, type Ref } from "vue";
-import { useThemeStore } from "@/store/theme.store";
+import { computed } from "vue";
+import { listThemes } from "@/themes/_registry";
+import { useShowcaseStore } from "@/store/showcase.store";
+import ShowcaseHero from "@/components/showcase/showcase-hero.vue";
+import ShowcaseThemeCard from "@/components/showcase/showcase-theme-card.vue";
+import ShowcasePreviewDialog from "@/components/showcase/showcase-preview-dialog.vue";
 
 defineOptions({
-  // 用專屬的薄殼 layout，避開 layout-default 的 Quasar admin 骨架干擾
-  layout: "layout-theme-host",
+  // 用 showcase 專用薄殼 layout：不掛 FAB、不讀 theme store、不掛 data-theme
+  // 與 demo 頁完全分離，避免條件分支邏輯
+  layout: "layout-showcase",
   setting: {
-    // useAwdLayout 預設由 pages.ts 給 true，但本頁是純單檔，無 desktop/mobile 分版
-    // 關掉 awd 才不會去找 layout-theme-host-mobile
+    // useAwdLayout 預設由 pages.ts 給 true，會去找 layout-showcase-mobile（不存在）
+    // 本頁 desktop / mobile 共用一份（純展示卡片網格，CSS media query 處理 RWD），關掉 awd
     useAwdLayout: false,
     sort: 0,
     icon: "home",
@@ -16,95 +21,84 @@ defineOptions({
 });
 
 /**
- * Home 頁作為 theme layout host
+ * Home — Showcase 列表頁
  *
- * 設計：
- * - 不直接渲染任何視覺元素，僅根據 themeStore.layoutKey + isMobile
- *   動態挑出對應 theme 的 desktop / mobile 元件
- * - 用 defineAsyncComponent + Suspense 處理載入過程，避免閃白
- * - layout 切換是 reactive：computed 依 layoutKey + isMobile 重新算
+ * 角色：
+ * - URL = / → 顯示所有可用版型的卡片網格
+ * - 不負責 demo 顯示（demo 頁是 /demo/:layoutkey）
+ * - 不寫 LS、不掛 FAB、不掛 [data-theme]
+ *
+ * 為什麼 showcase 不引 useThemeStore：
+ * - 領域隔離：theme.store（demo 主）只服務 demo 頁；showcase 自有 showcase.store
+ * - 避免 showcase 首訪就觸發 theme.store 的 resolveInitialKeys（讀 LS、寫 LS），
+ *   讓「主頁訪客」與「demo 體驗者」徹底分流
+ *
+ * 列表來源：listThemes() 直接從 registry 拿，registry 純 metadata 不會 eager 載入 theme chunk
  */
 
-const themeStore = useThemeStore();
+const showcaseStore = useShowcaseStore();
 
-// isMobile 由 App.vue 透過 provide 注入（已是 Ref）
-const isMobile = inject<Ref<boolean>>("isMobile");
+/** 所有可用版型，依 registry 順序顯示 */
+const themes = computed(() => listThemes());
 
 /**
- * 動態挑出當前 theme 的入口元件
- *
- * 用 defineAsyncComponent 包是為了：
- * 1. 切版面時走 dynamic import（每個 theme 是獨立 chunk）
- * 2. 配合外層 Suspense 顯示 fallback
- *
- * 每次 layoutKey / isMobile 改變都會回傳新的 defineAsyncComponent 實例，
- * Vue 會自動把舊元件卸載、新元件掛上。
+ * 卡片 emit preview 時的處理：把 themeKey 餵進 showcase store 觸發 dialog
  */
-const ThemeComponent = computed(() => {
-  const theme = themeStore.currentTheme;
-  const loader = isMobile?.value ? theme.mobile : theme.desktop;
-  return defineAsyncComponent({
-    loader,
-    // 載入失敗時顯示提示，不要整頁炸
-    onError(err) {
-      console.error("[theme-host] failed to load theme chunk", err);
-    }
-  });
-});
+function handlePreview(themeKey: string): void {
+  showcaseStore.openPreview(themeKey, "desktop");
+}
 </script>
 
 <template>
-  <Suspense>
-    <component :is="ThemeComponent" />
-    <template #fallback>
-      <!-- 載入中骨架：簡單的水平律動條，避免 layout shift -->
-      <div class="theme-host__skeleton">
-        <div class="theme-host__skeleton-bar" />
-        <div class="theme-host__skeleton-bar" />
-        <div class="theme-host__skeleton-bar" />
+  <div class="showcase-page">
+    <ShowcaseHero />
+
+    <section class="showcase-page__grid-wrap">
+      <div class="showcase-page__grid">
+        <ShowcaseThemeCard
+          v-for="theme in themes"
+          :key="theme.key"
+          :theme="theme"
+          @preview="handlePreview"
+        />
       </div>
-    </template>
-  </Suspense>
+    </section>
+
+    <!-- 全域 overlay：所有卡片共用同一個 dialog，由 showcase store 統一控 -->
+    <ShowcasePreviewDialog />
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.theme-host__skeleton {
-  padding: 80px 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+.showcase-page {
+  // 整體底 + 角落柔光由 hero 自己處理；卡片區用淺色底拉開層次
+  background: #ffffff;
+  min-height: 100vh;
 
-.theme-host__skeleton-bar {
-  height: 24px;
-  border-radius: 8px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.05) 0%,
-    rgba(0, 0, 0, 0.1) 50%,
-    rgba(0, 0, 0, 0.05) 100%
-  );
-  background-size: 200% 100%;
-  animation: theme-host-shimmer 1.4s infinite;
-
-  &:nth-child(2) {
-    width: 70%;
+  &__grid-wrap {
+    background: linear-gradient(180deg, #ffffff 0%, #faf5ef 100%);
+    padding: 56px 32px 96px;
   }
 
-  &:nth-child(3) {
-    width: 40%;
+  &__grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
   }
 }
 
-@keyframes theme-host-shimmer {
-  0% {
-    background-position: 200% 0;
-  }
+@media (max-width: 768px) {
+  .showcase-page {
+    &__grid-wrap {
+      padding: 40px 20px 64px;
+    }
 
-  100% {
-    background-position: -200% 0;
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
   }
 }
 </style>
