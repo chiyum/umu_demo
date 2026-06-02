@@ -89,6 +89,7 @@ function onAllClick() {
     font-size: 44px;
     font-weight: 900;
     margin: 0;
+    padding-left: 10px;
     letter-spacing: 6px;
     line-height: 1;
 

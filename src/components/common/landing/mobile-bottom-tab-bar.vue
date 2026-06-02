@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<Props>(), {
     { key: "promo", icon: "material-symbols:redeem-outline", label: "優惠" },
     {
       key: "service",
-      icon: "material-symbols:support-agent-outline",
+      icon: "material-symbols:support-agent",
       label: "客服"
     },
     { key: "member", icon: "material-symbols:person-outline", label: "會員" },

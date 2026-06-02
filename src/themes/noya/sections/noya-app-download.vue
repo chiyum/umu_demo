@@ -323,6 +323,7 @@ const phoneTileImages = [
     line-height: 1.2;
     color: var(--text-primary);
     margin: 0 0 6px;
+    padding-left: 10px;
     letter-spacing: 2px;
   }
 

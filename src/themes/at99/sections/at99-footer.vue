@@ -56,7 +56,7 @@ const legal: LegalItem[] = [
   { icon: "material-symbols:shield-outline", label: "責任博彩" },
   { icon: "material-symbols:gavel-outline", label: "服務條款" },
   { icon: "material-symbols:lock-outline", label: "隱私政策" },
-  { icon: "material-symbols:support-agent-outline", label: "聯絡我們" }
+  { icon: "material-symbols:support-agent", label: "聯絡我們" }
 ];
 
 // 社群連結：footer 常見的客服 / 社群入口，補齊 icon 對應

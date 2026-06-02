@@ -36,7 +36,7 @@ const tabItems = [
   { key: "home", icon: "material-symbols:home-outline", label: "首頁" },
   {
     key: "service",
-    icon: "material-symbols:support-agent-outline",
+    icon: "material-symbols:support-agent",
     label: "客服"
   },
   {

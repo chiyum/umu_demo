@@ -257,6 +257,7 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
     color: var(--color-primary);
     letter-spacing: 2px;
     margin: 0;
+    padding-left: 10px;
   }
 
   &__heading-sub {
@@ -444,6 +445,7 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
     color: var(--color-primary);
     letter-spacing: 1.5px;
     margin: 0;
+    padding-left: 10px;
   }
 
   &__featured-sub {
