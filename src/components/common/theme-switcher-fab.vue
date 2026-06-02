@@ -4,10 +4,19 @@ import { useThemeStore } from "@/store/theme.store";
 import { useDraggable } from "@/utils/use-draggable";
 
 /**
- * Theme Switcher FAB（桌面版）
+ * @deprecated
  *
- * 設計：dock 樣式 — 主鈕展開後直接顯示版面列 + 配色列，無需二次點擊。
- * 拖曳：整個外層容器都可拖，避免使用者只能抓主鈕。
+ * Theme Switcher FAB（桌面版）— 已被 theme-color-fab.vue 取代（方案 2 雙 store 解耦）
+ *
+ * 舊版同時提供「版面切換」+「配色切換」兩 row；新架構下版面由 URL 鎖定，
+ * FAB 不該再有切版面功能，故拆成只切配色的新 FAB（theme-color-fab.vue）
+ *
+ * 為什麼保留檔案而不直接刪：見 src/store/theme.store.ts 頂部 @deprecated 註解
+ *
+ * 不要在新程式碼中 import 這個元件；改用 `theme-color-fab.vue`
+ *
+ * 原設計：dock 樣式 — 主鈕展開後直接顯示版面列 + 配色列，無需二次點擊
+ * 拖曳：整個外層容器都可拖，避免使用者只能抓主鈕
  */
 
 const themeStore = useThemeStore();

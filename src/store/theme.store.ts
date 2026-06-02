@@ -1,3 +1,21 @@
+/**
+ * @deprecated
+ *
+ * 此 store 已被 src/store/demo-theme.store.ts 取代（方案 2 雙 store 解耦）
+ *
+ * 為什麼保留檔案而不直接刪：
+ * - 避免單一 PR diff 過大，方便 review focus 在新架構
+ * - 提供回滾退路：若 demo-theme.store 上線後發生未預期問題，
+ *   可快速 revert layout-theme-host 的 import 切回此 store 救命
+ *
+ * 預計清理時機：demo-theme.store 上線一週、確認 dev / prod 都穩定後，
+ * 由獨立 chore PR 移除此檔案 + 舊 theme-switcher-fab(.mobile).vue
+ *
+ * 已知唯一仍依賴此檔的：無（已全面切換到 demo-theme.store）
+ *
+ * 不要在新程式碼中 import 這個 store；改用 `useDemoThemeStore`
+ */
+
 import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
 import {

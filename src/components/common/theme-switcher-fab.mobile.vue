@@ -4,11 +4,18 @@ import { useThemeStore } from "@/store/theme.store";
 import { useDraggable } from "@/utils/use-draggable";
 
 /**
- * Theme Switcher FAB（手機版）
+ * @deprecated
  *
- * 設計：圓鈕 + bottom sheet — 點主鈕彈出全寬底部面板，
- * 更符合手機操作習慣（按鈕大、點擊區大、操作直覺）。
- * 拖曳：圓鈕本體可拖；bottom sheet 開啟時整個畫面為操作面板，主鈕暫停拖曳。
+ * Theme Switcher FAB（手機版）— 已被 theme-color-fab.mobile.vue 取代（方案 2 雙 store 解耦）
+ *
+ * 舊版同時提供「版面切換」+「配色切換」兩 row；新架構下版面由 URL 鎖定，
+ * FAB 不該再有切版面功能，故拆成只切配色的新 FAB（theme-color-fab.mobile.vue）
+ *
+ * 為什麼保留檔案而不直接刪：見 src/store/theme.store.ts 頂部 @deprecated 註解
+ *
+ * 不要在新程式碼中 import 這個元件；改用 `theme-color-fab.mobile.vue`
+ *
+ * 原設計：圓鈕 + bottom sheet — 點主鈕彈出全寬底部面板
  */
 
 const themeStore = useThemeStore();
