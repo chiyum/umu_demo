@@ -1,0 +1,19 @@
+// at99 版面預設配色：深藍霓虹 / 賭場風
+
+[data-theme="at99"] {
+  --color-primary: #2dd4ff;
+  --color-secondary: #1e88e5;
+  --color-accent: #ffd84d;
+  --bg-base: #0a1535;
+  --bg-surface: #142142;
+  --bg-overlay: rgba(45, 212, 255, 0.1);
+  --text-primary: #e8f3ff;
+  --text-muted: #8c9bbf;
+  --border: rgba(45, 212, 255, 0.2);
+  --shadow: 0 4px 20px rgba(45, 212, 255, 0.25);
+  --gradient-hero: linear-gradient(135deg, #0a1535 0%, #1e2d5c 50%, #0a1535 100%);
+  --gradient-cta: linear-gradient(135deg, #2dd4ff 0%, #1e88e5 100%);
+  --neon-glow: 0 0 8px rgba(45, 212, 255, 0.6), 0 0 24px rgba(45, 212, 255, 0.3);
+  --font-display: "Outfit", "微軟正黑體", sans-serif;
+  --font-body: "Outfit", "微軟正黑體", sans-serif;
+}
