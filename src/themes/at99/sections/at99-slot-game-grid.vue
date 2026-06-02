@@ -170,17 +170,111 @@ const activeCategory = computed(
           v-for="t in activeCategory.tiles"
           :key="t.key"
           class="at99-slots__tile"
+          :style="{
+            // Round 5：以 tile 自身 hue 作為 css var，給內部多元素共用
+            // 避免 hue 在多個位置 inline 寫成串接字串，集中靠 var 控
+            '--tile-hue': t.hue,
+            '--tile-color-main': `hsl(${t.hue}, 75%, 55%)`,
+            '--tile-color-deep': `hsl(${(t.hue + 30) % 360}, 70%, 22%)`,
+            '--tile-color-glow': `hsla(${t.hue}, 90%, 60%, 0.55)`
+          }"
           tabindex="0"
         >
-          <div
-            class="at99-slots__art"
-            :style="{
-              background: `radial-gradient(circle at 50% 40%, hsl(${t.hue}, 65%, 45%) 0%, hsl(${(t.hue + 30) % 360}, 70%, 22%) 70%, var(--bg-base-deep) 100%)`
-            }"
-          >
+          <!-- Round 5：金色頂飾條（top accent bar），與電玩機台頂飾呼應 -->
+          <div class="at99-slots__top-accent" aria-hidden="true" />
+
+          <div class="at99-slots__art">
+            <!--
+              背景多層：底色 gradient + 抽象老虎機輪盤 SVG + 粒子光點
+              SVG 為 inline 自製，避免引入外部 icon
+            -->
+            <div class="at99-slots__art-bg" aria-hidden="true" />
+            <svg
+              class="at99-slots__art-reel"
+              viewBox="0 0 100 100"
+              aria-hidden="true"
+            >
+              <!-- 外環 -->
+              <circle
+                cx="50"
+                cy="50"
+                r="42"
+                fill="none"
+                stroke="rgba(255,255,255,0.18)"
+                stroke-width="1.2"
+              />
+              <!-- 內環（虛線，模擬輪盤刻度） -->
+              <circle
+                cx="50"
+                cy="50"
+                r="34"
+                fill="none"
+                stroke="rgba(255,255,255,0.28)"
+                stroke-width="0.7"
+                stroke-dasharray="2 3"
+              />
+              <!-- 中心輪盤光點 -->
+              <circle
+                cx="50"
+                cy="50"
+                r="22"
+                fill="rgba(255,255,255,0.06)"
+                stroke="var(--color-accent)"
+                stroke-width="0.8"
+              />
+              <!-- 4 道輻射 spokes 模擬輪軸 -->
+              <line
+                x1="50"
+                y1="14"
+                x2="50"
+                y2="32"
+                stroke="rgba(255,255,255,0.35)"
+                stroke-width="1"
+                stroke-linecap="round"
+              />
+              <line
+                x1="50"
+                y1="68"
+                x2="50"
+                y2="86"
+                stroke="rgba(255,255,255,0.35)"
+                stroke-width="1"
+                stroke-linecap="round"
+              />
+              <line
+                x1="14"
+                y1="50"
+                x2="32"
+                y2="50"
+                stroke="rgba(255,255,255,0.35)"
+                stroke-width="1"
+                stroke-linecap="round"
+              />
+              <line
+                x1="68"
+                y1="50"
+                x2="86"
+                y2="50"
+                stroke="rgba(255,255,255,0.35)"
+                stroke-width="1"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <!-- 中央獎金光暈 + 大字符 -->
+            <span class="at99-slots__halo" aria-hidden="true" />
             <span class="at99-slots__icon">{{ t.icon }}</span>
+
+            <!-- 4 顆發光粒子（位置散落，加微浮動讓畫面活起來） -->
+            <span class="at99-slots__spark at99-slots__spark--1" />
+            <span class="at99-slots__spark at99-slots__spark--2" />
+            <span class="at99-slots__spark at99-slots__spark--3" />
+            <span class="at99-slots__spark at99-slots__spark--4" />
+
+            <!-- 底部光帶（既有） -->
             <span class="at99-slots__glow" />
           </div>
+
           <div class="at99-slots__meta">
             <div class="at99-slots__title">{{ t.title }}</div>
             <div class="at99-slots__sub">{{ t.sub }}</div>
@@ -260,24 +354,63 @@ const activeCategory = computed(
     gap: 16px;
   }
 
+  // Round 5：tile 加 corner cut（左上 + 右下斜切）
+  // clip-path 達成非矩形外型；border-radius 不能與 clip-path 並存（會被裁），
+  // 因此邊框改用 background gradient + clip-path 兩層方案
+  // 為了讓邊光擴散不被 overflow:hidden 切到，hover 邊光由 filter drop-shadow 處理
   &__tile {
+    position: relative;
     background: var(--slot-tile-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     cursor: pointer;
     transition:
-      transform 0.18s ease,
-      box-shadow 0.2s ease;
+      transform 0.22s ease,
+      filter 0.25s ease;
 
+    // 左上 / 右下 corner cut，角度 16px 斜切；其他角為直角
+    clip-path: polygon(
+      16px 0,
+      100% 0,
+      100% calc(100% - 16px),
+      calc(100% - 16px) 100%,
+      0 100%,
+      0 16px
+    );
+
+    // hover 3D 浮起 + 多層金色 / hue 色光暈
     &:hover,
     &:focus-visible {
-      transform: translateY(-4px);
-      box-shadow: var(--neon-glow);
+      transform: translateY(-6px) scale(1.02);
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.45))
+        drop-shadow(0 0 18px var(--tile-color-glow))
+        drop-shadow(0 0 8px var(--color-accent));
       outline: none;
+
+      .at99-slots__top-accent {
+        // hover 時頂飾條提亮並擴展寬度
+        opacity: 1;
+        height: 4px;
+      }
+
+      .at99-slots__halo {
+        // hover 中央光暈放大
+        transform: translate(-50%, -50%) scale(1.25);
+        opacity: 0.95;
+      }
     }
+  }
+
+  // 金色頂飾條：橫跨 tile 頂部，hover 時加粗加亮
+  &__top-accent {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--gradient-gold);
+    opacity: 0.85;
+    z-index: 5;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 6px var(--color-accent);
   }
 
   &__art {
@@ -289,15 +422,111 @@ const activeCategory = computed(
     overflow: hidden;
   }
 
+  // 底色 gradient 抽出來：用 tile-color-main / tile-color-deep css var
+  // 每個 tile 自帶 hue，配色互不相同，加上 neon 高光
+  &__art-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at 50% 38%,
+        var(--tile-color-main) 0%,
+        var(--tile-color-deep) 65%,
+        var(--bg-base-deep) 100%
+      ),
+      linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.25) 100%);
+    background-blend-mode: normal, multiply;
+    pointer-events: none;
+  }
+
+  // 抽象老虎機輪盤 SVG：絕對置中、半透明、不擋 hover
+  &__art-reel {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.78;
+
+    // 緩慢旋轉，加電玩動感（hover 時加速由 tile 控）
+    animation: at99-slot-reel-spin 24s linear infinite;
+  }
+
+  // 中央獎金光暈：橢圓光球放在 icon 下方，加深「中獎」氛圍
+  &__halo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 60%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      var(--tile-color-glow) 0%,
+      transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 1;
+    transition: all 0.25s ease;
+    mix-blend-mode: screen;
+  }
+
   &__icon {
-    font-size: 42px;
-    color: rgba(255, 255, 255, 0.95);
+    font-size: 44px;
+    color: #ffffff;
     font-weight: 800;
     text-shadow:
-      0 0 14px rgba(255, 255, 255, 0.6),
+      0 0 16px var(--color-accent),
+      0 0 28px var(--tile-color-glow),
       0 2px 4px rgba(0, 0, 0, 0.5);
     line-height: 1;
+    z-index: 3;
+    position: relative;
+  }
+
+  // 4 顆小發光粒子：絕對位置散落，獨立 keyframes 浮動
+  // 用同色系（accent 金）讓畫面整體統一在金色系上
+  &__spark {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow:
+      0 0 4px var(--color-accent),
+      0 0 10px var(--color-accent);
     z-index: 2;
+    pointer-events: none;
+    animation: at99-slot-spark-float 3s ease-in-out infinite;
+
+    &--1 {
+      top: 18%;
+      left: 18%;
+      animation-delay: 0s;
+    }
+
+    &--2 {
+      top: 28%;
+      right: 14%;
+      animation-delay: 0.6s;
+      width: 4px;
+      height: 4px;
+    }
+
+    &--3 {
+      bottom: 22%;
+      left: 22%;
+      animation-delay: 1.2s;
+      width: 3px;
+      height: 3px;
+    }
+
+    &--4 {
+      bottom: 16%;
+      right: 20%;
+      animation-delay: 1.8s;
+    }
   }
 
   &__glow {
@@ -305,10 +534,11 @@ const activeCategory = computed(
     inset: 0;
     background: radial-gradient(
       circle at 50% 100%,
-      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.22) 0%,
       transparent 60%
     );
     pointer-events: none;
+    z-index: 1;
   }
 
   &__meta {
@@ -369,6 +599,44 @@ const activeCategory = computed(
     .at99-slots__icon {
       font-size: 32px;
     }
+
+    // mobile 縮小 corner cut 角度，避免 tile 過小時斜角佔比過大
+    .at99-slots__tile {
+      clip-path: polygon(
+        12px 0,
+        100% 0,
+        100% calc(100% - 12px),
+        calc(100% - 12px) 100%,
+        0 100%,
+        0 12px
+      );
+    }
+  }
+}
+
+// 老虎機輪盤緩慢旋轉，每 24 秒一圈
+// 用 transform 比 rotate(360deg) 更省效能（compositor only）
+@keyframes at99-slot-reel-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// 粒子光點上下浮動 + 透明度交替，營造火花閃爍感
+@keyframes at99-slot-spark-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.95;
+  }
+
+  50% {
+    transform: translateY(-6px) scale(1.15);
+    opacity: 0.5;
   }
 }
 </style>
