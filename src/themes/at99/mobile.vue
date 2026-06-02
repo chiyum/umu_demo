@@ -28,10 +28,10 @@ import MobileBottomTabBar from "@/components/common/landing/mobile-bottom-tab-ba
  * 跨版面同樣語意 → 相同視覺
  */
 const tabItems = [
-  { key: "promo", icon: "material-symbols:redeem-outline", label: "優惠" },
+  { key: "promo", icon: "material-symbols:redeem", label: "優惠" },
   {
     key: "service",
-    icon: "material-symbols:support-agent-outline",
+    icon: "material-symbols:support-agent",
     label: "線上客服"
   },
   {

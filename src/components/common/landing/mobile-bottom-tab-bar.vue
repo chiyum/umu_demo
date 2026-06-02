@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<Props>(), {
   activeKey: "home",
   items: () => [
     { key: "home", icon: "material-symbols:home-outline", label: "首頁" },
-    { key: "promo", icon: "material-symbols:redeem-outline", label: "優惠" },
+    { key: "promo", icon: "material-symbols:redeem", label: "優惠" },
     {
       key: "service",
       icon: "material-symbols:support-agent",

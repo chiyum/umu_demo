@@ -29,7 +29,7 @@ interface DockItem {
 const dockItems: DockItem[] = [
   {
     key: "service",
-    icon: "material-symbols:support-agent-outline",
+    icon: "material-symbols:support-agent",
     label: "客服中心"
   },
   {
@@ -39,12 +39,12 @@ const dockItems: DockItem[] = [
   },
   {
     key: "promo",
-    icon: "material-symbols:redeem-outline",
+    icon: "material-symbols:redeem",
     label: "優惠活動"
   },
   {
     key: "rank",
-    icon: "material-symbols:emoji-events-outline",
+    icon: "material-symbols:emoji-events",
     label: "排行榜"
   },
   {

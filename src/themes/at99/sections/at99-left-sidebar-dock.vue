@@ -39,7 +39,7 @@ interface DockItem {
 const items: DockItem[] = [
   {
     key: "service",
-    icon: "material-symbols:support-agent-outline",
+    icon: "material-symbols:support-agent",
     label: "客服"
   },
   {
@@ -47,8 +47,8 @@ const items: DockItem[] = [
     icon: "material-symbols:workspace-premium-outline",
     label: "VIP"
   },
-  { key: "promo", icon: "material-symbols:redeem-outline", label: "優惠" },
-  { key: "rank", icon: "material-symbols:emoji-events-outline", label: "排行" },
+  { key: "promo", icon: "material-symbols:redeem", label: "優惠" },
+  { key: "rank", icon: "material-symbols:emoji-events", label: "排行" },
   { key: "app", icon: "material-symbols:smartphone-outline", label: "App" },
   { key: "faq", icon: "material-symbols:help-outline", label: "FAQ" },
   { key: "agent", icon: "material-symbols:handshake-outline", label: "代理" },

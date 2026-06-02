@@ -38,7 +38,7 @@ const columns: FooterColumn[] = [
   },
   {
     title: "聯絡我們",
-    icon: "material-symbols:support-agent-outline",
+    icon: "material-symbols:support-agent",
     items: ["24h 客服中心", "聯絡信箱", "意見回饋", "媒體合作"]
   },
   {
