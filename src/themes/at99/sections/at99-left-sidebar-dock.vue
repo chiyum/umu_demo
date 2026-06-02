@@ -97,7 +97,12 @@ function tap(item: DockItem) {
   background: var(--dock-bg);
   border-right: 1px solid var(--border);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  padding: 12px 10px;
+
+  // Round 9 修：QA 七輪量到 dock item 79px vs 規格 100px
+  // 主因：左右 padding 10px 把 item 內容寬壓到 80px（再扣 1px border = 79px）
+  // 對策：左右 padding 改 0，由 item 自己留 1px gutter，讓 item 真正撐到 100px
+  // 上下 padding 維持避免貼齊 header / footer
+  padding: 12px 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -105,6 +110,7 @@ function tap(item: DockItem) {
 
   &__item {
     // kingdom DNA：dock item 走 --radius-lg + var transition
+    // width 100%，因父層左右 padding 已收為 0，item 量起來 = --dock-offset（100px）
     width: 100%;
     height: 64px;
     border-radius: var(--radius-lg);
