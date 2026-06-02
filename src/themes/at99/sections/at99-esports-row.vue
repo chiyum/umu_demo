@@ -1,4 +1,8 @@
 <script setup lang="ts">
+// Round 9：lilian banner_bg_snake.png（黑底金龍 / 喇叭裝飾，無平台字樣）
+// 作為 esports section 背景紋理（低不透明度 + blend），加重電競賽事「東方競技」視覺氛圍
+import esportsBgPattern from "@/assets/themes/at99/extra/decor/esports-bg-pattern.png";
+
 /**
  * at99 電競賽事 row：5 個大 tile 橫排
  *
@@ -34,7 +38,11 @@ const games: Game[] = [
 </script>
 
 <template>
-  <section class="at99-esports" :class="{ 'at99-esports--mobile': mobile }">
+  <section
+    class="at99-esports"
+    :class="{ 'at99-esports--mobile': mobile }"
+    :style="{ '--esports-bg-pattern': `url(${esportsBgPattern})` }"
+  >
     <div class="at99-esports__inner">
       <header class="at99-esports__header">
         <h2 class="at99-esports__heading kingdom-block-label">電競賽事</h2>
@@ -65,14 +73,45 @@ const games: Game[] = [
 
 <style lang="scss" scoped>
 .at99-esports {
-  background: var(--bg-base);
+  // Round 9：背景紋理 + 深底層疊
+  //   1) 底層 var(--bg-base)
+  //   2) 中層：esports pattern PNG（金龍 / 喇叭），靠右 + cover，低 alpha + blend：multiply
+  //   3) 上層：深色漸層 overlay 控制可讀性（避免 pattern 過搶眼）
+  // 為何用 multiply：黑底 pattern multiply 後保留金色亮部、深色部分壓暗，跟主底融合自然
+  // 為何不用 background-image url 直接寫：需要從 ts import 走 vite asset 處理，外面用 inline style 透過 CSS var 傳入
+  background:
+    linear-gradient(
+      90deg,
+      var(--bg-base) 0%,
+      rgba(0, 0, 0, 0.55) 55%,
+      transparent 100%
+    ),
+    var(--esports-bg-pattern) right center / cover no-repeat,
+    var(--bg-base);
   padding: 16px 0;
   padding-left: var(--dock-offset);
+  position: relative;
+
+  // overlay 加一道暗角避免 pattern 右下角過亮
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at right bottom,
+      rgba(0, 0, 0, 0.45) 0%,
+      transparent 60%
+    );
+    z-index: 0;
+  }
 
   &__inner {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 24px;
+    position: relative;
+    z-index: 1;
   }
 
   &__header {
