@@ -12,15 +12,31 @@ import MobileBottomTabBar from "@/components/common/landing/mobile-bottom-tab-ba
 /**
  * at99 手機版佈局：壓縮 PC 結構為單欄直式
  *
- * 對照 GAP_ANALYSIS 對手機版的處理原則：
+ * 對照原 at99tw.net mobile（m.at99tw.net）：
  * - TopHeader 改 hamburger + logo + 登入（at99-mobile-top-bar）
  * - LeftSidebarDock 收進 hamburger drawer（已在 mobile-top-bar 內處理）
- * - PromoBannerCarousel 改全寬單張 swiper（PC 元件即為單張，mobile prop 壓縮 padding）
- * - SlotGameGrid 改 2 欄 × 6 列（mobile prop 控制）
- * - EsportsRow / LiveDealerRow 改網格自動換行（mobile prop）
- * - LeaderboardTable 縮欄位
- * - 底部加 fixed tab bar（共用元件）
+ * - 底部 bottom tab bar：5 個 icon，中央「存提」凸起（round 4 對齊）
+ * - PromoBannerCarousel / SlotGameGrid / EsportsRow / LiveDealerRow 用 mobile prop 壓縮
  */
+
+/**
+ * at99 mobile 的 bottom tab 對齊 m.at99tw.net 結構：5 個 icon，中央「存提」凸起
+ *
+ * 原站順序：優惠 / 線上客服 / 存提(凸) / 帳號 / 我們
+ * 用 Material icon 模擬同樣語意，raised 旗標讓共用元件套用凸起樣式
+ */
+const tabItems = [
+  { key: "promo", icon: "redeem", label: "優惠" },
+  { key: "service", icon: "support_agent", label: "線上客服" },
+  {
+    key: "deposit",
+    icon: "account_balance_wallet",
+    label: "存提",
+    raised: true
+  },
+  { key: "account", icon: "person", label: "帳號" },
+  { key: "mine", icon: "apps", label: "我們" }
+];
 </script>
 
 <template>
@@ -37,7 +53,7 @@ import MobileBottomTabBar from "@/components/common/landing/mobile-bottom-tab-ba
     </main>
 
     <At99Footer mobile />
-    <MobileBottomTabBar />
+    <MobileBottomTabBar :items="tabItems" />
   </div>
 </template>
 
