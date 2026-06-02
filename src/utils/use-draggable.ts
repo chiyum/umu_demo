@@ -17,6 +17,18 @@ export interface UseDraggableOptions {
 }
 
 /**
+ * 拖曳剛結束到「視為純點擊」的窗口時間（ms）
+ *
+ * 為什麼需要：
+ * pointerup 與 click 在同一 event loop 內接續觸發，若用 isDragging ref 直接
+ * 判斷，click handler 跑時 isDragging 還是 true（拖曳結束的 setTimeout 還沒跑），
+ * 第一次 click 就會被吃掉。改用「時間 gate」：lastDragEndTime 在 pointerup 寫入，
+ * click handler 比對 `Date.now() - lastDragEndTime > GAP` 才放行，比 setTimeout 穩。
+ * 設 120ms 是平衡：能擋掉拖曳剛結束的誤觸 click，又不會讓「快速雙擊」失效。
+ */
+const POST_DRAG_CLICK_GAP_MS = 120;
+
+/**
  * 通用拖曳 composable
  *
  * 設計重點：
@@ -34,6 +46,15 @@ export function useDraggable(options: UseDraggableOptions) {
 
   /** 是否正在拖曳中（>= DRAG_THRESHOLD 才為 true） */
   const isDragging = ref(false);
+
+  /**
+   * 上一次拖曳結束的時間戳（ms epoch）；純點擊時不更新
+   *
+   * 提供給呼叫端的 wasJustDragged() 用：判斷 click 是否在拖曳結束的窗口內。
+   * 為什麼用 timestamp 而非單純 boolean：boolean 需要搭配 setTimeout 清除，
+   * timing race 不穩；用 timestamp 直接比對當下時間更可靠。
+   */
+  let lastDragEndTime = 0;
 
   // 外部 ref 變動時（例如使用者按重設位置按鈕）同步進來
   // 拖曳中不 sync 避免畫面跳動
@@ -165,10 +186,25 @@ export function useDraggable(options: UseDraggableOptions) {
     };
     position.value = finalPos;
     onDragEnd(finalPos);
-    // 用 setTimeout 把 isDragging 清掉，避免同步 click 在拖曳剛結束時被誤觸
-    setTimeout(() => {
-      isDragging.value = false;
-    }, 0);
+    // 拖曳剛結束：記時間戳給 click handler 判斷，並同步把 isDragging 清掉
+    // 原本用 setTimeout(0) 清 isDragging 並讓 click 用 isDragging 判斷，但 click 與 setTimeout
+    // 在同一個 task 佇列、click 會先觸發看到 isDragging 仍 true → 第一次點擊被吃掉。
+    // 改成：isDragging 同步清掉、由 wasJustDragged() 比對 timestamp，click handler 自己判斷
+    lastDragEndTime = Date.now();
+    isDragging.value = false;
+  }
+
+  /**
+   * 給呼叫端用的 helper：判斷當下是否「拖曳剛結束的窗口內」
+   *
+   * click handler 可以這樣用：
+   *   if (wasJustDragged()) return;  // 拖曳剛結束的 click 不展開
+   *   togglePanel();
+   *
+   * 不暴露 lastDragEndTime 本身，避免外部誤改；用函式封裝決策
+   */
+  function wasJustDragged(): boolean {
+    return Date.now() - lastDragEndTime < POST_DRAG_CLICK_GAP_MS;
   }
 
   /** 視窗大小改變時重新算 px（ratio 不動，CSS 端會自動跟） */
@@ -201,6 +237,7 @@ export function useDraggable(options: UseDraggableOptions) {
     position,
     isDragging,
     onPointerDown,
-    getStyle
+    getStyle,
+    wasJustDragged
   };
 }

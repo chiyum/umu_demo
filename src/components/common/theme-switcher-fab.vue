@@ -17,11 +17,12 @@ const opened = ref(false);
 const initialPos = toRef(themeStore, "fabPosition");
 const FAB_SIZE = 56; // 與下方 .fab__trigger CSS 對齊
 
-const { position, isDragging, onPointerDown, getStyle } = useDraggable({
-  initialPosition: initialPos,
-  elementSize: FAB_SIZE,
-  onDragEnd: (pos) => themeStore.setFabPosition(pos)
-});
+const { position, isDragging, onPointerDown, getStyle, wasJustDragged } =
+  useDraggable({
+    initialPosition: initialPos,
+    elementSize: FAB_SIZE,
+    onDragEnd: (pos) => themeStore.setFabPosition(pos)
+  });
 
 /** dock 展開方向：靠右就往左展開，靠左就往右展開（避免飛出視窗） */
 const expandDirection = computed<"left" | "right">(() => {
@@ -29,9 +30,17 @@ const expandDirection = computed<"left" | "right">(() => {
   return position.value.xRatio > 0.5 ? "left" : "right";
 });
 
-/** 點主鈕的處理：拖曳剛結束的不要觸發開合 */
+/**
+ * 點主鈕的處理：拖曳剛結束的不要觸發開合
+ *
+ * 為什麼用 wasJustDragged()：
+ * 原本用 isDragging.value 判斷，但 click 事件與 pointerup 在同一 task 接續觸發，
+ * 拖曳剛結束時 isDragging 還未被 setTimeout 清掉，第一次 click 會被吃掉。
+ * 改用 wasJustDragged() 透過 timestamp 比對，邏輯更穩。
+ * 純點擊（沒拖曳）時 lastDragEndTime 仍是 0，差距遠大於 GAP，正常放行。
+ */
 function toggleOpen() {
-  if (isDragging.value) return;
+  if (wasJustDragged()) return;
   opened.value = !opened.value;
 }
 

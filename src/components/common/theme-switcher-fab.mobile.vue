@@ -17,14 +17,16 @@ const opened = ref(false);
 const initialPos = toRef(themeStore, "fabPosition");
 const FAB_SIZE = 56;
 
-const { isDragging, onPointerDown, getStyle } = useDraggable({
+const { isDragging, onPointerDown, getStyle, wasJustDragged } = useDraggable({
   initialPosition: initialPos,
   elementSize: FAB_SIZE,
   onDragEnd: (pos) => themeStore.setFabPosition(pos)
 });
 
+// 同 desktop FAB：用 wasJustDragged() 取代 isDragging 來擋拖曳剛結束的誤觸 click
+// 詳細原因見 theme-switcher-fab.vue 與 use-draggable.ts 註解
 function openSheet() {
-  if (isDragging.value) return;
+  if (wasJustDragged()) return;
   opened.value = true;
 }
 
