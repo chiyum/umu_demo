@@ -2,12 +2,15 @@
 import { computed, ref } from "vue";
 
 /**
- * at99 熱門遊戲區：頂部 4 tab 切換 + 下方 6×2 = 12 個 slot tile
+ * at99 熱門遊戲區：頂部 4 tab 切換 + 下方 5×2 = 10 個 slot tile
  *
  * 設計：
  * - 4 個分類 tab：電子遊戲 / 彩票遊戲 / 真人視訊 / 棋牌遊戲
  * - 每個 tile：圖像（CSS 漸層 + 大字 + 光環）+ 標題 + 副標 + 「立即遊玩」按鈕
  * - 切 tab 換 grid 內容；資料寫死在組件內
+ *
+ * Round 4 對齊原站：原 at99tw.net PC 熱門遊戲是 5 欄 × 2 列 = 10 個 tile，
+ * 過往實作為 6×2 = 12 個欄寬偏窄，本次調回 5×2 = 10 個（每張 tile 有更多呼吸空間）
  *
  * 為何 tabs + grid 合併在一個 SFC：tab 是 grid 的控制器，
  * 若拆兩個元件得用 store 或 prop 同步，徒增複雜度
@@ -69,14 +72,6 @@ const categories: Category[] = [
         sub: "Aurora Land",
         hue: 160,
         icon: "❋"
-      },
-      { key: "s11", title: "星際大門", sub: "Star Gate", hue: 240, icon: "❉" },
-      {
-        key: "s12",
-        title: "獸王傳說",
-        sub: "King of Beasts",
-        hue: 60,
-        icon: "❄"
       }
     ]
   },
@@ -93,9 +88,7 @@ const categories: Category[] = [
       { key: "l7", title: "刮刮卡", sub: "Scratch Off", hue: 170, icon: "❼" },
       { key: "l8", title: "賓果連線", sub: "Bingo Line", hue: 320, icon: "❽" },
       { key: "l9", title: "三星彩", sub: "Pick Three", hue: 60, icon: "❾" },
-      { key: "l10", title: "彩球連珠", sub: "Ball Combo", hue: 240, icon: "❶" },
-      { key: "l11", title: "幸運雙星", sub: "Twin Star", hue: 100, icon: "❷" },
-      { key: "l12", title: "速贏快樂", sub: "Fast Win", hue: 10, icon: "❸" }
+      { key: "l10", title: "彩球連珠", sub: "Ball Combo", hue: 240, icon: "❶" }
     ]
   },
   {
@@ -111,15 +104,7 @@ const categories: Category[] = [
       { key: "v7", title: "炸金花", sub: "Three Flower", hue: 170, icon: "❀" },
       { key: "v8", title: "鬥地主", sub: "Landlord", hue: 320, icon: "✦" },
       { key: "v9", title: "百搭撲克", sub: "Poker Mix", hue: 60, icon: "♤" },
-      { key: "v10", title: "魚蝦蟹", sub: "Fish Shrimp", hue: 240, icon: "✻" },
-      {
-        key: "v11",
-        title: "輪盤精選",
-        sub: "Roulette Plus",
-        hue: 100,
-        icon: "◎"
-      },
-      { key: "v12", title: "極速骰寶", sub: "Speed Dice", hue: 10, icon: "⚄" }
+      { key: "v10", title: "魚蝦蟹", sub: "Fish Shrimp", hue: 240, icon: "✻" }
     ]
   },
   {
@@ -147,9 +132,7 @@ const categories: Category[] = [
         icon: "橋"
       },
       { key: "c9", title: "五子相連", sub: "Gomoku", hue: 60, icon: "五" },
-      { key: "c10", title: "海戰棋", sub: "Battleship", hue: 240, icon: "海" },
-      { key: "c11", title: "牌九大全", sub: "Pai Gow", hue: 100, icon: "牌" },
-      { key: "c12", title: "黑白棋", sub: "Reversi", hue: 10, icon: "棋" }
+      { key: "c10", title: "海戰棋", sub: "Battleship", hue: 240, icon: "海" }
     ]
   }
 ];
@@ -181,7 +164,7 @@ const activeCategory = computed(
         </div>
       </div>
 
-      <!-- 6×2 grid -->
+      <!-- 5×2 grid（round 4 對齊原站，從 6 欄改為 5 欄）-->
       <div class="at99-slots__grid">
         <article
           v-for="t in activeCategory.tiles"
@@ -271,8 +254,10 @@ const activeCategory = computed(
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 14px;
+
+    // Round 4 對齊原站 at99tw.net：PC 5 欄 × 2 列 = 10 tile（從 6 欄改為 5 欄）
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
   }
 
   &__tile {

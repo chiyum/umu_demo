@@ -1,16 +1,24 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+//
+// Round 4 結構對齊：原本的 onMounted / onBeforeUnmount 自動輪播 + activeIdx
+// 已不需要，因雙 banner 改為靜態並列同時顯示
+//
 
 /**
- * at99 主視覺 promo banner carousel
+ * at99 主視覺 promo banner — round 4 對齊原站結構：雙 banner 同列並排
+ *
+ * 原 at99tw.net PC 是「左 1 大張主 banner + 右 1 張次 banner」同時顯示在同列；
+ * 之前實作為「單張輪播 carousel」（一次只看到 1 張）方向不對，本次改為並列。
  *
  * 設計：
- * - 兩張橫排大 banner，下方分頁圓點
- * - 視覺豐富：CSS 繪製的 token 角色、金幣、霓虹光環
- * - 內容文案完全通用佔位（不抄原站「週年慶」「世足賽」字樣）
+ * - PC：grid 2 欄（左 7fr 大 banner + 右 5fr 次 banner），同時可見
+ * - Mobile：壓成單欄直疊，避免並排在窄畫面被壓扁
+ * - 視覺：CSS 繪製的 token 角色、金幣、霓虹光環（不抄原站素材）
+ * - 內容文案完全通用佔位
  *
- * 為何不用真實 banner 圖：使用者要求避免原站素材，
- * 改以 CSS gradient + 光環 + 文字營造氣勢，足以表達版面結構
+ * 為何保留檔名 `at99-promo-banner-carousel.vue`：避免改檔名觸發全域 search/replace，
+ * 元件 class 維持 `at99-promo-c`（c = carousel），語意上以「promo carousel 區塊」
+ * 視之即可。
  */
 
 interface Props {
@@ -32,6 +40,7 @@ interface Slide {
   decorText: string;
 }
 
+// 雙 banner 並列：左大張 (主推) + 右小張 (次推)
 const slides: Slide[] = [
   {
     key: "p1",
@@ -54,96 +63,54 @@ const slides: Slide[] = [
     decorText: "SPORTS LIVE"
   }
 ];
-
-const activeIdx = ref(0);
-
-const trackStyle = computed(() => ({
-  transform: `translateX(-${activeIdx.value * 100}%)`
-}));
-
-let timer: ReturnType<typeof setInterval> | null = null;
-
-function next() {
-  activeIdx.value = (activeIdx.value + 1) % slides.length;
-}
-
-function startAuto() {
-  stopAuto();
-  timer = setInterval(next, 5000);
-}
-
-function stopAuto() {
-  if (timer !== null) {
-    clearInterval(timer);
-    timer = null;
-  }
-}
-
-function goTo(idx: number) {
-  activeIdx.value = idx;
-  startAuto();
-}
-
-onMounted(() => startAuto());
-onBeforeUnmount(() => stopAuto());
 </script>
 
 <template>
   <section class="at99-promo-c" :class="{ 'at99-promo-c--mobile': mobile }">
     <div class="at99-promo-c__inner">
-      <div class="at99-promo-c__viewport">
-        <div class="at99-promo-c__track" :style="trackStyle">
-          <article
-            v-for="s in slides"
-            :key="s.key"
-            class="at99-promo-c__slide"
-            :style="{ background: s.gradient }"
-          >
-            <!-- 裝飾大字（背景） -->
-            <div class="at99-promo-c__decor" aria-hidden="true">
-              {{ s.decorText }}
-            </div>
-
-            <!-- 內容 -->
-            <div class="at99-promo-c__copy">
-              <span
-                class="at99-promo-c__tag"
-                :class="`at99-promo-c__tag--${s.tagColor}`"
-              >
-                {{ s.tag }}
-              </span>
-              <h2 class="at99-promo-c__title">{{ s.title }}</h2>
-              <p class="at99-promo-c__desc">{{ s.desc }}</p>
-              <button type="button" class="at99-promo-c__cta">
-                {{ s.cta }}
-              </button>
-            </div>
-
-            <!-- 金幣 / token 裝飾（純 CSS） -->
-            <div class="at99-promo-c__tokens" aria-hidden="true">
-              <span
-                v-for="i in 3"
-                :key="i"
-                class="at99-promo-c__coin"
-                :style="{ '--coin-delay': `${i * 0.3}s` }"
-              />
-              <span class="at99-promo-c__halo" />
-            </div>
-          </article>
-        </div>
-      </div>
-
-      <!-- 分頁圓點 -->
-      <div class="at99-promo-c__dots">
-        <button
+      <!-- 雙 banner 並列（round 4 對齊原站）：左大張 + 右小張 -->
+      <div class="at99-promo-c__row">
+        <article
           v-for="(s, i) in slides"
           :key="s.key"
-          type="button"
-          class="at99-promo-c__dot"
-          :class="{ 'at99-promo-c__dot--on': activeIdx === i }"
-          :aria-label="`第 ${i + 1} 張`"
-          @click="goTo(i)"
-        />
+          class="at99-promo-c__slide"
+          :class="{
+            'at99-promo-c__slide--primary': i === 0,
+            'at99-promo-c__slide--secondary': i === 1
+          }"
+          :style="{ background: s.gradient }"
+        >
+          <!-- 裝飾大字（背景） -->
+          <div class="at99-promo-c__decor" aria-hidden="true">
+            {{ s.decorText }}
+          </div>
+
+          <!-- 內容 -->
+          <div class="at99-promo-c__copy">
+            <span
+              class="at99-promo-c__tag"
+              :class="`at99-promo-c__tag--${s.tagColor}`"
+            >
+              {{ s.tag }}
+            </span>
+            <h2 class="at99-promo-c__title">{{ s.title }}</h2>
+            <p class="at99-promo-c__desc">{{ s.desc }}</p>
+            <button type="button" class="at99-promo-c__cta">
+              {{ s.cta }}
+            </button>
+          </div>
+
+          <!-- 金幣 / token 裝飾（純 CSS） -->
+          <div class="at99-promo-c__tokens" aria-hidden="true">
+            <span
+              v-for="j in 3"
+              :key="j"
+              class="at99-promo-c__coin"
+              :style="{ '--coin-delay': `${j * 0.3}s` }"
+            />
+            <span class="at99-promo-c__halo" />
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -163,20 +130,15 @@ onBeforeUnmount(() => stopAuto());
     padding: 0 24px;
   }
 
-  &__viewport {
-    overflow: hidden;
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-  }
-
-  &__track {
-    display: flex;
-    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
-    will-change: transform;
+  // 雙 banner 並列 row：7fr 大 + 5fr 小
+  // 比例貼近原站 at99tw.net PC promo 區（左主推較寬、右次推較窄）
+  &__row {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 16px;
   }
 
   &__slide {
-    flex: 0 0 100%;
     min-height: 240px;
     position: relative;
     padding: 36px 44px;
@@ -184,6 +146,8 @@ onBeforeUnmount(() => stopAuto());
     align-items: center;
     color: #ffffff;
     overflow: hidden;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
   }
 
   &__decor {
@@ -321,29 +285,29 @@ onBeforeUnmount(() => stopAuto());
     }
   }
 
-  &__dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 12px;
-  }
-
-  &__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: none;
-    background: var(--border);
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &--on {
-      width: 24px;
-      border-radius: 4px;
-      background: var(--color-primary);
-      box-shadow: var(--neon-glow);
+  // 次要 banner 視覺差異：稍微縮小 padding、字級調整，視覺上比主推弱一點
+  // stylelint-disable no-descending-specificity
+  &__slide--secondary {
+    .at99-promo-c__title {
+      font-size: 22px;
     }
+
+    .at99-promo-c__desc {
+      font-size: 12px;
+    }
+
+    .at99-promo-c__copy {
+      max-width: 70%;
+    }
+
+    .at99-promo-c__tokens {
+      width: 110px;
+      height: 110px;
+    }
+
+    padding: 28px 30px;
   }
+  // stylelint-enable no-descending-specificity
 
   &--mobile {
     // mobile 不留 dock 空間：padding 直接覆寫，左右 0 等同移除 dock-offset
@@ -351,6 +315,12 @@ onBeforeUnmount(() => stopAuto());
 
     .at99-promo-c__inner {
       padding: 0 16px;
+    }
+
+    // 雙 banner 在窄畫面壓單欄直疊，避免並排被壓扁看不清楚
+    .at99-promo-c__row {
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
 
     .at99-promo-c__slide {

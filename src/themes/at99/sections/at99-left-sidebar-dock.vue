@@ -5,12 +5,15 @@ import { useQuasar } from "quasar";
  * at99 左側 fixed sidebar dock
  *
  * 設計：
- * - 60px 寬，垂直排列 7-9 個圓形 icon
+ * - 100px 寬（與 --dock-offset 一致），垂直排列 8 個圓形 icon
  * - 黏在視窗左側，scrollable 頁面內容不影響
  * - icon 使用 Quasar 內建 material symbol
  *
+ * Round 4 對齊原站：原站 at99tw.net DOM 的 `nav` 量到寬 101px，
+ * 我們從 60px 拉寬到 100px，與原站結構對齊
+ *
  * 為何放在左側：原站 dock 在左側，避開右下角客服浮標
- * 注意：我們的 theme switcher FAB 已改放左下角，與 dock 區分位置
+ * 注意：theme switcher FAB 已改放左下角，與 dock 區分位置
  *      （dock 是 fixed left top-aligned，FAB 是 fixed left bottom）
  */
 
@@ -72,21 +75,21 @@ function tap(item: DockItem) {
   // 從 top header 下方開始，使用 64px 安全高度
   top: 70px;
   left: 0;
-  width: 60px;
+  width: var(--dock-offset);
   z-index: 90;
   background: var(--dock-bg);
   border-right: 1px solid var(--border);
   border-radius: 0 8px 8px 0;
-  padding: 10px 6px;
+  padding: 12px 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   box-shadow: var(--shadow);
 
   &__item {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
+    width: 100%;
+    height: 64px;
+    border-radius: 12px;
     background: var(--dock-icon-bg);
     border: 1px solid transparent;
     color: var(--text-muted);
@@ -107,7 +110,7 @@ function tap(item: DockItem) {
   }
 
   &__label {
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 0.5px;
   }
 }

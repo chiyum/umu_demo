@@ -50,7 +50,8 @@
 
   // dock 寬度：PC 左側 sidebar dock 在所有 section 都需要留出空間
   // 若改 dock 寬度只動這個 var，全 section 一起跟著走，免去散落 7 處手改
-  --dock-offset: 60px;
+  // round 4 對齊原站：at99tw.net header DOM `nav` 量到寬 101px，所以拉寬到 100px
+  --dock-offset: 100px;
   --font-display: "Outfit", "微軟正黑體", sans-serif;
   --font-body: "Outfit", "微軟正黑體", sans-serif;
 }
