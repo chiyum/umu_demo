@@ -53,6 +53,10 @@
   // 金色系 token：sunset 走更飽和的橘金漸（與整頁暖色調呼應）
   --gradient-gold: linear-gradient(135deg, #ffb38a 0%, #d9531c 100%);
   --text-on-gold: #4a1e08;
+
+  // top bar 深色 token：sunset 配色用偏咖啡的深底，搭配暖橘整頁色調
+  --top-bar-dark: linear-gradient(135deg, #2a1810 0%, #3a2818 100%);
+  --top-bar-dark-text: #fff0e0;
 }
 
 // 青檸綠：偏中性、活力、適合年輕族群
@@ -100,4 +104,8 @@
   // 金色系 token：lime 走偏綠的金漸（與 accent 黃綠對比但同色系）
   --gradient-gold: linear-gradient(135deg, #d3f0a4 0%, #4a8a1f 100%);
   --text-on-gold: #1a2a08;
+
+  // top bar 深色 token：lime 配色用深森林綠的深底
+  --top-bar-dark: linear-gradient(135deg, #0a1d10 0%, #1f3a25 100%);
+  --top-bar-dark-text: #e8f5c8;
 }

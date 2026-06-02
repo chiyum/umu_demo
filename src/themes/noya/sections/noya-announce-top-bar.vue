@@ -1,18 +1,25 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import AnnounceMarquee from "@/components/common/landing/announce-marquee.vue";
-import LoginInlineForm from "@/components/common/landing/login-inline-form.vue";
+import LoginModal from "@/components/common/landing/login-modal.vue";
+import { useQuasar } from "quasar";
 
 /**
- * noya PC 最頂 fixed 細長 bar：左跑馬燈 + 右內嵌登入區
+ * noya PC 最頂 sticky 細長 bar：左跑馬燈 + 右兩顆 CTA 按鈕
  *
- * 設計：
- * - 高度約 50px，sticky 黏在頁面最頂
- * - 左側用共用 AnnounceMarquee，右側用共用 LoginInlineForm
- * - 純 demo，所有內容文字皆通用占位（非原站字樣）
+ * Round 5 改版：
+ * - 背景從白底改為深色（走 --top-bar-dark），與下方 main-nav 形成明顯層次
+ * - 整條 bar 高度由 50px 降至 40px（節省垂直空間）
+ * - 把內嵌的 LoginInlineForm（帳/密/驗證碼）收進 LoginModal，
+ *   右側只留 2 顆按鈕（紫色 outline 登入 / 金色實心 免費註冊），
+ *   配合「桌面上方僅放 CTA、登入彈窗集中處理」的設計
  *
- * 為什麼這層只是 layout 殼：跑馬燈與登入兩塊都是共用 component，
- * 這個檔案只負責「noya 風格的容器、間距、顏色」。
+ * 為何不直接寫死 #1a1a2e 之類深色：用 token --top-bar-dark 集中管理，
+ * variants（sunset / lime）可獨立覆寫，深色基底不影響整頁配色
  */
+
+const $q = useQuasar();
+const loginOpen = ref(false);
 
 // 通用佔位的公告內容（不抄原站字樣，純展示）
 const announceMessages = [
@@ -22,6 +29,16 @@ const announceMessages = [
   "全新真人視訊頻道即將開啟，沉浸體驗等你來",
   "活動公告：版面切換 / 配色變化請點擊左下浮標"
 ];
+
+function onRegister() {
+  // 註冊也走同一個 modal（modal 內含開戶連結），demo 不實際送出
+  $q.notify({
+    message: "Demo 環境：免費註冊 僅展示版面，不會實際送出",
+    color: "primary",
+    position: "top",
+    timeout: 1800
+  });
+}
 </script>
 
 <template>
@@ -32,27 +49,48 @@ const announceMessages = [
         :items="announceMessages"
         :duration-sec="40"
       />
-      <LoginInlineForm />
+      <div class="noya-announce-bar__actions">
+        <button
+          type="button"
+          class="noya-announce-bar__btn noya-announce-bar__btn--ghost"
+          @click="loginOpen = true"
+        >
+          登入
+        </button>
+        <button
+          type="button"
+          class="noya-announce-bar__btn noya-announce-bar__btn--solid"
+          @click="onRegister"
+        >
+          免費註冊
+        </button>
+      </div>
     </div>
+
+    <!-- 登入 modal 走共用元件，與 at99 mobile 共用同一份 UI / 互動 -->
+    <LoginModal v-model="loginOpen" title="會員登入" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .noya-announce-bar {
-  // 對齊原站：純白底 + 細灰線（不再走 bg-base-translucent 略帶顏色感），
-  // 用 surface 而非寫死 #fff 是因為各 variant 已把 surface 微調過色溫，
-  // 這樣切換配色不會顯得突兀
-  background: var(--bg-surface);
+  // 深色背景：走 token --top-bar-dark，variants 可覆寫；
+  // 預設用 banner-dark-bg（已存在的深綠暗底 gradient）讓 rose-gold 配色看起來高級
+  background: var(--top-bar-dark, var(--banner-dark-bg));
+
+  // 深底配色使用 banner-dark-text（淺奶色），與下方主 nav 區分
+  color: var(--top-bar-dark-text, var(--banner-dark-text));
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 200;
-  height: 50px;
+
+  // Round 5：高度由 50px 降至 40px
+  height: 40px;
 
   // 父層 .noya-layout 是 flex column container，flex item 預設
   // align-self: stretch 在部分瀏覽器（含 Chromium）會讓 sticky 無效，
-  // 加上 align-self: flex-start 強制 sticky 子層保持原大小，sticky 才會生效。
-  // 同時加 width: 100% 補回原 stretch 撐滿的寬度行為。
+  // 加上 align-self: flex-start 強制 sticky 子層保持原大小，sticky 才會生效
   align-self: flex-start;
   width: 100%;
 
@@ -64,6 +102,66 @@ const announceMessages = [
     display: flex;
     align-items: center;
     gap: 24px;
+  }
+
+  // 跑馬燈在深底環境下需要強化對比：
+  // 子元件用 color-primary / text-muted，淺底沒問題，深底會糊掉
+  // 用 :deep 覆寫元件內部顏色，但仍保留 token 變動空間（accent 跟 muted 走另一組 alpha 白）
+  :deep(.announce-marquee__label) {
+    color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  :deep(.announce-marquee__text) {
+    color: var(--top-bar-dark-text, var(--banner-dark-text));
+    opacity: 0.92;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  // 兩顆按鈕共用基底：圓角小型 CTA
+  &__btn {
+    height: 28px;
+    padding: 0 18px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  // outline 紫色登入按鈕：原規格寫「紫色 outline」，
+  // 但走 var(--color-primary)，因為 noya 預設玫瑰金 / sunset 橘 / lime 綠 — 由 variant 決定
+  // 「紫色 outline」是描述視覺風格（outline + 主色），不是字面色
+  &__btn--ghost {
+    background: transparent;
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  // solid 金色實心免費註冊按鈕：與全站金色 CTA 一致
+  &__btn--solid {
+    background: var(--gradient-gold, var(--gradient-cta));
+    color: var(--text-on-gold, var(--text-on-primary));
+    border-color: transparent;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+
+    &:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
   }
 }
 </style>

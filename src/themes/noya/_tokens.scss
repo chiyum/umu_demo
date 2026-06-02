@@ -52,6 +52,12 @@
   --banner-dark-bg: linear-gradient(135deg, #2d4a4a 0%, #1a3030 100%);
   --banner-dark-text: #f5f0e8;
 
+  // Round 5：noya PC 頂部 announce bar 深色化專用 token
+  // 與 banner-dark-bg 分離，因為 announce bar 是橫長條，可選更深的純黑系
+  // 不直接複用 banner-dark-bg 是因為「banner 是 hero 視覺、bar 是 chrome」屬於不同 surface 層級
+  --top-bar-dark: linear-gradient(135deg, #1c1a18 0%, #2a2520 100%);
+  --top-bar-dark-text: #f0e6d5;
+
   // hero 雙 banner 右卡起點色（與 accent 串成日落漸層）
   --banner-warm-start: #fde2d3;
 

@@ -3,7 +3,11 @@ import { ref } from "vue";
 import { useQuasar } from "quasar";
 
 /**
- * 內嵌式登入表單 — 用在 noya PC 最上方 sticky bar 內
+ * 內嵌式登入表單 — 共用元件，目前未被 import
+ *
+ * Round 5：noya PC 頂部 announce-bar 改深色化後，登入收進 LoginModal，
+ * 不再內嵌此表單。檔案保留供未來其他 inline 登入場景使用（如：登入頁 / 浮動登入框），
+ * 移除會增加未來引入的成本，先以註解標示「目前無使用方」即可。
  *
  * 設計：
  * - 純 UI demo，按下登入只跳 Quasar Notify 提示「Demo 環境」
