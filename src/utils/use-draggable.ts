@@ -124,9 +124,9 @@ export function useDraggable(options: UseDraggableOptions) {
     const { x, y } = ratioToPx(position.value);
     startRatioX = x;
     startRatioY = y;
-    // 把後續 pointer 事件捕獲到 target 上，這樣 pointermove 不會因為移出元素而漏掉
-    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
-    // 拖曳期間阻止 q-btn 等子元素觸發 ripple 抖動
+    // 不呼叫 setPointerCapture：捕獲到外層容器會讓 click 也跟著鎖定到容器，
+    // 子元素的 @click（如 FAB 主鈕的 toggleOpen）就不會觸發；
+    // 我們本來就在 document 上掛 pointermove / pointerup，不需要 capture 也不會漏訊號
     document.addEventListener("pointermove", onPointerMove);
     document.addEventListener("pointerup", onPointerUp);
     document.addEventListener("pointercancel", onPointerUp);
