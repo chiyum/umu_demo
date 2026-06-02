@@ -165,7 +165,7 @@ export const useThemeStore = defineStore("theme", () => {
     };
   }
 
-  /** 重置 FAB 位置到預設右下角（給 UI「重設」按鈕用） */
+  /** 重置 FAB 位置到預設左下角（給 UI「重設」按鈕用，避開原站右下角浮標） */
   function resetFabPosition(): void {
     fabPosition.value = { ...DEFAULT_FAB_POSITION };
   }

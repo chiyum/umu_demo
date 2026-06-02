@@ -31,6 +31,19 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 /**
+ * 產生實例專屬唯一 ID，避免多個 avatar 並排時 `<defs>` 內的
+ * linearGradient id 撞號（先前以 `bg-${props.seed}` 拼接時，
+ * 不同元件若 seed 相同就會共用同一個漸層定義，被瀏覽器以最後
+ * 一個渲染為準）
+ *
+ * Vue 3.5 才有 useId，本專案 Vue 3.4，所以走 Math.random 自製；
+ * 36 進位 9 碼足以避開單頁同時 60+ 個 avatar 的碰撞風險
+ */
+const instanceId = `av-${Math.random().toString(36).slice(2, 11)}`;
+const bgGradientId = `${instanceId}-bg`;
+const bodyGradientId = `${instanceId}-body`;
+
+/**
  * 把 seed 映射成 0-1 區間，做出多樣化視覺
  * 用簡單的 fract(seed * 0.618) 取得均勻分佈（黃金比例）
  */
@@ -69,11 +82,11 @@ const showAccessory = computed(() => seedRatio.value > 0.5);
     >
       <!-- 漸層背景：上深下淺 -->
       <defs>
-        <linearGradient :id="`bg-${props.seed}`" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient :id="bgGradientId" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="var(--color-accent)" />
           <stop offset="100%" stop-color="var(--bg-overlay)" />
         </linearGradient>
-        <linearGradient :id="`body-${props.seed}`" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient :id="bodyGradientId" x1="0" y1="0" x2="0" y2="1">
           <stop
             offset="0%"
             stop-color="var(--color-primary)"
@@ -88,7 +101,7 @@ const showAccessory = computed(() => seedRatio.value > 0.5);
       </defs>
 
       <!-- 背景 -->
-      <rect width="100" height="140" :fill="`url(#bg-${props.seed})`" />
+      <rect width="100" height="140" :fill="`url(#${bgGradientId})`" />
 
       <!-- 光暈圓 -->
       <circle
@@ -102,7 +115,7 @@ const showAccessory = computed(() => seedRatio.value > 0.5);
       <!-- 身體輪廓（梯形肩部） -->
       <path
         d="M20,140 L26,90 Q50,76 74,90 L80,140 Z"
-        :fill="`url(#body-${props.seed})`"
+        :fill="`url(#${bodyGradientId})`"
       />
 
       <!-- 脖子 -->

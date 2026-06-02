@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, watch } from "vue";
 import { useQuasar } from "quasar";
 
 /**
@@ -44,15 +44,27 @@ const props = withDefaults(defineProps<Props>(), {
 
 const $q = useQuasar();
 
-/** 當前 active key（純前端展示用，點擊後切換高亮） */
-const internalActive = computed({
-  get: () => props.activeKey,
-  set: () => {
-    /* 上層若想接管可加 emit，目前 demo 不需要 */
+/**
+ * 當前 active key
+ *
+ * 改為 ref 而非 computed setter 為空的 wrapper：原本寫成
+ * `computed({ set: () => {} })` 會讓 v-model / 賦值靜默失效，
+ * 點擊後 highlight 停不住，使用者體感是「按下沒反應」。
+ *
+ * 改用 ref 內部維護，並 watch props.activeKey 同步外部初始值；
+ * 如父層之後想接管，再加 emit 或改回 v-model 模式。
+ */
+const internalActive = ref(props.activeKey);
+
+watch(
+  () => props.activeKey,
+  (next) => {
+    internalActive.value = next;
   }
-});
+);
 
 function handleTap(item: TabItem) {
+  internalActive.value = item.key;
   $q.notify({
     message: `Demo 環境：${item.label} 僅展示版面`,
     color: "primary",
