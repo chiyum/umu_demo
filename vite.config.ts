@@ -133,7 +133,11 @@ export default defineConfig(({ mode }) => {
   console.log("當前載入全域樣式:", env.VITE_STYLE_ENV);
 
   return {
-    base: "./",
+    // GitHub Pages 是子路徑部署（https://chiyum.github.io/umu_demo/），
+    // production build 必須產出 /umu_demo/ 前綴的 asset 路徑；
+    // dev / 其他 mode 維持相對路徑，方便本地或其他部署環境直接 serve。
+    // 若日後 repo 改名只需動這裡與 deploy.yml 對應註解。
+    base: mode === "production" ? "/umu_demo/" : "./",
     envDir: "./env", // 指定環境變數文件的目錄
     plugins: [
       pageMetaPlugin(currentEnvTemplate),
