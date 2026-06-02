@@ -1,25 +1,28 @@
 <script setup lang="ts">
 //
-// Round 4 結構對齊：原本的 onMounted / onBeforeUnmount 自動輪播 + activeIdx
-// 已不需要，因雙 banner 改為靜態並列同時顯示
+// 第六輪結構：保留 Round 4 的「雙 banner 同列並排」（左 7fr 主 + 右 5fr 次），
+// 但每張 banner 從「CSS 漸層 + 自繪 token 金幣 + decor 大字 + 完整 copy 區塊」
+// 換成整張 kingdom_front 廣告素材鋪滿，僅留 CTA 按鈕貼右下。
+// 這跟 noya mobile banner 處理一致：素材本身已是完整廣告，疊文字會打架。
 //
 
 /**
- * at99 主視覺 promo banner — round 4 對齊原站結構：雙 banner 同列並排
- *
- * 原 at99tw.net PC 是「左 1 大張主 banner + 右 1 張次 banner」同時顯示在同列；
- * 之前實作為「單張輪播 carousel」（一次只看到 1 張）方向不對，本次改為並列。
+ * at99 主視覺 promo banner — 第六輪：實際素材鋪滿版
  *
  * 設計：
  * - PC：grid 2 欄（左 7fr 大 banner + 右 5fr 次 banner），同時可見
  * - Mobile：壓成單欄直疊，避免並排在窄畫面被壓扁
- * - 視覺：CSS 繪製的 token 角色、金幣、霓虹光環（不抄原站素材）
- * - 內容文案完全通用佔位
+ * - 視覺：banner-deposit / banner-new 兩張 kingdom_front 廣告 banner
+ * - 文案：拿掉，僅以 alt 表達 + CTA 按鈕貼右下
  *
  * 為何保留檔名 `at99-promo-banner-carousel.vue`：避免改檔名觸發全域 search/replace，
  * 元件 class 維持 `at99-promo-c`（c = carousel），語意上以「promo carousel 區塊」
  * 視之即可。
  */
+
+// 兩張 banner 素材：deposit / new（對應入金加碼 / 新會員加碼兩個主題）
+import imgDeposit from "@/assets/themes/at99/images/banners/banner-deposit.png";
+import imgNew from "@/assets/themes/at99/images/banners/banner-new.png";
 
 interface Props {
   mobile?: boolean;
@@ -29,38 +32,27 @@ withDefaults(defineProps<Props>(), { mobile: false });
 
 interface Slide {
   key: string;
-  tag: string;
-  tagColor: "cyan" | "gold";
-  title: string;
-  desc: string;
+  /** 圖片 alt（語意化標題） */
+  alt: string;
+  /** CTA 按鈕字 */
   cta: string;
-  /** banner 配色 */
-  gradient: string;
-  /** 主視覺裝飾文字（大字疊在背景上） */
-  decorText: string;
+  /** 主視覺素材 url */
+  image: string;
 }
 
 // 雙 banner 並列：左大張 (主推) + 右小張 (次推)
 const slides: Slide[] = [
   {
     key: "p1",
-    tag: "限時活動",
-    tagColor: "cyan",
-    title: "首存豪禮．百倍回饋",
-    desc: "新會員專屬入金加碼，最高加碼 100% 返水",
+    alt: "首存豪禮．百倍回饋",
     cta: "立即參加",
-    gradient: "linear-gradient(135deg, #1a3a8f 0%, #6c27d1 50%, #d62b9a 100%)",
-    decorText: "MEGA BONUS"
+    image: imgDeposit
   },
   {
     key: "p2",
-    tag: "賽事盤口",
-    tagColor: "gold",
-    title: "熱門賽事．即時開盤",
-    desc: "全球賽事完整覆蓋，多元玩法立即下注",
-    cta: "查看賽程",
-    gradient: "linear-gradient(135deg, #0e2e6e 0%, #1561c4 60%, #2dd4ff 100%)",
-    decorText: "SPORTS LIVE"
+    alt: "新會員專屬加碼",
+    cta: "查看詳情",
+    image: imgNew
   }
 ];
 </script>
@@ -78,38 +70,23 @@ const slides: Slide[] = [
             'at99-promo-c__slide--primary': i === 0,
             'at99-promo-c__slide--secondary': i === 1
           }"
-          :style="{ background: s.gradient }"
         >
-          <!-- 裝飾大字（背景） -->
-          <div class="at99-promo-c__decor" aria-hidden="true">
-            {{ s.decorText }}
-          </div>
+          <!--
+            素材鋪滿整個 banner；alt 給 screen reader
+            loading=lazy 讓非首屏 banner 不阻塞首屏
+          -->
+          <img
+            :src="s.image"
+            :alt="s.alt"
+            class="at99-promo-c__img"
+            loading="lazy"
+            decoding="async"
+          />
 
-          <!-- 內容 -->
-          <div class="at99-promo-c__copy">
-            <span
-              class="at99-promo-c__tag"
-              :class="`at99-promo-c__tag--${s.tagColor}`"
-            >
-              {{ s.tag }}
-            </span>
-            <h2 class="at99-promo-c__title">{{ s.title }}</h2>
-            <p class="at99-promo-c__desc">{{ s.desc }}</p>
-            <button type="button" class="at99-promo-c__cta">
-              {{ s.cta }}
-            </button>
-          </div>
-
-          <!-- 金幣 / token 裝飾（純 CSS） -->
-          <div class="at99-promo-c__tokens" aria-hidden="true">
-            <span
-              v-for="j in 3"
-              :key="j"
-              class="at99-promo-c__coin"
-              :style="{ '--coin-delay': `${j * 0.3}s` }"
-            />
-            <span class="at99-promo-c__halo" />
-          </div>
+          <!-- CTA 按鈕貼右下，金色霓虹按鈕；不擋圖主要視覺 -->
+          <button type="button" class="at99-promo-c__cta">
+            {{ s.cta }}
+          </button>
         </article>
       </div>
     </div>
@@ -138,81 +115,32 @@ const slides: Slide[] = [
     gap: 16px;
   }
 
+  // banner slide：素材圖鋪滿，CTA 絕對貼右下
+  // aspect-ratio 32/13 對齊原站 PC 雙 banner 視覺比例
   &__slide {
-    min-height: 240px;
     position: relative;
-    padding: 36px 44px;
-    display: flex;
-    align-items: center;
-    color: #ffffff;
+    aspect-ratio: 32 / 13;
+    min-height: 200px;
     overflow: hidden;
     border-radius: 14px;
     box-shadow: var(--shadow);
   }
 
-  &__decor {
+  // 主圖：cover 鋪滿整張 banner，center 對齊讓重點視覺不被裁
+  &__img {
     position: absolute;
-    top: 50%;
-    right: 24px;
-    transform: translateY(-50%);
-    font-size: 80px;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.06);
-    letter-spacing: 6px;
-    pointer-events: none;
-    z-index: 0;
-    line-height: 1;
-  }
-
-  &__copy {
-    flex: 1;
-    z-index: 2;
-    max-width: 60%;
-  }
-
-  &__tag {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 12px;
-
-    &--cyan {
-      background: var(--bg-overlay);
-      color: var(--color-primary);
-      text-shadow: 0 0 6px var(--color-primary);
-      border: 1px solid var(--color-primary);
-    }
-
-    &--gold {
-      // tag bg / border 用 accent 主色帶 alpha；切換 variants 時跟著走
-      background: color-mix(in srgb, var(--color-accent) 18%, transparent);
-      color: var(--color-accent);
-      text-shadow: 0 0 6px var(--color-accent);
-      border: 1px solid color-mix(in srgb, var(--color-accent) 50%, transparent);
-    }
-  }
-
-  &__title {
-    font-size: 30px;
-    font-weight: 900;
-    margin: 0 0 10px;
-    letter-spacing: 2px;
-    text-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.35),
-      0 0 12px rgba(255, 255, 255, 0.2);
-  }
-
-  &__desc {
-    font-size: 13px;
-    line-height: 1.6;
-    opacity: 0.92;
-    margin: 0 0 18px;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
   }
 
   &__cta {
+    position: absolute;
+    right: 24px;
+    bottom: 22px;
     background: var(--gradient-gold);
     color: var(--text-on-gold);
     border: none;
@@ -224,90 +152,12 @@ const slides: Slide[] = [
     cursor: pointer;
     box-shadow: 0 0 12px var(--color-accent);
     text-transform: uppercase;
+    z-index: 2;
 
     &:hover {
       filter: brightness(1.08);
     }
   }
-
-  // Token 裝飾
-  &__tokens {
-    position: absolute;
-    right: 8%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 160px;
-    height: 160px;
-    z-index: 1;
-  }
-
-  &__halo {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      rgba(255, 216, 77, 0.4) 0%,
-      transparent 60%
-    );
-    animation: at99-halo-pulse 3s ease-in-out infinite;
-  }
-
-  &__coin {
-    position: absolute;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--coin-gradient);
-    box-shadow:
-      inset 0 -3px 6px rgba(120, 70, 0, 0.5),
-      0 4px 12px rgba(0, 0, 0, 0.3);
-    animation: at99-coin-float 3s ease-in-out infinite;
-    animation-delay: var(--coin-delay, 0s);
-
-    &:nth-child(1) {
-      top: 10px;
-      left: 20px;
-    }
-
-    &:nth-child(2) {
-      top: 60px;
-      right: 10px;
-      width: 56px;
-      height: 56px;
-    }
-
-    &:nth-child(3) {
-      bottom: 10px;
-      left: 50px;
-      width: 40px;
-      height: 40px;
-    }
-  }
-
-  // 次要 banner 視覺差異：稍微縮小 padding、字級調整，視覺上比主推弱一點
-  // stylelint-disable no-descending-specificity
-  &__slide--secondary {
-    .at99-promo-c__title {
-      font-size: 22px;
-    }
-
-    .at99-promo-c__desc {
-      font-size: 12px;
-    }
-
-    .at99-promo-c__copy {
-      max-width: 70%;
-    }
-
-    .at99-promo-c__tokens {
-      width: 110px;
-      height: 110px;
-    }
-
-    padding: 28px 30px;
-  }
-  // stylelint-enable no-descending-specificity
 
   &--mobile {
     // mobile 不留 dock 空間：padding 直接覆寫，左右 0 等同移除 dock-offset
@@ -324,66 +174,16 @@ const slides: Slide[] = [
     }
 
     .at99-promo-c__slide {
-      min-height: 180px;
-      padding: 22px 20px;
+      min-height: 150px;
+      aspect-ratio: 16 / 7;
     }
 
-    .at99-promo-c__decor {
-      font-size: 50px;
-    }
-
-    .at99-promo-c__title {
-      font-size: 20px;
-    }
-
-    .at99-promo-c__desc {
+    .at99-promo-c__cta {
+      right: 12px;
+      bottom: 12px;
+      padding: 7px 14px;
       font-size: 11px;
     }
-
-    .at99-promo-c__tokens {
-      width: 100px;
-      height: 100px;
-      right: 4%;
-    }
-
-    .at99-promo-c__coin {
-      width: 32px;
-      height: 32px;
-
-      &:nth-child(2) {
-        width: 38px;
-        height: 38px;
-      }
-
-      &:nth-child(3) {
-        width: 28px;
-        height: 28px;
-      }
-    }
-  }
-}
-
-@keyframes at99-coin-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-8px) rotate(180deg);
-  }
-}
-
-@keyframes at99-halo-pulse {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.85;
-    transform: scale(1.08);
   }
 }
 </style>
