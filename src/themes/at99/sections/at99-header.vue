@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import At99Button from "../atoms/at99-button.vue";
+// 真實素材：原站 (at99tw.net CDN) logo
+import at99Logo from "@/assets/themes/at99/images/logos/at99-logo.png";
 
 interface Props {
   mobile?: boolean;
@@ -18,38 +20,7 @@ const navItems = [
   <header class="at99-header" :class="{ 'at99-header--mobile': mobile }">
     <div class="at99-header__inner">
       <div class="at99-header__brand">
-        <svg
-          width="40"
-          height="40"
-          viewBox="0 0 40 40"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <linearGradient id="at99logo" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="var(--color-primary)" />
-              <stop offset="100%" stop-color="var(--color-secondary)" />
-            </linearGradient>
-          </defs>
-          <rect
-            x="2"
-            y="2"
-            width="36"
-            height="36"
-            rx="6"
-            fill="url(#at99logo)"
-          />
-          <text
-            x="20"
-            y="26"
-            text-anchor="middle"
-            font-size="14"
-            font-weight="800"
-            fill="var(--text-on-primary)"
-          >
-            AT99
-          </text>
-        </svg>
-        <span class="at99-header__brand-name">AT99</span>
+        <img class="at99-header__logo" :src="at99Logo" alt="AT99" />
       </div>
 
       <nav v-if="!mobile" class="at99-header__nav">
@@ -96,13 +67,10 @@ const navItems = [
     gap: 10px;
   }
 
-  &__brand-name {
-    font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--color-primary);
-    letter-spacing: 3px;
-    text-shadow: var(--neon-glow);
+  &__logo {
+    display: block;
+    height: 36px;
+    width: auto;
   }
 
   &__nav {
@@ -146,8 +114,8 @@ const navItems = [
       }
     }
 
-    .at99-header__brand-name {
-      font-size: 18px;
+    .at99-header__logo {
+      height: 28px;
     }
   }
 }

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// 真實素材：at99 官方排行榜活動 icon
+import rankingTrophy from "@/assets/themes/at99/images/promo/ranking-trophy.png";
+
 /**
  * at99 排行榜：用 tab 切「派彩榜」與「Win Rate 榜」
  */
@@ -36,7 +39,15 @@ const data = [
     :class="{ 'at99-board--mobile': mobile }"
   >
     <div class="at99-board__inner">
-      <h2 class="at99-board__title">排行榜</h2>
+      <div class="at99-board__heading">
+        <img
+          class="at99-board__trophy"
+          :src="rankingTrophy"
+          alt=""
+          aria-hidden="true"
+        />
+        <h2 class="at99-board__title">排行榜</h2>
+      </div>
 
       <div class="at99-board__tabs">
         <button
@@ -87,12 +98,25 @@ const data = [
     padding: 0 24px;
   }
 
+  &__heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 0 20px;
+  }
+
+  &__trophy {
+    display: block;
+    height: 48px;
+    width: auto;
+  }
+
   &__title {
-    text-align: center;
     color: var(--text-primary);
     font-size: 24px;
     font-weight: 800;
-    margin: 0 0 20px;
+    margin: 0;
     letter-spacing: 2px;
   }
 

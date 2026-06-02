@@ -1,15 +1,18 @@
 <script setup lang="ts">
+// 從 5168th.com 抓的兩張真人荷官圖，輪替分配給 8 個 card
+import dealerA from "@/assets/themes/noya/images/live/live_modal-1.png";
+import dealerB from "@/assets/themes/noya/images/chess/chess_modal-1.png";
+
 /**
  * noya 熱門遊戲 grid：模擬「美女荷官」九宮格
  * 桌面 4 列、手機 2 列。
- * 圖片用色塊 + SVG 線稿 placeholder。
  */
 interface Props {
   mobile?: boolean;
 }
 withDefaults(defineProps<Props>(), { mobile: false });
 
-// 假資料：模擬荷官清單
+// 假資料：模擬荷官清單。8 個 card 用兩張真人圖輪替（id 奇/偶分配）
 const dealers = [
   { id: 1, name: "Anna", tag: "VIP" },
   { id: 2, name: "Bella", tag: "新進" },
@@ -20,6 +23,11 @@ const dealers = [
   { id: 7, name: "Grace", tag: "新進" },
   { id: 8, name: "Hana", tag: "人氣" }
 ];
+
+// 依 id 奇偶分配兩張真人荷官圖
+function dealerImg(id: number): string {
+  return id % 2 === 1 ? dealerA : dealerB;
+}
 </script>
 
 <template>
@@ -34,22 +42,11 @@ const dealers = [
       <div class="noya-grid__list">
         <div v-for="dealer in dealers" :key="dealer.id" class="noya-grid__card">
           <div class="noya-grid__card-visual">
-            <!-- 簡化的 SVG 人像剪影 -->
-            <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
-              <rect width="100" height="120" fill="var(--bg-overlay)" />
-              <circle
-                cx="50"
-                cy="42"
-                r="22"
-                fill="var(--color-primary)"
-                opacity="0.7"
-              />
-              <path
-                d="M20 120 Q20 80, 50 70 Q80 80, 80 120 Z"
-                fill="var(--color-secondary)"
-                opacity="0.6"
-              />
-            </svg>
+            <img
+              :src="dealerImg(dealer.id)"
+              :alt="dealer.name"
+              loading="lazy"
+            />
             <span v-if="dealer.tag" class="noya-grid__card-tag">
               {{ dealer.tag }}
             </span>
@@ -111,10 +108,17 @@ const dealers = [
   &__card-visual {
     position: relative;
 
-    svg {
+    // 圖片本身比例可能不是 5:6，用 aspect-ratio 鎖卡片比例，object-fit 維持人像置中
+    aspect-ratio: 5 / 6;
+    overflow: hidden;
+    background: var(--bg-overlay);
+
+    img {
       display: block;
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
     }
   }
 

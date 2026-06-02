@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import At99Button from "../atoms/at99-button.vue";
+// 真實素材：at99 官方活動素材（SpinTheWheel / RedEnvelope）
+import spinWheel from "@/assets/themes/at99/images/promo/spin-wheel.png";
+import redEnvelope from "@/assets/themes/at99/images/promo/redenvelope.png";
 
 /** at99 主視覺：電子因雲機 + 2025 世足賽兩張 banner */
 interface Props {
@@ -19,41 +22,7 @@ withDefaults(defineProps<Props>(), { mobile: false });
           <At99Button variant="gold">立即參加</At99Button>
         </div>
         <div class="at99-promo__card-visual">
-          <!-- 老虎機機台 SVG placeholder -->
-          <svg
-            viewBox="0 0 200 200"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <rect
-              x="40"
-              y="30"
-              width="120"
-              height="150"
-              rx="10"
-              fill="var(--color-secondary)"
-            />
-            <rect x="50" y="50" width="100" height="80" fill="var(--bg-base)" />
-            <text
-              x="100"
-              y="100"
-              text-anchor="middle"
-              fill="var(--color-accent)"
-              font-size="32"
-              font-weight="900"
-            >
-              777
-            </text>
-            <rect
-              x="60"
-              y="150"
-              width="80"
-              height="20"
-              rx="3"
-              fill="var(--color-accent)"
-            />
-            <circle cx="170" cy="100" r="8" fill="var(--color-primary)" />
-          </svg>
+          <img :src="spinWheel" alt="幸運轉盤" />
         </div>
       </article>
 
@@ -63,11 +32,8 @@ withDefaults(defineProps<Props>(), { mobile: false });
           <h2 class="at99-promo__title-sm">熱門賽事盤口</h2>
           <p class="at99-promo__desc-sm">即時賠率，多元玩法</p>
         </div>
-        <!-- 球隊隊徽 placeholder -->
-        <div class="at99-promo__balls">
-          <span />
-          <span />
-          <span />
+        <div class="at99-promo__small-visual">
+          <img :src="redEnvelope" alt="紅包活動" />
         </div>
       </article>
     </div>
@@ -108,9 +74,20 @@ withDefaults(defineProps<Props>(), { mobile: false });
   &__card-visual {
     flex: 0 0 160px;
 
-    svg {
+    img {
       width: 100%;
       height: auto;
+      display: block;
+    }
+  }
+
+  &__small-visual {
+    flex: 0 0 80px;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
   }
 
@@ -155,20 +132,6 @@ withDefaults(defineProps<Props>(), { mobile: false });
     font-size: 13px;
   }
 
-  &__balls {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-
-    span {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--color-accent), #f59e0b);
-      box-shadow: 0 0 8px var(--color-accent);
-    }
-  }
-
   &--mobile {
     .at99-promo__inner {
       grid-template-columns: 1fr;
@@ -184,13 +147,19 @@ withDefaults(defineProps<Props>(), { mobile: false });
     .at99-promo__card-visual {
       flex-basis: auto;
 
-      svg {
+      img {
         max-width: 140px;
+        margin: 0 auto;
       }
     }
 
-    .at99-promo__balls {
-      justify-content: center;
+    .at99-promo__small-visual {
+      flex-basis: auto;
+
+      img {
+        max-width: 80px;
+        margin: 0 auto;
+      }
     }
   }
 }

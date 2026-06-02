@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import NoyaButton from "../atoms/noya-button.vue";
+// 真實素材：從 5168th.com（wayback）抓的真人荷官底圖
+import heroVisual from "@/assets/themes/noya/images/live/live_modal-1.png";
 
 /**
  * noya hero：真人荷官形象區 + 主標語 + CTA
- * 用 SVG placeholder 代替真人圖（避免 hotlink 外站）
  */
 interface Props {
   mobile?: boolean;
@@ -30,49 +31,7 @@ withDefaults(defineProps<Props>(), { mobile: false });
         </div>
       </div>
       <div class="noya-hero__visual" aria-hidden="true">
-        <!-- 真人荷官 SVG placeholder：簡化的剪影輪廓 -->
-        <svg viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="noyaHeroGrad" cx="50%" cy="40%" r="60%">
-              <stop
-                offset="0%"
-                stop-color="var(--color-accent)"
-                stop-opacity="0.6"
-              />
-              <stop
-                offset="100%"
-                stop-color="var(--color-primary)"
-                stop-opacity="0.05"
-              />
-            </radialGradient>
-          </defs>
-          <circle cx="160" cy="200" r="160" fill="url(#noyaHeroGrad)" />
-          <!-- 頭部 -->
-          <ellipse
-            cx="160"
-            cy="140"
-            rx="40"
-            ry="50"
-            fill="var(--color-primary)"
-            opacity="0.75"
-          />
-          <!-- 身體 -->
-          <path
-            d="M100 360 Q100 240, 160 220 Q220 240, 220 360 Z"
-            fill="var(--color-secondary)"
-            opacity="0.7"
-          />
-          <!-- 裝飾光點 -->
-          <circle cx="80" cy="100" r="4" fill="var(--color-accent)" />
-          <circle
-            cx="240"
-            cy="80"
-            r="6"
-            fill="var(--color-accent)"
-            opacity="0.6"
-          />
-          <circle cx="260" cy="280" r="3" fill="var(--color-primary)" />
-        </svg>
+        <img :src="heroVisual" alt="真人荷官" />
       </div>
     </div>
   </section>
@@ -149,10 +108,11 @@ withDefaults(defineProps<Props>(), { mobile: false });
     display: flex;
     justify-content: center;
 
-    svg {
+    img {
       width: 100%;
       max-width: 360px;
       height: auto;
+      display: block;
     }
   }
 
@@ -171,7 +131,7 @@ withDefaults(defineProps<Props>(), { mobile: false });
     .noya-hero__visual {
       order: -1;
 
-      svg {
+      img {
         max-width: 240px;
       }
     }

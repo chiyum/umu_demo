@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// 真實素材：at99 官方 logo（與 header 共用同檔）
+import at99Logo from "@/assets/themes/at99/images/logos/at99-logo.png";
+
 interface Props {
   mobile?: boolean;
 }
@@ -16,9 +19,7 @@ const links = [
   <footer class="at99-footer" :class="{ 'at99-footer--mobile': mobile }">
     <div class="at99-footer__inner">
       <div class="at99-footer__left">
-        <div class="at99-footer__brand">
-          <span class="at99-footer__brand-name">AT99</span>
-        </div>
+        <img class="at99-footer__logo" :src="at99Logo" alt="AT99" />
         <p class="at99-footer__desc">
           AT99 娛樂城，提供最完整的遊戲體驗，本網站僅供娛樂展示用途。
         </p>
@@ -49,13 +50,10 @@ const links = [
     align-items: flex-start;
   }
 
-  &__brand-name {
-    font-family: var(--font-display);
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 3px;
-    color: var(--color-primary);
-    text-shadow: var(--neon-glow);
+  &__logo {
+    display: block;
+    height: 40px;
+    width: auto;
   }
 
   &__desc {

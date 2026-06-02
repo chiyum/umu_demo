@@ -8,6 +8,7 @@
   --color-secondary: #ff5a36;
   --color-accent: #ffb38a;
   --bg-base: #fff5ef;
+
   // 補 bg-surface：variants 沒覆寫會繼承 _tokens.scss 的純白 #ffffff，
   // 導致卡片在暖色頁面背景下顯得突兀；用微暖近白讓卡片與整頁色溫一致
   --bg-surface: #fff8f3;
@@ -26,6 +27,7 @@
   --color-secondary: #7ebc3a;
   --color-accent: #d3f0a4;
   --bg-base: #f4faec;
+
   // 補 bg-surface：理由同 sunset，採微綠近白與整頁色系一致
   --bg-surface: #f7fbf2;
   --bg-overlay: rgba(159, 211, 86, 0.08);
