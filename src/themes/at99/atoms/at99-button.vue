@@ -16,18 +16,25 @@ withDefaults(defineProps<Props>(), { variant: "primary", type: "button" });
 </template>
 
 <style lang="scss" scoped>
+// kingdom DNA：賭場版同樣走 pill 形主 CTA，但保留 at99 霓虹光暈與大寫字體
+// 與 noya CTA 結構一致（pill / var token / brightness hover），色相由 token 切換
 .at99-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-sm);
   padding: 10px 24px;
-  border-radius: 6px;
+
+  // kingdom DNA：CTA 走 pill 形（與 noya 統一），霓虹光暈仍由 shadow / glow 提供
+  border-radius: var(--radius-pill);
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
   letter-spacing: 1px;
-  transition: all 0.18s ease;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-base),
+    filter var(--transition-fast);
   text-transform: uppercase;
 
   &:hover {
@@ -35,13 +42,19 @@ withDefaults(defineProps<Props>(), { variant: "primary", type: "button" });
   }
 
   &--primary {
+    // kingdom DNA：藍/紫/綠霓虹用強 brightness hover
     background: var(--gradient-cta);
-    color: #ffffff;
+    color: var(--text-on-primary);
     border: 1px solid var(--color-primary);
     box-shadow: var(--neon-glow);
 
     &:hover {
-      box-shadow: var(--shadow-primary);
+      filter: var(--filter-hover-strong);
+      box-shadow: var(--shadow-glow);
+    }
+
+    &:active {
+      filter: var(--filter-active-strong);
     }
   }
 
@@ -53,18 +66,28 @@ withDefaults(defineProps<Props>(), { variant: "primary", type: "button" });
 
     &:hover {
       background: var(--bg-overlay);
-      box-shadow: var(--neon-glow);
+      box-shadow: var(--shadow-glow);
+      filter: var(--filter-hover-strong);
     }
   }
 
   &--gold {
-    background: linear-gradient(135deg, var(--color-accent), #f59e0b);
-    color: #1f1100;
+    // kingdom DNA：金色 CTA 走 gradient-gold token + soft brightness（金色不過曝）
+    background: var(
+      --gradient-gold,
+      linear-gradient(135deg, var(--color-accent), #f59e0b)
+    );
+    color: var(--text-on-gold, #1f1100);
     border: none;
     box-shadow: 0 0 8px var(--color-accent);
 
     &:hover {
+      filter: var(--filter-hover-soft);
       box-shadow: 0 0 16px var(--color-accent);
+    }
+
+    &:active {
+      filter: var(--filter-active-soft);
     }
   }
 }

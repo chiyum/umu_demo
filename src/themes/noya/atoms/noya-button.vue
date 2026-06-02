@@ -25,20 +25,23 @@ withDefaults(defineProps<Props>(), {
 </template>
 
 <style lang="scss" scoped>
+// kingdom_front big-btn DNA：pill 形 + 2px border + brightness hover + shadow stack
+// 對齊 kingdom 整站「主 CTA pill 形 / 描邊 / 主漸層 / filter hover」模式
 .noya-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-sm);
   padding: 12px 28px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.5px;
   cursor: pointer;
   transition:
-    transform 0.15s ease,
-    box-shadow 0.2s ease;
+    transform var(--transition-fast),
+    box-shadow var(--transition-base),
+    filter var(--transition-fast);
   white-space: nowrap;
 
   &:hover {
@@ -47,22 +50,35 @@ withDefaults(defineProps<Props>(), {
 
   &--primary {
     background: var(--gradient-cta);
-    color: #ffffff;
+    color: var(--text-on-primary);
     border: none;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-md);
 
     &:hover {
-      box-shadow: 0 6px 18px var(--color-primary);
+      // kingdom DNA：藍色系主 CTA 用 brightness 強 hover + shadow-lg 浮起
+      filter: var(--filter-hover-strong);
+      box-shadow: var(--shadow-lg);
+    }
+
+    &:active {
+      filter: var(--filter-active-strong);
     }
   }
 
   &--ghost {
     background: transparent;
     color: var(--color-primary);
+
+    // kingdom big-btn DNA：描邊維持 1.5px（接近原 2px），輪廓清楚
     border: 1.5px solid var(--color-primary);
 
     &:hover {
       background: var(--bg-overlay);
+      filter: var(--filter-hover-strong);
+    }
+
+    &:active {
+      filter: var(--filter-active-strong);
     }
   }
 }
