@@ -29,6 +29,24 @@ body,
   font-family: var(--font-body, var(--font-stack-base));
 }
 
+// Round 9 補丁：QA 七輪實測，這專案 DOM 沒有 .q-app / .q-page wrapper（layout 直接掛在 #app）
+// 上面三層覆寫對畫面無效，body 仍從 Quasar global 拿到 Roboto
+// 對策：
+//   1. 直接命中各 theme 自家 layout class（noya / at99，pc / mobile 各兩條）
+//   2. body 加一道 !important 雙保險，確保即使 layout class 未套，body 也走 theme 字
+// 為什麼放這裡：main.default.scss 載入順序晚於 Quasar，能贏 specificity；
+// 同時也避開「散落 theme 自家檔」造成的 token 漂移
+.noya-layout,
+.noya-m-layout,
+.at99-layout,
+.at99-m-layout {
+  font-family: var(--font-body, var(--font-stack-base));
+}
+
+body {
+  font-family: var(--font-body, var(--font-stack-base)) !important;
+}
+
 // app global css in SCSS form
 
 .card_style {
