@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ProviderBadge from "@/components/common/landing/provider-badge.vue";
 import AvatarSilhouette from "@/components/common/landing/avatar-silhouette.vue";
+import at99Logo from "@/assets/themes/at99/images/logo.png";
 
 /**
  * at99 footer：左下角色立繪 + Partner logos 跑馬燈 + 法律連結 + 版權
@@ -55,9 +56,9 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
           </div>
         </div>
 
-        <!-- 中文字 -->
+        <!-- 中文字（大亨 ONLINE 品牌 logo + 描述 + 連結） -->
         <div class="at99-foot__text">
-          <div class="at99-foot__brand">DEMO CASINO B</div>
+          <img :src="at99Logo" alt="DEMO" class="at99-foot__brand-img" />
           <p class="at99-foot__desc">
             本站為前端版面 Demo，所有內容、人物、遊戲與標籤皆為通用範例，<br />
             不代表任何真實服務、品牌或營運主體。
@@ -159,13 +160,14 @@ const legal = ["責任博彩", "服務條款", "隱私政策", "聯絡我們"];
     color: var(--text-primary);
   }
 
-  &__brand {
-    font-size: 18px;
-    font-weight: 900;
-    color: var(--color-primary);
-    text-shadow: var(--neon-glow);
-    margin-bottom: 8px;
-    letter-spacing: 3px;
+  // 大亨 ONLINE footer logo：高 36px，與其他位置一致；下方留 desc 與連結
+  &__brand-img {
+    height: 36px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 10px;
   }
 
   &__desc {

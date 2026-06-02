@@ -2,18 +2,19 @@
 import { ref } from "vue";
 import At99Button from "../atoms/at99-button.vue";
 import LoginModal from "@/components/common/landing/login-modal.vue";
+import at99Logo from "@/assets/themes/at99/images/logo.png";
 
 /**
- * at99 頂部 header：黑底 logo + 11 項 nav + 登入/開戶 + 音訊 toggle
+ * at99 頂部 header：大亨 ONLINE logo + 11 項 nav + 登入/開戶 + 音訊 toggle
  *
  * 設計：
  * - sticky 在頁面最頂，背景 bg-base-translucent
- * - logo 用 CSS 文字繪製（黃漸層 + 描邊），避免使用任何外部品牌素材
+ * - logo 使用「大亨 ONLINE」品牌 PNG（src/assets/themes/at99/images/logo.png）
  * - 11 個 nav 項目，水平排列
  * - 右側登入（實心 cyan）+ 免費開戶（金色漸層）+ 音訊 toggle
  *
- * 為何 logo 不用 SVG：保持品牌 mark 通用化「DC」(DEMO CASINO)，
- * 完全避免外觀識別性
+ * 為何用 PNG 取代原本的金色 monogram SVG：使用者提供自有品牌 logo，
+ * 圖片本身已帶顏色與光感，不再需要 SVG monogram；以 img 標籤直接渲染
  */
 
 interface Props {
@@ -43,58 +44,9 @@ const loginOpen = ref(false);
 <template>
   <header class="at99-top" :class="{ 'at99-top--mobile': mobile }">
     <div class="at99-top__inner">
-      <!-- 左：logo（金色 monogram 圖徽 + 雙層字標） -->
-      <a class="at99-top__brand" href="#" aria-label="回首頁">
-        <!-- 金色 monogram：用 SVG 畫一個帶王冠的 D，比純文字 DC 更有識別度 -->
-        <span class="at99-top__brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 36 36" width="100%" height="100%">
-            <defs>
-              <linearGradient
-                id="at99-brand-grad"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop offset="0%" stop-color="#fff5b4" />
-                <stop offset="50%" stop-color="var(--color-accent)" />
-                <stop offset="100%" stop-color="#c79c1a" />
-              </linearGradient>
-            </defs>
-            <!-- 小皇冠 -->
-            <path
-              d="M10 11 L13 6 L18 9 L23 6 L26 11 L24 13 L12 13 Z"
-              fill="url(#at99-brand-grad)"
-              stroke="rgba(0,0,0,0.2)"
-              stroke-width="0.5"
-            />
-            <!-- 主字 D（圓弧 + 直邊） -->
-            <text
-              x="50%"
-              y="58%"
-              dominant-baseline="middle"
-              text-anchor="middle"
-              font-family="Outfit, sans-serif"
-              font-size="18"
-              font-weight="900"
-              fill="var(--text-on-gold)"
-            >
-              D
-            </text>
-            <!-- 底部裝飾線 -->
-            <rect
-              x="9"
-              y="30"
-              width="18"
-              height="1.5"
-              fill="var(--text-on-gold)"
-            />
-          </svg>
-        </span>
-        <span class="at99-top__brand-text">
-          <span class="at99-top__brand-title">DEMO CASINO</span>
-          <span class="at99-top__brand-sub">示範娛樂城 B</span>
-        </span>
+      <!-- 左：大亨 ONLINE 品牌 logo -->
+      <a class="at99-top__brand" href="#" aria-label="DEMO 回首頁">
+        <img :src="at99Logo" alt="DEMO" class="at99-top__brand-img" />
       </a>
 
       <!-- 中：11 nav（mobile 隱藏） -->
@@ -164,52 +116,17 @@ const loginOpen = ref(false);
   &__brand {
     display: flex;
     align-items: center;
-    gap: 10px;
     text-decoration: none;
     color: inherit;
     flex-shrink: 0;
   }
 
-  &__brand-mark {
-    // SVG monogram 容器：深底 + 金光暈 + 內亮邊
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    background: radial-gradient(
-        circle at 50% 30%,
-        rgba(255, 255, 255, 0.15) 0%,
-        transparent 60%
-      ),
-      var(--dock-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px;
-    box-shadow:
-      0 0 14px var(--color-accent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15),
-      inset 0 0 0 1px var(--color-accent);
-  }
-
-  &__brand-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-  }
-
-  &__brand-title {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--color-primary);
-    letter-spacing: 1.5px;
-    text-shadow: 0 0 8px var(--color-primary);
-  }
-
-  &__brand-sub {
-    font-size: 9px;
-    color: var(--text-muted);
-    letter-spacing: 2px;
-    margin-top: 2px;
+  // 大亨 ONLINE logo（方形比例），PC header 高 40px
+  &__brand-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    display: block;
   }
 
   &__nav {
@@ -290,18 +207,8 @@ const loginOpen = ref(false);
       gap: 10px;
     }
 
-    .at99-top__brand-mark {
-      width: 34px;
-      height: 34px;
-      font-size: 13px;
-    }
-
-    .at99-top__brand-title {
-      font-size: 13px;
-    }
-
-    .at99-top__brand-sub {
-      font-size: 8px;
+    .at99-top__brand-img {
+      height: 32px;
     }
 
     .at99-top__actions :deep(.at99-btn) {

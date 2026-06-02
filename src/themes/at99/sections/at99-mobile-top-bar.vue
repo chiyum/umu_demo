@@ -2,13 +2,14 @@
 import { ref } from "vue";
 import { useQuasar } from "quasar";
 import LoginModal from "@/components/common/landing/login-modal.vue";
+import at99Logo from "@/assets/themes/at99/images/logo.png";
 
 /**
- * at99 手機版頂部 bar：hamburger + logo + 登入按鈕
+ * at99 手機版頂部 bar：hamburger + 大亨 ONLINE logo + 登入按鈕
  *
  * 設計：
  * - 左側 hamburger 點開 drawer（裡面收納 dock 內容）
- * - 中央 logo（DC 標誌 + 文字）
+ * - 中央：大亨 ONLINE 自有品牌 PNG logo（取代原 DC 文字徽章）
  * - 右側登入按鈕（單顆，免費開戶縮排到 drawer）
  *
  * Drawer 採全螢幕從左側滑入，內含 8 個快捷工具列項目
@@ -59,10 +60,9 @@ function tapDock(item: DockItem) {
         <q-icon name="menu" size="22px" />
       </button>
 
-      <!-- 中：logo -->
-      <a class="at99-m-top__brand" href="#">
-        <span class="at99-m-top__mark">DC</span>
-        <span class="at99-m-top__name">DEMO CASINO</span>
+      <!-- 中：大亨 ONLINE 品牌 logo -->
+      <a class="at99-m-top__brand" href="#" aria-label="DEMO 回首頁">
+        <img :src="at99Logo" alt="DEMO" class="at99-m-top__brand-img" />
       </a>
 
       <!-- 右：登入 -->
@@ -86,11 +86,7 @@ function tapDock(item: DockItem) {
       >
         <aside class="at99-m-drawer__panel">
           <div class="at99-m-drawer__header">
-            <span class="at99-m-top__mark">DC</span>
-            <div>
-              <div class="at99-m-drawer__brand">DEMO CASINO</div>
-              <div class="at99-m-drawer__sub">示範娛樂城 B</div>
-            </div>
+            <img :src="at99Logo" alt="DEMO" class="at99-m-drawer__brand-img" />
             <button
               type="button"
               class="at99-m-drawer__close"
@@ -179,7 +175,6 @@ function tapDock(item: DockItem) {
   &__brand {
     display: flex;
     align-items: center;
-    gap: 8px;
     text-decoration: none;
     color: inherit;
     flex: 1;
@@ -187,30 +182,13 @@ function tapDock(item: DockItem) {
     min-width: 0;
   }
 
-  &__mark {
-    width: 32px;
+  // 大亨 ONLINE 行動版 logo：高 32px、自動寬，保留留白
+  &__brand-img {
     height: 32px;
-    border-radius: 6px;
-    background: var(--gradient-gold);
-    color: var(--text-on-gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 12px;
-    letter-spacing: 1px;
-    box-shadow:
-      0 0 8px var(--color-accent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    flex-shrink: 0;
-  }
-
-  &__name {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--color-primary);
-    text-shadow: 0 0 6px var(--color-primary);
-    letter-spacing: 1.5px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    display: block;
   }
 
   &__login-btn {
@@ -258,17 +236,13 @@ function tapDock(item: DockItem) {
     background: var(--bg-base-translucent);
   }
 
-  &__brand {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--color-primary);
-    letter-spacing: 1.5px;
-  }
-
-  &__sub {
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 1px;
+  // Drawer 頂部使用同一張品牌 logo，高度與 mobile top bar 一致
+  &__brand-img {
+    height: 36px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
   }
 
   &__close {

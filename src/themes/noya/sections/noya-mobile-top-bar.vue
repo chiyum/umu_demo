@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import LoginModal from "@/components/common/landing/login-modal.vue";
+import noyaLogo from "@/assets/themes/noya/images/logo.png";
 
 /**
  * noya 手機版頂部 fixed top bar (50px)
  *
  * 結構：
- * - 左：logo（圓形）+ 品牌文字
+ * - 左：UMU 自有品牌 logo（圖檔）
  * - 右：登入 / 註冊（橘色 outline 圓角）+ 語言下拉
  *
  * 為何不直接複用 noya-main-nav：手機版 sticky 50px 結構與 PC 完全不同，
  * 且要承載 LoginModal 開合狀態，與其加 prop 條件分支不如獨立元件。
  *
- * 品牌：「示範娛樂城 A」，避免侵權
+ * Logo：使用 UMU 自有品牌 logo，行動版高度限 32px 保護畫面密度
  */
 
 const loginOpen = ref(false);
@@ -25,10 +26,9 @@ function openLogin() {
 <template>
   <div class="noya-m-topbar">
     <div class="noya-m-topbar__inner">
-      <!-- 左：logo -->
-      <a class="noya-m-topbar__brand" href="#">
-        <span class="noya-m-topbar__mark">A</span>
-        <span class="noya-m-topbar__name">示範娛樂城 A</span>
+      <!-- 左：UMU 品牌 logo -->
+      <a class="noya-m-topbar__brand" href="#" aria-label="DEMO 回首頁">
+        <img :src="noyaLogo" alt="DEMO" class="noya-m-topbar__brand-img" />
       </a>
 
       <!-- 右：登入 / 註冊 / 語言 -->
@@ -84,37 +84,18 @@ function openLogin() {
   &__brand {
     display: flex;
     align-items: center;
-    gap: 8px;
     text-decoration: none;
     color: inherit;
     min-width: 0;
   }
 
-  &__mark {
-    width: 32px;
+  // UMU logo 行動版高度 32px、寬度上限避免吃掉右側操作區
+  &__brand-img {
     height: 32px;
-    border-radius: 50%;
-    background: var(--gradient-cta);
-    color: var(--text-on-primary);
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: var(--shadow);
-  }
-
-  &__name {
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--color-primary);
-    letter-spacing: 1px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+    display: block;
   }
 
   &__actions {

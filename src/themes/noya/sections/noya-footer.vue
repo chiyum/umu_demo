@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ProviderBadge from "@/components/common/landing/provider-badge.vue";
+import noyaLogo from "@/assets/themes/noya/images/logo.png";
 
 /**
  * noya footer：4 欄連結 + provider logo strip + 版權
@@ -74,14 +75,10 @@ const providerStrip = Array.from({ length: 14 }, (_, i) => ({
     <!-- 上半：4 欄連結 + 品牌 -->
     <div class="noya-footer__top">
       <div class="noya-footer__top-inner">
-        <!-- 左側品牌資訊 -->
+        <!-- 左側品牌資訊（UMU 品牌 logo） -->
         <div class="noya-footer__brand-col">
           <div class="noya-footer__brand">
-            <div class="noya-footer__logo">A</div>
-            <div>
-              <div class="noya-footer__brand-name">示範娛樂城 A</div>
-              <div class="noya-footer__brand-sub">DEMO CASINO · 版面展示用</div>
-            </div>
+            <img :src="noyaLogo" alt="DEMO" class="noya-footer__brand-img" />
           </div>
           <p class="noya-footer__brand-desc">
             本站僅供前端版面 Demo，<br />
@@ -175,34 +172,13 @@ const providerStrip = Array.from({ length: 14 }, (_, i) => ({
     gap: 12px;
   }
 
-  &__logo {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--gradient-cta);
-    color: var(--text-on-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 22px;
-    box-shadow: var(--shadow);
-  }
-
-  &__brand-name {
-    font-family: var(--font-display);
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--color-primary);
-    letter-spacing: 1.5px;
-  }
-
-  &__brand-sub {
-    font-size: 11px;
-    color: var(--footer-link);
-    letter-spacing: 1px;
-    margin-top: 2px;
+  // UMU footer logo：高 36px 與品牌一致，保留 contain 比例
+  &__brand-img {
+    height: 36px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
   }
 
   &__brand-desc {

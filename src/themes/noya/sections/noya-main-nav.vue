@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import noyaLogo from "@/assets/themes/noya/images/logo.png";
 
 /**
- * noya 主導覽：左側品牌 + 5 大類 tab
+ * noya 主導覽：左側品牌 logo + 5 大類 tab
  *
  * 設計：
  * - 5 個分類大 tab：真人 / 體育 / 棋牌 / 電子 / 捕魚
@@ -12,7 +13,8 @@ import { ref } from "vue";
  * 為何用 emit 而非 v-model：保留純 emit 讓父層自由決定要不要綁，
  * 將來可能改用 router query 控制；目前 desktop.vue 用 ref 接住。
  *
- * 品牌字樣：用「示範娛樂城 A」取代原站 NOYA / 諾亞，避免侵權。
+ * Logo：使用 UMU 自有品牌 logo（src/assets/themes/noya/images/logo.png）取代原先文字佔位
+ * UMU 為寬版橫式 logo，PC header 約 40px 高度可保有清晰可辨識度
  */
 
 interface Props {
@@ -47,13 +49,9 @@ function pick(key: string) {
 <template>
   <div class="noya-main-nav">
     <div class="noya-main-nav__inner">
-      <!-- 左：品牌 -->
-      <a class="noya-main-nav__brand" href="#" aria-label="回首頁">
-        <span class="noya-main-nav__brand-mark">A</span>
-        <span class="noya-main-nav__brand-text">
-          <span class="noya-main-nav__brand-title">示範娛樂城 A</span>
-          <span class="noya-main-nav__brand-sub">DEMO CASINO</span>
-        </span>
+      <!-- 左：品牌 logo（UMU 自有品牌） -->
+      <a class="noya-main-nav__brand" href="#" aria-label="DEMO 回首頁">
+        <img :src="noyaLogo" alt="DEMO" class="noya-main-nav__brand-img" />
       </a>
 
       <!-- 中：5 大分類 tab -->
@@ -107,47 +105,18 @@ function pick(key: string) {
   &__brand {
     display: flex;
     align-items: center;
-    gap: 10px;
     text-decoration: none;
     color: inherit;
     flex-shrink: 0;
   }
 
-  &__brand-mark {
-    width: 40px;
+  // UMU logo 為寬版橫式，高度限 40px、寬自動，object-fit: contain 保比例
+  &__brand-img {
     height: 40px;
-    border-radius: 50%;
-    background: var(--gradient-cta);
-    color: var(--text-on-primary);
-    font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    letter-spacing: 1px;
-    box-shadow: var(--shadow);
-  }
-
-  &__brand-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-  }
-
-  &__brand-title {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--color-primary);
-    letter-spacing: 1px;
-  }
-
-  &__brand-sub {
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 2px;
-    margin-top: 2px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    display: block;
   }
 
   &__tabs {
