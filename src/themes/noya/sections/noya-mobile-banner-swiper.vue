@@ -192,7 +192,10 @@ onBeforeUnmount(() => stopAuto());
   }
 
   &__dots {
-    // kingdom DNA：swiper-pagination 圓點走 --radius-circle
+    // kingdom DNA #12：swiper-pagination 圓點走 --radius-circle + 白色配色
+    // 對齊 kingdom_front banner.vue 內 swiper-pagination 慣例：
+    //   .swiper-pagination-bullet         { background: rgba(255,255,255,0.9); }
+    //   .swiper-pagination-bullet-active  { background: $global-white; }
     display: flex;
     justify-content: center;
     gap: 6px;
@@ -204,14 +207,25 @@ onBeforeUnmount(() => stopAuto());
     height: 6px;
     border-radius: var(--radius-circle);
     border: none;
-    background: var(--border);
+
+    // kingdom DNA：未選中為半透明白（rgba 0.55），對應原 .swiper-pagination-bullet
+    // 比 rgba(255,255,255,0.9) 略低是因為 mobile 的圓點放在 banner 下方淺底，
+    // 不像 banner 內部需要強對比；保持低 alpha 才不會搶視覺
+    background: rgba(255, 255, 255, 0.55);
+
+    // 在淺底環境用 box-shadow 細邊增加可見性（kingdom banner 底層暗、不需要陰影；
+    // demo mobile 底層淺，加細陰影避免圓點 wash out）
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
     cursor: pointer;
     transition: all var(--transition-base);
 
     &--on {
+      // kingdom DNA：active dot 為純白並拉成短條（保留原 demo 的「拉長條」高亮樣式）
+      // 走 #ffffff 對齊 kingdom .swiper-pagination-bullet-active
       width: 18px;
       border-radius: 3px;
-      background: var(--color-primary);
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     }
   }
 }

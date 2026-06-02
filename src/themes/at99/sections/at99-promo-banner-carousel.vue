@@ -89,6 +89,17 @@ const slides: Slide[] = [
           </button>
         </article>
       </div>
+
+      <!--
+        kingdom DNA #12：swiper 風格白圓點分頁指示
+        本元件目前是靜態雙 banner 並列，但保留 kingdom 慣例的「分頁圓點」視覺暗示
+        讓使用者一眼看出這區是 promo 輪播語意；第一顆為 active 對應主推 banner
+        為何不做真的輪播：原 round 4 設計刻意把雙圖同時可見，互動體驗更直接
+      -->
+      <div class="at99-promo-c__pagination" aria-hidden="true">
+        <span class="at99-promo-c__dot at99-promo-c__dot--on" />
+        <span class="at99-promo-c__dot" />
+      </div>
     </div>
   </section>
 </template>
@@ -159,6 +170,37 @@ const slides: Slide[] = [
 
     &:hover {
       filter: var(--filter-hover-soft);
+    }
+  }
+
+  // kingdom DNA #12：swiper pagination 白圓點區
+  // 對齊 kingdom_front banner.vue 的 .swiper-pagination-bullet 慣例：
+  //   非選中：rgba(255,255,255,0.55)；active：純白 #ffffff
+  // 深底 at99 環境下白圓點對比強，不需要額外陰影框
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-circle);
+    background: rgba(255, 255, 255, 0.55);
+    transition: all var(--transition-base);
+
+    &--on {
+      background: #ffffff;
+
+      // active dot 拉成短條，與 noya 一致的 swiper-pagination「active 拉長」視覺
+      width: 22px;
+      border-radius: 4px;
+
+      // 深底加白色 active 配上微光暈，模擬 kingdom 主色光感
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
     }
   }
 

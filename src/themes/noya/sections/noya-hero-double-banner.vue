@@ -430,15 +430,21 @@ const liveProviders = [
   }
 
   &__dot {
+    // kingdom DNA #12：banner swiper pagination 走白圓點
+    //   非選中：rgba(255,255,255,0.55) — 半透明白
+    //   active：純白 #ffffff（kingdom .swiper-pagination-bullet-active）
+    // 為何不再用 var(--color-primary)：banner 內部背景已是主色漸層，
+    // active dot 用主色會與底融在一起；白色與底有最高對比
     width: 6px;
     height: 6px;
     border-radius: var(--radius-circle);
     background: rgba(255, 255, 255, 0.55);
 
     &--on {
-      background: var(--color-primary);
+      background: #ffffff;
       width: 16px;
       border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
   }
 
