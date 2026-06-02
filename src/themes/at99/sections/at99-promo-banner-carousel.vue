@@ -266,9 +266,12 @@ const subBanners: SubBanner[] = [
     list-style: none;
   }
 
+  // 第十輪：sub-banner 4 張原圖比例差異大（最寬 2.32:1、最窄 1.45:1）
+  // 原 5/3 (1.67:1) 對較寬圖會裁很多、對較窄圖會把上下黑邊塞滿；
+  // 改 16/9 (~1.78:1) 作為折衷，搭配 object-fit: cover + center 把各圖中心區域對齊
   &__sub-card {
     position: relative;
-    aspect-ratio: 5 / 3;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
     border-radius: var(--radius-md);
     border: 1px solid var(--border);

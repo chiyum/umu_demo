@@ -1,10 +1,12 @@
 <script setup lang="ts">
-// 六角卡中央視覺：改用整合自 kingdom_front 的 platform demo 圖
-// 四張遊戲類別卡片圖：真人 / 體育 / 棋牌 / 電子
-import imgLive from "@/assets/themes/noya/images/games/live.png";
-import imgSport from "@/assets/themes/noya/images/games/sport.png";
-import imgChess from "@/assets/themes/noya/images/games/chess.png";
-import imgSlot from "@/assets/themes/noya/images/games/slot.png";
+// 第十輪：六角卡中央視覺改用 noya providers 接近正方比例的圖（444×368，~1.2:1）
+// 原本走 games/live.png 等長條 banner 圖（626×182，~3.4:1），塞進近正方 hex media 容器後
+// 圖被嚴重橫向拉伸 / 縱向裁切大半，主視覺看不見；
+// providers/{live,sport,chess,slot}-1 是接近正方的人物圖，cover 後中心可視範圍才合理
+import imgLive from "@/assets/themes/noya/images/providers/live-1.png";
+import imgSport from "@/assets/themes/noya/images/providers/sport-1.png";
+import imgChess from "@/assets/themes/noya/images/providers/chess-1.png";
+import imgSlot from "@/assets/themes/noya/images/providers/slot-1.png";
 
 // Round 9：5d_v2 中文遊戲卡（無平台 logo，可作為「精選熱門」橫滾條）
 // 6 張遊戲卡作為類別大卡下方的「實際熱門款」展示
@@ -352,10 +354,16 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
     text-transform: uppercase;
   }
 
-  // 中央素材圖容器：填滿剩餘空間
+  // 第十輪：中央素材圖容器改為固定接近正方 aspect-ratio (1:1)
+  // 為什麼從 flex:1 改為固定比例：原 flex:1 把容器拉成寬扁矩形，與圖片本身比例完全不合；
+  // 改 1:1 後接近正方的 provider 圖（444×368）可完整呈現中心人物視覺
+  // margin 自動撐開避免 hex clip-path 切到圖
   &__hex-media {
     position: relative;
     flex: 1;
+    aspect-ratio: 1 / 1;
+    align-self: center;
+    width: calc(100% - 12px);
     margin: 8px 6px;
     overflow: hidden;
     border-radius: 6px;
@@ -363,10 +371,12 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
 
   // 中央素材圖 cover 整個 media 區域；
   // 因為 hex-card 已套 clip-path，超出的邊角會自然被裁掉
+  // object-position: center 維持人物中心可視，配合接近正方的圖不會被截頭
   &__hex-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
   }
 
@@ -474,9 +484,12 @@ $hex-clip: polygon(50% 0%, 95% 18%, 95% 82%, 50% 100%, 5% 82%, 5% 18%);
     }
   }
 
+  // 第十輪：5d_v2 中文遊戲卡原圖約 1014×450（2.25:1）
+  // 原 aspect-ratio: 5/3 (1.67:1) 會把圖橫向裁掉約 1/4，主圖文字常被切到；
+  // 改成 20/9 (2.22:1) 接近原圖比例，圖可完整展示
   &__featured-media {
     position: relative;
-    aspect-ratio: 5 / 3;
+    aspect-ratio: 20 / 9;
     overflow: hidden;
   }
 

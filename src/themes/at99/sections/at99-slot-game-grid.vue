@@ -380,8 +380,11 @@ const activeCategory = computed(
     box-shadow: 0 0 6px var(--color-accent);
   }
 
+  // 第十輪：slot 素材圖約 626×182（3.4:1），原 5/4 (1.25:1) 縱向比例
+  // 會把 slot 廣告圖中心橫向資訊嚴重裁切；改 16/7 (~2.28:1) 接近原圖橫條比例，
+  // 同時不致於把整個 tile 拉成過於極端的橫條（保留標題列 + CTA 應有空間）
   &__art {
-    aspect-ratio: 5 / 4;
+    aspect-ratio: 16 / 7;
     position: relative;
     display: flex;
     align-items: center;
