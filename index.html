@@ -7,6 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= VITE_SITE_TITLE %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!--
+      kingdom_front 設計語言：載入 Inknut Antiqua（display 字體）與 Outfit（body 字體）
+      - 兩 theme 的 --font-display 都把 Inknut Antiqua 排第一，display 字體有變化才看得到 kingdom 標誌性視覺
+      - 主字 stack Outfit 與 kingdom main.scss / main.long.scss 一致
+      - preconnect 讓字檔 fetch 提前並走 HTTP/2，display=swap 避免 FOIT
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+    >
+
     <style>
       html {
         touch-action: manipulation;
