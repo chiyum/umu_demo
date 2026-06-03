@@ -5,6 +5,8 @@ import indexappImg1 from "@/themes/ant-sport/assets/pc/indexapp-img-1.png?url";
 import indexappImg2 from "@/themes/ant-sport/assets/pc/indexapp-img-2.png?url";
 import indexappImg3 from "@/themes/ant-sport/assets/pc/indexapp-img-3.png?url";
 import qrSample from "@/themes/ant-sport/assets/pc/qrcode-sample.png?url";
+// QR 旁的「掃描」小螞蟻 icon：對齊原 lilian_ant_pc 同一張資產位於 .scanTitle 前方的視覺
+import qrcodeIcon from "@/themes/ant-sport/assets/pc/qrcode-icon.png?url";
 
 /**
  * ant-sport PC indexAPP 區
@@ -133,6 +135,13 @@ const activeTab = ref(0);
                     />
                   </div>
                   <p class="ant-sport-pc-app__access-title">
+                    <!-- 「掃描以下二維碼」前的小螞蟻 icon，純裝飾 aria-hidden -->
+                    <img
+                      :src="qrcodeIcon"
+                      alt=""
+                      class="ant-sport-pc-app__scan-icon"
+                      aria-hidden="true"
+                    />
                     {{ t.scanTitle1 }}
                   </p>
                   <p class="ant-sport-pc-app__access-subtitle">
@@ -341,6 +350,19 @@ const activeTab = ref(0);
     font-size: 14px;
     color: var(--text-primary);
     font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  // 掃描小螞蟻 icon：在「掃描以下二維碼」文字前
+  // vertical-align 用 inline-flex gap 控制；尺寸小到不影響行高
+  &__scan-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    flex-shrink: 0;
   }
 
   &__access-subtitle {
