@@ -57,10 +57,41 @@ const at99: ThemeMeta = {
     .href
 };
 
+/**
+ * ant-sport 版面（蚂蚁体育 / 體育博彩風）
+ *
+ * DOM 1:1 對齊 lilian_ant_web home.vue + lilian_ant_pc main.vue 五段結構；
+ * 配色 HSL 三軸（primary-h / primary-s / primary-l）推導，
+ * 三變體：blue 預設 / midnight 深藍夜間 / red 紅
+ *
+ * preview 暫指向 noya 圖佔位：後續以 playwright 截實際 demo 圖補上
+ * （ThemeMeta.previewDesktop/Mobile 型別必填 string，空字串會破圖）
+ */
+const antSport: ThemeMeta = {
+  key: "ant-sport",
+  label: "蚂蚁体育",
+  description:
+    "對齊蚂蚁体育原視覺的體育博彩風格，預設藍 / 深藍夜間 / 節慶紅三種配色",
+  desktop: () => import("./ant-sport/desktop.vue"),
+  mobile: () => import("./ant-sport/mobile.vue"),
+  defaultColor: "blue",
+  colors: [
+    { key: "blue", label: "蚂蚁藍", swatch: "#3c70fd" },
+    { key: "midnight", label: "夜間藍", swatch: "#0d152b" },
+    { key: "red", label: "節慶紅", swatch: "#e63946" }
+  ],
+  // TODO: 後續用 playwright 截 /demo/ant-sport 實際畫面後補上專屬 png
+  previewDesktop: new URL("@/assets/previews/noya-desktop.png", import.meta.url)
+    .href,
+  previewMobile: new URL("@/assets/previews/noya-mobile.png", import.meta.url)
+    .href
+};
+
 /** 對外暴露的 theme 表，key 是 layoutKey */
 export const themes: Record<string, ThemeMeta> = {
   noya,
-  at99
+  at99,
+  "ant-sport": antSport
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */
