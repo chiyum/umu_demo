@@ -354,18 +354,15 @@ onBeforeUnmount(() => {
 
   // 服務特色卡：對齊原 lilian_ant_pc main.scss 第 5543 行 .indexServe-type-item，
   // 用 indexServe-bg.png 當卡片底（淡灰白柔光長條）。三色 variant 中：
-  // - blue / red 底色淺，圖片本身可直接看到
-  // - midnight 深底會吃掉淡圖；走 token 控制 brightness / opacity（見 _variants.scss）
+  // - blue 底色淺、白圖可直接看到，無 overlay
+  // - midnight 深底會吃掉淡圖；改用 ::before 蓋深色半透明 overlay，把白圖壓成深底
+  //   （避免直接在外層套 filter 把標題 / 內文一起反掉，導致文字對比消失）
+  // - red 走淡粉 overlay tint，避免 hue-rotate 白底產生綠調
+  // 注意：所有 filter / hue-rotate / brightness 都套在 ::before（純背景層）上，
+  // 子元素文字節點完全不受影響
   &__type-item {
+    position: relative;
     background-color: var(--bg-surface);
-    background-image: var(
-      --ant-sport-serve-type-bg,
-      url("@/themes/ant-sport/assets/pc/indexserve-bg.png")
-    );
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-blend-mode: var(--ant-sport-serve-type-blend, normal);
     border-radius: 12px;
     padding: 20px;
     display: flex;
@@ -374,7 +371,41 @@ onBeforeUnmount(() => {
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border);
     transition: all 0.18s ease;
-    filter: var(--ant-sport-serve-type-filter, none);
+    overflow: hidden;
+
+    // 底圖層：放在 ::before 而非外層 background，filter 不會吃到子元素文字
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(
+        --ant-sport-serve-type-bg,
+        url("@/themes/ant-sport/assets/pc/indexserve-bg.png")
+      );
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-blend-mode: var(--ant-sport-serve-type-blend, normal);
+      filter: var(--ant-sport-serve-type-filter, none);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    // 主題 tint overlay：blue 用 transparent 不蓋，midnight 蓋深底、red 蓋淡粉
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: var(--ant-sport-serve-type-overlay, transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    // icon / 文字節點要疊在 overlay 之上才看得到
+    > * {
+      position: relative;
+      z-index: 2;
+    }
 
     &:hover {
       transform: translateY(-3px);
