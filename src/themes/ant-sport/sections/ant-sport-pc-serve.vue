@@ -299,6 +299,9 @@ onBeforeUnmount(() => {
   // 維持 contain 讓 arc 自然保持圓形
   &__stat-deco-img--arc {
     opacity: var(--ant-sport-serve-deco-arc-opacity, 0.9);
+
+    // 弧線下移 8%：固化 DevTools 微調值，讓 arc 對齊 gauge 圓心視覺
+    transform: translateY(8%);
   }
 
   // 數字組合（caption / num / unit）：absolute 置中於 deco 圓心
