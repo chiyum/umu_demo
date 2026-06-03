@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import banner1 from "@/themes/ant-sport/assets/banner/banner-1.jpg";
-import banner2 from "@/themes/ant-sport/assets/banner/banner-2.jpg";
-import banner3 from "@/themes/ant-sport/assets/banner/banner-3.jpg";
-import banner4 from "@/themes/ant-sport/assets/banner/banner-4.jpg";
+import banner1 from "@/themes/ant-sport/assets/banner/banner-1.jpg?url";
+import banner2 from "@/themes/ant-sport/assets/banner/banner-2.jpg?url";
+import banner3 from "@/themes/ant-sport/assets/banner/banner-3.jpg?url";
+import banner4 from "@/themes/ant-sport/assets/banner/banner-4.jpg?url";
 
 /**
  * ant-sport mobile banner swiper

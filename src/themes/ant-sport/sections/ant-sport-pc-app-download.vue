@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import indexappTitle from "@/themes/ant-sport/assets/pc/indexapp-title.png";
-import indexappImg1 from "@/themes/ant-sport/assets/pc/indexapp-img-1.png";
-import indexappImg2 from "@/themes/ant-sport/assets/pc/indexapp-img-2.png";
-import indexappImg3 from "@/themes/ant-sport/assets/pc/indexapp-img-3.png";
-import qrSample from "@/themes/ant-sport/assets/pc/qrcode-sample.png";
+import indexappTitle from "@/themes/ant-sport/assets/pc/indexapp-title.png?url";
+import indexappImg1 from "@/themes/ant-sport/assets/pc/indexapp-img-1.png?url";
+import indexappImg2 from "@/themes/ant-sport/assets/pc/indexapp-img-2.png?url";
+import indexappImg3 from "@/themes/ant-sport/assets/pc/indexapp-img-3.png?url";
+import qrSample from "@/themes/ant-sport/assets/pc/qrcode-sample.png?url";
 
 /**
  * ant-sport PC indexAPP 區

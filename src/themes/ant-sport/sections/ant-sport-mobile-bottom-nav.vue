@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useQuasar } from "quasar";
-import homeSelected from "@/themes/ant-sport/assets/nav/home-selected.webp";
-import homeNormal from "@/themes/ant-sport/assets/nav/home-normal.webp";
-import discountSelected from "@/themes/ant-sport/assets/nav/discount-selected.webp";
-import discountNormal from "@/themes/ant-sport/assets/nav/discount-normal.webp";
-import chatSelected from "@/themes/ant-sport/assets/nav/chat-selected.png";
-import chatNormal from "@/themes/ant-sport/assets/nav/chat-normal.png";
-import mineSelected from "@/themes/ant-sport/assets/nav/mine-selected.webp";
-import mineNormal from "@/themes/ant-sport/assets/nav/mine-normal.webp";
-import hotlineSelected from "@/themes/ant-sport/assets/nav/hotline-selected.webp";
-import hotlineNormal from "@/themes/ant-sport/assets/nav/hotline-normal.webp";
+import homeSelected from "@/themes/ant-sport/assets/nav/home-selected.webp?url";
+import homeNormal from "@/themes/ant-sport/assets/nav/home-normal.webp?url";
+import discountSelected from "@/themes/ant-sport/assets/nav/discount-selected.webp?url";
+import discountNormal from "@/themes/ant-sport/assets/nav/discount-normal.webp?url";
+import chatSelected from "@/themes/ant-sport/assets/nav/chat-selected.png?url";
+import chatNormal from "@/themes/ant-sport/assets/nav/chat-normal.png?url";
+import mineSelected from "@/themes/ant-sport/assets/nav/mine-selected.webp?url";
+import mineNormal from "@/themes/ant-sport/assets/nav/mine-normal.webp?url";
+import hotlineSelected from "@/themes/ant-sport/assets/nav/hotline-selected.webp?url";
+import hotlineNormal from "@/themes/ant-sport/assets/nav/hotline-normal.webp?url";
 
 /**
  * ant-sport 專屬 mobile 底部 tab bar

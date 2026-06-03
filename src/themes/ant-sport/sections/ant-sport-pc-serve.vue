@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
-import indexserveTitle from "@/themes/ant-sport/assets/pc/indexserve-title.png";
-import iconWallet from "@/themes/ant-sport/assets/pc/icon-wallet.png";
-import iconBall from "@/themes/ant-sport/assets/pc/icon-ball.png";
-import iconSafety from "@/themes/ant-sport/assets/pc/icon-safety.png";
-import iconDevice from "@/themes/ant-sport/assets/pc/icon-device.png";
+import indexserveTitle from "@/themes/ant-sport/assets/pc/indexserve-title.png?url";
+import iconWallet from "@/themes/ant-sport/assets/pc/icon-wallet.png?url";
+import iconBall from "@/themes/ant-sport/assets/pc/icon-ball.png?url";
+import iconSafety from "@/themes/ant-sport/assets/pc/icon-safety.png?url";
+import iconDevice from "@/themes/ant-sport/assets/pc/icon-device.png?url";
 import AntSportCounter from "../atoms/ant-sport-counter.vue";
 
 /**

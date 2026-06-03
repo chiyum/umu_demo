@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import logoHeader from "@/themes/ant-sport/assets/logo-mobile.png";
-import messageIcon from "@/themes/ant-sport/assets/user-action/message.webp";
+import logoHeader from "@/themes/ant-sport/assets/logo-mobile.png?url";
+import messageIcon from "@/themes/ant-sport/assets/user-action/message.webp?url";
 
 /**
  * ant-sport mobile 頂部 logo bar

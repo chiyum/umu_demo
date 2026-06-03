@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import vipMedal from "@/themes/ant-sport/assets/vip/level-5.webp";
-import refreshIcon from "@/themes/ant-sport/assets/user-action/refresh.webp";
-import infoIcon from "@/themes/ant-sport/assets/user-action/info.webp";
-import depositIcon from "@/themes/ant-sport/assets/user-action/deposit.webp";
-import withdrawIcon from "@/themes/ant-sport/assets/user-action/withdraw.webp";
-import feedbackIcon from "@/themes/ant-sport/assets/user-action/feedback.svg";
-import promoteIcon from "@/themes/ant-sport/assets/user-action/promote.webp";
+import vipMedal from "@/themes/ant-sport/assets/vip/level-5.webp?url";
+import refreshIcon from "@/themes/ant-sport/assets/user-action/refresh.webp?url";
+import infoIcon from "@/themes/ant-sport/assets/user-action/info.webp?url";
+import depositIcon from "@/themes/ant-sport/assets/user-action/deposit.webp?url";
+import withdrawIcon from "@/themes/ant-sport/assets/user-action/withdraw.webp?url";
+import feedbackIcon from "@/themes/ant-sport/assets/user-action/feedback.svg?url";
+import promoteIcon from "@/themes/ant-sport/assets/user-action/promote.webp?url";
 import { ref } from "vue";
 
 /**

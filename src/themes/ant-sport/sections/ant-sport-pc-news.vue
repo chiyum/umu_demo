@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import marqueeIcon from "@/themes/ant-sport/assets/pc/marquee-icon.png";
+import marqueeIcon from "@/themes/ant-sport/assets/pc/marquee-icon.png?url";
 
 /**
  * ant-sport PC indexNews 區

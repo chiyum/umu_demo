@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import logoPc from "@/themes/ant-sport/assets/pc/logo.png";
+import logoPc from "@/themes/ant-sport/assets/pc/logo.png?url";
 import AntSportPcBanner from "./sections/ant-sport-pc-banner.vue";
 import AntSportPcNews from "./sections/ant-sport-pc-news.vue";
 import AntSportPcAppDownload from "./sections/ant-sport-pc-app-download.vue";

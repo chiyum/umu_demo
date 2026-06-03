@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import indexgameTitle from "@/themes/ant-sport/assets/pc/indexgame-title.png";
-import gameSport from "@/themes/ant-sport/assets/pc/game-sport.png";
-import gameLive from "@/themes/ant-sport/assets/pc/game-live.png";
-import gameChess from "@/themes/ant-sport/assets/pc/game-chess.png";
-import gameEsport from "@/themes/ant-sport/assets/pc/game-esport.png";
-import gameLottery from "@/themes/ant-sport/assets/pc/game-lottery.png";
-import gameFish from "@/themes/ant-sport/assets/pc/game-fish.png";
-import gameEgame from "@/themes/ant-sport/assets/pc/game-egame.png";
+import indexgameTitle from "@/themes/ant-sport/assets/pc/indexgame-title.png?url";
+import gameSport from "@/themes/ant-sport/assets/pc/game-sport.png?url";
+import gameLive from "@/themes/ant-sport/assets/pc/game-live.png?url";
+import gameChess from "@/themes/ant-sport/assets/pc/game-chess.png?url";
+import gameEsport from "@/themes/ant-sport/assets/pc/game-esport.png?url";
+import gameLottery from "@/themes/ant-sport/assets/pc/game-lottery.png?url";
+import gameFish from "@/themes/ant-sport/assets/pc/game-fish.png?url";
+import gameEgame from "@/themes/ant-sport/assets/pc/game-egame.png?url";
 
 /**
  * ant-sport PC indexGame 區

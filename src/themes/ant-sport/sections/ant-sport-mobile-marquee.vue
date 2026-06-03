@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import noteIcon from "@/themes/ant-sport/assets/user-action/note.webp";
+import noteIcon from "@/themes/ant-sport/assets/user-action/note.webp?url";
 
 /**
  * ant-sport mobile 跑馬燈

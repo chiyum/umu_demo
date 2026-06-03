@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import imgSport from "@/themes/ant-sport/assets/pc/game-sport.png";
-import imgLive from "@/themes/ant-sport/assets/pc/game-live.png";
-import imgChess from "@/themes/ant-sport/assets/pc/game-chess.png";
-import imgEsport from "@/themes/ant-sport/assets/pc/game-esport.png";
-import imgLottery from "@/themes/ant-sport/assets/pc/game-lottery.png";
-import imgFish from "@/themes/ant-sport/assets/pc/game-fish.png";
-import imgEgame from "@/themes/ant-sport/assets/pc/game-egame.png";
+import imgSport from "@/themes/ant-sport/assets/pc/game-sport.png?url";
+import imgLive from "@/themes/ant-sport/assets/pc/game-live.png?url";
+import imgChess from "@/themes/ant-sport/assets/pc/game-chess.png?url";
+import imgEsport from "@/themes/ant-sport/assets/pc/game-esport.png?url";
+import imgLottery from "@/themes/ant-sport/assets/pc/game-lottery.png?url";
+import imgFish from "@/themes/ant-sport/assets/pc/game-fish.png?url";
+import imgEgame from "@/themes/ant-sport/assets/pc/game-egame.png?url";
 
 /**
  * ant-sport mobile 遊戲類別矩陣
