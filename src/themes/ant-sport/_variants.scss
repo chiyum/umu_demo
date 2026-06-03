@@ -65,6 +65,10 @@
   --shadow-glow: 0 0 14px
     hsla(var(--primary-h), var(--primary-s), 70%, 0.55);
 
+  // sticky 頭尾 bar 用陰影：midnight 走深黑底較強對比，避免 sticky bar 跟暗底融在一起
+  --shadow-sticky:
+    0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+
   // 角落柔光：夜間版用偏亮藍 alpha，避免黑底全暗無層次
   --bg-decoration:
     radial-gradient(
@@ -149,6 +153,11 @@
     hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.26);
   --shadow-glow: 0 0 14px
     hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.5);
+
+  // sticky 頭尾 bar 陰影：紅版走酒紅 alpha 對齊整頁色溫
+  --shadow-sticky:
+    0 1px 2px rgba(58, 17, 21, 0.1),
+    0 2px 6px hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.1);
 
   // 角落柔光：紅版本用紅 alpha
   --bg-decoration:
