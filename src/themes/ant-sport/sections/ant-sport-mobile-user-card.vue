@@ -1,5 +1,20 @@
 <script setup lang="ts">
-import vipMedal from "@/themes/ant-sport/assets/vip/level-5.webp?url";
+// VIP 11 等級徽章（0~10）：根據 URL ?vip=N 切換，預設 5
+// 全部 import 進來而非動態 import，因為：
+// (1) 單張平均 ~5KB，11 張共 ~55KB，比動態 import 額外 chunk 開銷低
+// (2) 切換時零延遲（demo 站體驗優先）
+// (3) Vite 會把每張轉成獨立 asset hash URL，瀏覽器可獨立快取
+import vipLevel0 from "@/themes/ant-sport/assets/vip/level-0.webp?url";
+import vipLevel1 from "@/themes/ant-sport/assets/vip/level-1.webp?url";
+import vipLevel2 from "@/themes/ant-sport/assets/vip/level-2.webp?url";
+import vipLevel3 from "@/themes/ant-sport/assets/vip/level-3.webp?url";
+import vipLevel4 from "@/themes/ant-sport/assets/vip/level-4.webp?url";
+import vipLevel5 from "@/themes/ant-sport/assets/vip/level-5.webp?url";
+import vipLevel6 from "@/themes/ant-sport/assets/vip/level-6.webp?url";
+import vipLevel7 from "@/themes/ant-sport/assets/vip/level-7.webp?url";
+import vipLevel8 from "@/themes/ant-sport/assets/vip/level-8.webp?url";
+import vipLevel9 from "@/themes/ant-sport/assets/vip/level-9.webp?url";
+import vipLevel10 from "@/themes/ant-sport/assets/vip/level-10.webp?url";
 import refreshIcon from "@/themes/ant-sport/assets/user-action/refresh.webp?url";
 import infoIcon from "@/themes/ant-sport/assets/user-action/info.webp?url";
 import depositIcon from "@/themes/ant-sport/assets/user-action/deposit.webp?url";
@@ -13,7 +28,8 @@ import currencyIcon from "@/themes/ant-sport/assets/user-action/currency.webp?ur
 // 紅包浮窗：對齊 lilian_ant_web home/icon_redEnvelope_pop_tiger.195dfd7a.png
 // 原 repo 為「跑酷型」紅包浮窗按鈕（在 mobile 右下角），demo 沿用此 UI 慣例
 import redEnvelopeIcon from "@/themes/ant-sport/assets/user-action/red-envelope.png?url";
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
 import { useQuasar } from "quasar";
 
 /**
@@ -26,6 +42,47 @@ import { useQuasar } from "quasar";
  * Demo 純展示，account 寫死、credit 寫死；
  * 重整 icon 點擊時觸發旋轉動畫示意 refresh
  */
+
+/**
+ * VIP 等級對應表：以 URL ?vip=N 切換顯示徽章
+ *
+ * 為何用陣列 index 而非 Record<number, string>：
+ * - 等級連續 0~10，陣列查找 O(1) 且型別最簡
+ * - 容錯：超出範圍 / 非數字 → fallback level 5（demo 預設）
+ */
+const VIP_MEDALS = [
+  vipLevel0,
+  vipLevel1,
+  vipLevel2,
+  vipLevel3,
+  vipLevel4,
+  vipLevel5,
+  vipLevel6,
+  vipLevel7,
+  vipLevel8,
+  vipLevel9,
+  vipLevel10
+] as const;
+
+const DEFAULT_VIP_LEVEL = 5;
+
+const route = useRoute();
+
+/**
+ * 解析 URL ?vip=N 並夾在合法區間 0~10
+ *
+ * 為什麼用 computed：route.query 是 reactive，使用者按瀏覽器網址列改 ?vip=
+ * 或 demo 站內透過 router push 切換時自動跟動
+ */
+const vipMedal = computed(() => {
+  const raw = route.query.vip;
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  const parsed = Number(value);
+  if (Number.isFinite(parsed) && parsed >= 0 && parsed <= 10) {
+    return VIP_MEDALS[Math.floor(parsed)];
+  }
+  return VIP_MEDALS[DEFAULT_VIP_LEVEL];
+});
 
 /** 重整動畫 flag */
 const refreshFlag = ref(false);
