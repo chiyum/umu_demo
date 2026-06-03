@@ -1,0 +1,167 @@
+// ant-sport 替代配色：midnight 深藍夜間 / red 紅
+// ---
+// 注意：每個 variant 都要把 _tokens.scss 內所有可見對比 token
+// （bg-base / bg-base-deep / bg-base-translucent / text-on-primary / highlight-strip
+// / provider-card-bg / footer-bg / footer-text / footer-link / badge-live / device frame /
+// banner-gradient-1..3 / bg-decoration / shadow stack / gradient-cta / gradient-hero）
+// 一起覆寫，否則切換時會殘色。
+// 同時必須改 --primary-h / --primary-s / --primary-l 三軸，
+// 才能讓 primary-01..08 / secondary-01..08 整套 HSL 階層一起跟著走。
+
+// ─────────────── midnight：深藍夜間（夜店 / 夜場運動風） ───────────────
+// 主色保持藍色相但壓暗 L 值；底改深色，營造夜間沉浸感
+[data-theme="ant-sport"][data-theme-color="midnight"] {
+  // 主色相同藍系（H 220 接近預設 223）但壓更暗
+  --primary-h: 220;
+  --primary-s: 90%;
+  --primary-l: 56%;
+
+  // 副色走深藍灰
+  --secondary-h: 222;
+  --secondary-s: 30%;
+  --secondary-l: 40%;
+
+  // 主要結構色全部轉夜間：底走深藍，字走亮
+  --bg-base: #0d152b;
+  --bg-surface: #16213e;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 70%, 0.18);
+  --text-primary: #e8eeff;
+  --text-muted: #8a9bc7;
+  --border: hsla(var(--primary-h), var(--primary-s), 70%, 0.22);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --gradient-hero: linear-gradient(135deg, #0d152b 0%, #1d2b54 100%);
+  --gradient-cta: linear-gradient(
+    135deg,
+    var(--primary-01) 0%,
+    var(--primary-03) 100%
+  );
+  --bg-base-deep: #08101f;
+  --bg-base-translucent: rgba(22, 33, 62, 0.92);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #1d2b54;
+  --provider-card-bg: #1c2a4a;
+  --footer-bg: #08101f;
+  --footer-text: #8a9bc7;
+  --footer-link: #b8c5e8;
+  --badge-live: #ff4d4f;
+
+  // device frame：midnight 走更暗框，搭整頁夜間氣氛
+  --device-frame-bg: linear-gradient(180deg, #04081a 0%, #0d152b 100%);
+  --device-frame-inner: #0d152b;
+  --device-screen-overlay: linear-gradient(
+    180deg,
+    #2d3d6f 0%,
+    var(--primary-01) 100%
+  );
+
+  // banner 漸層：夜間版用更深的藍漸
+  --banner-gradient-1: linear-gradient(135deg, #1d2b54 0%, #3858b0 100%);
+  --banner-gradient-2: linear-gradient(135deg, #2c3e7a 0%, #1a2540 100%);
+  --banner-gradient-3: linear-gradient(135deg, #4a5fc7 0%, #1d2b54 100%);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 3px 7px 12px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 14px
+    hsla(var(--primary-h), var(--primary-s), 70%, 0.55);
+
+  // 角落柔光：夜間版用偏亮藍 alpha，避免黑底全暗無層次
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 70%, 0.22) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--primary-h), var(--primary-s), 70%, 0.14) 0%,
+      transparent 65%
+    );
+  --gradient-gold: var(--gradient-cta);
+  --text-on-gold: var(--text-on-primary);
+}
+
+// ─────────────── red：紅系（節慶 / 活動 / 高張力） ───────────────
+// 主色相整個換到 0~10 區間，整頁底色微泛桃紅
+[data-theme="ant-sport"][data-theme-color="red"] {
+  // 紅 H 約 0；保留高 S 高 L 維持飽和
+  --primary-h: 354;
+  --primary-s: 80%;
+  --primary-l: 55%;
+
+  // 副色走暖磚紅
+  --secondary-h: 12;
+  --secondary-s: 35%;
+  --secondary-l: 50%;
+  --bg-base: #fff5f5;
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.1);
+  --text-primary: #3a1115;
+  --text-muted: #94575c;
+  --border: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.22);
+  --shadow: 0 4px 12px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.22);
+  --gradient-hero: linear-gradient(135deg, #fff5f5 0%, #ffd0d4 100%);
+  --gradient-cta: linear-gradient(
+    135deg,
+    var(--primary-01) 0%,
+    var(--primary-05) 100%
+  );
+  --bg-base-deep: #ffe3e6;
+  --bg-base-translucent: rgba(255, 255, 255, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #fff0f1;
+  --provider-card-bg: #fff0f2;
+  --footer-bg: #3a1115;
+  --footer-text: #f3d3d6;
+  --footer-link: #d8a4a9;
+
+  // 紅版本 badge-live 不能再用紅（會被吃掉），改用對比金黃
+  --badge-live: #ffbb33;
+
+  // device frame：紅版走深酒紅
+  --device-frame-bg: linear-gradient(180deg, #2a0608 0%, #5a1418 100%);
+  --device-frame-inner: #5a1418;
+  --device-screen-overlay: linear-gradient(
+    180deg,
+    #ffd0d4 0%,
+    var(--primary-01) 100%
+  );
+
+  // banner 漸層：紅版三段不同層次紅
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    var(--primary-01) 0%,
+    var(--primary-03) 100%
+  );
+  --banner-gradient-2: linear-gradient(135deg, #ff8a8e 0%, #d83a44 100%);
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    var(--primary-05) 0%,
+    var(--primary-07) 100%
+  );
+  --shadow-sm: 0 1px 2px rgba(58, 17, 21, 0.1);
+  --shadow-md: 0 4px 8px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.18);
+  --shadow-lg: 0 8px 16px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.22);
+  --shadow-xl: 3px 7px 12px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.26);
+  --shadow-glow: 0 0 14px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.5);
+
+  // 角落柔光：紅版本用紅 alpha
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.2) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.12) 0%,
+      transparent 65%
+    );
+  --gradient-gold: var(--gradient-cta);
+  --text-on-gold: var(--text-on-primary);
+}

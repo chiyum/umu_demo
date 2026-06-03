@@ -1,0 +1,208 @@
+// ant-sport 版面預設配色：蚂蚁体育藍（HSL 223, 95%, 62%）
+// ---
+// 設計理念
+// - 完整對齊 lilian_ant_pc 原 _variable.scss 的 HSL 套娃寫法：
+//   primary 1-8、secondary 1-8 都用 hsl() + calc() 推導，
+//   未來只要改 --primary-h / --primary-s / --primary-l 就會帶動整套色階
+// - 這份 _tokens.scss 是「預設 blue 變體」的值；
+//   midnight / red 在 _variants.scss 透過 [data-theme="ant-sport"][data-theme-color="xxx"]
+//   覆寫 --primary-h / --primary-l / --bg-base / --text-primary 等核心 token
+// - 同時保留 noya / at99 慣例的 --color-primary / --bg-base 命名讓共用元件
+//   （mobile-bottom-tab-bar / announce-marquee / login-modal）能無痛套用
+// ---
+// 命名公約（與 noya / at99 一致）：
+//   --color-primary 主色 / --color-secondary 輔助色 / --color-accent 亮點色
+//   --bg-base 頁面背景 / --bg-surface 卡片背景 / --bg-overlay primary alpha
+//   --text-primary / --text-muted / --border / --shadow
+// 額外給 ant-sport 用的 token：
+//   --primary-01..08 / --secondary-01..08 模擬 lilian_ant_pc 整套 HSL 階層
+
+[data-theme="ant-sport"] {
+  // ─────────────── HSL 三軸（變體只動這三組就能帶動整套色階） ───────────────
+  --primary-h: 223;
+  --primary-s: 95%;
+  --primary-l: 62%;
+  --secondary-h: 225;
+  --secondary-s: 26%;
+  --secondary-l: 54%;
+
+  // ─────────────── primary 階層（對應 lilian_ant_pc _variable.scss 01-08） ───────────────
+  --primary-01: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --primary-02: hsl(
+    calc(var(--primary-h) - 3),
+    calc(var(--primary-s) - 40%),
+    calc(var(--primary-l) + 2%)
+  );
+  --primary-03: hsl(
+    calc(var(--primary-h) - 14),
+    calc(var(--primary-s) + 5%),
+    calc(var(--primary-l) + 7%)
+  );
+  --primary-04: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) + 5%)
+  );
+  --primary-05: hsl(
+    calc(var(--primary-h) - 11),
+    calc(var(--primary-s) - 12%),
+    calc(var(--primary-l) - 1%)
+  );
+  --primary-06: hsl(
+    calc(var(--primary-h) - 5),
+    calc(var(--primary-s) + 5%),
+    calc(var(--primary-l) + 2%)
+  );
+  --primary-07: hsl(
+    calc(var(--primary-h) - 14),
+    calc(var(--primary-s) + 5%),
+    calc(var(--primary-l) - 15%)
+  );
+  --primary-08: hsl(
+    calc(var(--primary-h) - 12),
+    calc(var(--primary-s) + 5%),
+    calc(var(--primary-l) - 8%)
+  );
+
+  // ─────────────── secondary 階層 ───────────────
+  --secondary-01: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l)
+  );
+  --secondary-02: hsla(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l),
+    0.5
+  );
+  --secondary-03: hsla(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l),
+    0.8
+  );
+  --secondary-04: hsl(
+    calc(var(--secondary-h) + 1),
+    calc(var(--secondary-s) - 10%),
+    calc(var(--secondary-l) - 5%)
+  );
+  --secondary-05: hsl(
+    calc(var(--secondary-h) + 1),
+    calc(var(--secondary-s) + 3%),
+    calc(var(--secondary-l) - 20%)
+  );
+  --secondary-06: hsl(
+    calc(var(--secondary-h) - 3),
+    calc(var(--secondary-s) + 12%),
+    calc(var(--secondary-l) + 13%)
+  );
+  --secondary-07: hsl(
+    calc(var(--secondary-h) - 3),
+    var(--secondary-s),
+    calc(var(--secondary-l) + 3%)
+  );
+  --secondary-08: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 13%),
+    calc(var(--secondary-l) - 28%)
+  );
+
+  // ─────────────── 與 noya / at99 對齊的共用 token ───────────────
+  // 為什麼這層必須有：mobile-bottom-tab-bar / announce-marquee 等共用元件
+  // 寫死讀 var(--color-primary)，沒有這層 alias 切到 ant-sport 整個元件會 fallback 黑色
+  --color-primary: var(--primary-01);
+  --color-secondary: var(--secondary-01);
+  --color-accent: var(--primary-03);
+  --bg-base: #f4f7ff; // 淺藍底襯托藍色主視覺
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.1);
+  --text-primary: #1c2535;
+  --text-muted: #6b7aa8;
+  --border: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.18);
+  --shadow: 0 4px 12px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.18);
+
+  // hero / CTA 漸層（對齊 noya / at99 命名）
+  --gradient-hero: linear-gradient(135deg, #f4f7ff 0%, #cfdcff 100%);
+  --gradient-cta: linear-gradient(
+    135deg,
+    var(--primary-01) 0%,
+    var(--primary-05) 100%
+  );
+
+  // 對比 / 結構 token（與 noya 一致命名）
+  --bg-base-deep: #e7eeff;
+  --bg-base-translucent: rgba(255, 255, 255, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #eaf1ff;
+  --provider-card-bg: #eef4ff;
+  --footer-bg: #1a2540;
+  --footer-text: #d3dcf2;
+  --footer-link: #9fb1d8;
+  --badge-live: #ff4d4f; // 與藍色高對比的紅，預設配色 / midnight 共用；red 變體會自行覆寫
+
+  // device frame：phone mockup 外框
+  --device-frame-bg: linear-gradient(180deg, #0e1730 0%, #1f3260 100%);
+  --device-frame-inner: #1f3260;
+  --device-screen-overlay: linear-gradient(
+    180deg,
+    #d8e3ff 0%,
+    var(--primary-01) 100%
+  );
+
+  // banner 漸層（給 mobile banner swiper 3 張 slide 用，與 noya 一致命名）
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    var(--primary-01) 0%,
+    var(--primary-03) 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--secondary-01) 0%,
+    var(--primary-01) 100%
+  );
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    var(--primary-05) 0%,
+    var(--primary-07) 100%
+  );
+
+  // 字體 — 對齊 lilian_ant 體育博彩風，西文 Outfit + 中文系統正黑
+  --font-display:
+    "Outfit", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI", sans-serif;
+  --font-body:
+    "Outfit", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI", "Segoe UI",
+    tahoma, arial, sans-serif;
+
+  // shadow stack（藍色 alpha 帶色，對應 noya kingdom shadow 規律）
+  --shadow-sm: 0 1px 2px rgba(28, 37, 53, 0.08);
+  --shadow-md: 0 4px 8px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.14);
+  --shadow-lg: 0 8px 16px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.2);
+  --shadow-xl: 3px 7px 12px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.24);
+  --shadow-sticky: 0 1px 2px rgba(28, 37, 53, 0.08),
+    0 2px 6px rgba(28, 37, 53, 0.05);
+  --shadow-glow: 0 0 12px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.45);
+
+  // 角落 radial 柔光（對齊 noya kingdom DNA #9）
+  // 預設藍：右上 / 左下兩顆藍色柔光
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.16) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.1) 0%,
+      transparent 65%
+    );
+
+  // 給共用元件吃的 gradient-gold / text-on-gold（noya 有，藍版用 primary 漸層 alias）
+  --gradient-gold: var(--gradient-cta);
+  --text-on-gold: var(--text-on-primary);
+}
