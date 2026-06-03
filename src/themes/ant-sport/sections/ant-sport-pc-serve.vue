@@ -5,6 +5,15 @@ import iconWallet from "@/themes/ant-sport/assets/pc/icon-wallet.png?url";
 import iconBall from "@/themes/ant-sport/assets/pc/icon-ball.png?url";
 import iconSafety from "@/themes/ant-sport/assets/pc/icon-safety.png?url";
 import iconDevice from "@/themes/ant-sport/assets/pc/icon-device.png?url";
+// 三張底圖對齊原 lilian_ant_pc main.scss 第 5447 / 5479 / 5551 行的用法：
+// - indexserve-bg.png：4 個服務特色卡（type-item）的卡片底，原圖是淡灰白柔光長條卡
+//   只在 SCSS 中以 background-image url() 引用，故不在 script 內 import
+// - indexserve-count-bg.png：4 個計數卡（stat-item）的儀錶板半開圓刻度裝飾
+// - indexserve-count.png：計數卡內疊在數字上方的藍色弧線圓圈裝飾
+// 任務描述把 indexserve-bg.png 寫成「整個 section 大背景」，但實圖只有 1170×210 的卡片底，
+// 拉滿整區會 tile / 拉伸破版；故對齊原版用法（卡片底），整區仍走 var(--bg-base) 維持三色適配
+import indexserveCountBg from "@/themes/ant-sport/assets/pc/indexserve-count-bg.png?url";
+import indexserveCount from "@/themes/ant-sport/assets/pc/indexserve-count.png?url";
 import AntSportCounter from "../atoms/ant-sport-counter.vue";
 
 /**
@@ -159,6 +168,23 @@ onBeforeUnmount(() => {
           :key="s.key"
           class="ant-sport-pc-serve__stat-item"
         >
+          <!--
+            計數卡內疊圖層：底（半開圓刻度）+ 弧線圓圈裝飾
+            aria-hidden 因為純裝飾、無語意；用兩張 img 不用 background 是為了
+            midnight 主題可直接套 filter 反白（CSS background-image 套 filter 會連文字一起變色）
+          -->
+          <div class="ant-sport-pc-serve__stat-deco" aria-hidden="true">
+            <img
+              :src="indexserveCountBg"
+              alt=""
+              class="ant-sport-pc-serve__stat-deco-img ant-sport-pc-serve__stat-deco-img--gauge"
+            />
+            <img
+              :src="indexserveCount"
+              alt=""
+              class="ant-sport-pc-serve__stat-deco-img ant-sport-pc-serve__stat-deco-img--arc"
+            />
+          </div>
           <div class="ant-sport-pc-serve__stat-counter">
             <p class="ant-sport-pc-serve__stat-caption">{{ s.caption }}</p>
             <p class="ant-sport-pc-serve__stat-num">
@@ -227,15 +253,52 @@ onBeforeUnmount(() => {
   }
 
   &__stat-item {
+    position: relative;
     text-align: center;
     background: var(--bg-surface);
     border-radius: 16px;
     padding: 28px 20px;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  // 計數卡裝飾層：絕對定位疊在卡內，置中對齊數字位置
+  // 為何用 absolute 而非 background：兩張圖各自需要不同的尺寸 / 位移 / 透明度，
+  // 用 img 比 multiple background 更可控（也方便 midnight 套 filter）
+  &__stat-deco {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 140px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__stat-deco-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: var(--ant-sport-serve-deco-opacity, 0.85);
+    filter: var(--ant-sport-serve-deco-filter, none);
+  }
+
+  &__stat-deco-img--arc {
+    // 弧線圓圈：相對於 gauge 半開圓刻度往內縮並上移，讓兩層裝飾錯落
+    inset: 18px 36px auto;
+    width: auto;
+    height: auto;
+    bottom: 22px;
+    opacity: var(--ant-sport-serve-deco-arc-opacity, 0.9);
   }
 
   &__stat-counter {
+    position: relative;
+    z-index: 1;
     margin-bottom: 14px;
   }
 
@@ -263,6 +326,8 @@ onBeforeUnmount(() => {
   }
 
   &__stat-title {
+    position: relative;
+    z-index: 1;
     margin: 0;
     font-size: 16px;
     font-weight: 700;
@@ -270,6 +335,8 @@ onBeforeUnmount(() => {
   }
 
   &__stat-subtitle {
+    position: relative;
+    z-index: 1;
     margin: 4px 0 0;
     font-size: 10px;
     color: var(--text-muted);
@@ -285,8 +352,20 @@ onBeforeUnmount(() => {
     gap: 20px;
   }
 
+  // 服務特色卡：對齊原 lilian_ant_pc main.scss 第 5543 行 .indexServe-type-item，
+  // 用 indexServe-bg.png 當卡片底（淡灰白柔光長條）。三色 variant 中：
+  // - blue / red 底色淺，圖片本身可直接看到
+  // - midnight 深底會吃掉淡圖；走 token 控制 brightness / opacity（見 _variants.scss）
   &__type-item {
-    background: var(--bg-surface);
+    background-color: var(--bg-surface);
+    background-image: var(
+      --ant-sport-serve-type-bg,
+      url("@/themes/ant-sport/assets/pc/indexserve-bg.png")
+    );
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-blend-mode: var(--ant-sport-serve-type-blend, normal);
     border-radius: 12px;
     padding: 20px;
     display: flex;
@@ -295,6 +374,7 @@ onBeforeUnmount(() => {
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border);
     transition: all 0.18s ease;
+    filter: var(--ant-sport-serve-type-filter, none);
 
     &:hover {
       transform: translateY(-3px);

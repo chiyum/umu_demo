@@ -83,6 +83,16 @@
     );
   --gradient-gold: var(--gradient-cta);
   --text-on-gold: var(--text-on-primary);
+
+  // PC Serve 區三張裝飾圖在 midnight 深底會被吃掉，需要反白 + 降透明
+  // 服務特色卡（indexserve-bg.png）的淡灰白底要在深底還能呈現「微亮卡面」感
+  // 計數卡儀錶板裝飾走 invert 變成藍白底配深底
+  --ant-sport-serve-type-filter: invert(0.92) hue-rotate(180deg) brightness(0.55)
+    contrast(1.1);
+  --ant-sport-serve-type-blend: normal;
+  --ant-sport-serve-deco-filter: invert(0.85) hue-rotate(180deg);
+  --ant-sport-serve-deco-opacity: 0.55;
+  --ant-sport-serve-deco-arc-opacity: 0.75;
 }
 
 // ─────────────── red：紅系（節慶 / 活動 / 高張力） ───────────────
@@ -173,4 +183,12 @@
     );
   --gradient-gold: var(--gradient-cta);
   --text-on-gold: var(--text-on-primary);
+
+  // PC Serve 區裝飾圖原本是藍色弧線 / 淡灰白底
+  // 紅版用 hue-rotate 把藍色弧線推向紅色相系，淡灰底維持原樣（淺底卡片照樣可見）
+  --ant-sport-serve-type-filter: hue-rotate(160deg) saturate(1.1);
+  --ant-sport-serve-type-blend: normal;
+  --ant-sport-serve-deco-filter: hue-rotate(170deg) saturate(1.05);
+  --ant-sport-serve-deco-opacity: 0.7;
+  --ant-sport-serve-deco-arc-opacity: 0.85;
 }
