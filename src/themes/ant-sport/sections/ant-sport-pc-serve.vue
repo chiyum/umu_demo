@@ -169,9 +169,12 @@ onBeforeUnmount(() => {
           class="ant-sport-pc-serve__stat-item"
         >
           <!--
-            計數卡內疊圖層：底（半開圓刻度）+ 弧線圓圈裝飾
-            aria-hidden 因為純裝飾、無語意；用兩張 img 不用 background 是為了
-            midnight 主題可直接套 filter 反白（CSS background-image 套 filter 會連文字一起變色）
+            計數卡內疊圖層：圓形儀表板容器
+            - 對齊 lilian_ant_pc main.scss 第 5447 行 .indexServe-coutWarp（160×137）
+            - deco 本體是固定尺寸圓形容器（不被 grid 拉扁），兩張裝飾 + counter 一律以
+              absolute 同心疊在 deco 內，確保數字永遠落在圓心
+            - aria-hidden 因為純裝飾、無語意；用兩張 img 不用 background 是為了
+              midnight 主題可直接套 filter 反白（CSS background-image 套 filter 會連文字一起變色）
           -->
           <div class="ant-sport-pc-serve__stat-deco" aria-hidden="true">
             <img
@@ -184,13 +187,14 @@ onBeforeUnmount(() => {
               alt=""
               class="ant-sport-pc-serve__stat-deco-img ant-sport-pc-serve__stat-deco-img--arc"
             />
-          </div>
-          <div class="ant-sport-pc-serve__stat-counter">
-            <p class="ant-sport-pc-serve__stat-caption">{{ s.caption }}</p>
-            <p class="ant-sport-pc-serve__stat-num">
-              <AntSportCounter :end-amount="s.end" :run="runCounter" />
-            </p>
-            <p class="ant-sport-pc-serve__stat-unit">{{ s.unit }}</p>
+            <!-- counter 內嵌在 deco 中，靠 padding-top 把文字推到 gauge 中段 -->
+            <div class="ant-sport-pc-serve__stat-counter">
+              <p class="ant-sport-pc-serve__stat-caption">{{ s.caption }}</p>
+              <p class="ant-sport-pc-serve__stat-num">
+                <AntSportCounter :end-amount="s.end" :run="runCounter" />
+              </p>
+              <p class="ant-sport-pc-serve__stat-unit">{{ s.unit }}</p>
+            </div>
           </div>
           <p class="ant-sport-pc-serve__stat-title">{{ s.title }}</p>
           <p class="ant-sport-pc-serve__stat-subtitle">{{ s.subtitle }}</p>
@@ -252,31 +256,35 @@ onBeforeUnmount(() => {
     gap: 28px;
   }
 
+  // 計數卡外殼：對齊原版 lilian_ant_pc .indexServe-info-item（300×230 縱長 div）
+  // 不再套 surface background / shadow / border，因為原版本身就是透明縱長容器，
+  // 視覺主體是 gauge 圓盤，套了 card 反而讓四個方塊變扁長、把圓盤擠變形
   &__stat-item {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    background: var(--bg-surface);
-    border-radius: 16px;
-    padding: 28px 20px;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border);
-    overflow: hidden;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    overflow: visible;
   }
 
-  // 計數卡裝飾層：絕對定位疊在卡內，置中對齊數字位置
-  // 為何用 absolute 而非 background：兩張圖各自需要不同的尺寸 / 位移 / 透明度，
-  // 用 img 比 multiple background 更可控（也方便 midnight 套 filter）
+  // 計數卡儀表板容器：固定尺寸圓形容器（不會被 grid 拉扁），
+  // 對齊原版 .indexServe-coutWarp（160×137），這裡放大到 180×155 配合 ant-sport 字級
+  // - position: relative 作為內部裝飾與 counter 的定位錨點
+  // - 寬高固定 + margin: 0 auto 置中，grid 欄寬再怎麼變 deco 都不變形
   &__stat-deco {
-    position: absolute;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     width: 180px;
-    height: 140px;
+    height: 155px;
+    margin: 0 auto;
     pointer-events: none;
-    z-index: 0;
   }
 
+  // gauge 半開圓刻度底圖：填滿 deco 容器即可，object-fit: contain 保持原圖比例
   &__stat-deco-img {
     position: absolute;
     inset: 0;
@@ -287,19 +295,24 @@ onBeforeUnmount(() => {
     filter: var(--ant-sport-serve-deco-filter, none);
   }
 
+  // 藍色弧線：與 gauge 同心疊（不再用 inset 強制壓縮，避免把圓弧拉成歪斜橢圓）
+  // 維持 contain 讓 arc 自然保持圓形
   &__stat-deco-img--arc {
-    // 弧線圓圈：相對於 gauge 半開圓刻度往內縮並上移，讓兩層裝飾錯落
-    inset: 18px 36px auto;
-    width: auto;
-    height: auto;
-    bottom: 22px;
     opacity: var(--ant-sport-serve-deco-arc-opacity, 0.9);
   }
 
+  // 數字組合（caption / num / unit）：absolute 置中於 deco 圓心
+  // padding-top 對齊原版 .indexServe-coutBox 的 48px，把文字推到 gauge 中段
   &__stat-counter {
-    position: relative;
+    position: absolute;
+    inset: 0;
     z-index: 1;
-    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 18px;
+    pointer-events: none;
   }
 
   &__stat-caption {
@@ -307,6 +320,7 @@ onBeforeUnmount(() => {
     font-size: 11px;
     color: var(--text-muted);
     letter-spacing: 1.5px;
+    line-height: 1;
   }
 
   &__stat-num {
@@ -323,20 +337,19 @@ onBeforeUnmount(() => {
     font-size: 13px;
     color: var(--text-muted);
     font-weight: 500;
+    line-height: 1;
   }
 
+  // 標題 / 副標：在 deco 圓盤下方順流排
+  // 對齊原版 .indexServe-title { margin-top: 28px }
   &__stat-title {
-    position: relative;
-    z-index: 1;
-    margin: 0;
+    margin: 24px 0 0;
     font-size: 16px;
     font-weight: 700;
     color: var(--text-primary);
   }
 
   &__stat-subtitle {
-    position: relative;
-    z-index: 1;
     margin: 4px 0 0;
     font-size: 10px;
     color: var(--text-muted);
