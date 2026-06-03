@@ -6,7 +6,15 @@ import depositIcon from "@/themes/ant-sport/assets/user-action/deposit.webp?url"
 import withdrawIcon from "@/themes/ant-sport/assets/user-action/withdraw.webp?url";
 import feedbackIcon from "@/themes/ant-sport/assets/user-action/feedback.svg?url";
 import promoteIcon from "@/themes/ant-sport/assets/user-action/promote.webp?url";
+// 對齊 lilian_ant_web/src/assets/scss/home.scss 的 .user__icon.money 用法：
+// 原 home.vue 第 31 行 .money 區塊註解掉了文字 "$"，但 SCSS 仍指定
+// background-image: url(.../icon_rmb.webp)，代表 原版 是用圖示而非純文字符號
+import currencyIcon from "@/themes/ant-sport/assets/user-action/currency.webp?url";
+// 紅包浮窗：對齊 lilian_ant_web home/icon_redEnvelope_pop_tiger.195dfd7a.png
+// 原 repo 為「跑酷型」紅包浮窗按鈕（在 mobile 右下角），demo 沿用此 UI 慣例
+import redEnvelopeIcon from "@/themes/ant-sport/assets/user-action/red-envelope.png?url";
 import { ref } from "vue";
+import { useQuasar } from "quasar";
 
 /**
  * ant-sport mobile 會員資訊卡
@@ -40,6 +48,23 @@ const actions: ActionItem[] = [
   { key: "withdraw", icon: withdrawIcon, label: "提款" },
   { key: "promote", icon: promoteIcon, label: "推廣" }
 ];
+
+/**
+ * 紅包浮窗按鈕：對應 lilian_ant 原站「跑酷紅包」UI
+ *
+ * 視覺上是右下方浮窗按鈕（floating action），demo 點擊純 Notify 提示
+ * 為何放這個元件而不另開 section：紅包浮窗是「跟著會員區走」的入口，
+ * 邏輯依附於登入狀態（demo 內固定可見），與 user-card 同檔較內聚
+ */
+const $q = useQuasar();
+function handleRedEnvelope() {
+  $q.notify({
+    message: "Demo 環境：紅包活動僅展示版面",
+    color: "primary",
+    position: "top",
+    timeout: 1500
+  });
+}
 </script>
 
 <template>
@@ -53,7 +78,14 @@ const actions: ActionItem[] = [
         </span>
       </div>
       <div class="ant-sport-m-user__credit-row">
-        <span class="ant-sport-m-user__currency">¥</span>
+        <!-- 對齊原站：用 icon_rmb.webp 圖示而非純文字 ¥ -->
+        <span class="ant-sport-m-user__currency" aria-label="人民幣">
+          <img
+            :src="currencyIcon"
+            alt=""
+            class="ant-sport-m-user__currency-img"
+          />
+        </span>
         <span class="ant-sport-m-user__credit">8,888</span>
         <button
           type="button"
@@ -91,6 +123,26 @@ const actions: ActionItem[] = [
         <span class="ant-sport-m-user__action-label">{{ a.label }}</span>
       </li>
     </ul>
+
+    <!--
+      紅包浮窗按鈕：對應 lilian_ant 原站「跑酷紅包」UI
+      用 fixed 定位掛在 viewport 右側中下方，避開底部 tab bar；
+      bottom 給足 80px = 56 (tab bar) + 24 (safe gap)
+      aria-label 給可讀性、demo 點擊只跳 Notify
+    -->
+    <button
+      type="button"
+      class="ant-sport-m-user__envelope"
+      aria-label="紅包活動入口"
+      @click="handleRedEnvelope"
+    >
+      <img
+        :src="redEnvelopeIcon"
+        alt=""
+        class="ant-sport-m-user__envelope-img"
+      />
+      <span class="ant-sport-m-user__envelope-pulse" aria-hidden="true" />
+    </button>
   </section>
 </template>
 
@@ -144,9 +196,19 @@ const actions: ActionItem[] = [
   }
 
   &__currency {
-    font-size: 16px;
-    color: var(--color-primary);
-    font-weight: 600;
+    // 對齊原站 .user__icon.money 的尺寸（0.2rem 寬 / 0.42rem 高，約 12 / 25px）
+    // 改用圖示後 font-size 失去意義，改成固定容器寬高
+    width: 14px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__currency-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   &__credit {
@@ -220,6 +282,79 @@ const actions: ActionItem[] = [
     font-size: 12px;
     color: var(--text-muted);
     line-height: 1.2;
+  }
+
+  // 紅包浮窗按鈕：fixed 右下、避開 bottom tab bar
+  // 為什麼 z-index 90 對齊 bottom-nav：同層級不互相蓋，因為紅包定位在 tab bar 上方
+  &__envelope {
+    position: fixed;
+    right: 12px;
+    bottom: 80px;
+    z-index: 90;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+    transition: transform 0.18s ease;
+
+    &:hover {
+      transform: scale(1.06);
+    }
+
+    &:active {
+      transform: scale(0.94);
+    }
+  }
+
+  &__envelope-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+
+    // 輕微上下擺動，增加注目度（純展示，不消耗 CPU）
+    animation: ant-sport-envelope-bob 2.4s ease-in-out infinite;
+  }
+
+  // 浮窗下方脈動光圈：用 absolute 圓形 box-shadow 模擬「正在發紅包」
+  &__envelope-pulse {
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background: var(--badge-live);
+    opacity: 0.4;
+    z-index: 1;
+    animation: ant-sport-envelope-pulse 1.6s ease-out infinite;
+  }
+}
+
+@keyframes ant-sport-envelope-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes ant-sport-envelope-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
   }
 }
 
