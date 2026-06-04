@@ -1,6 +1,14 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import ProviderBadge from "@/components/common/landing/provider-badge.vue";
-import at99Logo from "@/assets/themes/at99/images/logo.png";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// Logo 改由 demo-theme store 動態切換（與 top-header / mobile-top-bar / drawer 同源），
+// FAB 切 logo 時 footer 也要跟動，否則同一頁上下品牌不一致。
+// 這份 commit f06f5af 漏改的修正，reviewer 抓到，補回對齊 noya-footer.vue 的 pattern。
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 // Round 9：5d_v2 example/game2.jpg（財神立繪 + 元寶，純藝術無平台 logo）
 // 取代原 AvatarSilhouette 純抽象剪影，讓 at99 footer 左下角具備「賭場吉祥物」具象視覺
@@ -134,7 +142,7 @@ const languages = [
 
         <!-- 中文字（大亨 ONLINE 品牌 logo + 描述 + 連結） -->
         <div class="at99-foot__text">
-          <img :src="at99Logo" alt="DEMO" class="at99-foot__brand-img" />
+          <img :src="logoSrc" :alt="logoLabel" class="at99-foot__brand-img" />
           <p class="at99-foot__desc">
             本站為前端版面 Demo，所有內容、人物、遊戲與標籤皆為通用範例，<br />
             不代表任何真實服務、品牌或營運主體。
