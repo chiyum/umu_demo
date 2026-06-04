@@ -33,6 +33,11 @@ export interface ColorVariant {
  * - key：FAB / store 用來辨識 / persist 的識別碼
  * - label：FAB 列表顯示用 hover 提示
  * - src：實際 logo 圖檔 URL（用 new URL + import.meta.url 算出 vite 處理過的 hash 路徑）
+ * - transparentBg：是否已是透明背景，預設 false（白底彩字 PNG）
+ *   - false：mobile-header 等深色 bar 會套 `mix-blend-mode: screen` 把白底洗掉
+ *   - true：跳過 mix-blend-mode，避免把透明底的彩色筆畫變淡
+ *   為什麼這旗標必要：ant-sport 內 default-mobile 自帶透明背景，其他 3 張白底；
+ *   若 mix-blend-mode 一律套，透明底 logo 會被洗成半透明發白
  *
  * 為什麼 src 用 string（URL）而非 SFC 內 ?url import：
  * - registry 是純 metadata，不該 import 任何 chunk 等級的圖檔
@@ -43,6 +48,8 @@ export interface LogoCandidate {
   key: string;
   label: string;
   src: string;
+  /** 是否已是透明背景 PNG / SVG，影響深色 bar 是否要套 mix-blend-mode 洗底（預設 false） */
+  transparentBg?: boolean;
 }
 
 /**
@@ -72,10 +79,12 @@ export interface ThemeMeta {
   /**
    * 該 theme 可用的 logo 候選清單
    *
-   * 至少 2 張：default + 替代版本；ant-sport 提供 4 張供選擇
-   * 不存在時 fallback 用 theme 內既有 hard-coded logo（向後相容）
+   * 型別為 non-empty tuple（強制至少 1 張）：
+   * - 編譯期保證 theme.logos[0] 永遠存在，getLogo / store 的 fallback 鏈不會踩空陣列爆 undefined
+   * - 違反時 TypeScript 直接報錯，不會等到 runtime 才在 `themeStore.currentLogo.src` 噴 null
+   * 至少 2 張為慣例（default + 替代）；ant-sport 提供 4 張供選擇。
    */
-  logos: LogoCandidate[];
+  logos: [LogoCandidate, ...LogoCandidate[]];
   /**
    * 預設 logo key
    *

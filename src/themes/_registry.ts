@@ -1,4 +1,4 @@
-import type { ThemeMeta } from "./_types";
+import type { LogoCandidate, ThemeMeta } from "./_types";
 
 /**
  * 集中註冊所有版面
@@ -37,16 +37,20 @@ const noya: ThemeMeta = {
   previewMobile: new URL("@/assets/previews/noya-mobile.png", import.meta.url)
     .href,
   defaultLogo: "default",
+  // 兩張都是透明背景 PNG（四角 alpha=0 已驗）→ transparentBg: true
+  // 避免深色 bar 套 mix-blend-mode 把彩色筆畫洗淡
   logos: [
     {
       key: "default",
       label: "UMU 品牌標準款",
-      src: new URL("./noya/assets/logos/default.png", import.meta.url).href
+      src: new URL("./noya/assets/logos/default.png", import.meta.url).href,
+      transparentBg: true
     },
     {
       key: "alt1",
       label: "通用備用款 A",
-      src: new URL("./noya/assets/logos/alt1.png", import.meta.url).href
+      src: new URL("./noya/assets/logos/alt1.png", import.meta.url).href,
+      transparentBg: true
     }
   ]
 };
@@ -69,16 +73,19 @@ const at99: ThemeMeta = {
   previewMobile: new URL("@/assets/previews/at99-mobile.png", import.meta.url)
     .href,
   defaultLogo: "default",
+  // 兩張都是透明背景 PNG（四角 alpha=0 已驗）→ transparentBg: true
   logos: [
     {
       key: "default",
       label: "大亨 ONLINE 標準款",
-      src: new URL("./at99/assets/logos/default.png", import.meta.url).href
+      src: new URL("./at99/assets/logos/default.png", import.meta.url).href,
+      transparentBg: true
     },
     {
       key: "alt1",
       label: "通用備用款 A",
-      src: new URL("./at99/assets/logos/alt1.png", import.meta.url).href
+      src: new URL("./at99/assets/logos/alt1.png", import.meta.url).href,
+      transparentBg: true
     }
   ]
 };
@@ -113,12 +120,15 @@ const antSport: ThemeMeta = {
     .href,
   defaultLogo: "pc",
   // 4 個候選：PC 原圖 / mobile 原圖 / 兩張通用備用款（lilian_ant_pc logo2 / lilian_ant_web logo_header）
+  // 四張皆透明背景 PNG（已用 python 直接讀 PNG alpha channel 驗過四角 alpha=0）
+  // → transparentBg: true，mobile-header 不再對它們套 mix-blend-mode
   logos: [
     {
       key: "pc",
       label: "蚂蚁体育 桌面款",
       src: new URL("./ant-sport/assets/logos/default-pc.png", import.meta.url)
-        .href
+        .href,
+      transparentBg: true
     },
     {
       key: "mobile",
@@ -126,17 +136,20 @@ const antSport: ThemeMeta = {
       src: new URL(
         "./ant-sport/assets/logos/default-mobile.png",
         import.meta.url
-      ).href
+      ).href,
+      transparentBg: true
     },
     {
       key: "alt1",
       label: "通用備用款 A",
-      src: new URL("./ant-sport/assets/logos/alt1.png", import.meta.url).href
+      src: new URL("./ant-sport/assets/logos/alt1.png", import.meta.url).href,
+      transparentBg: true
     },
     {
       key: "alt2",
       label: "通用備用款 B",
-      src: new URL("./ant-sport/assets/logos/alt2.png", import.meta.url).href
+      src: new URL("./ant-sport/assets/logos/alt2.png", import.meta.url).href,
+      transparentBg: true
     }
   ]
 };
@@ -176,14 +189,22 @@ export function getColorVariant(
  * 為什麼提供 helper 而非要呼叫端自行查：
  * - 同 getColorVariant 一致的 API 形狀，呼叫端不必處理 fallback 邏輯
  * - 若未來要支援 logo 多語系或變體（橫式/方形），可在這層統一處理
+ *
+ * 為什麼明確標 return 型別為 LogoCandidate（非 undefined）：
+ * - `theme.logos` 型別為 `[LogoCandidate, ...LogoCandidate[]]`（non-empty tuple），
+ *   `theme.logos[0]` 編譯期保證存在
+ * - 呼叫端 `themeStore.currentLogo.src` 可放心解構，不需要 optional chaining
+ * - 違反 non-empty 約束會在 registry 建構時就被 TS 擋下，這層 helper 不必再做 runtime 防呆
  */
-export function getLogo(theme: ThemeMeta, logoKey: string | null | undefined) {
+export function getLogo(
+  theme: ThemeMeta,
+  logoKey: string | null | undefined
+): LogoCandidate {
   const found = theme.logos.find((l) => l.key === logoKey);
-  return (
-    found ??
-    theme.logos.find((l) => l.key === theme.defaultLogo) ??
-    theme.logos[0]
-  );
+  if (found) return found;
+  const fallback = theme.logos.find((l) => l.key === theme.defaultLogo);
+  // theme.logos[0] 由型別保證存在（non-empty tuple），不會回 undefined
+  return fallback ?? theme.logos[0];
 }
 
 /** 給 store / UI 列舉用 */

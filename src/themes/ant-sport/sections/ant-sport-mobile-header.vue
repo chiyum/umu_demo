@@ -20,12 +20,23 @@ import messageIcon from "@/themes/ant-sport/assets/user-action/message.webp?url"
 const themeStore = useDemoThemeStore();
 const logoSrc = computed(() => themeStore.currentLogo.src);
 const logoLabel = computed(() => themeStore.currentLogo.label);
+
+// 是否需要套 mix-blend-mode: screen 把白底洗掉
+// - 白底 PNG（transparentBg !== true）需要洗底，否則藍 bar 上會出現白色矩形
+// - 透明背景 PNG 不該洗，否則彩色筆畫會被 screen 拉淡到看不清
+// 由 registry 各 logo 自行標註 transparentBg，避免新增白底 logo 時忘了考慮
+const useScreenBlend = computed(() => !themeStore.currentLogo.transparentBg);
 </script>
 
 <template>
   <header class="ant-sport-m-header">
     <a class="ant-sport-m-header__brand" href="#" :aria-label="logoLabel">
-      <img :src="logoSrc" :alt="logoLabel" class="ant-sport-m-header__logo" />
+      <img
+        :src="logoSrc"
+        :alt="logoLabel"
+        class="ant-sport-m-header__logo"
+        :class="{ 'ant-sport-m-header__logo--screen-blend': useScreenBlend }"
+      />
     </a>
     <button
       type="button"
@@ -80,9 +91,13 @@ const logoLabel = computed(() => themeStore.currentLogo.label);
     object-fit: contain;
     display: block;
 
-    // 來源 logo 為白底彩字 PNG，套到藍色頂部 bar 顯不出來；
-    // 用 mix-blend-mode: screen 把白底洗掉只留主視覺，避免改圖
-    mix-blend-mode: screen;
+    // 透明底 PNG 預設不套任何 blend mode；白底 PNG（registry transparentBg=false）
+    // 走 .ant-sport-m-header__logo--screen-blend 修飾類別。
+    // 為什麼用修飾類別而非寫死 mix-blend-mode：mix-blend-mode 對透明底 PNG 會把彩色
+    // 筆畫拉淡（screen 公式：底白 + 任何色 = 接近白），標反了 logo 就褪色
+    &--screen-blend {
+      mix-blend-mode: screen;
+    }
   }
 
   &__message {

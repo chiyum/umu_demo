@@ -178,13 +178,25 @@ export const useDemoThemeStore = defineStore("demo-theme", () => {
    * 為什麼用 function 而非 computed：
    * - 只在初始化用一次，之後 logoKey 改變透過 setLogo / watch layoutKey 處理
    * - computed 重複計算會吃 reactive 訊號，這裡是純初始解析不需要
+   *
+   * 防呆鏈：
+   * 1. theme 不存在 → fallback 到 DEFAULT_LAYOUT_KEY 的 theme（保證有）
+   * 2. LS 命中且合法 → 用 LS
+   * 3. theme.defaultLogo 命中合法 logos → 用 defaultLogo
+   * 4. 兩者都失敗 → 退到 theme.logos[0].key（型別已保證 logos non-empty，必存在）
+   *
+   * 為什麼最後加 logos[0] fallback：型別已強制 non-empty tuple，但跑時若 registry 設定錯
+   * （defaultLogo 字串 typo 對不到任何 logo key）resolveInitialLogoKey 仍能回有效 key，
+   * 避免 logoKey ref 被塞進空字串而後續 getLogo 反覆 fallback。
    */
   function resolveInitialLogoKey(layoutKeyVal: string): string {
-    const theme = themes[layoutKeyVal];
-    if (!theme) return "";
+    const theme = themes[layoutKeyVal] ?? themes[DEFAULT_LAYOUT_KEY];
     const ls = safeGetLS(LS_LOGO_KEY_PREFIX + layoutKeyVal);
     if (ls && theme.logos.some((l) => l.key === ls)) return ls;
-    return theme.defaultLogo;
+    if (theme.logos.some((l) => l.key === theme.defaultLogo)) {
+      return theme.defaultLogo;
+    }
+    return theme.logos[0].key;
   }
 
   const logoKey = ref<string>(resolveInitialLogoKey(initial.layoutKey));

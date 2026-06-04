@@ -336,11 +336,15 @@ src/themes/
 | `--gradient-hero` | hero 區漸層背景 |
 | `--gradient-cta` | CTA 按鈕漸層 |
 
-### Theme Switcher FAB（浮標）
+### Theme Color FAB（浮標）
 
-`src/components/common/theme-switcher-fab.vue`（桌面）與
-`theme-switcher-fab.mobile.vue`（手機）兩個版本，
+`src/components/common/theme-color-fab.vue`（桌面）與
+`theme-color-fab.mobile.vue`（手機）兩個版本，
 由 `layout-theme-host` 依 `useDevice.isMobile` 動態載入。
+
+> 命名歷史：早期叫 `theme-switcher-fab.vue`（同時切版面 + 配色），
+> `/demo/:layoutkey` 路由把版面鎖死在 URL 後，FAB 只剩配色 + Logo 切換，
+> 故改名為 `theme-color-fab.vue` 更貼近職責。
 
 特性：
 - **可拖曳**：PC 滑鼠 + Mobile 觸控（使用 Pointer Events 統一處理）

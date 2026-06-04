@@ -18,8 +18,8 @@ const logoLabel = computed(() => themeStore.currentLogo.label);
  * 為何用 emit 而非 v-model：保留純 emit 讓父層自由決定要不要綁，
  * 將來可能改用 router query 控制；目前 desktop.vue 用 ref 接住。
  *
- * Logo：使用 UMU 自有品牌 logo（src/assets/themes/noya/images/logo.png）取代原先文字佔位
- * UMU 為寬版橫式 logo，PC header 約 40px 高度可保有清晰可辨識度
+ * Logo：由 demo-theme store 動態切換（FAB Logo row 可選 UMU 標準款 / 通用備用款 A）
+ * PC header 約 40px 高度，object-fit: contain 自動適應寬版橫式 / 方形 logo
  */
 
 interface Props {
