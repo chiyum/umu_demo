@@ -115,12 +115,16 @@ function handleTap(item: TabItem) {
 </template>
 
 <style lang="scss" scoped>
+// 對齊 lilian_ant_web layout 底部 tab bar：
+// 高度約 1.26rem (~47px) + safe-area 額外保留
+// 5 個 tab 平均分配寬度，icon 0.6rem 高 + label 文字 0.2rem
 .ant-sport-m-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 90;
+  height: calc(50px + env(safe-area-inset-bottom));
   display: flex;
   background: var(--bg-base-translucent);
   backdrop-filter: blur(10px);

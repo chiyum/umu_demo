@@ -49,8 +49,8 @@ import AntSportMobileBottomNav from "./sections/ant-sport-mobile-bottom-nav.vue"
   &__main {
     flex: 1;
 
-    // 預留底部 fixed nav 空間，避免最後一段被遮
-    padding-bottom: 68px;
+    // 預留底部 fixed nav 空間（50px 高 + safe-area + 緩衝）
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
   }
 }
 </style>

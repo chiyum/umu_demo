@@ -41,6 +41,10 @@ import messageIcon from "@/themes/ant-sport/assets/user-action/message.webp?url"
 </template>
 
 <style lang="scss" scoped>
+// 對齊 lilian_ant_web main.scss .home__header：
+// - 高度 1rem ≈ 50px / padding-right pr-3 ≈ 12px
+// - logo 從左邊 background-position: 0.3rem (~12px) 起算，1.8rem (~68px) 寬
+// - 訊息 icon 0.7rem 寬高 ≈ 26px，背景圖 0.5rem ≈ 19px
 .ant-sport-m-header {
   position: sticky;
   top: 0;
@@ -61,12 +65,14 @@ import messageIcon from "@/themes/ant-sport/assets/user-action/message.webp?url"
     align-items: center;
     text-decoration: none;
     color: inherit;
+    padding-left: 4px;
   }
 
+  // 原版 1.8rem 寬 ≈ 68px，自適應高度
   &__logo {
-    height: 32px;
+    height: 36px;
     width: auto;
-    max-width: 140px;
+    max-width: 180px;
     object-fit: contain;
     display: block;
 

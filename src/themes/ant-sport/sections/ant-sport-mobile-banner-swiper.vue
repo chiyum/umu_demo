@@ -97,15 +97,18 @@ onBeforeUnmount(stopAuto);
 </template>
 
 <style lang="scss" scoped>
+// 對齊 lilian_ant_web .home__banner：
+// - height: 2.75rem (~104px), padding: 0 0.25rem (~9px)
+// - border-radius: 0.2rem (~8px)
 .ant-sport-m-banner {
   background: var(--bg-base);
-  padding: 12px 0 8px;
+  padding: 10px 9px 8px;
   position: relative;
 
   &__viewport {
     overflow: hidden;
-    margin: 0 12px;
-    border-radius: 12px;
+    margin: 0;
+    border-radius: 8px;
     box-shadow: var(--shadow-lg);
   }
 

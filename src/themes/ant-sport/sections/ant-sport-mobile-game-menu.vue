@@ -72,16 +72,20 @@ const games: GameCategory[] = [
 </template>
 
 <style lang="scss" scoped>
+// 對齊 lilian_ant_web .home__game flex: 1 + overflow-y: auto
+// 原 widget 是 sidebar 模式 + col 卡片，demo 改 grid 適合 viewport
+// margin / padding 取原版手機常用 0.2~0.3rem (~8px) 為基準
 .ant-sport-m-games {
-  margin: 8px 12px 16px;
+  margin: 6px 8px 16px;
 
   &__heading {
     margin: 0 0 10px;
-    padding: 0 4px;
+    padding: 0 4px 0 8px;
     font-size: 16px;
     font-weight: 700;
     color: var(--text-primary);
     letter-spacing: 1px;
+    line-height: 22px;
 
     // 標題左側細色條，致敬原 lilian_ant 體育博彩設計語言
     border-left: 3px solid var(--color-primary);

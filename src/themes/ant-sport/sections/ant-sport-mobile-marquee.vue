@@ -42,20 +42,25 @@ const joinedText = items.join("　·　");
 </template>
 
 <style lang="scss" scoped>
+// 對齊 lilian_ant_web .home__marquee：
+// - height: 0.76rem (~28px), padding: 0.2rem 0.3rem (~7px 11px)
+// - 內部 padding-left: 0.4rem (~15px) 留 icon 空間
+// - 文字色 #9ca3bf 對齊 secondary-04
 .ant-sport-m-marquee {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 8px 12px;
-  padding: 8px 12px;
+  gap: 6px;
+  margin: 6px 12px;
+  padding: 7px 12px;
   background: var(--highlight-strip);
   border-radius: 8px;
   border: 1px solid var(--border);
+  min-height: 28px;
 
   &__icon {
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     display: inline-flex;
     align-items: center;
     justify-content: center;

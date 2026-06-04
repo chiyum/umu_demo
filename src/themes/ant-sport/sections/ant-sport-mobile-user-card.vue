@@ -204,9 +204,13 @@ function handleRedEnvelope() {
 </template>
 
 <style lang="scss" scoped>
+// 對齊 lilian_ant_web .home__user__action padding: 0rem 0.2rem (~7px)
+// - user__icon 0.6rem×0.62rem (~22×23px)
+// - 整區由 user__data (40% 寬) + user__action (60% 寬) 組成
+// demo 改卡片化 + 上下排列，比較適合手機 viewport，但 padding 內縮對齊原版手感
 .ant-sport-m-user {
-  margin: 8px 12px 12px;
-  padding: 14px 16px;
+  margin: 6px 8px 12px;
+  padding: 14px 12px;
   background: var(--bg-surface);
   border-radius: 12px;
   box-shadow: var(--shadow-md);
