@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import ProviderBadge from "@/components/common/landing/provider-badge.vue";
-import noyaLogo from "@/assets/themes/noya/images/logo.png";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// Logo 改由 demo-theme store 動態切換（透過 FAB Logo row 控制）
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 /**
  * noya footer：4 欄連結 + provider logo strip + 版權
@@ -139,7 +145,11 @@ const providerStrip = Array.from({ length: 14 }, (_, i) => ({
         <!-- 左側品牌資訊（UMU 品牌 logo） -->
         <div class="noya-footer__brand-col">
           <div class="noya-footer__brand">
-            <img :src="noyaLogo" alt="DEMO" class="noya-footer__brand-img" />
+            <img
+              :src="logoSrc"
+              :alt="logoLabel"
+              class="noya-footer__brand-img"
+            />
           </div>
           <p class="noya-footer__brand-desc">
             本站僅供前端版面 Demo，<br />

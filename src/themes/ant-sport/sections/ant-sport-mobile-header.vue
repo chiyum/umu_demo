@@ -1,27 +1,31 @@
 <script setup lang="ts">
-import logoHeader from "@/themes/ant-sport/assets/logo-mobile.png?url";
+import { computed } from "vue";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
 import messageIcon from "@/themes/ant-sport/assets/user-action/message.webp?url";
 
 /**
  * ant-sport mobile 頂部 logo bar
  *
  * 對齊 lilian_ant_web src/pages/home.vue 第 3-8 行 `.home__header`：
- * - 左側：蚂蚁体育 logo（logo_header.png）
+ * - 左側：蚂蚁体育 logo（由 demo-theme store 動態切換）
  * - 右側：訊息通知圖示（連到 /newsCenter，本 demo 純展示）
  *
  * 結構保留原 BEM 風格命名（home__header → ant-sport-m-header），
  * 主視覺定位用 sticky 而非 fixed，避免吃掉 banner swiper 的 z-index 層級
+ *
+ * Logo 不寫死 import，改透過 themeStore.currentLogo 動態切；
+ * 使用者在 FAB Logo row 切換時，這裡 reactive 自動更新
  */
+
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 </script>
 
 <template>
   <header class="ant-sport-m-header">
-    <a class="ant-sport-m-header__brand" href="#" aria-label="蚂蚁体育">
-      <img
-        :src="logoHeader"
-        alt="蚂蚁体育 logo"
-        class="ant-sport-m-header__logo"
-      />
+    <a class="ant-sport-m-header__brand" href="#" :aria-label="logoLabel">
+      <img :src="logoSrc" :alt="logoLabel" class="ant-sport-m-header__logo" />
     </a>
     <button
       type="button"

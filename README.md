@@ -354,3 +354,37 @@ src/themes/
 - `/home?theme=noya&color=sunset` — noya 版面 + 日落橘配色
 - `/home?theme=at99&color=neon-purple` — at99 版面 + 霓虹紫配色
 
+### Logo 候選與切換
+
+每個 theme 都帶一份 `ThemeMeta.logos: LogoCandidate[]`，
+FAB 展開面板會多出「Logo」row，讓使用者即時切換。
+
+候選清單與檔案放在各 theme 自己的 `assets/logos/` 下：
+
+| Theme | logo key | 來源 |
+|---|---|---|
+| noya | default / alt1 | UMU 自有 logo / lilian_ant_pc 通用 logo |
+| at99 | default / alt1 | 大亨 ONLINE / lilian_ant_pc logo2 |
+| ant-sport | pc / mobile / alt1 / alt2 | 蚂蚁体育 PC 與手機原圖 + 兩張通用備用款 |
+
+**設計重點：**
+
+- `logoKey` per-theme 各自 persist 到 LS（鍵：`casino-demo:logoKey:v3:<layoutKey>`），不同版面互不污染
+- 切換版面時 store 內 `watch(layoutKey)` 會把 `logoKey` 重置成新 theme 的 LS 偏好或預設
+- theme 入口元件（desktop.vue / mobile-header / main-nav / top-header 等）統一透過
+  `useDemoThemeStore().currentLogo` 取 logo src，使用者切 logo 時所有引用自動更新
+- FAB row 用縮圖按鈕（PC 36×36，mobile sheet 48×48 + label），active 樣式延續 colorBtn 反白邊框
+
+### ant-sport 版面（蚂蚁体育對齊）
+
+`src/themes/ant-sport/` 是 lilian_ant_pc 桌面 main.vue 5 段 + lilian_ant_web 手機 home.vue 6 段
+的視覺對齊版本（DOM / SCSS 規格逐段對齊原作，但保留 token 化以支援三色切換）：
+
+- **桌面 5 段**：Banner / News（marquee）/ AppDownload / GameGrid（7 tabs）/ Serve（4 計數 + 4 特色）
+- **手機 6 段**：Header / BannerSwiper / Marquee / UserCard / GameMenu / BottomNav
+- **配色 3 套**：blue 預設 / midnight 夜間 / red 節慶；HSL 三軸推導整套階層
+- **規格對齊**：item 96×40 pill / radius 30.6px / 168×168 QR / 160×137 計數圓盤 / 580×140 特色卡
+
+未引入 swiper / qrcode-vue3 套件，banner 用自寫 translateX + interval，QR 用靜態示意圖；
+demo 不接後端 / 不接路由跳轉。
+

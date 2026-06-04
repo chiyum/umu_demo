@@ -49,6 +49,10 @@ function toggleOpen() {
 function pickColor(key: string) {
   themeStore.setColor(key);
 }
+
+function pickLogo(key: string) {
+  themeStore.setLogo(key);
+}
 </script>
 
 <template>
@@ -74,7 +78,7 @@ function pickColor(key: string) {
       <span class="fab__trigger-label">配色</span>
     </button>
 
-    <!-- 展開面板：只有配色列（版面 row 已移除） -->
+    <!-- 展開面板：配色 row + Logo row（版面 row 仍排除） -->
     <transition name="fab-panel">
       <div v-show="opened" class="fab__panel" @pointerdown.stop>
         <div class="fab__section">
@@ -93,6 +97,35 @@ function pickColor(key: string) {
               @click="pickColor(variant.key)"
             >
               <span class="fab__color-swatch" />
+            </button>
+          </div>
+        </div>
+
+        <!--
+          Logo row：每個 theme 的 logos 清單變化（noya/at99 各 2 個、ant-sport 4 個）
+          - 縮圖按鈕：32×32 圓角方塊，active 樣式比照 colorBtn 邊框反白
+          - 點擊呼叫 store.setLogo()，theme 入口元件 watch currentLogo 自動更新 img src
+          - 若該 theme 只有 1 個 logo（未來擴充情境），v-if 整 row 隱藏避免無意義 UI
+        -->
+        <div
+          v-if="themeStore.currentTheme.logos.length > 1"
+          class="fab__section"
+        >
+          <div class="fab__section-title">Logo</div>
+          <div class="fab__logo-row">
+            <button
+              v-for="logo in themeStore.currentTheme.logos"
+              :key="logo.key"
+              type="button"
+              class="fab__logo-btn"
+              :class="{
+                'fab__logo-btn--active': themeStore.logoKey === logo.key
+              }"
+              :title="logo.label"
+              :aria-label="logo.label"
+              @click="pickLogo(logo.key)"
+            >
+              <img :src="logo.src" :alt="logo.label" class="fab__logo-img" />
             </button>
           </div>
         </div>
@@ -216,6 +249,52 @@ function pickColor(key: string) {
   border-radius: 50%;
   background: var(--swatch, #888888);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+// Logo 兩列縮圖按鈕：與 colorBtn 同樣的「active 反白邊框」邏輯
+// 高度尺寸 36×36 圓角方塊（比 color 圓鈕略大，給 logo 視覺空間）
+// 不同 theme 的 logo 比例不一，img object-fit: contain + padding 內距讓 logo 居中
+.fab__section + .fab__section {
+  margin-top: 10px;
+}
+
+.fab__logo-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.fab__logo-btn {
+  width: 36px;
+  height: 36px;
+  padding: 3px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background: #f3f4f6;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: scale(1.06);
+    background: #e5e7eb;
+  }
+
+  &--active {
+    border-color: #1f2937;
+    background: #ffffff;
+  }
+}
+
+.fab__logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 // 展開動畫：方向依 dock 方向不同，這裡簡化用 fade + scale

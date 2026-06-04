@@ -6,6 +6,7 @@ import {
   listThemes,
   getTheme,
   getColorVariant,
+  getLogo,
   DEFAULT_LAYOUT_KEY
 } from "@/themes/_registry";
 import type { FabPosition } from "@/themes/_types";
@@ -32,6 +33,9 @@ import type { FabPosition } from "@/themes/_types";
 /** localStorage 鍵名（與舊 theme.store 隔離） */
 const LS_COLOR_KEY = "casino-demo:colorKey:v3";
 const LS_FAB_POSITION = "casino-demo:fabPosition:v3";
+// logoKey 需依 layoutKey 分開記憶（不同 theme 的 logo 清單互不通用）
+// 故 LS 用 prefix + layoutKey 組合 key：casino-demo:logoKey:v3:<layoutKey>
+const LS_LOGO_KEY_PREFIX = "casino-demo:logoKey:v3:";
 
 /** FAB 預設位置：左下角（避開原站常駐的右下角客服浮標 / 回到頂部按鈕） */
 const DEFAULT_FAB_POSITION: FabPosition = {
@@ -168,11 +172,32 @@ export const useDemoThemeStore = defineStore("demo-theme", () => {
   const colorKey = ref<string>(initial.colorKey);
   const fabPosition = ref<FabPosition>(loadFabPosition());
 
+  /**
+   * 解析初始 logoKey（依當前 layoutKey 從對應 LS key 撈，否則用 theme 預設）
+   *
+   * 為什麼用 function 而非 computed：
+   * - 只在初始化用一次，之後 logoKey 改變透過 setLogo / watch layoutKey 處理
+   * - computed 重複計算會吃 reactive 訊號，這裡是純初始解析不需要
+   */
+  function resolveInitialLogoKey(layoutKeyVal: string): string {
+    const theme = themes[layoutKeyVal];
+    if (!theme) return "";
+    const ls = safeGetLS(LS_LOGO_KEY_PREFIX + layoutKeyVal);
+    if (ls && theme.logos.some((l) => l.key === ls)) return ls;
+    return theme.defaultLogo;
+  }
+
+  const logoKey = ref<string>(resolveInitialLogoKey(initial.layoutKey));
+
   /** 當前 theme metadata */
   const currentTheme = computed(() => getTheme(layoutKey.value));
   /** 當前配色 metadata */
   const currentColor = computed(() =>
     getColorVariant(currentTheme.value, colorKey.value)
+  );
+  /** 當前 logo metadata（含 src），給 theme entry SFC 取用 */
+  const currentLogo = computed(() =>
+    getLogo(currentTheme.value, logoKey.value)
   );
   /** 給 UI 列舉所有版面（FAB 用不到，但留著給未來擴充） */
   const allThemes = computed(() => listThemes());
@@ -188,6 +213,19 @@ export const useDemoThemeStore = defineStore("demo-theme", () => {
     const theme = currentTheme.value;
     if (!theme.colors.some((c) => c.key === key)) return;
     colorKey.value = key;
+  }
+
+  /**
+   * 切換 logo（限定在當前 theme 的 logos 清單中）
+   *
+   * 為什麼 setLogo 與 setColor 行為一致：
+   * - 都是「使用者主動操作」、需要當下 theme 邊界檢查
+   * - 都會被 persist 但 logo key 分 theme 各自記憶
+   */
+  function setLogo(key: string): void {
+    const theme = currentTheme.value;
+    if (!theme.logos.some((l) => l.key === key)) return;
+    logoKey.value = key;
   }
 
   /**
@@ -208,6 +246,10 @@ export const useDemoThemeStore = defineStore("demo-theme", () => {
     if (!newTheme.colors.some((c) => c.key === colorKey.value)) {
       colorKey.value = newTheme.defaultColor;
     }
+    // logo 也跟著切：從新 theme 的 LS 偏好或預設取
+    // 為什麼這裡用 resolveInitialLogoKey 而非直接 newTheme.defaultLogo：
+    // 使用者可能曾在新 theme 下選過 logo，切回來應該還原他的選擇
+    logoKey.value = resolveInitialLogoKey(newKey);
   });
 
   /** 更新 FAB 位置（拖曳結束時呼叫） */
@@ -230,18 +272,26 @@ export const useDemoThemeStore = defineStore("demo-theme", () => {
   watch(fabPosition, (v) => safeSetLS(LS_FAB_POSITION, JSON.stringify(v)), {
     deep: true
   });
+  // logoKey 寫到「按 theme 分流」的 LS key，避免不同 theme 互相覆蓋
+  watch(logoKey, (v) => {
+    if (!v) return;
+    safeSetLS(LS_LOGO_KEY_PREFIX + layoutKey.value, v);
+  });
 
   return {
     // state（layoutKey 是 computed，其餘 ref / computed）
     layoutKey,
     colorKey,
+    logoKey,
     fabPosition,
     // getters
     currentTheme,
     currentColor,
+    currentLogo,
     allThemes,
     // actions
     setColor,
+    setLogo,
     setFabPosition,
     resetFabPosition
   };

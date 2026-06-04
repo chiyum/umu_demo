@@ -35,7 +35,20 @@ const noya: ThemeMeta = {
   previewDesktop: new URL("@/assets/previews/noya-desktop.png", import.meta.url)
     .href,
   previewMobile: new URL("@/assets/previews/noya-mobile.png", import.meta.url)
-    .href
+    .href,
+  defaultLogo: "default",
+  logos: [
+    {
+      key: "default",
+      label: "UMU 品牌標準款",
+      src: new URL("./noya/assets/logos/default.png", import.meta.url).href
+    },
+    {
+      key: "alt1",
+      label: "通用備用款 A",
+      src: new URL("./noya/assets/logos/alt1.png", import.meta.url).href
+    }
+  ]
 };
 
 /** at99 版面（深藍霓虹 / 賭場風） */
@@ -54,7 +67,20 @@ const at99: ThemeMeta = {
   previewDesktop: new URL("@/assets/previews/at99-desktop.png", import.meta.url)
     .href,
   previewMobile: new URL("@/assets/previews/at99-mobile.png", import.meta.url)
-    .href
+    .href,
+  defaultLogo: "default",
+  logos: [
+    {
+      key: "default",
+      label: "大亨 ONLINE 標準款",
+      src: new URL("./at99/assets/logos/default.png", import.meta.url).href
+    },
+    {
+      key: "alt1",
+      label: "通用備用款 A",
+      src: new URL("./at99/assets/logos/alt1.png", import.meta.url).href
+    }
+  ]
 };
 
 /**
@@ -84,7 +110,35 @@ const antSport: ThemeMeta = {
   previewDesktop: new URL("@/assets/previews/noya-desktop.png", import.meta.url)
     .href,
   previewMobile: new URL("@/assets/previews/noya-mobile.png", import.meta.url)
-    .href
+    .href,
+  defaultLogo: "pc",
+  // 4 個候選：PC 原圖 / mobile 原圖 / 兩張通用備用款（lilian_ant_pc logo2 / lilian_ant_web logo_header）
+  logos: [
+    {
+      key: "pc",
+      label: "蚂蚁体育 桌面款",
+      src: new URL("./ant-sport/assets/logos/default-pc.png", import.meta.url)
+        .href
+    },
+    {
+      key: "mobile",
+      label: "蚂蚁体育 手機款",
+      src: new URL(
+        "./ant-sport/assets/logos/default-mobile.png",
+        import.meta.url
+      ).href
+    },
+    {
+      key: "alt1",
+      label: "通用備用款 A",
+      src: new URL("./ant-sport/assets/logos/alt1.png", import.meta.url).href
+    },
+    {
+      key: "alt2",
+      label: "通用備用款 B",
+      src: new URL("./ant-sport/assets/logos/alt2.png", import.meta.url).href
+    }
+  ]
 };
 
 /** 對外暴露的 theme 表，key 是 layoutKey */
@@ -113,6 +167,22 @@ export function getColorVariant(
     found ??
     theme.colors.find((c) => c.key === theme.defaultColor) ??
     theme.colors[0]
+  );
+}
+
+/**
+ * 取得 theme 下指定 logo，找不到回該 theme 預設 logo
+ *
+ * 為什麼提供 helper 而非要呼叫端自行查：
+ * - 同 getColorVariant 一致的 API 形狀，呼叫端不必處理 fallback 邏輯
+ * - 若未來要支援 logo 多語系或變體（橫式/方形），可在這層統一處理
+ */
+export function getLogo(theme: ThemeMeta, logoKey: string | null | undefined) {
+  const found = theme.logos.find((l) => l.key === logoKey);
+  return (
+    found ??
+    theme.logos.find((l) => l.key === theme.defaultLogo) ??
+    theme.logos[0]
   );
 }
 

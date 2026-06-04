@@ -296,6 +296,15 @@ const activeIdx = ref(0);
     gap: 12px;
   }
 
+  // provider-name 必須在 provider:hover 巢狀規則之前宣告，否則 stylelint
+  // no-descending-specificity 會抗議（高 specificity 規則覆寫低 specificity 規則）
+  &__provider-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--secondary-01);
+    transition: color 0.18s ease;
+  }
+
   // 對齊 .indexGame-itemLogo-img 58×58 / radius 12.7px / 白底 chip / 落影
   // hover: 翻成藍底 + scale 動畫（對齊 .indexGame-iconAnimationIn）
   &__provider {
@@ -316,13 +325,6 @@ const activeIdx = ref(0);
         color: var(--text-on-primary);
       }
     }
-  }
-
-  &__provider-name {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--secondary-01);
-    transition: color 0.18s ease;
   }
 }
 

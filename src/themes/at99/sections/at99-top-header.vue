@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import At99Button from "../atoms/at99-button.vue";
 import LoginModal from "@/components/common/landing/login-modal.vue";
-import at99Logo from "@/assets/themes/at99/images/logo.png";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// Logo 改由 demo-theme store 動態切換（透過 FAB Logo row 控制）
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 /**
  * at99 頂部 header：大亨 ONLINE logo + 11 項 nav + 登入/開戶 + 音訊 toggle
@@ -44,9 +49,9 @@ const loginOpen = ref(false);
 <template>
   <header class="at99-top" :class="{ 'at99-top--mobile': mobile }">
     <div class="at99-top__inner">
-      <!-- 左：大亨 ONLINE 品牌 logo -->
-      <a class="at99-top__brand" href="#" aria-label="DEMO 回首頁">
-        <img :src="at99Logo" alt="DEMO" class="at99-top__brand-img" />
+      <!-- 左：品牌 logo（由 demo-theme store 動態切換） -->
+      <a class="at99-top__brand" href="#" :aria-label="logoLabel">
+        <img :src="logoSrc" :alt="logoLabel" class="at99-top__brand-img" />
       </a>
 
       <!-- 中：11 nav（mobile 隱藏） -->

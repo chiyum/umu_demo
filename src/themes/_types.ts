@@ -28,6 +28,24 @@ export interface ColorVariant {
 }
 
 /**
+ * Logo 候選資產
+ *
+ * - key：FAB / store 用來辨識 / persist 的識別碼
+ * - label：FAB 列表顯示用 hover 提示
+ * - src：實際 logo 圖檔 URL（用 new URL + import.meta.url 算出 vite 處理過的 hash 路徑）
+ *
+ * 為什麼 src 用 string（URL）而非 SFC 內 ?url import：
+ * - registry 是純 metadata，不該 import 任何 chunk 等級的圖檔
+ * - 用 new URL(..., import.meta.url) 在 vite build 時會解析成正確 hash 路徑（含 base path）
+ * - 切到不同 theme 時對應的 logos 才會跟著 lazy chunk 帶過去
+ */
+export interface LogoCandidate {
+  key: string;
+  label: string;
+  src: string;
+}
+
+/**
  * Theme（版面）的 metadata
  *
  * - key：路由 query / localStorage / data-theme 屬性都用這個
@@ -51,6 +69,20 @@ export interface ThemeMeta {
   colors: ColorVariant[];
   previewDesktop: string;
   previewMobile: string;
+  /**
+   * 該 theme 可用的 logo 候選清單
+   *
+   * 至少 2 張：default + 替代版本；ant-sport 提供 4 張供選擇
+   * 不存在時 fallback 用 theme 內既有 hard-coded logo（向後相容）
+   */
+  logos: LogoCandidate[];
+  /**
+   * 預設 logo key
+   *
+   * 未指定 logoKey 時（首次進站 / 該 theme 無 logoKey 偏好）會 fallback 到這
+   * 必為 logos[].key 之一
+   */
+  defaultLogo: string;
 }
 
 /**

@@ -1,10 +1,19 @@
 <script setup lang="ts">
-import logoPc from "@/themes/ant-sport/assets/pc/logo.png?url";
+import { computed } from "vue";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
 import AntSportPcBanner from "./sections/ant-sport-pc-banner.vue";
 import AntSportPcNews from "./sections/ant-sport-pc-news.vue";
 import AntSportPcAppDownload from "./sections/ant-sport-pc-app-download.vue";
 import AntSportPcGameGrid from "./sections/ant-sport-pc-game-grid.vue";
 import AntSportPcServe from "./sections/ant-sport-pc-serve.vue";
+
+// Logo 改由 store 取，使用者可在 FAB Logo row 切換
+// 為什麼用 computed 而非直接綁 themeStore.currentLogo：
+// - SFC 內 template 直接用 themeStore.currentLogo.src 也可，但抽 computed 較清楚
+// - 切 theme 時 currentLogo 自動跟著切（store 內有 watch layoutKey 處理）
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 /**
  * ant-sport 桌面版佈局 — 對齊 lilian_ant_pc src/pages/main.vue 五段結構
@@ -38,8 +47,8 @@ const navItems = [
     <!-- 頂部 brand bar：對齊 lilian_ant_pc layout（main.vue 之外） -->
     <header class="ant-sport-layout__topbar">
       <div class="ant-sport-layout__topbar-inner">
-        <a class="ant-sport-layout__brand" href="#" aria-label="蚂蚁体育">
-          <img :src="logoPc" alt="蚂蚁体育" class="ant-sport-layout__logo" />
+        <a class="ant-sport-layout__brand" href="#" :aria-label="logoLabel">
+          <img :src="logoSrc" :alt="logoLabel" class="ant-sport-layout__logo" />
         </a>
         <nav class="ant-sport-layout__nav" aria-label="主導覽">
           <a

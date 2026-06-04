@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useQuasar } from "quasar";
 import LoginModal from "@/components/common/landing/login-modal.vue";
-import at99Logo from "@/assets/themes/at99/images/logo.png";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// Logo 改由 demo-theme store 動態切換（透過 FAB Logo row 控制）
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 /**
  * at99 手機版頂部 bar：hamburger + 大亨 ONLINE logo + 登入按鈕
@@ -93,9 +98,9 @@ function tapDock(item: DockItem) {
         <Icon icon="material-symbols:menu" class="at99-m-top__menu-icon" />
       </button>
 
-      <!-- 中：大亨 ONLINE 品牌 logo -->
-      <a class="at99-m-top__brand" href="#" aria-label="DEMO 回首頁">
-        <img :src="at99Logo" alt="DEMO" class="at99-m-top__brand-img" />
+      <!-- 中：品牌 logo（由 demo-theme store 動態切換） -->
+      <a class="at99-m-top__brand" href="#" :aria-label="logoLabel">
+        <img :src="logoSrc" :alt="logoLabel" class="at99-m-top__brand-img" />
       </a>
 
       <!-- 右：登入 -->
@@ -119,7 +124,11 @@ function tapDock(item: DockItem) {
       >
         <aside class="at99-m-drawer__panel">
           <div class="at99-m-drawer__header">
-            <img :src="at99Logo" alt="DEMO" class="at99-m-drawer__brand-img" />
+            <img
+              :src="logoSrc"
+              :alt="logoLabel"
+              class="at99-m-drawer__brand-img"
+            />
             <button
               type="button"
               class="at99-m-drawer__close"

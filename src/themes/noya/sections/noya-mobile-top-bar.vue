@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import LoginModal from "@/components/common/landing/login-modal.vue";
-import noyaLogo from "@/assets/themes/noya/images/logo.png";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// Logo 改由 demo-theme store 動態切換（透過 FAB Logo row 控制）
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 /**
  * noya 手機版頂部 fixed top bar (50px)
@@ -26,9 +31,9 @@ function openLogin() {
 <template>
   <div class="noya-m-topbar">
     <div class="noya-m-topbar__inner">
-      <!-- 左：UMU 品牌 logo -->
-      <a class="noya-m-topbar__brand" href="#" aria-label="DEMO 回首頁">
-        <img :src="noyaLogo" alt="DEMO" class="noya-m-topbar__brand-img" />
+      <!-- 左：品牌 logo（由 demo-theme store 動態切換） -->
+      <a class="noya-m-topbar__brand" href="#" :aria-label="logoLabel">
+        <img :src="logoSrc" :alt="logoLabel" class="noya-m-topbar__brand-img" />
       </a>
 
       <!-- 右：登入 / 註冊 / 語言 -->

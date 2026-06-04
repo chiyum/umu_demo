@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import noyaLogo from "@/assets/themes/noya/images/logo.png";
+import { computed, ref } from "vue";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// Logo 改由 demo-theme store 動態切換（透過 FAB Logo row 控制）
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 /**
  * noya 主導覽：左側品牌 logo + 5 大類 tab
@@ -80,9 +85,9 @@ function pick(key: string) {
 <template>
   <div class="noya-main-nav">
     <div class="noya-main-nav__inner">
-      <!-- 左：品牌 logo（UMU 自有品牌） -->
-      <a class="noya-main-nav__brand" href="#" aria-label="DEMO 回首頁">
-        <img :src="noyaLogo" alt="DEMO" class="noya-main-nav__brand-img" />
+      <!-- 左：品牌 logo（由 demo-theme store 動態切換） -->
+      <a class="noya-main-nav__brand" href="#" :aria-label="logoLabel">
+        <img :src="logoSrc" :alt="logoLabel" class="noya-main-nav__brand-img" />
       </a>
 
       <!-- 中：5 大分類 tab -->

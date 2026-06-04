@@ -37,6 +37,10 @@ function closeSheet() {
 function pickColor(key: string) {
   themeStore.setColor(key);
 }
+
+function pickLogo(key: string) {
+  themeStore.setLogo(key);
+}
 </script>
 
 <template>
@@ -87,6 +91,37 @@ function pickColor(key: string) {
             >
               <span class="fab-sheet__color-swatch" />
               <span class="fab-sheet__color-label">{{ variant.label }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!--
+          Logo row：sheet 下方再加一段，4 個 logo 平均橫排
+          只有當該 theme 有 >1 個 logo 候選時才顯示
+        -->
+        <div
+          v-if="themeStore.currentTheme.logos.length > 1"
+          class="fab-sheet__section"
+        >
+          <div class="fab-sheet__section-title">Logo</div>
+          <div class="fab-sheet__logo-row">
+            <button
+              v-for="logo in themeStore.currentTheme.logos"
+              :key="logo.key"
+              type="button"
+              class="fab-sheet__logo-btn"
+              :class="{
+                'fab-sheet__logo-btn--active': themeStore.logoKey === logo.key
+              }"
+              :aria-label="logo.label"
+              @click="pickLogo(logo.key)"
+            >
+              <img
+                :src="logo.src"
+                :alt="logo.label"
+                class="fab-sheet__logo-img"
+              />
+              <span class="fab-sheet__logo-label">{{ logo.label }}</span>
             </button>
           </div>
         </div>
@@ -226,6 +261,54 @@ function pickColor(key: string) {
   &__color-label {
     font-size: 12px;
     color: #4b5563;
+  }
+
+  // Logo row：4 個按鈕橫排，每個按鈕內含縮圖 + label
+  // 縮圖 48×48 比 color swatch 大，讓使用者看得清楚 logo 細節
+  &__logo-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  &__logo-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 4px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: #f9fafb;
+    cursor: pointer;
+    color: inherit;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease;
+
+    &--active {
+      border-color: #1f2937;
+      background: #ffffff;
+    }
+  }
+
+  &__logo-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  &__logo-label {
+    font-size: 10px;
+    color: #4b5563;
+    line-height: 1.2;
+    text-align: center;
+
+    // 太長時截斷避免破版
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__reset {
