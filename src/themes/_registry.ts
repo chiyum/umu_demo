@@ -113,11 +113,14 @@ const antSport: ThemeMeta = {
     { key: "midnight", label: "夜間藍", swatch: "#0d152b" },
     { key: "red", label: "節慶紅", swatch: "#e63946" }
   ],
-  // TODO: 後續用 playwright 截 /demo/ant-sport 實際畫面後補上專屬 png
-  previewDesktop: new URL("@/assets/previews/noya-desktop.png", import.meta.url)
-    .href,
-  previewMobile: new URL("@/assets/previews/noya-mobile.png", import.meta.url)
-    .href,
+  previewDesktop: new URL(
+    "@/assets/previews/ant-sport-desktop.png",
+    import.meta.url
+  ).href,
+  previewMobile: new URL(
+    "@/assets/previews/ant-sport-mobile.png",
+    import.meta.url
+  ).href,
   defaultLogo: "pc",
   // 4 個候選：PC 原圖 / mobile 原圖 / 兩張通用備用款（lilian_ant_pc logo2 / lilian_ant_web logo_header）
   // 四張皆透明背景 PNG（已用 python 直接讀 PNG alpha channel 驗過四角 alpha=0）
