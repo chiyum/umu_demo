@@ -148,79 +148,100 @@ const activeIdx = ref(0);
 </template>
 
 <style lang="scss" scoped>
+// PC indexGame 區嚴格對齊原作 lilian_ant_pc main.scss 第 5152-5414 行：
+// - .indexGame 1200 寬 / margin auto
+// - .indexGame-titleImg 1200×110
+// - .indexGame-content padding-top: 48px
+// - .indexGame-item 96×40 / border-radius: 30.6px (pill chip)
+// - .indexGame-title 55px h1
+// - .indexGame-img 750×590（左大圖）
+// - .indexGame-itemLogo-img 58×58 / radius 12.7px（provider 卡片）
 .ant-sport-pc-game {
   background: var(--bg-base-deep);
   padding: 60px 0;
 
   &__inner {
-    max-width: 1200px;
+    position: relative;
+    width: 1200px;
+    max-width: calc(100% - 48px);
     margin: 0 auto;
-    padding: 0 24px;
   }
 
+  // 對齊 .indexGame-titleImg 1200×110
   &__title {
-    text-align: center;
-    margin-bottom: 28px;
+    position: relative;
+    width: 100%;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__title-img {
-    height: 60px;
+    height: 64px;
     width: auto;
     object-fit: contain;
   }
 
+  // 對齊 .indexGame-tabs display: flex / justify-content: center / margin: 0
+  // 移除外層卡片底，原版 tabs 是浮在背景上的 chip group
   &__tabs {
-    margin: 0 0 28px;
-    padding: 8px;
+    position: relative;
+    margin: 0 0 32px;
+    padding: 0;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    background: var(--bg-surface);
-    border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border);
     justify-content: center;
+    gap: 12px;
   }
 
+  // 對齊 .indexGame-item 96×40 / radius 30.6px / 白底 chip / 落影
+  // active: 漸層底 + 白字（對齊 .indexGame-item-active）
   &__tab {
-    padding: 10px 22px;
+    width: 96px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: var(--secondary-01);
+    background: var(--highlight-strip);
+    border-radius: 30.6px;
+    box-shadow: 0 4px 8px 0 var(--secondary-11);
     cursor: pointer;
     font-size: 15px;
-    color: var(--text-muted);
-    font-weight: 600;
-    border-radius: 8px;
-    transition: all 0.18s ease;
+    font-weight: 500;
+    transition: all 0.2s ease;
 
     &:hover {
-      color: var(--color-primary);
-      background: var(--bg-overlay);
+      opacity: 0.85;
     }
 
     &--active {
-      background: var(--gradient-cta);
       color: var(--text-on-primary);
+      background: var(--gradient-cta);
+      box-shadow: 0 4px 8px 0 var(--secondary-12);
 
-      // hover 覆寫不變色（保持選中態的亮度）
       &:hover {
-        color: var(--text-on-primary);
-        background: var(--gradient-cta);
+        opacity: 1;
         filter: brightness(1.05);
       }
     }
   }
 
+  // 對齊 .indexGameContent display + grid 左大圖右文字
+  // 原版用 .indexGame-img 750×590 + .indexGame-right-wrap 700×460 重疊，
+  // 改 grid 簡化，比例維持 1.1:1（左略大）
   &__panel {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
     gap: 40px;
+    align-items: center;
     background: var(--bg-surface);
-    border-radius: 16px;
     padding: 36px;
-    box-shadow: var(--shadow-md);
+    border-radius: 24px;
+    box-shadow: 0 20px 30px -10px var(--secondary-10);
     border: 1px solid var(--border);
     animation: ant-sport-pc-game-fade 0.4s ease;
-    align-items: center;
   }
 
   &__media {
@@ -246,21 +267,26 @@ const activeIdx = ref(0);
     gap: 20px;
   }
 
+  // 對齊 .indexGame-title 55px h1
   &__name {
     margin: 0;
-    font-size: 32px;
+    font-size: 40px;
     font-weight: 700;
     color: var(--text-primary);
     letter-spacing: 1.5px;
+    line-height: 1.2;
   }
 
+  // 對齊 .indexGame-title-wrap p line-height: 1.5 / 16px
   &__desc {
     margin: 0;
     font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.8;
+    color: var(--secondary-01);
+    line-height: 1.7;
   }
 
+  // 對齊 .indexGame-listLogo white-space: nowrap 橫向 provider 列
+  // demo 用 grid 2 欄方便視覺，hover 時走原版 logoBG02 藍底反白動畫
   &__providers {
     margin: 0;
     padding: 0;
@@ -270,25 +296,33 @@ const activeIdx = ref(0);
     gap: 12px;
   }
 
+  // 對齊 .indexGame-itemLogo-img 58×58 / radius 12.7px / 白底 chip / 落影
+  // hover: 翻成藍底 + scale 動畫（對齊 .indexGame-iconAnimationIn）
   &__provider {
-    background: var(--provider-card-bg);
+    background: var(--bg-surface);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 14px;
+    border-radius: 12.7px;
+    padding: 12px 16px;
     cursor: pointer;
+    box-shadow: 0 4px 8px 0 var(--secondary-16);
     transition: all 0.18s ease;
 
     &:hover {
-      border-color: var(--color-primary);
+      background: var(--gradient-cta);
+      box-shadow: 0 4px 8px 0 var(--secondary-12);
       transform: translateY(-2px);
-      box-shadow: var(--shadow-sm);
+
+      .ant-sport-pc-game__provider-name {
+        color: var(--text-on-primary);
+      }
     }
   }
 
   &__provider-name {
     font-size: 14px;
-    font-weight: 600;
-    color: var(--text-primary);
+    font-weight: 500;
+    color: var(--secondary-01);
+    transition: color 0.18s ease;
   }
 }
 

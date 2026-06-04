@@ -168,54 +168,70 @@ const activeTab = ref(0);
 </template>
 
 <style lang="scss" scoped>
+// PC indexAPP 區嚴格對齊原作 lilian_ant_pc main.scss 第 3629-3812 行：
+// - .indexAPP 1200 寬 / margin auto
+// - .indexAPP-titleImg 1200×110
+// - .indexAPP-content margin-top: 32px, justify-content: space-between
+// - .indexAPP-contentL（phone mockup 容器）879×620
+// - .indexAPP-contentR 456×580, border-radius: 24px,
+//   box-shadow: 0 20px 30px -10px var(--secondary-10), 漸層 / 落影模仿原 indexAPP-Bg.png
+// - .indexAPP-item 96×40, border-radius: 30.6px (pill)
+// - .indexAPP-title 40px 字體
+// - .indexAPP-qrcode 168×168, border-radius: 12px
+// - .indexAPP-link 168×168, primary 文字
 .ant-sport-pc-app {
   background: var(--bg-base);
   padding: 60px 0;
 
   &__inner {
-    max-width: 1200px;
+    width: 1200px;
+    max-width: calc(100% - 48px);
     margin: 0 auto;
-    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
   }
 
+  // 對齊原版 .indexAPP-titleImg 1200×110，文字 / 圖示置中
   &__title {
-    text-align: center;
-    margin-bottom: 32px;
+    position: relative;
+    width: 100%;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__title-img {
-    height: 60px;
+    height: 64px;
     width: auto;
     max-width: 100%;
     object-fit: contain;
   }
 
+  // 對齊 .indexAPP-content margin-top: 32px + space-between 左右拉開
   &__content {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 40px;
-    align-items: center;
-    background: var(--bg-surface);
-    padding: 36px;
-    border-radius: 16px;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 32px;
+    gap: 32px;
   }
 
+  // 左：phone mockup
+  // 對齊 .indexAPP-contentL display: flex, width: 779px (扣掉右邊 contentR 後剩餘空間)
   &__left {
     position: relative;
-    aspect-ratio: 9 / 16;
-    max-height: 420px;
-    margin: 0 auto;
     width: 100%;
-    max-width: 240px;
+    max-width: 720px;
+    flex: 1;
+    aspect-ratio: 779 / 620;
   }
 
   &__frame {
     position: absolute;
     inset: 0;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.45s ease;
     pointer-events: none;
 
     &--active {
@@ -231,46 +247,65 @@ const activeTab = ref(0);
     object-position: center;
   }
 
+  // 右：tabs + QR + link
+  // 對齊 .indexAPP-contentR 456×580 / border-radius: 24px / 落影
   &__right {
+    flex-shrink: 0;
+    width: 456px;
+    min-height: 580px;
+    border-radius: 24px;
+    box-shadow: 0 20px 30px -10px var(--secondary-10);
+    background: linear-gradient(
+      180deg,
+      var(--bg-surface) 0%,
+      var(--highlight-strip) 100%
+    );
+    border: 1px solid var(--border);
+    padding: 36px 24px 32px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    z-index: 1;
   }
 
+  // 對齊 .indexAPP-tabs padding: 36px 18px 0 18px
   &__tabs {
-    margin: 0;
+    margin: 0 0 8px;
     padding: 0;
     list-style: none;
     display: flex;
-    gap: 8px;
-    border-bottom: 2px solid var(--border);
+    align-items: center;
+    gap: 10px;
   }
 
+  // 對齊 .indexAPP-item 96×40 / radius 30.6px / 淡 chip 底
+  // active: 漸層底 + 白字（對齊原版 .indexAPP-item-active）
   &__tab {
-    padding: 10px 22px;
+    width: 96px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 30.6px;
+    text-align: center;
+    color: var(--secondary-01);
+    background: var(--highlight-strip);
+    box-shadow: 0 4px 8px 0 var(--secondary-11);
     cursor: pointer;
-    font-size: 15px;
-    color: var(--text-muted);
-    font-weight: 600;
-    position: relative;
-    transition: color 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    list-style: none;
+    transition: all 0.2s ease;
 
     &:hover {
-      color: var(--color-primary);
+      opacity: 0.85;
     }
 
     &--active {
-      color: var(--color-primary);
+      color: var(--text-on-primary);
+      background: var(--gradient-cta);
+      box-shadow: 0 4px 8px 0 var(--secondary-12);
 
-      &::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -2px;
-        height: 3px;
-        background: var(--color-primary);
-        border-radius: 2px;
+      &:hover {
+        opacity: 1;
+        filter: brightness(1.05);
       }
     }
   }
@@ -278,46 +313,67 @@ const activeTab = ref(0);
   &__panel {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    flex: 1;
     animation: ant-sport-pc-app-fade 0.4s ease;
   }
 
+  &__info {
+    color: var(--secondary-01);
+  }
+
+  // 對齊 .indexAPP-title 40px h3
   &__name {
-    margin: 0;
-    font-size: 22px;
+    height: 40px;
+    margin: 32px 0 0 16px;
+    line-height: 40px;
+    font-size: 32px;
     font-weight: 700;
     color: var(--text-primary);
   }
 
+  // 對齊 .indexAPP-desciption width: 384px / line-height: 28px / font-size: 18px
   &__desc {
-    margin: 8px 0 0;
+    width: 100%;
+    max-width: 384px;
+    min-height: 56px;
+    margin: 12px 0 0 16px;
+    line-height: 26px;
+    font-size: 15px;
     color: var(--text-muted);
-    font-size: 14px;
-    line-height: 1.7;
   }
 
+  // 對齊 .indexAPP-access margin-top: 40px / padding: 0 40px
   &__access {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding: 0 16px;
+    gap: 16px;
   }
 
   &__access-box {
-    background: var(--provider-card-bg);
-    padding: 18px;
-    border-radius: 12px;
-    text-align: center;
-    border: 1px solid var(--border);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--secondary-01);
   }
 
+  // 對齊 .indexAPP-qrcode 168×168 / radius 12px / 2px 白邊 / 漸層
   &__qr {
-    width: 130px;
-    height: 130px;
-    margin: 0 auto 12px;
-    background: var(--bg-surface);
-    border-radius: 8px;
-    padding: 8px;
-    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 168px;
+    height: 168px;
+    border-radius: 12px;
+    border: 2px solid var(--bg-surface);
+    background-image: linear-gradient(
+      180deg,
+      var(--highlight-strip) 1%,
+      var(--bg-base-deep)
+    );
+    padding: 18px;
   }
 
   &__qr-img {
@@ -326,38 +382,55 @@ const activeTab = ref(0);
     object-fit: contain;
   }
 
+  // 對齊 .indexAPP-link 168×168 / radius 12px / 漸層底 / 2px secondary-09 邊
   &__link {
-    margin-bottom: 12px;
-    padding: 12px;
-    background: var(--bg-surface);
-    border-radius: 8px;
-    min-height: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 168px;
+    height: 168px;
+    border-radius: 12px;
+    background: linear-gradient(
+      225.09deg,
+      var(--secondary-09),
+      var(--highlight-strip) 31.82%,
+      var(--provider-card-bg) 63.9%,
+      var(--highlight-strip) 97.47%
+    );
+    border: 2px solid var(--secondary-09);
+    padding: 12px 18px;
   }
 
+  // 對齊原版 a：display: inline-block / 28px 行高 / 底線 / primary-05 色
   &__link-text {
-    color: var(--color-primary);
+    display: inline-block;
+    width: 100%;
+    line-height: 24px;
+    text-align: center;
+    text-decoration: underline;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: var(--primary-05);
     font-size: 13px;
     font-weight: 600;
-    word-break: break-all;
-    text-decoration: none;
+    cursor: pointer;
   }
 
+  // 對齊 .indexAPP-accessTitle margin-top: 10px / font-size: 18px / 25px line-height
   &__access-title {
-    margin: 0;
-    font-size: 14px;
+    margin: 10px 0 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
     color: var(--text-primary);
-    font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 6px;
     justify-content: center;
   }
 
-  // 掃描小螞蟻 icon：在「掃描以下二維碼」文字前
-  // vertical-align 用 inline-flex gap 控制；尺寸小到不影響行高
+  // 掃描小螞蟻 icon
   &__scan-icon {
     width: 18px;
     height: 18px;
@@ -365,10 +438,12 @@ const activeTab = ref(0);
     flex-shrink: 0;
   }
 
+  // 對齊 .indexAPP-accessTitle2 margin-top: 1px / line-height: 22px
   &__access-subtitle {
-    margin: 4px 0 0;
-    font-size: 12px;
+    margin: 1px 0 0;
+    font-size: 13px;
     color: var(--text-muted);
+    line-height: 22px;
   }
 }
 

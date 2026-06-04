@@ -230,19 +230,26 @@ onBeforeUnmount(() => {
   background: var(--bg-base);
   padding: 80px 0;
 
+  // 對齊原作 .indexServe 1200 / margin 50px 0 0 / titleImg 1200×110
   &__inner {
-    max-width: 1200px;
+    position: relative;
+    width: 1200px;
+    max-width: calc(100% - 48px);
     margin: 0 auto;
-    padding: 0 24px;
   }
 
   &__title {
-    text-align: center;
-    margin-bottom: 36px;
+    position: relative;
+    width: 100%;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
   }
 
   &__title-img {
-    height: 60px;
+    height: 64px;
     width: auto;
     object-fit: contain;
   }
@@ -369,6 +376,7 @@ onBeforeUnmount(() => {
   }
 
   // 服務特色卡：對齊原 lilian_ant_pc main.scss 第 5543 行 .indexServe-type-item，
+  // 規格 580×140 / border-radius: 12px / 落影 0 20px 30px -10px secondary-10
   // 用 indexServe-bg.png 當卡片底（淡灰白柔光長條）。三色 variant 中：
   // - blue 底色淺、白圖可直接看到，無 overlay
   // - midnight 深底會吃掉淡圖；改用 ::before 蓋深色半透明 overlay，把白圖壓成深底
@@ -378,13 +386,14 @@ onBeforeUnmount(() => {
   // 子元素文字節點完全不受影響
   &__type-item {
     position: relative;
+    min-height: 120px;
     background-color: var(--bg-surface);
     border-radius: 12px;
-    padding: 20px;
+    padding: 24px;
     display: flex;
     align-items: center;
-    gap: 14px;
-    box-shadow: var(--shadow-sm);
+    gap: 18px;
+    box-shadow: 0 20px 30px -10px var(--secondary-10);
     border: 1px solid var(--border);
     transition: all 0.18s ease;
     overflow: hidden;
@@ -430,10 +439,11 @@ onBeforeUnmount(() => {
     }
   }
 
+  // 對齊原版 .indexServe-type-item img 88×88
   &__type-icon {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
+    width: 72px;
+    height: 72px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -450,18 +460,21 @@ onBeforeUnmount(() => {
     min-width: 0;
   }
 
+  // 對齊 .indexServe-type-title font-size: 18px / weight: 500 / secondary-05
   &__type-title {
     margin: 0;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--secondary-05);
+    line-height: 25px;
   }
 
+  // 對齊 .indexServe-type-desc font-size: 16px / line-height: 22px
   &__type-desc {
-    margin: 4px 0 0;
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.5;
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: var(--secondary-01);
+    line-height: 22px;
   }
 }
 </style>

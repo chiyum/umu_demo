@@ -43,40 +43,58 @@ const joinedText = items.join("　·　");
 </template>
 
 <style lang="scss" scoped>
+// PC indexNews 區嚴格對齊原作 lilian_ant_pc main.scss 第 3472-3548 行：
+// - .indexNews-content 規格：1200×40, padding 0 10px 0 18px, margin-top: 31px,
+//   border-radius: 20px (pill), 漸層底 + 重落影
+// - .indexNews-icon 規格：61×63, top: -6px（突出於 bar 上方）
+// - .indexNews-btn 規格：75×26, line-height: 26px, border-radius: 13px
+// - 文字 font-size: 16px, color: var(--secondary-01)
 .ant-sport-pc-news {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
 
   &__content {
-    margin-top: -28px;
-    position: relative;
-    z-index: 3;
-    background: var(--bg-surface);
-    border-radius: 10px;
-    box-shadow: var(--shadow-lg);
-    padding: 14px 22px;
     display: flex;
     align-items: center;
-    gap: 16px;
-    border: 1px solid var(--border);
+    width: 1200px;
+    max-width: calc(100% - 48px);
+    height: 40px;
+    padding: 0 10px 0 18px;
+    margin-top: 31px;
+    border-radius: 20px;
+    background-image: linear-gradient(
+      180deg,
+      var(--bg-surface) 14%,
+      var(--highlight-strip) 74%,
+      var(--bg-base-translucent) 98%
+    );
+    box-shadow: 0 6px 12px 0 var(--secondary-10);
+    position: relative;
+    z-index: 3;
   }
 
   &__marquee {
     flex: 1;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     min-width: 0;
+    height: 100%;
   }
 
+  // 公告小喇叭 icon — 對齊原版「位置略高出 bar」的 .indexNews-icon top: -6px
   &__icon {
+    position: relative;
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 36px;
+    top: -3px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
   }
 
   &__icon-img {
@@ -89,6 +107,9 @@ const joinedText = items.join("　·　");
     flex: 1;
     overflow: hidden;
     min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
     mask-image: linear-gradient(
       to right,
       transparent 0,
@@ -106,27 +127,35 @@ const joinedText = items.join("　·　");
     will-change: transform;
   }
 
+  // 文字色直接取 secondary-01（對齊原版 .indexNews-text color: var(--secondary-01)）
   &__text {
-    font-size: 14px;
-    color: var(--text-primary);
-    line-height: 1.6;
+    font-size: 16px;
+    letter-spacing: -0.4px;
+    color: var(--secondary-01);
+    line-height: 40px;
   }
 
+  // 「更多」按鈕：原版規格 75×26 / radius 13px / 1px primary border / hover 反白
   &__btn {
     flex-shrink: 0;
-    padding: 6px 18px;
-    border-radius: var(--radius-pill, 999px);
-    background: var(--gradient-cta);
-    color: var(--text-on-primary);
-    border: none;
+    width: 75px;
+    height: 26px;
+    line-height: 26px;
+    margin-left: 10px;
+    padding: 0;
+    text-align: center;
+    border: 1px solid var(--color-primary);
+    border-radius: 13px;
+    color: var(--color-primary);
+    background: transparent;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
-    transition: filter 0.18s ease;
-    box-shadow: var(--shadow-md);
+    transition: all 0.2s ease;
 
     &:hover {
-      filter: brightness(1.1);
+      background: var(--color-primary);
+      color: var(--text-on-primary);
     }
   }
 }

@@ -143,9 +143,10 @@ onBeforeUnmount(stopAuto);
     will-change: transform;
   }
 
+  // 對齊原作 .indexSlider height: 700px / .indexSlider-img 1920×700
   &__slide {
     flex: 0 0 100%;
-    aspect-ratio: 1920 / 600;
+    aspect-ratio: 1920 / 700;
     overflow: hidden;
   }
 

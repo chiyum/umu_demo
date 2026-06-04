@@ -103,11 +103,13 @@ const navItems = [
     box-shadow: var(--shadow-sticky);
   }
 
+  // 對齊 lilian_ant_pc header 80px / 1200 寬度容器
   &__topbar-inner {
-    max-width: 1200px;
+    width: 1200px;
+    max-width: calc(100% - 48px);
     margin: 0 auto;
     padding: 0 24px;
-    height: 72px;
+    height: 80px;
     display: flex;
     align-items: center;
     gap: 32px;
@@ -121,9 +123,9 @@ const navItems = [
   }
 
   &__logo {
-    height: 44px;
+    height: 50px;
     width: auto;
-    max-width: 180px;
+    max-width: 200px;
     object-fit: contain;
   }
 
