@@ -53,6 +53,22 @@ export interface LogoCandidate {
 }
 
 /**
+ * 預覽截圖的「裝置 / logo」交叉表
+ *
+ * 為什麼從 previewDesktop / previewMobile 改為 previews：
+ * - showcase 主頁現在可由使用者在頂部切「以哪個 logo 預覽」，
+ *   每個 (theme, logoKey, device) 都對應一張獨立截圖
+ * - 三個 theme 共用同樣三組 logo 後，總共 3 theme × 3 logo × 2 device = 18 張
+ * - 用 Record 而非 nested if/switch，新增 logoKey 時只要往 registry 加一筆，
+ *   showcase 取圖端 getPreview helper 自動命中
+ *
+ * 結構：previews[logoKey] = { desktop, mobile }
+ * - logoKey 必為該 theme.logos[].key 之一（registry 建構時用 type 守住）
+ * - 缺 logoKey 對應條目時，由 getPreview 走預設 logo fallback 鏈，不破圖
+ */
+export type PreviewByLogo = Record<string, { desktop: string; mobile: string }>;
+
+/**
  * Theme（版面）的 metadata
  *
  * - key：路由 query / localStorage / data-theme 屬性都用這個
@@ -60,11 +76,14 @@ export interface LogoCandidate {
  * - defaultColor：未指定 colorKey 時的預設值
  * - colors：本版面支援的所有配色
  * - description：showcase 卡片下方顯示的一句話說明
- * - previewDesktop / previewMobile：showcase 卡片縮圖與 lightbox 預覽用的截圖 URL
+ * - previews：showcase 卡片縮圖與 lightbox 預覽用的截圖矩陣
  *   ─ 為什麼用 string（URL）而非 import 整張圖：
  *     用 `new URL('@/assets/previews/xxx.png', import.meta.url).href` 在 registry 動態算 URL，
  *     vite 會幫我們處理 base path（含 GitHub Pages 子路徑 /umu_demo/）+ hash 指紋，
  *     圖片不會塞進首頁 JS bundle，純靠 <img src> 帶 URL 即可
+ *   ─ 為什麼不再用 previewDesktop / previewMobile 兩個欄位：
+ *     showcase 頂部加 logo 切換 row 後，預覽圖必須跟著選定 logo 換，
+ *     需要「依 logoKey 索引」的資料結構，這層 indirection 不可避免
  */
 export interface ThemeMeta {
   key: string;
@@ -74,15 +93,20 @@ export interface ThemeMeta {
   mobile: AsyncVueComponent;
   defaultColor: string;
   colors: ColorVariant[];
-  previewDesktop: string;
-  previewMobile: string;
+  /**
+   * 預覽圖矩陣：以 logoKey 為一級索引，desktop / mobile 為二級索引
+   *
+   * 所有列出的 logoKey 都必須在 `logos[].key` 中存在；getPreview helper 會在
+   * 找不到對應條目時 fallback 到該 theme 的 defaultLogo，再不行 fallback 到第一張 logo
+   */
+  previews: PreviewByLogo;
   /**
    * 該 theme 可用的 logo 候選清單
    *
    * 型別為 non-empty tuple（強制至少 1 張）：
    * - 編譯期保證 theme.logos[0] 永遠存在，getLogo / store 的 fallback 鏈不會踩空陣列爆 undefined
    * - 違反時 TypeScript 直接報錯，不會等到 runtime 才在 `themeStore.currentLogo.src` 噴 null
-   * 至少 2 張為慣例（default + 替代）；ant-sport 提供 4 張供選擇。
+   * 至少 2 張為慣例（default + 替代）；目前三個 theme 統一帶三張共用 logo（大亨 / UMU / 隆亨）。
    */
   logos: [LogoCandidate, ...LogoCandidate[]];
   /**

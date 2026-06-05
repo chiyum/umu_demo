@@ -1,12 +1,12 @@
-import type { LogoCandidate, ThemeMeta } from "./_types";
+import type { LogoCandidate, PreviewByLogo, ThemeMeta } from "./_types";
 
 /**
  * 集中註冊所有版面
  *
  * 新增版面流程：
  * 1. 在 src/themes/<your-key>/ 建立 desktop.vue、mobile.vue、_tokens.scss、_variants.scss
- * 2. 在 src/assets/previews/ 放 <key>-desktop.png 與 <key>-mobile.png 截圖
- * 3. 在這份檔案加入 themes 物件（含 previewDesktop / previewMobile）
+ * 2. 在 src/assets/previews/ 放每個 logoKey × 裝置的截圖（命名見下方 previews 區塊）
+ * 3. 在這份檔案加入 themes 物件（含 logos + previews 矩陣）
  * 4. main.default.scss 不必動，vite.config.ts 的 buildThemeScssImports 會自動掃資料夾
  *
  * 為什麼用 lazy import：每個版面是獨立 chunk，切換才下載；
@@ -16,7 +16,132 @@ import type { LogoCandidate, ThemeMeta } from "./_types";
  * - vite 會把它轉成帶 base path（含 GitHub Pages 子路徑 /umu_demo/）的正確 URL，
  *   並掛 hash 指紋；showcase 主頁用 <img src> 拿圖即可
  * - 圖片走 asset pipeline 而不是被 import 進 JS bundle
+ *
+ * 三 theme 統一三張 logo（v4）：
+ * - 三個 theme 的 logos 清單統一為 [dahsing, umu, long-heng]（順序固定）
+ * - 來源：at99 的大亨 ONLINE / noya 的 UMU / kingdom_front 的隆亨 ONLINE
+ * - 預設 logo 按品牌調性指派：at99 預設大亨、noya 預設 UMU、ant-sport 預設隆亨
+ * - 為什麼共用：使用者要求「showcase 主頁能用同一組 logo 統一比對三個 theme 視覺」
  */
+
+/**
+ * 三個 theme 共用的 logo src（用常數算一次，避免三 theme 重複寫 new URL）
+ *
+ * 為什麼從 theme 自家 assets/logos 取（at99 的 default、noya 的 default）而非搬到 shared-logos：
+ * - 不必動既有檔案位置 / 不影響 git 歷史
+ * - 隆亨是「新加」沒有歸屬 theme，所以放 src/assets/shared-logos/
+ * - vite 的 new URL + import.meta.url 在 build 後皆會輸出到 dist/assets/ 含 hash，與來源資料夾無關
+ */
+const DAHSING_LOGO_SRC = new URL(
+  "./at99/assets/logos/default.png",
+  import.meta.url
+).href;
+const UMU_LOGO_SRC = new URL("./noya/assets/logos/default.png", import.meta.url)
+  .href;
+const LONG_HENG_LOGO_SRC = new URL(
+  "@/assets/shared-logos/long-heng.png",
+  import.meta.url
+).href;
+
+/**
+ * 三個共用 logo 的 metadata（每個 theme 直接帶這份）
+ *
+ * 為什麼是常數而非 helper：三 theme 的 logo 清單完全一致（src / label / transparentBg 都同），
+ * 抽 helper 反而多一層意圖跳轉，常數陣列更直觀
+ *
+ * 為什麼全部 transparentBg=true：
+ * - 大亨 / UMU 兩張在改造前就已驗過四角 alpha=0（見前次 commit）
+ * - 隆亨 ONLINE 來源是 kingdom_front pwa-512x512.png，PWA 規範要求圖示透明背景；
+ *   經 file 指令確認為 8-bit/color RGBA non-interlaced，符合透明背景慣例
+ * - 三張都跳過 mix-blend-mode 處理，視覺一致
+ */
+const SHARED_LOGOS: [LogoCandidate, LogoCandidate, LogoCandidate] = [
+  {
+    key: "dahsing",
+    label: "大亨 ONLINE",
+    src: DAHSING_LOGO_SRC,
+    transparentBg: true
+  },
+  {
+    key: "umu",
+    label: "UMU",
+    src: UMU_LOGO_SRC,
+    transparentBg: true
+  },
+  {
+    key: "long-heng",
+    label: "隆亨 ONLINE",
+    src: LONG_HENG_LOGO_SRC,
+    transparentBg: true
+  }
+];
+
+/**
+ * 預先載入所有 previews 的 URL 表（18 張）
+ *
+ * 為什麼用 `import.meta.glob({ eager: true, import: 'default' })` 而非 `new URL()`：
+ * - vite 的 `new URL('./...', import.meta.url)` 只支援「完全靜態」字串；
+ *   `new URL(`@/assets/previews/${themeKey}-${lk}-...`, ...)` 是 template literal，
+ *   vite 會把模板字串轉成 `Object.assign({})[模板]` 然後丟 `new URL(undefined, ...)`，prod 必破圖
+ * - `import.meta.glob` 在 build 時靜態解析所有命中檔案 + emit 為 hashed asset + 給每個 path 一個 URL
+ *   完全符合「動態 key 查 URL」的需求
+ * - eager:true 讓所有 glob 結果直接 inline 進當前 chunk（registry 本來就是 metadata 不會切 chunk）
+ *
+ * 命名規約：<themeKey>-<logoKey>-<device>.png
+ * 例：at99-dahsing-desktop.png、noya-umu-mobile.png、ant-sport-long-heng-desktop.png
+ *
+ * glob 結果型別：Record<相對路徑, URL string>
+ * 例：{ "@/assets/previews/at99-dahsing-desktop.png": "/assets/at99-dahsing-desktop-HASH.png" }
+ * - import:'default' 讓 value 直接是 URL string（而非 ESM module 物件）
+ * - query:'?url' 強制走 vite 的 asset URL 解析（避免被 imagetools 等 plugin 攔截轉 webp）
+ */
+const PREVIEW_URL_MAP = import.meta.glob<string>("@/assets/previews/*.png", {
+  eager: true,
+  import: "default",
+  query: "?url"
+});
+
+/**
+ * 從 PREVIEW_URL_MAP 查指定 (theme, logo, device) 對應的 URL
+ *
+ * 為什麼 glob 的 key 用 `/src/assets/previews/...` 而非 `@/assets/...`：
+ * - vite 的 import.meta.glob 路徑解析後 key 永遠是「relative to project root 的絕對路徑」
+ *   實測在本專案會是 `/src/assets/previews/<file>.png`
+ * - alias `@` 在 glob key 不會被保留，所以查表時要用 `/src/assets/...` 拼接
+ *
+ * 為什麼回 string（而非 undefined）：
+ * - getPreview helper 的 fallback 鏈會處理 undefined 情境，這層回 "" 較直接
+ * - "" 進 <img src> 會破圖但不會 runtime crash，配合 fallback 鏈最差也只顯示預設 logo 截圖
+ */
+function pickPreviewUrl(
+  themeKey: string,
+  logoKey: string,
+  device: "desktop" | "mobile"
+): string {
+  const key = `/src/assets/previews/${themeKey}-${logoKey}-${device}.png`;
+  return PREVIEW_URL_MAP[key] ?? "";
+}
+
+/**
+ * 建立某個 theme 的 previews 矩陣
+ *
+ * 為什麼用 helper 而非三 theme 各自重複展開：
+ * - 18 條 URL 路徑全寫死 = 18 行 noise，且漏一條 TS 不會擋（PreviewByLogo 是 Record<string, ...>）
+ * - helper 把 themeKey 折進去，呼叫端只寫一行，少出 typo 機會
+ */
+function buildPreviews(themeKey: string): PreviewByLogo {
+  // 列出三個共用 logoKey 對應的 18 張新截圖；缺檔時 showcase 端 <img> src="" 會破圖，
+  // 故需確保 src/assets/previews/ 內 18 張齊全（由本任務 commit 3 補上）
+  const logoKeys = ["dahsing", "umu", "long-heng"];
+  const map: PreviewByLogo = {};
+  for (const lk of logoKeys) {
+    map[lk] = {
+      desktop: pickPreviewUrl(themeKey, lk, "desktop"),
+      mobile: pickPreviewUrl(themeKey, lk, "mobile")
+    };
+  }
+  return map;
+}
 
 /** noya 版面（玫瑰金 / 暖色系） */
 const noya: ThemeMeta = {
@@ -32,27 +157,10 @@ const noya: ThemeMeta = {
     { key: "sunset", label: "日落橘", swatch: "#ff7e47" },
     { key: "lime", label: "青檸綠", swatch: "#9fd356" }
   ],
-  previewDesktop: new URL("@/assets/previews/noya-desktop.png", import.meta.url)
-    .href,
-  previewMobile: new URL("@/assets/previews/noya-mobile.png", import.meta.url)
-    .href,
-  defaultLogo: "default",
-  // 兩張都是透明背景 PNG（四角 alpha=0 已驗）→ transparentBg: true
-  // 避免深色 bar 套 mix-blend-mode 把彩色筆畫洗淡
-  logos: [
-    {
-      key: "default",
-      label: "UMU 品牌標準款",
-      src: new URL("./noya/assets/logos/default.png", import.meta.url).href,
-      transparentBg: true
-    },
-    {
-      key: "alt1",
-      label: "通用備用款 A",
-      src: new URL("./noya/assets/logos/alt1.png", import.meta.url).href,
-      transparentBg: true
-    }
-  ]
+  previews: buildPreviews("noya"),
+  // noya 主視覺對應 UMU 品牌，預設帶 UMU
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS
 };
 
 /** at99 版面（深藍霓虹 / 賭場風） */
@@ -68,26 +176,10 @@ const at99: ThemeMeta = {
     { key: "neon-purple", label: "霓虹紫", swatch: "#a855f7" },
     { key: "neon-green", label: "霓虹綠", swatch: "#22d3a4" }
   ],
-  previewDesktop: new URL("@/assets/previews/at99-desktop.png", import.meta.url)
-    .href,
-  previewMobile: new URL("@/assets/previews/at99-mobile.png", import.meta.url)
-    .href,
-  defaultLogo: "default",
-  // 兩張都是透明背景 PNG（四角 alpha=0 已驗）→ transparentBg: true
-  logos: [
-    {
-      key: "default",
-      label: "大亨 ONLINE 標準款",
-      src: new URL("./at99/assets/logos/default.png", import.meta.url).href,
-      transparentBg: true
-    },
-    {
-      key: "alt1",
-      label: "通用備用款 A",
-      src: new URL("./at99/assets/logos/alt1.png", import.meta.url).href,
-      transparentBg: true
-    }
-  ]
+  previews: buildPreviews("at99"),
+  // at99 主視覺對應大亨 ONLINE，預設帶 dahsing
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS
 };
 
 /**
@@ -97,8 +189,10 @@ const at99: ThemeMeta = {
  * 配色 HSL 三軸（primary-h / primary-s / primary-l）推導，
  * 三變體：blue 預設 / midnight 深藍夜間 / red 紅
  *
- * preview 暫指向 noya 圖佔位：後續以 playwright 截實際 demo 圖補上
- * （ThemeMeta.previewDesktop/Mobile 型別必填 string，空字串會破圖）
+ * 為什麼 ant-sport 預設 logo 改成 long-heng：
+ * - 原本 ant-sport 沒有對應的真實品牌，過去用蚂蚁体育原圖佔位
+ * - 三 theme 統一三 logo 後，隆亨 ONLINE 剛好無歸屬 theme，視覺也搭得起來
+ * - 與 at99（大亨）/ noya（UMU）的「品牌-版面」一對一映射對齊
  */
 const antSport: ThemeMeta = {
   key: "ant-sport",
@@ -113,48 +207,9 @@ const antSport: ThemeMeta = {
     { key: "midnight", label: "夜間藍", swatch: "#0d152b" },
     { key: "red", label: "節慶紅", swatch: "#e63946" }
   ],
-  previewDesktop: new URL(
-    "@/assets/previews/ant-sport-desktop.png",
-    import.meta.url
-  ).href,
-  previewMobile: new URL(
-    "@/assets/previews/ant-sport-mobile.png",
-    import.meta.url
-  ).href,
-  defaultLogo: "pc",
-  // 4 個候選：PC 原圖 / mobile 原圖 / 兩張通用備用款（lilian_ant_pc logo2 / lilian_ant_web logo_header）
-  // 四張皆透明背景 PNG（已用 python 直接讀 PNG alpha channel 驗過四角 alpha=0）
-  // → transparentBg: true，mobile-header 不再對它們套 mix-blend-mode
-  logos: [
-    {
-      key: "pc",
-      label: "蚂蚁体育 桌面款",
-      src: new URL("./ant-sport/assets/logos/default-pc.png", import.meta.url)
-        .href,
-      transparentBg: true
-    },
-    {
-      key: "mobile",
-      label: "蚂蚁体育 手機款",
-      src: new URL(
-        "./ant-sport/assets/logos/default-mobile.png",
-        import.meta.url
-      ).href,
-      transparentBg: true
-    },
-    {
-      key: "alt1",
-      label: "通用備用款 A",
-      src: new URL("./ant-sport/assets/logos/alt1.png", import.meta.url).href,
-      transparentBg: true
-    },
-    {
-      key: "alt2",
-      label: "通用備用款 B",
-      src: new URL("./ant-sport/assets/logos/alt2.png", import.meta.url).href,
-      transparentBg: true
-    }
-  ]
+  previews: buildPreviews("ant-sport"),
+  defaultLogo: "long-heng",
+  logos: SHARED_LOGOS
 };
 
 /** 對外暴露的 theme 表，key 是 layoutKey */
@@ -208,6 +263,37 @@ export function getLogo(
   const fallback = theme.logos.find((l) => l.key === theme.defaultLogo);
   // theme.logos[0] 由型別保證存在（non-empty tuple），不會回 undefined
   return fallback ?? theme.logos[0];
+}
+
+/**
+ * 取得指定 (theme, logoKey, device) 對應的預覽截圖 URL
+ *
+ * 為什麼這層 helper 必要：
+ * - showcase 卡片 / dialog 都需要依「當下選定的 showcaseLogoKey」決定預覽圖
+ * - fallback 鏈：指定 logoKey → theme.defaultLogo → theme.logos[0].key
+ *   任何一層都保證命中 previews 矩陣（registry 建構時 buildPreviews 列出三 logoKey 完整 18 張）
+ * - 呼叫端拿 string 即可塞 <img src>，不必懂 fallback 邏輯
+ *
+ * 為什麼不直接讓呼叫端做 `theme.previews[logoKey].desktop`：
+ * - 若使用者切到一個 theme 沒列出的 logoKey（理論上不該發生，但 LS 殘留可能造成），
+ *   直接索引會吃到 undefined → noya/at99/ant-sport 卡片同時破圖
+ * - helper 內處理 fallback 後最差也只是顯示預設 logo 的截圖，UI 不會塌
+ */
+export function getPreview(
+  theme: ThemeMeta,
+  logoKey: string | null | undefined,
+  device: "desktop" | "mobile"
+): string {
+  const direct = logoKey ? theme.previews[logoKey] : undefined;
+  if (direct) return direct[device];
+  const def = theme.previews[theme.defaultLogo];
+  if (def) return def[device];
+  // 最後底線：拿 logos[0] 的 key 找；型別保證 logos non-empty
+  const firstKey = theme.logos[0].key;
+  const first = theme.previews[firstKey];
+  // 若連 first 都缺（registry 配置漏寫），回空字串避免 runtime crash；
+  // <img src=""> 會破圖，但比丟 undefined 進 src 觸發 Vue 警告好
+  return first ? first[device] : "";
 }
 
 /** 給 store / UI 列舉用 */

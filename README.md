@@ -358,26 +358,52 @@ src/themes/
 - `/home?theme=noya&color=sunset` — noya 版面 + 日落橘配色
 - `/home?theme=at99&color=neon-purple` — at99 版面 + 霓虹紫配色
 
-### Logo 候選與切換
+### Logo 候選與切換（v4：三 theme 統一三 logo）
 
-每個 theme 都帶一份 `ThemeMeta.logos: LogoCandidate[]`，
-FAB 展開面板會多出「Logo」row，讓使用者即時切換。
+三個 theme 共用同一組 logo，便於跨 theme 視覺比對：
 
-候選清單與檔案放在各 theme 自己的 `assets/logos/` 下：
-
-| Theme | logo key | 來源 |
+| logo key | 名稱 | 來源檔案 |
 |---|---|---|
-| noya | default / alt1 | UMU 自有 logo / lilian_ant_pc 通用 logo |
-| at99 | default / alt1 | 大亨 ONLINE / lilian_ant_pc logo2 |
-| ant-sport | pc / mobile / alt1 / alt2 | 蚂蚁体育 PC 與手機原圖 + 兩張通用備用款 |
+| `dahsing` | 大亨 ONLINE | `src/themes/at99/assets/logos/default.png` |
+| `umu` | UMU | `src/themes/noya/assets/logos/default.png` |
+| `long-heng` | 隆亨 ONLINE | `src/assets/shared-logos/long-heng.png` |
+
+各 theme 的 `defaultLogo`（FAB 沒切過 logo 時的顯示 + showcase 預覽預設 logo）：
+
+| Theme | defaultLogo | 理由 |
+|---|---|---|
+| at99 | `dahsing` | 主視覺對應大亨 ONLINE |
+| noya | `umu` | 主視覺對應 UMU 自有品牌 |
+| ant-sport | `long-heng` | 原本無對應品牌，剛好補上隆亨 |
 
 **設計重點：**
 
-- `logoKey` per-theme 各自 persist 到 LS（鍵：`casino-demo:logoKey:v3:<layoutKey>`），不同版面互不污染
+- **Demo 頁 FAB（per-theme）**：`logoKey` per-theme 各自 persist 到 LS
+  （鍵：`casino-demo:logoKey:v3:<layoutKey>`），不同版面互不污染；
+  舊使用者 LS 殘留的 `pc / mobile / alt1 / alt2 / default` 已不在新 logos 清單中，
+  store 內 `resolveInitialLogoKey` 會自動 fallback 到該 theme 新的 `defaultLogo`，不需手動清 LS
+- **Showcase 主頁（全域共用）**：showcase 自有一個 logoKey state
+  （鍵：`casino-demo:showcase-logoKey:v4`），切換時三張卡片預覽圖同時更新；
+  與 demo 頁的 FAB 完全獨立、互不影響
 - 切換版面時 store 內 `watch(layoutKey)` 會把 `logoKey` 重置成新 theme 的 LS 偏好或預設
 - theme 入口元件（desktop.vue / mobile-header / main-nav / top-header 等）統一透過
   `useDemoThemeStore().currentLogo` 取 logo src，使用者切 logo 時所有引用自動更新
 - FAB row 用縮圖按鈕（PC 36×36，mobile sheet 48×48 + label），active 樣式延續 colorBtn 反白邊框
+
+### 預覽截圖矩陣
+
+`ThemeMeta.previews` 是 `Record<logoKey, { desktop, mobile }>` 結構，
+3 theme × 3 logoKey × 2 device = **18 張靜態截圖**，存放於 `src/assets/previews/`：
+
+命名規約：`<themeKey>-<logoKey>-<device>.png`
+例：`at99-dahsing-desktop.png`、`noya-umu-mobile.png`、`ant-sport-long-heng-desktop.png`
+
+`getPreview(theme, logoKey, device)` helper 內含 fallback 鏈：
+指定 logoKey → theme.defaultLogo → theme.logos[0].key，
+任一層都保證命中 18 張之一，showcase 不會破圖。
+
+截圖更新流程：用 Playwright 跑 `qa-screenshots/capture-previews.mjs`（如有），
+或手動跑 `playwright` headed 模式（chrome headless 之前踩過 mount-race 坑，不建議）。
 
 ### ant-sport 版面（蚂蚁体育對齊）
 
