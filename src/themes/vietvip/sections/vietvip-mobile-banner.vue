@@ -154,6 +154,7 @@ onBeforeUnmount(stopAuto);
     height: 100%;
     object-fit: cover;
     display: block;
+
     // 用 vietvip 自家紅金 banner，不套 filter 保留原作完整視覺
   }
 

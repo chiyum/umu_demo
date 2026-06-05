@@ -100,9 +100,11 @@ function handleTap(): void {
   border: none;
   background: transparent;
   cursor: pointer;
+
   // 原作 baloon_1：上下擺動 + 2.5s 延遲（避免和入場動畫衝突）
   animation: vietvip-bob 3s ease-in-out infinite;
   animation-delay: 2.5s;
+
   // 點擊回饋
   transition: transform 0.15s ease;
 
@@ -118,6 +120,7 @@ function handleTap(): void {
     height: 100%;
     object-fit: contain;
     z-index: 1;
+
     // 紅包陰影強化「浮在紅金大底之上」的層次
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
   }
