@@ -1,0 +1,307 @@
+// vietvip 版面預設配色：寶石紅（HSL 350, 75%, 32%）
+// ---
+// 設計理念（越南 VIP 風）
+// - 主視覺取自 lilian_vietvip_web 首頁背景圖：
+//     home_background2.png — 深紅底 + 對稱金邊葉狀紋理（典型「越南春節 VIP 廳堂」氣息）
+//     home_background_middle2.png — 暗紅光帶當作 hero 過渡
+// - 與 tycoon（藍冰）／ant-sport（白底藍）／at99（霓虹）／noya（暖金）走完全不同色域，
+//   主打「深酒紅 + 暖金邊」的東南亞高端 VIP 視覺
+// - 配色 HSL 三軸推導：H=350 (帶一點桃紅的深紅) / S=75% (高飽和但不刺眼) / L=32% (壓暗到 hero 紅毯級)
+// - 三變體：ruby 預設酒紅 / midnight 午夜深紅 / gold 黃金禮盒
+// ---
+// 命名公約對齊整個 themes 系統，新增的 vietvip-specific token：
+//   --vietvip-gold-1..3   金色階（亮 → 中 → 深），對齊 home_background2 葉脈金邊
+//   --vietvip-card-glow   卡片內陰影色（深紅 alpha，金邊卡套用）
+//   --vietvip-divider     卡片之間的金色細分隔線
+//   --vietvip-streak      hero / banner 上的金色裝飾光帶
+//   --vietvip-bg-img      整頁 hero 大背景圖（home_background2.png）
+
+[data-theme="vietvip"] {
+  // ─────────────── HSL 三軸（變體只動這三組就能帶動整套色階） ───────────────
+  // 主色：取 home_background2 中段最濃的酒紅 #82122a 換算
+  // H 350 / S 75% / L 29%
+  --primary-h: 350;
+  --primary-s: 75%;
+  --primary-l: 32%;
+
+  // 副色：金邊葉脈的中度金 #c79a45 → H 41 / S 51% / L 53%
+  // 副色獨立 HSL 是為了 secondary-01..16 階層能直接從這軸推
+  --secondary-h: 41;
+  --secondary-s: 51%;
+  --secondary-l: 53%;
+
+  // ─────────────── primary 階層（對應整個 themes 系統 01-08 慣例） ───────────────
+  --primary-01: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --primary-02: hsl(
+    calc(var(--primary-h) - 3),
+    calc(var(--primary-s) - 15%),
+    calc(var(--primary-l) + 8%)
+  );
+  --primary-03: hsl(
+    calc(var(--primary-h) + 2),
+    calc(var(--primary-s) + 5%),
+    calc(var(--primary-l) + 10%)
+  );
+  --primary-04: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) + 6%)
+  );
+  --primary-05: hsl(
+    calc(var(--primary-h) - 4),
+    calc(var(--primary-s) - 8%),
+    calc(var(--primary-l) - 6%)
+  );
+  --primary-06: hsl(
+    calc(var(--primary-h) + 2),
+    calc(var(--primary-s) + 4%),
+    calc(var(--primary-l) + 2%)
+  );
+  --primary-07: hsl(
+    calc(var(--primary-h) + 4),
+    calc(var(--primary-s) + 8%),
+    calc(var(--primary-l) - 14%)
+  );
+  --primary-08: hsl(
+    calc(var(--primary-h) + 4),
+    calc(var(--primary-s) + 8%),
+    calc(var(--primary-l) - 8%)
+  );
+
+  // ─────────────── secondary 階層（金色系，做 CTA 高光 / 邊框 / 描邊） ─────────────
+  // 為什麼 secondary 走金而非取「深紅 + 透明度」：
+  // - 越南 VIP 視覺核心就是「紅金二元色」對比，金做點綴比把紅再壓暗來得有層次
+  // - 共用元件吃 var(--color-accent) 時自動拿金，整體更像「禮盒」風
+  --secondary-01: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l)
+  );
+  --secondary-02: hsla(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l),
+    0.6
+  );
+  --secondary-03: hsla(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l),
+    0.85
+  );
+  --secondary-04: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) + 10%),
+    calc(var(--secondary-l) + 14%)
+  );
+  --secondary-05: hsl(
+    calc(var(--secondary-h) - 2),
+    calc(var(--secondary-s) + 5%),
+    calc(var(--secondary-l) - 12%)
+  );
+  --secondary-06: hsl(
+    calc(var(--secondary-h) + 5),
+    calc(var(--secondary-s) + 12%),
+    calc(var(--secondary-l) + 20%)
+  );
+  --secondary-07: hsl(
+    calc(var(--secondary-h) - 2),
+    var(--secondary-s),
+    calc(var(--secondary-l) + 4%)
+  );
+  --secondary-08: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 10%),
+    calc(var(--secondary-l) - 22%)
+  );
+
+  // 補到 16 階對齊既有 theme 慣例，讓共用元件 / sections 拿 09 ~ 16 不缺
+  --secondary-09: hsl(
+    calc(var(--secondary-h) - 10),
+    calc(var(--secondary-s) - 40%),
+    calc(var(--secondary-l) + 32%)
+  ); // 淡奶金，卡片邊
+  --secondary-10: hsl(
+    calc(var(--secondary-h) - 5),
+    calc(var(--secondary-s) - 30%),
+    calc(var(--secondary-l) + 26%)
+  ); // 米金，落影色
+  --secondary-11: hsla(
+    var(--secondary-h),
+    calc(var(--secondary-s) + 10%),
+    var(--secondary-l),
+    0.4
+  );
+  --secondary-12: hsla(
+    var(--primary-h),
+    var(--primary-s),
+    var(--primary-l),
+    0.5
+  );
+  --secondary-13: hsl(
+    calc(var(--secondary-h) - 4),
+    calc(var(--secondary-s) - 10%),
+    calc(var(--secondary-l) + 12%)
+  );
+  --secondary-14: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 25%),
+    calc(var(--secondary-l) + 38%)
+  );
+  --secondary-15: hsl(
+    calc(var(--secondary-h) - 4),
+    calc(var(--secondary-s) - 40%),
+    calc(var(--secondary-l) - 18%)
+  );
+  --secondary-16: hsla(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 20%),
+    calc(var(--secondary-l) + 18%),
+    0.3
+  );
+
+  // ─────────────── 與其他 theme 對齊的共用 token ───────────────
+  // 共用元件（mobile-bottom-tab-bar / showcase-*）寫死讀 --color-primary，
+  // 沒這層 alias 切到 vietvip 整個元件會 fallback 黑色
+  --color-primary: var(--primary-01);
+  --color-secondary: var(--secondary-01);
+  --color-accent: var(--secondary-04);
+
+  // 底色：整頁背景走「酒紅光帶」，hero 區再疊 bg-img 大圖
+  // bg-base 不是純黑而是深酒紅，讓 hero 切換到非 hero 區域時自然漸層
+  --bg-base: #2a060f;
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.18);
+
+  // 字色：白底卡片內仍用「酒墨紅 #4a0f1d」當深字，可讀性與品牌色一致
+  // 大底深紅頁面上的標題字色另用 --text-on-primary（白色）
+  --text-primary: #4a0f1d;
+  --text-muted: #8a4a5a;
+  --border: hsla(var(--secondary-h), var(--secondary-s), var(--secondary-l), 0.45);
+  --shadow: 0 4px 14px hsla(var(--primary-h), var(--primary-s), 14%, 0.55);
+
+  // hero / CTA 漸層
+  // hero：對齊 home_background2.png 中段「深紅 → 暗紅 → 深紅」垂直光帶
+  // CTA：金漸層按鈕（vietvip 走「紅底 + 金鈕」高貴感）
+  --gradient-hero: linear-gradient(
+    180deg,
+    #82122a 0%,
+    #5a0c1c 50%,
+    #3a0613 100%
+  );
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--secondary-04) 0%,
+    var(--secondary-01) 55%,
+    var(--secondary-05) 100%
+  );
+
+  // 對比 / 結構 token
+  --bg-base-deep: #1c0309;
+  --bg-base-translucent: rgba(42, 6, 15, 0.92);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #faf0d8;
+  --provider-card-bg: #fef8e8;
+  --footer-bg: #1c0309;
+  --footer-text: #f0d692;
+  --footer-link: var(--secondary-04);
+
+  // badge-live：在深紅底上紅色 badge 失焦，改用亮金當「直播 / Live」標記
+  --badge-live: var(--secondary-04);
+
+  // device frame：phone mockup 外框（給 PC app-download 等 section 用）
+  --device-frame-bg: linear-gradient(180deg, #1c0309 0%, #4a0f1d 100%);
+  --device-frame-inner: #4a0f1d;
+  --device-screen-overlay: linear-gradient(
+    180deg,
+    #82122a 0%,
+    var(--primary-07) 100%
+  );
+
+  // banner 漸層（給 mobile banner swiper 3 張 slide 用）
+  // 三段不同層次紅金組合，避免單調
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    #82122a 0%,
+    #c79a45 50%,
+    #5a0c1c 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--primary-03) 0%,
+    var(--secondary-04) 100%
+  );
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    var(--primary-07) 0%,
+    var(--secondary-01) 100%
+  );
+
+  // 字體 — 越南 VIP 高端風 + 中文兼容
+  // - display 走 Inter / Playfair Display（serif 帶質感）→ hero 大字、CTA
+  // - body 走 Noto Sans TC 兼容繁中
+  --font-display:
+    "Playfair Display", inter, "Noto Sans TC", "PingFang TC", "微軟正黑體",
+    "Microsoft JhengHei UI", serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Segoe UI", tahoma, arial, sans-serif;
+
+  // shadow stack（深紅 alpha + 金 alpha 雙系，對應紅底金邊的雙色光感）
+  --shadow-sm: 0 1px 2px rgba(28, 3, 9, 0.42);
+  --shadow-md: 0 4px 10px hsla(var(--primary-h), var(--primary-s), 14%, 0.5);
+  --shadow-lg: 0 8px 22px rgba(28, 3, 9, 0.55);
+  --shadow-xl: 3px 7px 14px rgba(28, 3, 9, 0.6);
+  --shadow-sticky:
+    0 1px 2px rgba(28, 3, 9, 0.4), 0 2px 8px rgba(28, 3, 9, 0.45);
+  --shadow-glow: 0 0 16px hsla(var(--secondary-h), var(--secondary-s), 60%, 0.55);
+
+  // 角落 radial 柔光（對齊整個 themes 系統 DNA #9）
+  // 預設酒紅：右上紅光、左下金光，呼應 home_background2 視覺
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 38%, 0.4) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 50%, 0.22) 0%,
+      transparent 65%
+    );
+
+  // 給共用元件吃的 gradient-gold / text-on-gold
+  // vietvip 本來就是紅金，gradient-gold 直接走亮金漸層即可
+  --gradient-gold: linear-gradient(
+    135deg,
+    var(--secondary-04) 0%,
+    var(--secondary-01) 50%,
+    var(--secondary-05) 100%
+  );
+  --text-on-gold: #2a060f;
+
+  // ─────────────── vietvip-specific token（葉脈金邊獨有元素） ───────────────
+  // 金色階：亮 → 中 → 深，對齊 home_background2 內葉脈金邊高光到陰影
+  --vietvip-gold-1: #f5d98a;
+  --vietvip-gold-2: #c79a45;
+  --vietvip-gold-3: #8a6520;
+
+  // 卡片內陰影：用深酒紅 alpha 讓白底卡浮在紅底上有「鑲嵌」感
+  --vietvip-card-glow: rgba(122, 18, 42, 0.32);
+
+  // 卡片間 / 標題下方的金色細分隔線
+  --vietvip-divider: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--vietvip-gold-2) 50%,
+    transparent 100%
+  );
+
+  // hero / banner 上的金色裝飾光帶（對齊 home_background2 葉脈光線）
+  --vietvip-streak: rgba(247, 217, 138, 0.45);
+
+  // 整頁 hero 大背景圖：直接用複製過來的 home_background2.png
+  // 為什麼 token 化：deep / gold 變體可以換成不同光感的版本
+  // （但目前統一用同一張，變體只動 mix-blend / opacity）
+  --vietvip-bg-img: url("@/themes/vietvip/assets/home/bg-main.png");
+}

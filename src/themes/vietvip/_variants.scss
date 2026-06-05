@@ -1,0 +1,250 @@
+// vietvip 替代配色：midnight 午夜深紅 / gold 純金禮盒
+// ---
+// 注意：每個 variant 都要把 _tokens.scss 內所有可見對比 token
+// （bg-base / bg-base-deep / bg-base-translucent / text-on-primary / highlight-strip
+// / provider-card-bg / footer-bg / footer-text / footer-link / badge-live /
+// device frame / banner-gradient-1..3 / bg-decoration / shadow stack /
+// gradient-cta / gradient-hero / gradient-gold / text-on-gold /
+// vietvip-* 系列）一起覆寫，否則切換時會殘色。
+// 同時必須改 --primary-h / --primary-s / --primary-l 三軸（midnight 動），
+// 才能讓 primary-01..08 / secondary-01..08 整套 HSL 階層一起跟著走。
+
+// ─────────────── midnight：午夜深紅（更暗更沉的 VIP 包廂感） ───────────────
+// 把 ruby 預設往深推：H 同色相但 L 從 32 → 22，
+// 整體像「深夜燈光下的酒會 VIP 室」，金邊不變維持品牌識別
+[data-theme="vietvip"][data-theme-color="midnight"] {
+  // 主色：更深更暗的酒紅 #5a0c1c → H 350 / S 78% / L 22%
+  --primary-h: 350;
+  --primary-s: 78%;
+  --primary-l: 22%;
+
+  // 副色：金邊變更暗一階，避免在更深底色上反差過度
+  --secondary-h: 41;
+  --secondary-s: 48%;
+  --secondary-l: 46%;
+
+  // 結構底色：深酒紅 → 黑紅，整頁更沉
+  --bg-base: #1c0309;
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.22);
+  --text-primary: #4a0f1d;
+  --text-muted: #7a3a4a;
+  --border: hsla(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l),
+    0.38
+  );
+  --shadow: 0 4px 14px rgba(8, 1, 4, 0.7);
+
+  --gradient-hero: linear-gradient(
+    180deg,
+    #5a0c1c 0%,
+    #3a0613 50%,
+    #1c0309 100%
+  );
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--secondary-01) 0%,
+    var(--secondary-05) 100%
+  );
+  --bg-base-deep: #0d0205;
+  --bg-base-translucent: rgba(28, 3, 9, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #2a1208;
+  --provider-card-bg: #faf0d8;
+  --footer-bg: #0d0205;
+  --footer-text: #e4c280;
+  --footer-link: var(--secondary-04);
+  --badge-live: var(--secondary-04);
+
+  // device frame：midnight 走更深的酒墨紅
+  --device-frame-bg: linear-gradient(180deg, #0d0205 0%, #2a060f 100%);
+  --device-frame-inner: #2a060f;
+  --device-screen-overlay: linear-gradient(
+    180deg,
+    #2a060f 0%,
+    var(--primary-01) 100%
+  );
+
+  // banner 漸層：midnight 三段更黯沉
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    #4a0815 0%,
+    #c79a45 55%,
+    #1c0309 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--primary-01) 0%,
+    var(--secondary-01) 100%
+  );
+  --banner-gradient-3: linear-gradient(135deg, #2a060f 0%, var(--secondary-04) 100%);
+  --shadow-sm: 0 1px 2px rgba(8, 1, 4, 0.55);
+  --shadow-md: 0 4px 10px rgba(8, 1, 4, 0.6);
+  --shadow-lg: 0 8px 22px rgba(8, 1, 4, 0.72);
+  --shadow-xl: 3px 7px 14px rgba(8, 1, 4, 0.72);
+  --shadow-sticky:
+    0 1px 2px rgba(8, 1, 4, 0.6), 0 2px 8px rgba(8, 1, 4, 0.62);
+  --shadow-glow: 0 0 16px
+    hsla(var(--secondary-h), var(--secondary-s), 55%, 0.5);
+
+  // 角落柔光：midnight 用更深的紅 alpha
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 24%, 0.5) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 42%, 0.18) 0%,
+      transparent 65%
+    );
+
+  --gradient-gold: linear-gradient(
+    135deg,
+    var(--secondary-04) 0%,
+    var(--secondary-01) 100%
+  );
+  --text-on-gold: #1c0309;
+
+  // vietvip-specific：midnight 金更暗
+  --vietvip-gold-1: #e4c280;
+  --vietvip-gold-2: #b08838;
+  --vietvip-gold-3: #6e4f18;
+  --vietvip-card-glow: rgba(74, 15, 29, 0.55);
+  --vietvip-divider: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--vietvip-gold-2) 50%,
+    transparent 100%
+  );
+  --vietvip-streak: rgba(228, 194, 128, 0.42);
+  --vietvip-bg-img: url("@/themes/vietvip/assets/home/bg-main.png");
+}
+
+// ─────────────── gold：純金禮盒（金主導 + 紅點綴） ───────────────
+// 主色換成金，紅退到 accent 與背景，整體像「金箔禮盒」
+// 為什麼提供完全相反的「金主紅副」變體：
+// - ruby / midnight 都是「紅底金邊」同個視覺方向
+// - gold 變體做「色彩反轉」（金底紅 accent），讓 demo 站台至少有兩種視覺方向可選
+// - 對應東南亞市場「春節 / 開幕」金主題的場合需求
+[data-theme="vietvip"][data-theme-color="gold"] {
+  // 主色換成深金 #b08838 → H 41 / S 52% / L 45%（從金一階拉深當主結構色）
+  --primary-h: 41;
+  --primary-s: 52%;
+  --primary-l: 45%;
+
+  // 副色換成酒紅 → 在金底上做點綴
+  --secondary-h: 350;
+  --secondary-s: 75%;
+  --secondary-l: 36%;
+
+  // 結構底色：奶米金 → 深金，整頁像「金紙禮盒打開」
+  --bg-base: #2a1c08;
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.18);
+  --text-primary: #2a1c08;
+  --text-muted: #6e5a30;
+  --border: hsla(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l),
+    0.4
+  );
+  --shadow: 0 4px 14px rgba(38, 24, 6, 0.5);
+
+  // hero / CTA：金主導
+  --gradient-hero: linear-gradient(
+    180deg,
+    #f5d98a 0%,
+    #b08838 55%,
+    #6e4f18 100%
+  );
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--secondary-01) 0%,
+    var(--secondary-05) 100%
+  );
+  --bg-base-deep: #1a1004;
+  --bg-base-translucent: rgba(42, 28, 8, 0.92);
+  --text-on-primary: #2a060f;
+  --highlight-strip: #faf0d8;
+  --provider-card-bg: #fef8e8;
+  --footer-bg: #1a1004;
+  --footer-text: #f5d98a;
+  --footer-link: var(--secondary-04);
+
+  // badge-live 在金底上紅最醒目
+  --badge-live: var(--secondary-01);
+
+  --device-frame-bg: linear-gradient(180deg, #1a1004 0%, #4a3812 100%);
+  --device-frame-inner: #4a3812;
+  --device-screen-overlay: linear-gradient(
+    180deg,
+    #6e4f18 0%,
+    var(--primary-01) 100%
+  );
+
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    #f5d98a 0%,
+    #c79a45 50%,
+    #82122a 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--primary-04) 0%,
+    var(--secondary-01) 100%
+  );
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    var(--primary-07) 0%,
+    var(--secondary-04) 100%
+  );
+  --shadow-sm: 0 1px 2px rgba(38, 24, 6, 0.4);
+  --shadow-md: 0 4px 10px rgba(38, 24, 6, 0.42);
+  --shadow-lg: 0 8px 22px rgba(38, 24, 6, 0.55);
+  --shadow-xl: 3px 7px 14px rgba(38, 24, 6, 0.58);
+  --shadow-sticky:
+    0 1px 2px rgba(38, 24, 6, 0.4), 0 2px 8px rgba(38, 24, 6, 0.4);
+  --shadow-glow: 0 0 16px hsla(var(--primary-h), var(--primary-s), 60%, 0.6);
+
+  // 角落柔光：gold 版上下角都走金色 radial
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 60%, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 48%, 0.22) 0%,
+      transparent 65%
+    );
+
+  --gradient-gold: linear-gradient(
+    135deg,
+    var(--primary-04) 0%,
+    var(--primary-01) 50%,
+    var(--primary-07) 100%
+  );
+  --text-on-gold: #2a060f;
+
+  // vietvip-specific：gold 把金階繼續走亮，但 vietvip-bg-img 換成 streak 帶顯示
+  --vietvip-gold-1: #fbeaa5;
+  --vietvip-gold-2: #d4a574;
+  --vietvip-gold-3: #8a6520;
+  --vietvip-card-glow: rgba(176, 136, 56, 0.32);
+  --vietvip-divider: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--vietvip-gold-1) 50%,
+    transparent 100%
+  );
+  --vietvip-streak: rgba(255, 240, 200, 0.58);
+  // 金主題仍用同一張紅底大圖，但透過 mix-blend-mode / opacity 在 mobile.vue 內壓低
+  // 讓金光蓋過紅葉脈，視覺保留「越南 VIP」的葉脈骨架但色調轉金
+  --vietvip-bg-img: url("@/themes/vietvip/assets/home/bg-main.png");
+}
