@@ -143,6 +143,7 @@ function handleTap(item: TabItem): void {
     padding: 4px;
     border: none;
     background: transparent;
+
     // 預設灰藍（對齊設計稿 .tab color #7aa0d2）
     color: #7aa0d2;
     font-size: 12px;

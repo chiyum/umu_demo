@@ -432,11 +432,9 @@ function pickCat(item: CatItem): void {
     font-size: 26px;
     letter-spacing: 0.5px;
     line-height: 1;
-
     -webkit-text-stroke: 1px hsla(var(--primary-h), var(--primary-s), 70%, 0.7);
     background: linear-gradient(180deg, #cfe0f6 0%, #a9c8ee 100%);
     background-clip: text;
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
   }
@@ -452,7 +450,6 @@ function pickCat(item: CatItem): void {
     align-items: center;
     justify-content: center;
     mask-image: linear-gradient(90deg, transparent 0%, #000000 35%);
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000000 35%);
   }
 
   &__game-img {

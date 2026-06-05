@@ -64,7 +64,6 @@ import TycoonMobileTabBar from "./sections/tycoon-mobile-tab-bar.vue";
       var(--tycoon-ice-3) 100%
     ),
     linear-gradient(180deg, var(--tycoon-ice-1), var(--tycoon-ice-2));
-
   overflow: hidden;
 
   // 對角線冰光條紋（對齊設計稿 .phone::before）
@@ -100,6 +99,7 @@ import TycoonMobileTabBar from "./sections/tycoon-mobile-tab-bar.vue";
 
   &__main {
     flex: 1;
+
     // 底部留出 tab bar 高度（約 60px + safe-area），避免最後一張遊戲卡被擋
     padding-bottom: calc(96px + env(safe-area-inset-bottom));
   }

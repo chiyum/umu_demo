@@ -130,7 +130,6 @@ const lines: HeroLine[] = [
       var(--primary-03)
     );
     background-clip: text;
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
 
@@ -157,7 +156,6 @@ const lines: HeroLine[] = [
 
     // mask 從左→右逐漸顯現：左 50% 透明，右側完全顯現
     mask-image: linear-gradient(90deg, transparent 0%, #000000 60%);
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000000 60%);
   }
 
   &__figure-img {

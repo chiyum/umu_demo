@@ -248,18 +248,13 @@ onBeforeUnmount(() => {
       transparent 240deg,
       transparent 360deg
     );
+
     // mask 讓中間挖空成環狀
     mask: radial-gradient(
       circle at center,
       transparent 55%,
-      #000 56%,
-      #000 100%
-    );
-    -webkit-mask: radial-gradient(
-      circle at center,
-      transparent 55%,
-      #000 56%,
-      #000 100%
+      #000000 56%,
+      #000000 100%
     );
     filter: drop-shadow(0 0 12px var(--tycoon-card-glow));
   }

@@ -33,7 +33,6 @@
   --border: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.28);
   --shadow: 0 4px 14px
     hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.32);
-
   --gradient-hero: linear-gradient(
     135deg,
     #a8c0e0 0%,
@@ -45,7 +44,6 @@
     var(--primary-01) 0%,
     var(--primary-07) 100%
   );
-
   --bg-base-deep: #aac6e6;
   --bg-base-translucent: rgba(232, 240, 252, 0.94);
   --text-on-primary: #ffffff;
@@ -78,7 +76,6 @@
     var(--primary-07) 100%
   );
   --banner-gradient-3: linear-gradient(135deg, #2a78dd 0%, #061f4c 100%);
-
   --shadow-sm: 0 1px 2px rgba(6, 31, 76, 0.12);
   --shadow-md: 0 4px 10px
     hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.22);
@@ -153,7 +150,6 @@
     #2a78dd 100%
   );
   --gradient-cta: linear-gradient(135deg, #d4a574 0%, #b8854a 100%);
-
   --bg-base-deep: #f3e7d2;
   --bg-base-translucent: rgba(255, 255, 255, 0.94);
   --text-on-primary: #ffffff;
@@ -182,7 +178,6 @@
     #d4a574 100%
   );
   --banner-gradient-3: linear-gradient(135deg, #1f63c8 0%, #f3e7d2 100%);
-
   --shadow-sm: 0 1px 2px rgba(184, 133, 74, 0.12);
   --shadow-md: 0 4px 10px rgba(184, 133, 74, 0.2);
   --shadow-lg: 0 8px 22px rgba(184, 133, 74, 0.3);
