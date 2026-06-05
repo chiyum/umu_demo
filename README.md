@@ -402,8 +402,20 @@ src/themes/
 指定 logoKey → theme.defaultLogo → theme.logos[0].key，
 任一層都保證命中 18 張之一，showcase 不會破圖。
 
-截圖更新流程：用 Playwright 跑 `qa-screenshots/capture-previews.mjs`（如有），
-或手動跑 `playwright` headed 模式（chrome headless 之前踩過 mount-race 坑，不建議）。
+截圖更新流程（qa-screenshots 在 .gitignore 內，腳本不入版控）：
+
+1. 啟動 dev server：`yarn dev`（預設 port 9527）
+2. 寫一個 Playwright Node script，對 18 個 (theme, logoKey, device) 組合：
+   - `ctx.addInitScript(() => localStorage.setItem('casino-demo:logoKey:v3:<theme>', '<logoKey>'))`
+   - `page.goto('http://localhost:9527/demo/<theme>', { waitUntil: 'domcontentloaded' })`
+   - 等待對應 theme root selector（`.noya-layout` / `.at99-layout` / `.ant-sport-layout` 或其 `-m-` 手機版）
+   - 等字體 ready + 所有 `<img>` load + 滾到底再回頂部觸發 lazy section
+   - `page.screenshot({ fullPage: true })`
+3. 桌面 viewport 1440×900，手機 viewport 390×844
+4. 命名 `<themeKey>-<logoKey>-<device>.png` 存到 `src/assets/previews/`
+
+注意：chrome --dump-dom / chrome headless 之前踩過 mount-race 坑（SPA 還沒 mount 就截、profile 路徑卡 race），務必用 Playwright。
+networkidle 在 dev server 下可能因 HMR client polling 永不達成，用 domcontentloaded + 顯式 selector wait 較穩。
 
 ### ant-sport 版面（蚂蚁体育對齊）
 
