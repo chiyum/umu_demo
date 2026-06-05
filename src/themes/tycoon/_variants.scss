@@ -1,0 +1,219 @@
+// tycoon 替代配色：deep 深海藍 / gold 金邊冰
+// ---
+// 注意：每個 variant 都要把 _tokens.scss 內所有可見對比 token
+// （bg-base / bg-base-deep / bg-base-translucent / text-on-primary / highlight-strip
+// / provider-card-bg / footer-bg / footer-text / footer-link / badge-live /
+// device frame / banner-gradient-1..3 / bg-decoration / shadow stack / gradient-cta /
+// gradient-hero / tycoon-* 系列）一起覆寫，否則切換時會殘色。
+// 同時必須改 --primary-h / --primary-s / --primary-l 三軸，
+// 才能讓 primary-01..08 / secondary-01..08 整套 HSL 階層一起跟著走。
+
+// ─────────────── deep：深海藍（更冷更深的沉穩感） ───────────────
+// 把 ice 預設往深推：H 同藍系但壓暗 L 值，bg-base 換較深的霧海色襯托卡片白
+// hero swoosh 條紋還是維持白光，但整體背景轉冷
+[data-theme="tycoon"][data-theme-color="deep"] {
+  // 主色：#0a52c4（設計稿 --blue-deep 直接拿來換 H/S/L）
+  // 換算 H 217 / S 91 / L 41
+  --primary-h: 217;
+  --primary-s: 91%;
+  --primary-l: 41%;
+
+  // 副色：更深的墨藍灰
+  --secondary-h: 218;
+  --secondary-s: 65%;
+  --secondary-l: 22%;
+
+  // 主要結構色：底走中冷灰藍，字仍走深墨藍
+  // 不像 midnight 走全黑底，深海藍仍保有「藍冰」氛圍，底部色階只比 ice 略深兩階
+  --bg-base: #c8dcee;
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.14);
+  --text-primary: #061f4c;
+  --text-muted: #44608c;
+  --border: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.28);
+  --shadow: 0 4px 14px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.32);
+
+  --gradient-hero: linear-gradient(
+    135deg,
+    #a8c0e0 0%,
+    #4276c7 55%,
+    #0a3580 100%
+  );
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--primary-01) 0%,
+    var(--primary-07) 100%
+  );
+
+  --bg-base-deep: #aac6e6;
+  --bg-base-translucent: rgba(232, 240, 252, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #d8e6f8;
+  --provider-card-bg: #e3edfb;
+  --footer-bg: #061f4c;
+  --footer-text: #aac6e6;
+  --footer-link: #7e9fce;
+  --badge-live: #ff5a2b;
+
+  // device frame：deep 走更深的酒墨藍
+  --device-frame-bg: linear-gradient(180deg, #04122f 0%, #0a3580 100%);
+  --device-frame-inner: #0a3580;
+  --device-screen-overlay: linear-gradient(
+    180deg,
+    #aac6e6 0%,
+    var(--primary-01) 100%
+  );
+
+  // banner 漸層：deep 三段不同層次深藍
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    #6da3e5 0%,
+    #1f5fbc 55%,
+    #0a3580 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--primary-03) 0%,
+    var(--primary-07) 100%
+  );
+  --banner-gradient-3: linear-gradient(135deg, #2a78dd 0%, #061f4c 100%);
+
+  --shadow-sm: 0 1px 2px rgba(6, 31, 76, 0.12);
+  --shadow-md: 0 4px 10px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.22);
+  --shadow-lg: 0 8px 22px rgba(6, 31, 76, 0.36);
+  --shadow-xl: 3px 7px 14px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.34);
+  --shadow-sticky:
+    0 1px 2px rgba(6, 31, 76, 0.18), 0 2px 8px rgba(6, 31, 76, 0.18);
+  --shadow-glow: 0 0 16px
+    hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.6);
+
+  // 角落柔光：deep 版用偏暗藍 alpha，避免冷底缺亮點
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.28) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.18) 0%,
+      transparent 65%
+    );
+  --gradient-gold: var(--gradient-cta);
+  --text-on-gold: var(--text-on-primary);
+
+  // tycoon-specific：deep 把白光條紋壓暗 1 階，避免在中底色上失焦
+  --tycoon-ice-1: #d8e6f8;
+  --tycoon-ice-2: #aac6e6;
+  --tycoon-ice-3: #8bb3dc;
+  --tycoon-card-glow: rgba(10, 82, 196, 0.28);
+  --tycoon-streak-1: rgba(255, 255, 255, 0.4);
+  --tycoon-streak-2: rgba(255, 255, 255, 0.28);
+  --tycoon-hero-stroke: #061f4c;
+}
+
+// ─────────────── gold：金邊冰（冷藍底 + 暖金點綴） ───────────────
+// 主色維持藍冰系，但 accent 換成冰金，badge / hero 描邊 / CTA 邊框走金
+// 整體感覺像「藍冰底 × 金框框」：適合主打 VIP / 高貴的版型情境
+[data-theme="tycoon"][data-theme-color="gold"] {
+  // 主色保留 ice 預設藍（不換 H/S/L），但 accent / device frame 走金
+  // 為什麼不把 primary 整個換金：金色當主色配大量藍底會「奶油湯化」失去藍冰感
+  // 改成「藍主 × 金 accent」雙色策略：primary 藍仍主導視覺骨架，金只點綴 CTA / hero
+  --primary-h: 213;
+  --primary-s: 87%;
+  --primary-l: 53%;
+  --secondary-h: 217;
+  --secondary-s: 85%;
+  --secondary-l: 28%;
+
+  // accent 換成冰金：#d4a574（任務描述指定的金邊冰色票）
+  // 為什麼 alias 到 --color-accent 而非整個換 primary：
+  // - --color-accent 在共用元件用於「點綴 / 第二優先」位置，剛好對齊金的角色
+  // - primary 走藍維持「藍冰大亨」的本體骨架
+  --color-accent: #d4a574;
+
+  // 結構色維持冷藍底，但 highlight-strip / device frame 走偏金
+  --bg-base: #eaf3fc;
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.1);
+  --text-primary: #0b3a86;
+  --text-muted: #547cb5;
+  --border: rgba(212, 165, 116, 0.32);
+  --shadow: 0 4px 14px rgba(184, 133, 74, 0.22);
+
+  // hero / CTA：用「藍底 + 金邊」漸層代替全藍 gradient
+  // hero 仍走藍冰漸層（金色當頂飾），CTA 走金邊+藍底
+  --gradient-hero: linear-gradient(
+    135deg,
+    #d6e7f8 0%,
+    #6db4f5 55%,
+    #2a78dd 100%
+  );
+  --gradient-cta: linear-gradient(135deg, #d4a574 0%, #b8854a 100%);
+
+  --bg-base-deep: #f3e7d2;
+  --bg-base-translucent: rgba(255, 255, 255, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #fbf3e2;
+  --provider-card-bg: #f4f9ff;
+  --footer-bg: #0b3a86;
+  --footer-text: #f3e7d2;
+  --footer-link: #d4a574;
+  --badge-live: #ff5a2b;
+
+  // device frame：gold 走深藍金邊
+  --device-frame-bg: linear-gradient(180deg, #0b3a86 0%, #1f63c8 100%);
+  --device-frame-inner: #1f63c8;
+  --device-screen-overlay: linear-gradient(180deg, #fbf3e2 0%, #d4a574 100%);
+
+  // banner 漸層：gold 三段加入金色高光
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    #d4a574 0%,
+    #b8854a 50%,
+    #0b3a86 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--primary-03) 0%,
+    #d4a574 100%
+  );
+  --banner-gradient-3: linear-gradient(135deg, #1f63c8 0%, #f3e7d2 100%);
+
+  --shadow-sm: 0 1px 2px rgba(184, 133, 74, 0.12);
+  --shadow-md: 0 4px 10px rgba(184, 133, 74, 0.2);
+  --shadow-lg: 0 8px 22px rgba(184, 133, 74, 0.3);
+  --shadow-xl: 3px 7px 14px rgba(184, 133, 74, 0.32);
+  --shadow-sticky:
+    0 1px 2px rgba(184, 133, 74, 0.14), 0 2px 8px rgba(184, 133, 74, 0.16);
+  --shadow-glow: 0 0 14px rgba(212, 165, 116, 0.6);
+
+  // 角落柔光：gold 版用「藍 + 金」雙色 radial（右上藍、左下金）
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.18) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(212, 165, 116, 0.22) 0%,
+      transparent 65%
+    );
+
+  // gold variant 的 gradient-gold alias 才真的走金（與 noya 的金感受對齊）
+  --gradient-gold: linear-gradient(135deg, #d4a574 0%, #c79968 100%);
+  --text-on-gold: #4a2e0b;
+
+  // tycoon-specific：gold 描邊改金色，呼應整體金邊調性
+  --tycoon-ice-1: #fbf3e2;
+  --tycoon-ice-2: #f3e7d2;
+  --tycoon-ice-3: #e6d4b3;
+  --tycoon-card-glow: rgba(184, 133, 74, 0.22);
+  --tycoon-streak-1: rgba(255, 240, 200, 0.45);
+  --tycoon-streak-2: rgba(255, 240, 200, 0.32);
+  --tycoon-hero-stroke: #b8854a;
+}
