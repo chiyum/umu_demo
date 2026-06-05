@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 // 從本 theme 自家 assets 取遊戲分類 icon（normal/selected 雙態）
-import iconHot from "../assets/game/icon-hot.png?url";
-import iconHotOn from "../assets/game/icon-hot-on.png?url";
+// 對齊 lilian_vietvip_web/src/widgets/pages/home/game/constants.js
+// 的 7 個 CATEGORY 設定（SPORT / LIVE / CHESS / ESPORT / LOTTERY / ELECTRONIC / FISH）
 import iconSport from "../assets/game/icon-sport.png?url";
 import iconSportOn from "../assets/game/icon-sport-on.webp?url";
 import iconLive from "../assets/game/icon-live.png?url";
 import iconLiveOn from "../assets/game/icon-live-on.webp?url";
 import iconChess from "../assets/game/icon-chess.png?url";
 import iconChessOn from "../assets/game/icon-chess-on.webp?url";
+import iconEsport from "../assets/game/icon-esport.png?url";
+import iconEsportOn from "../assets/game/icon-esport-on.webp?url";
 import iconLottery from "../assets/game/icon-lottery.png?url";
 import iconLotteryOn from "../assets/game/icon-lottery-on.webp?url";
 import iconSlot from "../assets/game/icon-slot.png?url";
@@ -17,26 +19,31 @@ import iconFish from "../assets/game/icon-fish.png?url";
 import iconFishOn from "../assets/game/icon-fish-on.png?url";
 
 // 遊戲卡 placeholder（中性遊戲類別圖）
+// 7 種卡片素材對應 7 個分類，與 sidebar 一一對應
 import cardSport from "../assets/game/card-sport.png?url";
 import cardLive from "../assets/game/card-live.png?url";
-import cardSlot from "../assets/game/card-slot.png?url";
-import cardLottery from "../assets/game/card-lottery.png?url";
-import cardFish from "../assets/game/card-fish.png?url";
 import cardChess from "../assets/game/card-chess.png?url";
+import cardEsport from "../assets/game/card-esport.png?url";
+import cardLottery from "../assets/game/card-lottery.png?url";
+import cardSlot from "../assets/game/card-slot.png?url";
+import cardFish from "../assets/game/card-fish.png?url";
 
 /**
  * vietvip mobile 遊戲選單
  *
  * 對齊 lilian_vietvip_web src/widgets/pages/home/game/index.vue 結構：
- * - 左 sidebar：18% 寬，垂直堆疊 7 個分類（熱門 / 體育 / 真人 / 棋牌 / 彩票 / 電子 / 捕魚）
+ * - 左 sidebar：18% 寬，垂直堆疊 7 個分類
+ *   原作 7 分類：體育 / 真人 / 棋牌 / 電競 / 彩票 / 電子 / 捕魚
+ *   （依 game/constants.js 的 CATEGORY 物件展開）
  * - 右 main：82% 寬，每個分類對應一行橫向滾動的遊戲卡
  *
- * 原專案 sidebar 用 backbround_left_menu_active2.svg 當 active 背景，
- * 我們改用「金漸層 + inset 白邊」對齊 vietvip 紅金主題；
- * normal 狀態用「半透紅底 + 金描邊」維持與卡片整體調性
+ * 為什麼校準分類列表（移除 hot、補上 esport）：
+ * - 原作的 hot / recent 是登入後動態加（v-if="game.popular.length > 0"），
+ *   demo 站沒登入流程不該預先加進 sidebar
+ * - 原作 7 個固定分類中 ESPORT（電競）我上輪漏掉了，補上
  *
  * 為什麼右側遊戲卡用既有 placeholder 圖：
- * - 原專案的 api_placeholder_*_single.png 本來就是 demo 用 placeholder
+ * - 原作的 api_placeholder_*_single.png 本來就是 demo 用 placeholder
  * - 設計含意明確（足球 / 撲克牌 / 拉霸 / 魚 等 silhouette）
  * - 圖檔本身白底彩字，落在紅金卡片內仍清晰
  */
@@ -56,23 +63,19 @@ interface GameItem {
 }
 
 const cats: CatItem[] = [
-  { key: "hot", label: "熱門", icon: iconHot, iconOn: iconHotOn },
   { key: "sport", label: "體育", icon: iconSport, iconOn: iconSportOn },
   { key: "live", label: "真人", icon: iconLive, iconOn: iconLiveOn },
   { key: "chess", label: "棋牌", icon: iconChess, iconOn: iconChessOn },
+  { key: "esport", label: "電競", icon: iconEsport, iconOn: iconEsportOn },
   { key: "lottery", label: "彩票", icon: iconLottery, iconOn: iconLotteryOn },
   { key: "slot", label: "電子", icon: iconSlot, iconOn: iconSlotOn },
   { key: "fish", label: "捕魚", icon: iconFish, iconOn: iconFishOn }
 ];
 
-// 每個分類各擺 4 張遊戲卡示意（橫向 scroll）
+// 每個分類各擺 2-3 張遊戲卡示意（橫向 scroll）
+// 為什麼遊戲名沿用原作真實平台命名（沙巴 / AG / PG / JDB / VR 等）：
+// 這些是越南站常見的真實第三方平台 brand，符合 vietvip demo 的真實感
 const gamesByCategory: Record<string, GameItem[]> = {
-  hot: [
-    { key: "hot-1", label: "皇牌體育", image: cardSport, category: "hot" },
-    { key: "hot-2", label: "AG 真人", image: cardLive, category: "hot" },
-    { key: "hot-3", label: "PG 電子", image: cardSlot, category: "hot" },
-    { key: "hot-4", label: "JDB 捕魚", image: cardFish, category: "hot" }
-  ],
   sport: [
     { key: "sport-1", label: "沙巴體育", image: cardSport, category: "sport" },
     { key: "sport-2", label: "皇牌體育", image: cardSport, category: "sport" },
@@ -86,6 +89,15 @@ const gamesByCategory: Record<string, GameItem[]> = {
   chess: [
     { key: "chess-1", label: "MT 棋牌", image: cardChess, category: "chess" },
     { key: "chess-2", label: "VS 棋牌", image: cardChess, category: "chess" }
+  ],
+  esport: [
+    {
+      key: "esport-1",
+      label: "AVIA 電競",
+      image: cardEsport,
+      category: "esport"
+    },
+    { key: "esport-2", label: "IM 電競", image: cardEsport, category: "esport" }
   ],
   lottery: [
     {
@@ -112,7 +124,7 @@ const gamesByCategory: Record<string, GameItem[]> = {
   ]
 };
 
-const activeCat = ref<string>("hot");
+const activeCat = ref<string>("sport");
 
 function pickCat(key: string): void {
   activeCat.value = key;

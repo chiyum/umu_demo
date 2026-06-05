@@ -5,6 +5,7 @@ import VietvipMobileMarquee from "./sections/vietvip-mobile-marquee.vue";
 import VietvipMobileUserCard from "./sections/vietvip-mobile-user-card.vue";
 import VietvipMobileGameMenu from "./sections/vietvip-mobile-game-menu.vue";
 import VietvipMobileBuoy from "./sections/vietvip-mobile-buoy.vue";
+import VietvipMobileDownload from "./sections/vietvip-mobile-download.vue";
 import VietvipMobileTabBar from "./sections/vietvip-mobile-tab-bar.vue";
 
 /**
@@ -16,8 +17,12 @@ import VietvipMobileTabBar from "./sections/vietvip-mobile-tab-bar.vue";
  * 3. Marquee    跑馬燈
  * 4. UserCard   會員資料卡（VIP 等級徽章 + 餘額 + 4 個快捷功能）
  * 5. GameMenu   遊戲選單（左 7 分類 sidebar + 右 7 個分類橫向滾動卡）
- * 浮窗：Buoy（fixed 右側、上下擺動，原專案的小遊戲入口）
+ * 浮窗：Buoy（紅包 + WINNER + 老虎，fixed 右側、上下擺動，原作小遊戲入口）
+ *      Download（橘色標籤條，fixed 右側中下，原作 download.vue）
  * 底部：TabBar（fixed 5 tab：首頁 / 優惠 / 錢包 / 客服 / 我的）
+ *
+ * 對齊原作 home.vue 第 1-44 行的整體結構：
+ * - <div class="home" 大背景圖 + 五段內容 + Buoy + Download 三層浮窗
  *
  * 整體背景：var(--vietvip-bg-img)（home_background2.png）+ 半透紅色漸層蓋層
  * 對齊原專案 home.vue 第 5-13 行 `v-bg-image-load` 指令的兩層背景：
@@ -51,6 +56,7 @@ import VietvipMobileTabBar from "./sections/vietvip-mobile-tab-bar.vue";
     </main>
 
     <VietvipMobileBuoy />
+    <VietvipMobileDownload />
     <VietvipMobileTabBar />
   </div>
 </template>

@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
-// 從本 theme 自家 assets 取分類 icon + 卡片 placeholder
-import iconHot from "../assets/game/icon-hot.png?url";
-import iconHotOn from "../assets/game/icon-hot-on.png?url";
+// 校準分類為原作 7 個（sport / live / chess / esport / lottery / electronic / fish）
+// 對齊 lilian_vietvip_web/src/widgets/pages/home/game/constants.js
+// 與 mobile-game-menu 共用同一份分類設計
 import iconSport from "../assets/game/icon-sport.png?url";
 import iconSportOn from "../assets/game/icon-sport-on.webp?url";
 import iconLive from "../assets/game/icon-live.png?url";
 import iconLiveOn from "../assets/game/icon-live-on.webp?url";
 import iconChess from "../assets/game/icon-chess.png?url";
 import iconChessOn from "../assets/game/icon-chess-on.webp?url";
+import iconEsport from "../assets/game/icon-esport.png?url";
+import iconEsportOn from "../assets/game/icon-esport-on.webp?url";
 import iconLottery from "../assets/game/icon-lottery.png?url";
 import iconLotteryOn from "../assets/game/icon-lottery-on.webp?url";
 import iconSlot from "../assets/game/icon-slot.png?url";
@@ -18,22 +20,27 @@ import iconFishOn from "../assets/game/icon-fish-on.png?url";
 
 import cardSport from "../assets/game/card-sport.png?url";
 import cardLive from "../assets/game/card-live.png?url";
-import cardSlot from "../assets/game/card-slot.png?url";
-import cardLottery from "../assets/game/card-lottery.png?url";
-import cardFish from "../assets/game/card-fish.png?url";
 import cardChess from "../assets/game/card-chess.png?url";
+import cardEsport from "../assets/game/card-esport.png?url";
+import cardLottery from "../assets/game/card-lottery.png?url";
+import cardSlot from "../assets/game/card-slot.png?url";
+import cardFish from "../assets/game/card-fish.png?url";
 
 /**
  * vietvip PC 遊戲區 — 左 sidebar 7 分類 + 右遊戲卡格狀網格
  *
- * 與 mobile 結構同骨架，但 PC 版以「縱列 sidebar + 4 column grid」展開：
- * - sidebar 寬 130px：分類卡縱列堆疊（與 mobile 同設計語言但放大尺寸）
- * - main grid：4 列 × 多行的卡片網格（mobile 是橫向 scroll、PC 改 grid 更易導覽）
+ * 結構與 mobile-game-menu 一致（同 sidebar + cats / 同 7 個分類），
+ * 差別是 PC 把橫向 scroll 改成 4 column grid 一次呈現全部卡片：
+ * - sidebar 寬 130px：分類卡縱列堆疊（mobile 同設計語言但放大尺寸）
+ * - main grid：4 column × N row 的卡片網格
+ *
+ * 為什麼分類校準（移除 hot）：
+ * - 原作 hot 是登入後動態加分類，demo 沒登入不該預先放
+ * - 補上原作 7 個固定分類中的 esport（電競），與 mobile 同步
  *
  * 為什麼 PC 改 grid 而非沿用橫向 scroll：
- * - PC viewport 寬，橫向 scroll 浪費版面（卡片只顯示一行）
- * - grid 一次顯示 4×N 多張卡片，配合大型 hover 動畫呈現「VIP 廳堂遊戲牆」感
- * - 與 ant-sport tabs / tycoon 縱列卡片區隔，建立 vietvip 自己的識別
+ * - PC viewport 寬，橫向 scroll 浪費版面
+ * - grid 一次顯示 4×N 多張卡片，呈現「VIP 廳堂遊戲牆」感
  */
 
 interface CatItem {
@@ -50,26 +57,16 @@ interface GameItem {
 }
 
 const cats: CatItem[] = [
-  { key: "hot", label: "熱門", icon: iconHot, iconOn: iconHotOn },
   { key: "sport", label: "體育", icon: iconSport, iconOn: iconSportOn },
   { key: "live", label: "真人", icon: iconLive, iconOn: iconLiveOn },
   { key: "chess", label: "棋牌", icon: iconChess, iconOn: iconChessOn },
+  { key: "esport", label: "電競", icon: iconEsport, iconOn: iconEsportOn },
   { key: "lottery", label: "彩票", icon: iconLottery, iconOn: iconLotteryOn },
   { key: "slot", label: "電子", icon: iconSlot, iconOn: iconSlotOn },
   { key: "fish", label: "捕魚", icon: iconFish, iconOn: iconFishOn }
 ];
 
 const gamesByCategory: Record<string, GameItem[]> = {
-  hot: [
-    { key: "h1", label: "皇牌體育", image: cardSport },
-    { key: "h2", label: "AG 真人", image: cardLive },
-    { key: "h3", label: "PG 電子", image: cardSlot },
-    { key: "h4", label: "JDB 捕魚", image: cardFish },
-    { key: "h5", label: "MT 棋牌", image: cardChess },
-    { key: "h6", label: "VR 彩票", image: cardLottery },
-    { key: "h7", label: "BTI 體育", image: cardSport },
-    { key: "h8", label: "EVO 真人", image: cardLive }
-  ],
   sport: [
     { key: "s1", label: "沙巴體育", image: cardSport },
     { key: "s2", label: "皇牌體育", image: cardSport },
@@ -86,6 +83,11 @@ const gamesByCategory: Record<string, GameItem[]> = {
     { key: "c1", label: "MT 棋牌", image: cardChess },
     { key: "c2", label: "VS 棋牌", image: cardChess },
     { key: "c3", label: "BOLE 棋牌", image: cardChess }
+  ],
+  esport: [
+    { key: "e1", label: "AVIA 電競", image: cardEsport },
+    { key: "e2", label: "IM 電競", image: cardEsport },
+    { key: "e3", label: "TF 電競", image: cardEsport }
   ],
   lottery: [
     { key: "lo1", label: "VR 彩票", image: cardLottery },
@@ -104,7 +106,7 @@ const gamesByCategory: Record<string, GameItem[]> = {
   ]
 };
 
-const activeCat = ref<string>("hot");
+const activeCat = ref<string>("sport");
 
 function pickCat(key: string): void {
   activeCat.value = key;

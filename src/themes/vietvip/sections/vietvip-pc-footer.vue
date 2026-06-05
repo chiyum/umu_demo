@@ -3,16 +3,17 @@ import { computed } from "vue";
 import { useDemoThemeStore } from "@/store/demo-theme.store";
 
 /**
- * vietvip PC footer — VIP 廳堂風格的版權底部 + 客服 / 渠道資訊
+ * vietvip PC footer — 精簡版權底（mobile tab-bar 同設計語言）
  *
- * 對齊一般博彩站台的「深底 + 金字版權 + 多欄資訊」格式：
- * - 左：品牌 logo + 簡介
- * - 中：3 欄連結（關於我們 / 客服 / 法律）
- * - 右：客服與多語系入口
+ * 設計取捨：
+ * - 上輪用「商業站 4 欄」結構（左 logo + 中 3 欄連結 + 右客服），
+ *   但使用者要求「以 1:1 復刻為主」，原作沒有 PC footer 可以對照，
+ *   不該硬塞商業站範式
+ * - 改為精簡單行：左 logo + 中央 nav 標籤 + 右多語標籤
+ * - 配色與 mobile tab-bar 一致（深酒紅 + 金線分隔 + 圓角上邊）
  *
- * 為什麼 vietvip 需要自製 footer：
- * - tycoon / ant-sport 沒有 footer，但 vietvip 主打 VIP 廳堂質感需要「儀式感收尾」
- * - 深酒紅底 + 金線分隔的 footer 是越南 VIP 站台常見視覺收束
+ * 動機：footer 在 demo 站不該分散使用者對「mobile 五段 + game grid」核心內容的注意力，
+ * 只需精簡收尾即可
  */
 
 const themeStore = useDemoThemeStore();
@@ -22,67 +23,49 @@ const useScreenBlend = computed(
   () => themeStore.currentLogo.transparentBg !== true
 );
 
-interface LinkCol {
-  title: string;
-  links: string[];
-}
-
-const linkCols: LinkCol[] = [
-  { title: "關於我們", links: ["品牌故事", "VIP 制度", "牌照資訊"] },
-  { title: "客戶服務", links: ["線上客服", "常見問題", "存提教學"] },
-  { title: "法律規範", links: ["服務條款", "隱私政策", "責任博彩"] }
+// 與 mobile bottom tab 5 個 key 對齊（首頁 / 優惠 / 錢包 / 客服 / 我的）+ 補幾個導覽項
+const navItems = [
+  "首頁",
+  "優惠",
+  "VIP 制度",
+  "存提教學",
+  "線上客服",
+  "常見問題"
 ];
+const langs = ["VN", "TH", "ID", "繁中"];
 </script>
 
 <template>
   <footer class="vietvip-pc-footer">
     <div class="vietvip-pc-footer__inner">
-      <div class="vietvip-pc-footer__brand-col">
-        <a class="vietvip-pc-footer__brand" href="#" :aria-label="logoLabel">
-          <img
-            :src="logoSrc"
-            :alt="logoLabel"
-            class="vietvip-pc-footer__logo"
-            :class="{ 'vietvip-pc-footer__logo--blend': useScreenBlend }"
-          />
-        </a>
-        <p class="vietvip-pc-footer__tagline">
-          東南亞首屈一指的 VIP 線上娛樂城，提供越南、泰國、印尼等多語系即時服務
-        </p>
-      </div>
+      <a class="vietvip-pc-footer__brand" href="#" :aria-label="logoLabel">
+        <img
+          :src="logoSrc"
+          :alt="logoLabel"
+          class="vietvip-pc-footer__logo"
+          :class="{ 'vietvip-pc-footer__logo--blend': useScreenBlend }"
+        />
+      </a>
 
-      <div class="vietvip-pc-footer__links">
-        <div
-          v-for="col in linkCols"
-          :key="col.title"
-          class="vietvip-pc-footer__col"
+      <nav class="vietvip-pc-footer__nav" aria-label="footer 導覽">
+        <a
+          v-for="n in navItems"
+          :key="n"
+          href="#"
+          class="vietvip-pc-footer__nav-link"
         >
-          <h3 class="vietvip-pc-footer__col-title">{{ col.title }}</h3>
-          <ul class="vietvip-pc-footer__col-list" role="list">
-            <li v-for="l in col.links" :key="l">
-              <a class="vietvip-pc-footer__col-link" href="#">{{ l }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+          {{ n }}
+        </a>
+      </nav>
 
-      <div class="vietvip-pc-footer__service">
-        <h3 class="vietvip-pc-footer__col-title">即時客服</h3>
-        <p class="vietvip-pc-footer__service-hours">24 / 7 全天候服務</p>
-        <button type="button" class="vietvip-pc-footer__cs-btn">
-          線上即時客服
-        </button>
-        <div class="vietvip-pc-footer__lang">
-          <span>多語支援：</span>
-          <span class="vietvip-pc-footer__lang-tag">VN</span>
-          <span class="vietvip-pc-footer__lang-tag">TH</span>
-          <span class="vietvip-pc-footer__lang-tag">ID</span>
-          <span class="vietvip-pc-footer__lang-tag">繁中</span>
-        </div>
+      <div class="vietvip-pc-footer__langs">
+        <span v-for="l in langs" :key="l" class="vietvip-pc-footer__lang-tag">
+          {{ l }}
+        </span>
       </div>
     </div>
 
-    <div class="vietvip-pc-footer__copyright">
+    <div class="vietvip-pc-footer__copy">
       <span class="vietvip-pc-footer__copy-line" aria-hidden="true" />
       <p class="vietvip-pc-footer__copy-text">
         © 2026 越南 VIP Demo Site. 本站為示範用途，不涉及任何實際博彩活動。
@@ -92,28 +75,29 @@ const linkCols: LinkCol[] = [
 </template>
 
 <style lang="scss" scoped>
+// mobile tab-bar 同設計語言：深酒紅半透 + 上方金線 + 圓角上邊
 .vietvip-pc-footer {
-  background: var(--footer-bg);
-  color: var(--footer-text);
-  padding: 60px 0 0;
-
-  // 上方一條金線分隔上方內容區
+  margin-top: 40px;
+  background: linear-gradient(
+    180deg,
+    rgba(74, 15, 29, 0.92) 0%,
+    rgba(28, 3, 9, 0.98) 100%
+  );
   border-top: 1px solid var(--vietvip-gold-2);
+  border-radius: 18px 18px 0 0;
+  color: var(--vietvip-gold-1);
   font-family: var(--font-body);
+  padding: 22px 0 18px;
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.45);
 
   &__inner {
     width: 1200px;
     max-width: calc(100% - 48px);
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.4fr 2fr 1.2fr;
-    gap: 48px;
-  }
-
-  &__brand-col {
     display: flex;
-    flex-direction: column;
-    gap: 14px;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
   }
 
   &__brand {
@@ -121,12 +105,13 @@ const linkCols: LinkCol[] = [
     align-items: center;
     text-decoration: none;
     color: inherit;
+    flex-shrink: 0;
   }
 
   &__logo {
-    height: 50px;
+    height: 38px;
     width: auto;
-    max-width: 200px;
+    max-width: 160px;
     object-fit: contain;
 
     &--blend {
@@ -134,42 +119,20 @@ const linkCols: LinkCol[] = [
     }
   }
 
-  &__tagline {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--footer-text);
-    letter-spacing: 0.3px;
-  }
-
-  &__links {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-  }
-
-  &__col-title {
-    margin: 0 0 16px;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--vietvip-gold-1);
-    letter-spacing: 0.5px;
-    font-family: var(--font-display);
-  }
-
-  &__col-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  &__nav {
+    flex: 1;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
   }
 
-  &__col-link {
-    color: var(--footer-link);
-    text-decoration: none;
+  &__nav-link {
+    color: var(--vietvip-gold-2);
     font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.3px;
     transition: color 0.18s ease;
 
     &:hover {
@@ -177,46 +140,11 @@ const linkCols: LinkCol[] = [
     }
   }
 
-  &__service {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  &__service-hours {
-    margin: 0;
-    font-size: 13px;
-    color: var(--vietvip-gold-2);
-  }
-
-  &__cs-btn {
-    align-self: flex-start;
-    padding: 10px 22px;
-    font-size: 14px;
-    font-weight: 700;
-    font-family: inherit;
-    color: var(--text-on-gold);
-    background: var(--gradient-gold);
-    border: none;
-    border-radius: 22px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px
-      hsla(var(--secondary-h), var(--secondary-s), 50%, 0.45);
-    transition: filter 0.15s ease;
-
-    &:hover {
-      filter: brightness(1.1);
-    }
-  }
-
-  &__lang {
-    margin-top: 6px;
+  &__langs {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--footer-text);
+    gap: 6px;
+    flex-shrink: 0;
   }
 
   &__lang-tag {
@@ -228,9 +156,10 @@ const linkCols: LinkCol[] = [
     letter-spacing: 0.4px;
   }
 
-  &__copyright {
-    margin-top: 50px;
-    padding: 20px 0;
+  &__copy {
+    width: 1200px;
+    max-width: calc(100% - 48px);
+    margin: 22px auto 0;
     text-align: center;
   }
 
@@ -239,7 +168,7 @@ const linkCols: LinkCol[] = [
     width: 100%;
     height: 1px;
     background: var(--vietvip-divider);
-    margin-bottom: 18px;
+    margin-bottom: 14px;
   }
 
   &__copy-text {
