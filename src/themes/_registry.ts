@@ -212,11 +212,44 @@ const antSport: ThemeMeta = {
   logos: SHARED_LOGOS
 };
 
+/**
+ * tycoon 版面（藍冰大亨 / 冷光金屬風）
+ *
+ * 取自使用者設計示意稿「大亨娛樂城.html」：
+ * - mobile：header / hero（藍冰漸層+白光swoosh）/ marquee /
+ *   body（左 sidebar 6 分類 + 右 6 遊戲卡）/ bottom 5 tab
+ * - desktop fork ant-sport 五段，但 GameGrid 改成「sidebar + 遊戲卡列表」與 ant-sport 區隔
+ * - 三變體：ice 預設冰藍 / deep 深海藍 / gold 金邊冰
+ *
+ * 為什麼 defaultLogo 也是 dahsing：
+ * - tycoon 本來就是「大亨」風格版型（label / hero 文案都呼應），與 at99 重疊
+ * - 三 theme 統一三 logo 後可自由配對，這裡與品牌精神 1:1 對齊
+ * - 與 at99（大亨霓虹版）形成「同品牌但不同視覺解讀」對照，showcase 主頁切 logo 時更有趣
+ */
+const tycoon: ThemeMeta = {
+  key: "tycoon",
+  label: "版面 D · 藍冰大亨",
+  description:
+    "藍冰大亨冷光金屬風，sidebar + 遊戲卡列表雙欄結構，預設冰藍 / 深海藍 / 金邊冰三種配色",
+  desktop: () => import("./tycoon/desktop.vue"),
+  mobile: () => import("./tycoon/mobile.vue"),
+  defaultColor: "ice",
+  colors: [
+    { key: "ice", label: "冰藍", swatch: "#1f7ff0" },
+    { key: "deep", label: "深海藍", swatch: "#0a52c4" },
+    { key: "gold", label: "金邊冰", swatch: "#d4a574" }
+  ],
+  previews: buildPreviews("tycoon"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS
+};
+
 /** 對外暴露的 theme 表，key 是 layoutKey */
 export const themes: Record<string, ThemeMeta> = {
   noya,
   at99,
-  "ant-sport": antSport
+  "ant-sport": antSport,
+  tycoon
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */
