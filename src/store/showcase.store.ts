@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
+import { themes, DEFAULT_LAYOUT_KEY } from "@/themes/_registry";
 
 /**
  * Showcase store — 服務「/」showcase 主頁
@@ -13,10 +14,82 @@ import { ref, computed } from "vue";
  * 目前 state：
  * - 預覽 dialog 開關 + 鎖定當前預覽的 layoutKey
  * - dialog 內當前顯示的尺寸 tab（desktop / mobile）
+ * - showcaseLogoKey：頁面頂部 logo 切換 row 選的 key，決定三張卡片預覽圖以哪個 logo 呈現
  * 之後若加篩選 / 排序 / hover preview 也都歸到這份 store。
  */
 
 export type PreviewDevice = "desktop" | "mobile";
+
+/**
+ * showcaseLogoKey 的 LS 鍵
+ *
+ * 為什麼用 `:v4` 後綴而非沿用 `:v3`：
+ * - showcase logo 切換是「v4 才新增的能力」，舊使用者 LS 沒這條 key，新就是新
+ * - 與 demo 頁的 LS_LOGO_KEY_PREFIX（v3）完全隔離，showcase 與 demo 兩條切換鏈不互通
+ *   （這是使用者選定的「showcase 與 demo 分離」方案）
+ */
+const LS_SHOWCASE_LOGO_KEY = "casino-demo:showcase-logoKey:v4";
+
+/** showcase 預設用的 logoKey：以 noya（DEFAULT_LAYOUT_KEY）的 defaultLogo 為基準 */
+const DEFAULT_SHOWCASE_LOGO_KEY = themes[DEFAULT_LAYOUT_KEY].defaultLogo;
+
+/** 讀 localStorage 的 helper，吞 SSR / 隱私模式錯誤（複製 demo-theme.store 的同名工具） */
+function safeGetLS(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeSetLS(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // 隱私模式 / quota exceeded 都吞掉，UI 不受影響
+  }
+}
+
+/**
+ * 列出 showcase 切換 row 可選的所有 logoKey
+ *
+ * 為什麼掃所有 theme 的 logos 取聯集而非 hardcode：
+ * - 三 theme 統一三 logo 後，三者 logos 完全一致，本來可寫死
+ *   但抽 helper 後若未來加第 4 個 logo、或某 theme 自己加變體，這層自動跟上
+ * - 用 Map 去重 + 保留首次出現順序（與 registry 順序對齊）
+ *
+ * 回傳 LogoCandidate 陣列（給 UI 直接拿來畫縮圖按鈕用，含 src / label / key）
+ */
+function listShowcaseLogos() {
+  const seen = new Map<string, (typeof themes)[string]["logos"][number]>();
+  for (const t of Object.values(themes)) {
+    for (const lg of t.logos) {
+      if (!seen.has(lg.key)) seen.set(lg.key, lg);
+    }
+  }
+  return Array.from(seen.values());
+}
+
+/**
+ * 初始解析 showcaseLogoKey
+ *
+ * 優先順序：
+ * 1. LS 有命中且仍在 listShowcaseLogos() 範圍 → 用 LS
+ * 2. fallback 到 DEFAULT_SHOWCASE_LOGO_KEY（noya 的 defaultLogo = "umu"）
+ *
+ * 為什麼 showcase 不接 URL ?logo= query：
+ * - showcase 不在 demo 頁的 URL sync 鏈中，URL 上沒這個概念
+ * - 若使用者要分享「主頁配某 logo」的觀感，未來可加 URL query；目前範圍縮在 LS
+ */
+function resolveInitialShowcaseLogoKey(): string {
+  const valid = new Set(listShowcaseLogos().map((l) => l.key));
+  const ls = safeGetLS(LS_SHOWCASE_LOGO_KEY);
+  if (ls && valid.has(ls)) return ls;
+  if (valid.has(DEFAULT_SHOWCASE_LOGO_KEY)) return DEFAULT_SHOWCASE_LOGO_KEY;
+  // 最後底線：拿聯集第一個，避免空字串
+  const first = listShowcaseLogos()[0];
+  return first ? first.key : DEFAULT_SHOWCASE_LOGO_KEY;
+}
 
 export const useShowcaseStore = defineStore("showcase", () => {
   /** 是否開啟預覽 dialog */
@@ -25,6 +98,19 @@ export const useShowcaseStore = defineStore("showcase", () => {
   const activePreviewKey = ref<string | null>(null);
   /** dialog 內顯示的尺寸（desktop / mobile） */
   const previewDevice = ref<PreviewDevice>("desktop");
+
+  /**
+   * showcaseLogoKey：影響「三張卡片縮圖」與「預覽 dialog 內圖片」要用哪個 logo 版本
+   *
+   * 與 demo 頁 FAB 的 logoKey 完全獨立：
+   * - showcase 是「主頁訪客的全域偏好」，三張卡片共用
+   * - demo 頁是「per-theme 偏好」，不同 theme 各自一份 LS key
+   * - 兩者 LS key 不同（:v4 vs :v3:）、不會互相覆蓋
+   */
+  const showcaseLogoKey = ref<string>(resolveInitialShowcaseLogoKey());
+
+  /** 所有可選的 logo 候選（給 UI row 渲染用） */
+  const showcaseLogoOptions = computed(() => listShowcaseLogos());
 
   /** 給 UI 判斷便利用 */
   const isPreviewing = computed(() => previewDialogOpen.value);
@@ -51,16 +137,36 @@ export const useShowcaseStore = defineStore("showcase", () => {
     previewDevice.value = device;
   }
 
+  /**
+   * 切 showcase 用的 logoKey
+   *
+   * 為什麼這裡要邊界檢查（同 demo-theme.store.setLogo 行為一致）：
+   * - 防呆：呼叫端傳了不存在的 key 不該污染 state，否則 LS 寫了個無效值下次也撈不回來
+   */
+  function setShowcaseLogoKey(key: string): void {
+    if (!showcaseLogoOptions.value.some((l) => l.key === key)) return;
+    showcaseLogoKey.value = key;
+  }
+
+  // showcaseLogoKey 變動就 persist 到 LS
+  watch(showcaseLogoKey, (v) => {
+    if (!v) return;
+    safeSetLS(LS_SHOWCASE_LOGO_KEY, v);
+  });
+
   return {
     // state
     previewDialogOpen,
     activePreviewKey,
     previewDevice,
+    showcaseLogoKey,
     // getters
     isPreviewing,
+    showcaseLogoOptions,
     // actions
     openPreview,
     closePreview,
-    setPreviewDevice
+    setPreviewDevice,
+    setShowcaseLogoKey
   };
 });

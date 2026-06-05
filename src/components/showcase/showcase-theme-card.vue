@@ -2,12 +2,14 @@
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import type { ThemeMeta } from "@/themes/_types";
+import { getPreview } from "@/themes/_registry";
+import { useShowcaseStore } from "@/store/showcase.store";
 
 /**
  * Showcase Theme Card — 單張版型展示卡片
  *
  * 設計：
- * - 上半部縮圖（desktop 預覽），下半部標題 / 描述 / 兩個 CTA
+ * - 上半部縮圖（desktop 預覽，依 showcaseLogoKey 切換 logo 版本），下半部標題 / 描述 / 兩個 CTA
  * - 「預覽」按鈕觸發 emit，由父層用 showcase store 開 dialog
  * - 「Demo」按鈕走 router.resolve + window.open 開新分頁
  *
@@ -16,9 +18,9 @@ import type { ThemeMeta } from "@/themes/_types";
  * - 寫 `/demo/noya` 字串在 prod 會錯成 https://chiyum.github.io/demo/noya（缺前綴 → 404）
  * - resolve 拿到的 href 已是含 base 的完整相對路徑，window.open 用它最安全
  *
- * 為什麼 emit preview 而不在元件內 useShowcaseStore：
- * - 元件保持 dumb，父層集中管理 store 互動更易測試與重用
- * - 未來若要在別處（例如 admin 面板）重用這張卡，emit pattern 直接適配
+ * 為什麼 emit preview 而不在元件內 useShowcaseStore.openPreview：
+ * - 預覽行為（開 dialog）由父層集中管理，元件對外只 emit 語意事件，較易測試與重用
+ * - 但 showcaseLogoKey 是「畫面狀態」，本元件自己渲染就需要它，所以這層 useShowcaseStore 是讀不寫
  */
 
 const props = defineProps<{
@@ -30,9 +32,21 @@ const emit = defineEmits<{
 }>();
 
 const router = useRouter();
+const showcaseStore = useShowcaseStore();
 
 /** 顏色 swatch 預覽：在卡片底部顯示該 theme 支援的 3 色 */
 const colorSwatches = computed(() => props.theme.colors);
+
+/**
+ * 卡片縮圖 src：依 showcaseLogoKey 從 previews 矩陣抓 desktop 圖
+ *
+ * 為什麼用 getPreview helper 而非直接 props.theme.previews[key].desktop：
+ * - getPreview 內含 logoKey → defaultLogo → logos[0] fallback 鏈，避免無效 key 破圖
+ * - 與 showcase-preview-dialog 共用同一個 helper，行為一致
+ */
+const thumbSrc = computed(() =>
+  getPreview(props.theme, showcaseStore.showcaseLogoKey, "desktop")
+);
 
 /**
  * 點預覽：往上 emit，由父層決定行為（通常是開 ShowcasePreviewDialog）
@@ -70,7 +84,7 @@ function handleOpenDemo(): void {
       @click="handlePreview"
     >
       <img
-        :src="props.theme.previewDesktop"
+        :src="thumbSrc"
         :alt="`${props.theme.label} 預覽縮圖`"
         class="theme-card__thumb"
         loading="lazy"

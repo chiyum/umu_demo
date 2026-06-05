@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { useShowcaseStore } from "@/store/showcase.store";
-import { getTheme } from "@/themes/_registry";
+import { getTheme, getPreview } from "@/themes/_registry";
 
 /**
  * Showcase Preview Dialog — 預覽 lightbox
@@ -31,12 +31,20 @@ const activeTheme = computed(() => {
   return getTheme(key);
 });
 
-/** 當前要顯示的圖片 URL（依 device 切 desktop / mobile） */
+/**
+ * 當前要顯示的圖片 URL
+ *
+ * 為什麼用 getPreview helper：
+ * - dialog 內的桌面 / 手機切換要 reactively 跟著 showcaseLogoKey + previewDevice 兩個 state
+ * - getPreview 內含 fallback 鏈，無效 key 時退到 defaultLogo 截圖，dialog 不會破圖
+ */
 const previewSrc = computed(() => {
   if (!activeTheme.value) return "";
-  return showcaseStore.previewDevice === "desktop"
-    ? activeTheme.value.previewDesktop
-    : activeTheme.value.previewMobile;
+  return getPreview(
+    activeTheme.value,
+    showcaseStore.showcaseLogoKey,
+    showcaseStore.previewDevice
+  );
 });
 
 /** alt 文字隨 device 切，aria 友善 */

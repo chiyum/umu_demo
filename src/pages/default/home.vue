@@ -3,6 +3,7 @@ import { computed } from "vue";
 import { listThemes } from "@/themes/_registry";
 import { useShowcaseStore } from "@/store/showcase.store";
 import ShowcaseHero from "@/components/showcase/showcase-hero.vue";
+import ShowcaseLogoSwitcher from "@/components/showcase/showcase-logo-switcher.vue";
 import ShowcaseThemeCard from "@/components/showcase/showcase-theme-card.vue";
 import ShowcasePreviewDialog from "@/components/showcase/showcase-preview-dialog.vue";
 
@@ -52,6 +53,12 @@ function handlePreview(themeKey: string): void {
 <template>
   <div class="showcase-page">
     <ShowcaseHero />
+
+    <!--
+      Logo 切換 row：放在 hero 與卡片網格之間，
+      使用者可在「主頁觀感」上選定 logo，三張卡片預覽圖即時跟著換
+    -->
+    <ShowcaseLogoSwitcher />
 
     <section class="showcase-page__grid-wrap">
       <div class="showcase-page__grid">
