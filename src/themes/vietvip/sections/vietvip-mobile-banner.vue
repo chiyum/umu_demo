@@ -1,25 +1,31 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-// 借用 ant-sport 4 張既有 banner 當 demo 用
-// 為什麼借 ant-sport 而不是越南專案內的 banner_01.jpg：
-// - 原專案 banner 多帶「KP 188」之類的具體品牌字樣，借進來會品牌混雜
-// - ant-sport 4 張中性運動 banner 配合 vietvip 紅金 token 後（filter / mix-blend）視覺自然
-import banner1 from "@/themes/ant-sport/assets/banner/banner-1.jpg?url";
-import banner2 from "@/themes/ant-sport/assets/banner/banner-2.jpg?url";
-import banner3 from "@/themes/ant-sport/assets/banner/banner-3.jpg?url";
+// 改用 vietvip 自家 banner（任務要求「素材拿該專案的素材」）
+// 這 4 張取自 lilian_vietvip_web/src/assets/images/banner/，內含 VietVip Pro / KR
+// 品牌字樣與越南文文案，是原作真實 demo 圖。
+// banner-01 FIFA 2022 / banner-02 777 SLOTS / banner-08 提款獎勵 / banner-09 春節
+import banner01 from "../assets/banner/banner-01.jpg?url";
+import banner02 from "../assets/banner/banner-02.jpg?url";
+import banner08 from "../assets/banner/banner-08.jpg?url";
+import banner09 from "../assets/banner/banner-09.jpg?url";
 
 /**
  * vietvip mobile banner
  *
  * 對齊 lilian_vietvip_web src/widgets/banner.vue（swiper-based）：
  * - 原專案是 SwiperJS 自動輪播 + 排行榜雙 slide
- * - demo 站不需要排行榜邏輯，純粹 3 張 banner 5 秒自動切
+ * - demo 站不需要排行榜邏輯，純粹 4 張 banner 5 秒自動切
  * - 加上「越南 VIP 風」金邊外框 + 葉脈裝飾光帶
  *
  * 為什麼不依賴 SwiperJS：
  * - 主專案 demo 已用「純 CSS transform + setInterval」實作輪播（tycoon-pc-banner），
  *   不需引入 swiper 套件徒增 bundle 體積
  * - 自製 200 行內就可以涵蓋輪播 + 指示點 + 自動播放
+ *
+ * 為什麼 banner 不再套 hue-rotate filter：
+ * - 上輪借 ant-sport banner 是冷藍，要拉到紅金所以套 hue-rotate
+ * - 改用 vietvip 自家素材後本身就是紅金調，套 filter 反而失真
+ * - 直接原圖呈現品牌完整視覺
  */
 
 interface Slide {
@@ -29,9 +35,10 @@ interface Slide {
 }
 
 const slides: Slide[] = [
-  { key: "m1", image: banner1, alt: "vietvip banner 1" },
-  { key: "m2", image: banner2, alt: "vietvip banner 2" },
-  { key: "m3", image: banner3, alt: "vietvip banner 3" }
+  { key: "m1", image: banner01, alt: "VietVip Pro FIFA 2022" },
+  { key: "m2", image: banner02, alt: "VietVip Pro 777 Slots" },
+  { key: "m3", image: banner08, alt: "VietVip Pro 提款獎勵" },
+  { key: "m4", image: banner09, alt: "VietVip Pro 春節" }
 ];
 
 const activeIdx = ref(0);
@@ -147,14 +154,11 @@ onBeforeUnmount(stopAuto);
     height: 100%;
     object-fit: cover;
     display: block;
-
-    // 借用的 banner 偏冷藍，疊紅色加 mix-blend 拉到紅金調性
-    // 為什麼用 hue-rotate 而非 sepia：sepia 會把彩度壓死變黃濁；
-    // hue-rotate(330deg) 把藍紫往紅色推、保留亮度
-    filter: brightness(0.85) saturate(1.1) hue-rotate(330deg);
+    // 用 vietvip 自家紅金 banner，不套 filter 保留原作完整視覺
   }
 
   // 金色光帶：右上角 → 中段，模擬「金箔光線從右上灑下」
+  // opacity 比上輪降低（因為原 banner 已自帶紅金調，再疊太多光帶會糊掉細節）
   &__streak {
     position: absolute;
     inset: 0;
@@ -171,7 +175,7 @@ onBeforeUnmount(stopAuto);
         transparent 72%
       );
     mix-blend-mode: screen;
-    opacity: 0.7;
+    opacity: 0.4;
   }
 
   &__dots {
