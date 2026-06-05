@@ -244,12 +244,48 @@ const tycoon: ThemeMeta = {
   logos: SHARED_LOGOS
 };
 
+/**
+ * vietvip 版面（越南 VIP / 深紅金邊風）
+ *
+ * 對齊 lilian_vietvip_web 首頁五段結構做 mobile 1:1 復刻，並設計 PC 版橫向五段：
+ * - mobile：header / banner / marquee / user-card（VIP 4 徽章 + 4 快捷功能） /
+ *   game-menu（左 7 分類 sidebar + 右橫向遊戲卡）/ buoy 浮窗 + tab-bar，
+ *   整頁鋪 home_background2 紅金葉脈大底圖
+ * - desktop：sticky topbar / 全寬 banner / marquee / game-grid（左 sidebar + 右 4 col grid） /
+ *   vip-perks（VIP 等級徽章 + 福利說明） / footer
+ * - 三變體：ruby 預設酒紅 / midnight 午夜深紅 / gold 純金禮盒（金主紅副反轉）
+ *
+ * 為什麼 defaultLogo 用 long-heng（隆亨）：
+ * - 原專案 logo 是 pro168，不在 SHARED_LOGOS 三張內
+ * - 三張共用 logo 中，隆亨的金色筆畫與 vietvip 紅金主題視覺最搭
+ * - 大亨（at99/tycoon）/ UMU（noya）已分別有歸屬，隆亨原本在 ant-sport 借走，
+ *   vietvip 沿用同一張仍能保留「隆亨 = 金色品牌符號」的一致性
+ */
+const vietvip: ThemeMeta = {
+  key: "vietvip",
+  label: "版面 E · 越南 VIP",
+  description:
+    "東南亞深紅金邊 VIP 廳堂風格，葉脈紅金大底 + VIP 徽章四等級，預設酒紅 / 午夜深紅 / 純金禮盒三種配色",
+  desktop: () => import("./vietvip/desktop.vue"),
+  mobile: () => import("./vietvip/mobile.vue"),
+  defaultColor: "ruby",
+  colors: [
+    { key: "ruby", label: "寶石紅", swatch: "#82122a" },
+    { key: "midnight", label: "午夜紅", swatch: "#3a0613" },
+    { key: "gold", label: "純金禮盒", swatch: "#c79a45" }
+  ],
+  previews: buildPreviews("vietvip"),
+  defaultLogo: "long-heng",
+  logos: SHARED_LOGOS
+};
+
 /** 對外暴露的 theme 表，key 是 layoutKey */
 export const themes: Record<string, ThemeMeta> = {
   noya,
   at99,
   "ant-sport": antSport,
-  tycoon
+  tycoon,
+  vietvip
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */
