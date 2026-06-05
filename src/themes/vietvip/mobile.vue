@@ -70,13 +70,14 @@ import VietvipMobileTabBar from "./sections/vietvip-mobile-tab-bar.vue";
   // 用 absolute + mask 漸隱：上方 480px 顯示圖、再下方淡出到 bg-base 深酒紅純色
   &__bg {
     position: absolute;
-    inset: 0 0 auto 0;
+    inset: 0 0 auto;
     height: 480px;
     z-index: 0;
     background-image: var(--vietvip-bg-img);
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
+
     // 上方有圖、下方漸隱：銜接卡片區的深紅底
     mask-image: linear-gradient(
       180deg,

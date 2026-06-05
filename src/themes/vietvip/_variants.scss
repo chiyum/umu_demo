@@ -36,7 +36,6 @@
     0.38
   );
   --shadow: 0 4px 14px rgba(8, 1, 4, 0.7);
-
   --gradient-hero: linear-gradient(
     180deg,
     #5a0c1c 0%,
@@ -101,7 +100,6 @@
       hsla(var(--secondary-h), var(--secondary-s), 42%, 0.18) 0%,
       transparent 65%
     );
-
   --gradient-gold: linear-gradient(
     135deg,
     var(--secondary-04) 0%,
@@ -178,7 +176,6 @@
 
   // badge-live 在金底上紅最醒目
   --badge-live: var(--secondary-01);
-
   --device-frame-bg: linear-gradient(180deg, #1a1004 0%, #4a3812 100%);
   --device-frame-inner: #4a3812;
   --device-screen-overlay: linear-gradient(
@@ -186,7 +183,6 @@
     #6e4f18 0%,
     var(--primary-01) 100%
   );
-
   --banner-gradient-1: linear-gradient(
     135deg,
     #f5d98a 0%,
@@ -223,7 +219,6 @@
       hsla(var(--secondary-h), var(--secondary-s), 48%, 0.22) 0%,
       transparent 65%
     );
-
   --gradient-gold: linear-gradient(
     135deg,
     var(--primary-04) 0%,
@@ -244,6 +239,7 @@
     transparent 100%
   );
   --vietvip-streak: rgba(255, 240, 200, 0.58);
+
   // 金主題仍用同一張紅底大圖，但透過 mix-blend-mode / opacity 在 mobile.vue 內壓低
   // 讓金光蓋過紅葉脈，視覺保留「越南 VIP」的葉脈骨架但色調轉金
   --vietvip-bg-img: url("@/themes/vietvip/assets/home/bg-main.png");

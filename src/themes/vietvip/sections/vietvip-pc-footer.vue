@@ -96,6 +96,7 @@ const linkCols: LinkCol[] = [
   background: var(--footer-bg);
   color: var(--footer-text);
   padding: 60px 0 0;
+
   // 上方一條金線分隔上方內容區
   border-top: 1px solid var(--vietvip-gold-2);
   font-family: var(--font-body);

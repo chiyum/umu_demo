@@ -163,6 +163,7 @@ onBeforeUnmount(stopAuto);
     height: 100%;
     object-fit: cover;
     display: block;
+
     // 同 mobile banner：把借來的冷藍 banner 透過 hue-rotate + brightness 拉到紅金調性
     filter: brightness(0.78) saturate(1.15) hue-rotate(330deg);
   }

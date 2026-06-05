@@ -89,7 +89,6 @@ const joinedText = items.join("　·　");
     flex: 1;
     overflow: hidden;
     min-width: 0;
-
     mask-image: linear-gradient(
       to right,
       transparent 0,

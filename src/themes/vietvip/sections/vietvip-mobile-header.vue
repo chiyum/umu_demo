@@ -76,6 +76,7 @@ const useScreenBlend = computed(
   );
   backdrop-filter: blur(10px);
   color: var(--text-on-primary);
+
   // 底部一條金線：對齊 home_background2 中段葉脈金邊的視覺斷面
   border-bottom: 1px solid var(--vietvip-gold-2);
   box-shadow: var(--shadow-sticky);

@@ -98,7 +98,6 @@ function handleTap(item: TabItem): void {
     padding: 4px;
     border: none;
     background: transparent;
-
     color: var(--vietvip-gold-2);
     font-size: 11px;
     font-weight: 700;
@@ -132,6 +131,7 @@ function handleTap(item: TabItem): void {
     width: 100%;
     height: 100%;
     object-fit: contain;
+
     // 把白色 silhouette 染成深金（normal）
     filter: brightness(0) saturate(100%) invert(63%) sepia(48%) saturate(531%)
       hue-rotate(7deg) brightness(91%) contrast(86%);

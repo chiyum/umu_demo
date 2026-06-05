@@ -54,6 +54,7 @@ function handleTap(): void {
 .vietvip-m-buoy {
   position: fixed;
   right: 12px;
+
   // 中段偏下，避開 header（80px）也避開 bottom tab（80px 內）
   top: 38%;
   z-index: 95;
@@ -91,6 +92,7 @@ function handleTap(): void {
     width: 100%;
     height: 100%;
     object-fit: contain;
+
     // SVG 白色填色配金底會失焦 → multiply 把白變透明只留線條輪廓
     mix-blend-mode: multiply;
     opacity: 0.85;

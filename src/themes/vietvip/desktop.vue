@@ -125,7 +125,7 @@ const navItems = [
   // 用 absolute + mask 漸隱讓圖往下淡出，銜接 game-grid 區的深紅底
   &__bg {
     position: absolute;
-    inset: 0 0 auto 0;
+    inset: 0 0 auto;
     height: 720px;
     z-index: 0;
     background-image: var(--vietvip-bg-img);

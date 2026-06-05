@@ -303,8 +303,7 @@ function pickCat(key: string): void {
     list-style: none;
     display: flex;
     gap: 10px;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: auto hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
 

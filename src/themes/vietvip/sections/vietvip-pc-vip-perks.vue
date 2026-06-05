@@ -108,6 +108,7 @@ const perks: Perk[] = [
 <style lang="scss" scoped>
 .vietvip-pc-perks {
   padding: 60px 0 80px;
+
   // 整層底色：深酒紅 + 左下金色 radial 對齊整體基調
   background: radial-gradient(
       ellipse 60% 50% at 0% 100%,
@@ -262,6 +263,7 @@ const perks: Perk[] = [
     width: 100%;
     height: 100%;
     object-fit: contain;
+
     // 同 mobile user-card：白色 SVG 在金底失焦 → multiply 留輪廓
     mix-blend-mode: multiply;
     opacity: 0.85;

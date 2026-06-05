@@ -172,6 +172,7 @@ function pickCat(key: string): void {
 // PC 遊戲區：1200 寬容器 + 左 130px sidebar + 右 grid 4 column
 .vietvip-pc-game {
   padding: 80px 0 60px;
+
   // 深紅底 + 上方金色光帶（呼應 mobile bg-img 過渡到深紅大底）
   background: radial-gradient(
       ellipse 80% 60% at 50% 0%,

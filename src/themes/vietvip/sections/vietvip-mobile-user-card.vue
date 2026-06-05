@@ -142,6 +142,7 @@ const actions: ActionItem[] = [
     flex-direction: column;
     gap: 6px;
     padding-bottom: 10px;
+
     // 金色細分隔線：對齊原專案視覺特徵的金箔線
     border-bottom: 1px solid var(--vietvip-gold-2);
   }
@@ -261,6 +262,7 @@ const actions: ActionItem[] = [
     align-items: center;
     justify-content: center;
     padding: 5px;
+
     // 金邊圓形 icon 容器，呼應 vip 徽章視覺
     border-radius: 50%;
     background: linear-gradient(
@@ -277,6 +279,7 @@ const actions: ActionItem[] = [
     width: 100%;
     height: 100%;
     object-fit: contain;
+
     // 原 SVG 是白色填色，配金底反而失焦 → mix-blend-mode: multiply 把白變透明、線條留下
     mix-blend-mode: multiply;
     opacity: 0.85;

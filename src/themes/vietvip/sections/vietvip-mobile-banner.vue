@@ -147,6 +147,7 @@ onBeforeUnmount(stopAuto);
     height: 100%;
     object-fit: cover;
     display: block;
+
     // 借用的 banner 偏冷藍，疊紅色加 mix-blend 拉到紅金調性
     // 為什麼用 hue-rotate 而非 sepia：sepia 會把彩度壓死變黃濁；
     // hue-rotate(330deg) 把藍紫往紅色推、保留亮度
