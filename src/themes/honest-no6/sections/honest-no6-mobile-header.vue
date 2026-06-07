@@ -46,9 +46,9 @@ const useScreenBlend = computed(
 </template>
 
 <style lang="scss" scoped>
-// 原作 header 是 absolute 浮在 banner 上方
+// header 用主題色實心背景（紫黑系），sticky 浮在最上
 .honest-no6-m-header {
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -57,6 +57,7 @@ const useScreenBlend = computed(
   justify-content: space-between;
   align-items: center;
   padding: 10px 12px;
+  background: var(--bg-base);
 }
 
 .honest-no6-m-header__brand {
