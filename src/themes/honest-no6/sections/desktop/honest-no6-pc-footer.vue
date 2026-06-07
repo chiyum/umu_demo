@@ -1,39 +1,64 @@
 <script setup lang="ts">
-import footerBg from "../../assets/desktop/footer-bg.png?url";
+import footerLogo from "../../assets/wu88/footer/icon_footerLogo5.png?url";
 
-const INSIDE_LINKS = [
-  "關於 FG",
-  "服務條款",
-  "VIP 福利",
-  "綁定教學",
-  "聯絡客服"
+/**
+ * honest-no6 桌面版 footer — 視覺結構參考 slime-wu88-pc widgets/layout/footer.vue
+ *
+ * 對應原作 DOM：
+ *   .footer
+ *     .under_list  ← 上方版權列：關於 | QA | 瀏覽器 | 版本 | 網站地圖
+ *     .btmGuild    ← 中段下拉：6 大類 + 各廠商 + APP 下載
+ *     .footer-footer ← 大 logo 收尾
+ *
+ * Demo 化：簡化為「上方連結列 + 下方大 logo」兩段，去掉複雜的展開選單
+ */
+
+const TOP_LINKS = ["關於我們", "常見問題", "適用瀏覽器", "v1.0.0", "網站地圖"];
+const CATEGORY_LINKS = [
+  "熱門 KU真人 KU體育",
+  "真人 DG WM 歐博",
+  "體育 IM BTI",
+  "電子 BNG BT KU",
+  "彩球 DBG DG"
 ];
 </script>
 
 <template>
   <footer class="honest-no6-pc-footer">
-    <img :src="footerBg" alt="" class="honest-no6-pc-footer__logo-bg" />
-    <div class="honest-no6-pc-footer__link">
-      <div class="honest-no6-pc-footer__nav-inside">
-        <p
-          v-for="link in INSIDE_LINKS"
-          :key="link"
-          class="honest-no6-pc-footer__nav-item"
+    <div class="honest-no6-pc-footer__top">
+      <ul class="honest-no6-pc-footer__links">
+        <li
+          v-for="(item, idx) in TOP_LINKS"
+          :key="item"
+          class="honest-no6-pc-footer__link-item"
         >
-          {{ link }}
-        </p>
+          {{ item }}
+          <span
+            v-if="idx < TOP_LINKS.length - 1"
+            class="honest-no6-pc-footer__sep"
+          >
+            |
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="honest-no6-pc-footer__categories">
+      <div
+        v-for="cat in CATEGORY_LINKS"
+        :key="cat"
+        class="honest-no6-pc-footer__cat"
+      >
+        {{ cat }}
       </div>
-      <div class="honest-no6-pc-footer__nav-outside">
-        <a class="honest-no6-pc-footer__social" aria-label="Instagram">
-          <span>IG</span>
-        </a>
-        <a class="honest-no6-pc-footer__social" aria-label="Facebook">
-          <span>FB</span>
-        </a>
-      </div>
-      <div class="honest-no6-pc-footer__copyright">
-        © {{ new Date().getFullYear() }} FG Demo Layout · All Rights Reserved
-      </div>
+    </div>
+
+    <div class="honest-no6-pc-footer__brand">
+      <img :src="footerLogo" alt="FG" class="honest-no6-pc-footer__brand-img" />
+    </div>
+
+    <div class="honest-no6-pc-footer__copy">
+      © {{ new Date().getFullYear() }} FG Demo Layout · All Rights Reserved
     </div>
   </footer>
 </template>
@@ -42,79 +67,83 @@ const INSIDE_LINKS = [
 .honest-no6-pc-footer {
   width: 100%;
   background: var(--footer-bg);
-}
-
-.honest-no6-pc-footer__logo-bg {
-  width: 100%;
-  aspect-ratio: 192 / 31;
-  object-fit: cover;
-  opacity: 0.7;
-  filter: hue-rotate(280deg);
-}
-
-.honest-no6-pc-footer__link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 16px;
-  padding: 28px 0 24px;
-  color: var(--text-on-primary);
-  background: linear-gradient(
-    180deg,
-    var(--bg-surface) 0%,
-    var(--bg-base-deep) 100%
-  );
+  padding: 28px 32px 24px;
   border-top: 1px solid hsla(var(--primary-h), var(--primary-s), 60%, 0.4);
 }
 
-.honest-no6-pc-footer__nav-inside {
+.honest-no6-pc-footer__top {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 50px;
-  font-size: 16px;
+  margin-bottom: 16px;
 }
 
-.honest-no6-pc-footer__nav-item {
-  cursor: pointer;
+.honest-no6-pc-footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.honest-no6-pc-footer__link-item {
   color: var(--footer-text);
-  transition: color 0.15s ease;
+  font-size: 14px;
+  cursor: pointer;
 
   &:hover {
     color: var(--secondary-01);
   }
 }
 
-.honest-no6-pc-footer__nav-outside {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-
-.honest-no6-pc-footer__social {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: hsla(var(--primary-h), var(--primary-s), 60%, 0.18);
-  border: 1px solid var(--primary-01);
-  color: var(--secondary-01);
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s ease;
+.honest-no6-pc-footer__sep {
+  margin-left: 8px;
+  color: var(--text-muted);
+  cursor: default;
 
   &:hover {
-    background: hsla(var(--primary-h), var(--primary-s), 60%, 0.35);
+    color: var(--text-muted);
   }
 }
 
-.honest-no6-pc-footer__copyright {
+.honest-no6-pc-footer__categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 0;
+  margin-bottom: 16px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.honest-no6-pc-footer__cat {
   font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--secondary-01);
+  }
+}
+
+.honest-no6-pc-footer__brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.honest-no6-pc-footer__brand-img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.85;
+}
+
+.honest-no6-pc-footer__copy {
+  text-align: center;
+  font-size: 12px;
   color: var(--text-muted);
 }
 </style>
