@@ -3,14 +3,11 @@ import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 // 與 mobile banner / user-card 共用同一組素材
 // PC 把這兩段橫向疊放：左 banner 大圖 + 右 VIP 卡片
+// VIP 徽章與 mobile user-card 同步改成純 CSS 渲染，不再用 vip-0~3 PNG
 import banner01 from "../assets/banner/banner-01.jpg?url";
 import banner02 from "../assets/banner/banner-02.jpg?url";
 import banner08 from "../assets/banner/banner-08.jpg?url";
 import banner09 from "../assets/banner/banner-09.jpg?url";
-import vipLevel0 from "../assets/home/vip-0.png?url";
-import vipLevel1 from "../assets/home/vip-1.png?url";
-import vipLevel2 from "../assets/home/vip-2.png?url";
-import vipLevel3 from "../assets/home/vip-3.png?url";
 import iconRefresh from "../assets/home/icon-refresh.webp?url";
 import iconMoney from "../assets/home/icon-money.svg?url";
 import iconWithdraw from "../assets/user-action/withdraw.svg?url";
@@ -82,20 +79,19 @@ function goTo(idx: number): void {
 onMounted(startAuto);
 onBeforeUnmount(stopAuto);
 
-// VIP 卡片：與 mobile user-card 共用同 4 階徽章 + URL ?vip 參數
-const VIP_BADGES = [vipLevel0, vipLevel1, vipLevel2, vipLevel3];
+// VIP 卡片：與 mobile user-card 同步改純 CSS 徽章 + URL ?vip 參數
 const DEFAULT_VIP_LEVEL = 2;
 
 const route = useRoute();
 
-const vipBadge = computed(() => {
+const vipLevel = computed(() => {
   const raw = route.query.vip;
   const value = Array.isArray(raw) ? raw[0] : raw;
   const parsed = Number(value);
   if (Number.isFinite(parsed) && parsed >= 0 && parsed <= 3) {
-    return VIP_BADGES[Math.floor(parsed)];
+    return Math.floor(parsed);
   }
-  return VIP_BADGES[DEFAULT_VIP_LEVEL];
+  return DEFAULT_VIP_LEVEL;
 });
 
 const refreshFlag = ref(false);
@@ -160,9 +156,11 @@ const actions: ActionItem[] = [
       <!-- 右欄：VIP 會員卡片（mobile user-card 視覺放大） -->
       <aside class="vietvip-pc-hero__card" aria-label="會員資訊">
         <div class="vietvip-pc-hero__card-head">
-          <span class="vietvip-pc-hero__card-account">demo_vip</span>
-          <span class="vietvip-pc-hero__card-vip" aria-label="VIP 等級徽章">
-            <img :src="vipBadge" alt="" />
+          <span
+            class="vietvip-pc-hero__card-vip"
+            :aria-label="`VIP 等級 ${vipLevel}`"
+          >
+            VIP{{ vipLevel }}
           </span>
         </div>
 
@@ -327,27 +325,28 @@ const actions: ActionItem[] = [
   }
 
   &__card-head {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  &__card-account {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-muted);
-  }
-
-  &__card-vip {
-    height: 28px;
     display: inline-flex;
     align-items: center;
   }
 
-  &__card-vip img {
-    height: 100%;
-    width: auto;
-    object-fit: contain;
+  // VIP 徽章：純 CSS 渲染（金漸層底 + 白字 + 細白邊 + 內陰影）
+  // 與 mobile user-card 的 &__vip 同設計語言，尺寸放大適合 PC viewport
+  &__card-vip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background: var(--gradient-gold);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 14px;
+    box-shadow:
+      0 3px 8px rgba(199, 154, 69, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    text-shadow: 0 1px 2px rgba(122, 80, 12, 0.35);
+    font-family: var(--font-display);
   }
 
   &__card-credit {

@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
-// 從本 theme 自家 assets 取 VIP 徽章 / 重整 icon / 4 個快捷功能 icon
-// 為什麼 4 個快捷功能用 SVG：原專案就是 SVG（icon_*_member_newyear2.svg），可吃 currentColor 變色
-import vipLevel0 from "../assets/home/vip-0.png?url";
-import vipLevel1 from "../assets/home/vip-1.png?url";
-import vipLevel2 from "../assets/home/vip-2.png?url";
-import vipLevel3 from "../assets/home/vip-3.png?url";
+// 從本 theme 自家 assets 取重整 icon + 餘額符號 + 4 個快捷功能 icon
+// VIP 徽章改為純 CSS 渲染，不再使用 vip-0~3 PNG 圖檔
 import iconRefresh from "../assets/home/icon-refresh.webp?url";
 import iconMoney from "../assets/home/icon-money.svg?url";
 import iconWithdraw from "../assets/user-action/withdraw.svg?url";
@@ -18,45 +14,39 @@ import iconRanking from "../assets/user-action/ranking.svg?url";
  * vietvip mobile 會員資訊卡
  *
  * 對齊 lilian_vietvip_web src/widgets/pages/home/user.vue：
- * - 上半：帳號 + VIP 徽章 + 餘額 + 重整 icon
+ * - 上半：VIP 徽章 + 餘額 + 重整 icon（移除帳號名）
  * - 下半：4 個快捷功能（提款 / 豪華盛宴 / 領取佣金 / 排行榜）
+ *
+ * 與上輪差異：
+ * - 移除「demo_vip」帳號顯示：demo 站採「預設已登入會員視角」，
+ *   帳號名稱沒有實際意義反而吵雜，徽章本身就代表會員身份
+ * - VIP 徽章從 vip-0~3 PNG 改成純 CSS 渲染：
+ *   1. 圖檔本身是黑底金光的窄條設計，深色徽章在白底卡片內視覺較弱
+ *   2. 純 CSS（金漸層底 + 白色 VIP{N} 文字）能跟著 ruby / midnight / gold
+ *      三變體的 --vietvip-gold-* token 動，視覺統一度更高
+ *   3. 移除 4 張 PNG import 減少 bundle size
  *
  * 原專案的視覺特徵：
  * - 卡片白底（home.scss .home__user__action background: #fff），與深紅大底形成強對比
- * - VIP 徽章是 vip_0s..vip_3s.png 圖檔，徽章本身就是視覺核心
  * - 重整 icon 是 icon_refresh.webp 加 keyframes 旋轉
  *
- * Demo 純展示，account / credit 寫死；
- * 點重整時加 1 秒旋轉動畫示意
+ * Demo 純展示，credit 寫死；點重整時加 1 秒旋轉動畫示意
+ * URL ?vip=0~3 仍可覆寫 VIP 等級供 demo 切換展示
  */
-
-interface VipLevel {
-  level: number;
-  src: string;
-}
-
-// 原專案 vip_0..3 對應未 / 一般 / 進階 / 至尊四階
-// 為什麼用 0..3 而非 ant-sport 的 0..10：原專案就只有 4 張，與 ant-sport 的等級體系不同
-// vietvip 走「精簡的 VIP 等級」是越南 VIP 站的常見設計（會員分檔較粗）
-const VIP_BADGES: VipLevel[] = [
-  { level: 0, src: vipLevel0 },
-  { level: 1, src: vipLevel1 },
-  { level: 2, src: vipLevel2 },
-  { level: 3, src: vipLevel3 }
-];
 
 const DEFAULT_VIP_LEVEL = 2;
 
 const route = useRoute();
 
-const vipBadge = computed(() => {
+// 解析 URL ?vip=N 並夾在合法區間 0~3
+const vipLevel = computed(() => {
   const raw = route.query.vip;
   const value = Array.isArray(raw) ? raw[0] : raw;
   const parsed = Number(value);
   if (Number.isFinite(parsed) && parsed >= 0 && parsed <= 3) {
-    return VIP_BADGES[Math.floor(parsed)].src;
+    return Math.floor(parsed);
   }
-  return VIP_BADGES[DEFAULT_VIP_LEVEL].src;
+  return DEFAULT_VIP_LEVEL;
 });
 
 const refreshFlag = ref(false);
@@ -83,12 +73,11 @@ const actions: ActionItem[] = [
 
 <template>
   <section class="vietvip-m-user" aria-label="會員資訊">
-    <!-- 上半：帳號 / VIP / 餘額 -->
+    <!-- 上半：VIP 徽章 + 餘額 -->
     <div class="vietvip-m-user__data">
-      <div class="vietvip-m-user__account-row">
-        <span class="vietvip-m-user__account">demo_vip</span>
-        <span class="vietvip-m-user__vip" aria-label="VIP 等級徽章">
-          <img :src="vipBadge" alt="" class="vietvip-m-user__vip-img" />
+      <div class="vietvip-m-user__vip-row">
+        <span class="vietvip-m-user__vip" :aria-label="`VIP 等級 ${vipLevel}`">
+          VIP{{ vipLevel }}
         </span>
       </div>
       <div class="vietvip-m-user__credit-row">
@@ -140,38 +129,40 @@ const actions: ActionItem[] = [
   &__data {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     padding-bottom: 10px;
 
     // 金色細分隔線：對齊原專案視覺特徵的金箔線
     border-bottom: 1px solid var(--vietvip-gold-2);
   }
 
-  &__account-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  &__account {
-    font-size: 14px;
-    color: var(--text-muted);
-    font-weight: 600;
-  }
-
-  // VIP 徽章：對齊原專案 vip_*s.png 0.7rem 寬（約 36px）
-  &__vip {
-    width: 48px;
-    height: 22px;
+  // VIP 徽章列：移除帳號後改為靠左 inline-flex
+  &__vip-row {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
   }
 
-  &__vip-img {
-    height: 100%;
-    width: auto;
-    object-fit: contain;
+  // VIP 徽章：純 CSS 渲染（金漸層底 + 白字 + 細白邊 + 內陰影）
+  // 為什麼用 var(--gradient-gold) 而非 --gradient-cta：
+  // - gradient-gold 在三變體下都走金漸層（ruby/midnight 真金、gold 變體更亮金）
+  // - gradient-cta 在 gold 變體會切到酒紅漸層，VIP 徽章視覺不一致
+  // - 徽章作為「會員身份標記」應保持金色一致性，與 quick-action 圓 icon 同調
+  &__vip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #ffffff;
+    background: var(--gradient-gold);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 12px;
+    box-shadow:
+      0 2px 6px rgba(199, 154, 69, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    text-shadow: 0 1px 2px rgba(122, 80, 12, 0.35);
+    font-family: var(--font-display);
   }
 
   &__credit-row {
