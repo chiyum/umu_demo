@@ -1,18 +1,31 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useDemoThemeStore } from "@/store/demo-theme.store";
-import HonestAtMobileMarquee from "./sections/honest-at-mobile-marquee.vue";
-import HonestAtMobileBanner from "./sections/honest-at-mobile-banner.vue";
-import HonestAtMobilePrizepoor from "./sections/honest-at-mobile-prizepoor.vue";
-import HonestAtMobileGameMenu from "./sections/honest-at-mobile-game-menu.vue";
+import HonestAtPcMarquee from "./sections/desktop/honest-at-pc-marquee.vue";
+import HonestAtPcBanner from "./sections/desktop/honest-at-pc-banner.vue";
+import HonestAtPcOnline from "./sections/desktop/honest-at-pc-online.vue";
+import HonestAtPcIntroduction from "./sections/desktop/honest-at-pc-introduction.vue";
+import HonestAtPcAppDownload from "./sections/desktop/honest-at-pc-app-download.vue";
+import HonestAtPcFooter from "./sections/desktop/honest-at-pc-footer.vue";
 
 /**
- * honest-at 桌面版佈局 — 沿用「mobile 結構橫向延伸」策略
+ * honest-at 桌面版佈局 — 視覺骨架參考 kingdom_front long/home/desktop.vue
  *
- * honest_real 三個版本皆為純手機站，無 PC 原作。
- * 採頂部 sticky brand bar + 1024 居中容器內嵌 mobile section + 精簡 footer
+ * kingdom long 桌面五段：
+ *   Marquee → Banner → OnlinePeople → Introduction → AppDownload → Footer
  *
- * 不渲染 Fab：那是 mobile 版的拖曳球，PC 不需要
+ * honest-at 採同樣骨架但全部 sections 自製，配色 / 字體 / icon 套用
+ * honest-at 自家深藍霓虹科技風（不沿用 kingdom 的淡藍白底）：
+ *   - header: 深藍 #14171d + 青藍霓虹線（與手機 header 同調性）
+ *   - marquee: 同手機 marquee 視覺語言放大
+ *   - banner: 手機同源 3 張 jpg（hero 文字都在圖內）
+ *   - online: 即時人數計數，藍色 sprite 數字
+ *   - introduction: 4 段品牌特色 2-col grid
+ *   - app-download: 大圖 + QR
+ *   - footer: 兩段（logo bg + link bar）
+ *
+ * 移除上一輪「mobile 結構橫向延伸」策略：那個策略對純手機原作 theme 缺乏 PC 風格參考
+ * 改用 kingdom_front 桌面範式提供完整的 desktop layout
  */
 
 const themeStore = useDemoThemeStore();
@@ -22,6 +35,7 @@ const useScreenBlend = computed(
   () => themeStore.currentLogo.transparentBg !== true
 );
 
+// 對齊 kingdom long header 結構：左 logo + 中遊戲分類 / 右 register/login
 const navItems = [
   "首頁",
   "熱門",
@@ -32,50 +46,43 @@ const navItems = [
   "捕魚",
   "體育"
 ];
-
-const footerLinks = [
-  "關於 AT99",
-  "服務條款",
-  "隱私政策",
-  "負責任博彩",
-  "聯絡客服"
-];
 </script>
 
 <template>
-  <div class="honest-at-layout">
-    <header class="honest-at-layout__header">
-      <div class="honest-at-layout__header-inner">
-        <a class="honest-at-layout__brand" href="#" :aria-label="logoLabel">
+  <div class="honest-at-pc-layout">
+    <!-- Header: 對齊 kingdom long header 結構（左 logo + nav / 右 register/login） -->
+    <header class="honest-at-pc-layout__header">
+      <div class="honest-at-pc-layout__header-inner">
+        <a class="honest-at-pc-layout__brand" href="#" :aria-label="logoLabel">
           <img
             :src="logoSrc"
             :alt="logoLabel"
-            class="honest-at-layout__logo"
-            :class="{ 'honest-at-layout__logo--blend': useScreenBlend }"
+            class="honest-at-pc-layout__logo"
+            :class="{ 'honest-at-pc-layout__logo--blend': useScreenBlend }"
           />
         </a>
 
-        <nav class="honest-at-layout__nav" aria-label="主導覽">
+        <nav class="honest-at-pc-layout__nav" aria-label="主導覽">
           <a
             v-for="n in navItems"
             :key="n"
             href="#"
-            class="honest-at-layout__nav-link"
+            class="honest-at-pc-layout__nav-link"
           >
             {{ n }}
           </a>
         </nav>
 
-        <div class="honest-at-layout__actions">
+        <div class="honest-at-pc-layout__actions">
           <button
             type="button"
-            class="honest-at-layout__btn honest-at-layout__btn--ghost"
+            class="honest-at-pc-layout__btn honest-at-pc-layout__btn--login"
           >
             登入
           </button>
           <button
             type="button"
-            class="honest-at-layout__btn honest-at-layout__btn--primary"
+            class="honest-at-pc-layout__btn honest-at-pc-layout__btn--register"
           >
             註冊
           </button>
@@ -83,72 +90,48 @@ const footerLinks = [
       </div>
     </header>
 
-    <main class="honest-at-layout__main">
-      <div class="honest-at-layout__container">
-        <HonestAtMobileMarquee />
-        <HonestAtMobileBanner />
-        <HonestAtMobilePrizepoor />
-        <HonestAtMobileGameMenu />
-      </div>
+    <main class="honest-at-pc-layout__main">
+      <HonestAtPcMarquee />
+      <HonestAtPcBanner />
+      <HonestAtPcOnline />
+      <HonestAtPcIntroduction />
+      <HonestAtPcAppDownload />
     </main>
 
-    <footer class="honest-at-layout__footer">
-      <div class="honest-at-layout__footer-inner">
-        <div class="honest-at-layout__footer-brand">
-          <img
-            :src="logoSrc"
-            :alt="logoLabel"
-            class="honest-at-layout__footer-logo"
-            :class="{ 'honest-at-layout__logo--blend': useScreenBlend }"
-          />
-          <span class="honest-at-layout__footer-tag"
-            >霓虹電競 · 24h 不打烊</span
-          >
-        </div>
-        <nav class="honest-at-layout__footer-nav">
-          <a v-for="l in footerLinks" :key="l" href="#">{{ l }}</a>
-        </nav>
-        <div class="honest-at-layout__footer-copy">
-          © {{ new Date().getFullYear() }} AT99 Demo Layout · All Rights
-          Reserved
-        </div>
-      </div>
-    </footer>
+    <HonestAtPcFooter />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.honest-at-layout {
+.honest-at-pc-layout {
   position: relative;
-  background-image: url("./assets/games/page-bg.jpg");
-  background-color: #050a1a;
-  background-size: cover;
-  background-position: center top;
+  background: #0a1430;
   color: #ffffff;
   font-family: var(--font-body, "Noto Sans TC", "PingFang TC", sans-serif);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
 
+  // 對齊 kingdom long/desktop/header：sticky / 白底 → 改為 honest-at 深底 + 青藍光線
   &__header {
     position: sticky;
     top: 0;
-    z-index: 200;
-    background: rgba(20, 23, 29, 0.92);
-    border-bottom: 1px solid #3aa2ec;
-    backdrop-filter: blur(10px);
+    z-index: 1000;
+    background: linear-gradient(180deg, #14171d 0%, #1a1f2e 100%);
+    padding: 0 5%;
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.5),
+      inset 0 -1px 0 #3aa2ec;
   }
 
   &__header-inner {
-    width: 1200px;
-    max-width: calc(100% - 48px);
-    margin: 0 auto;
-    padding: 0 12px;
-    height: 80px;
     display: flex;
     align-items: center;
-    gap: 28px;
+    margin: 0 auto;
+    max-width: 1696px;
+    height: 80px;
+    gap: 40px;
   }
 
   &__brand {
@@ -159,7 +142,7 @@ const footerLinks = [
   }
 
   &__logo {
-    height: 44px;
+    height: 48px;
     width: auto;
     max-width: 180px;
     object-fit: contain;
@@ -174,16 +157,16 @@ const footerLinks = [
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 28px;
   }
 
   &__nav-link {
     color: #ffffff;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     text-decoration: none;
-    transition: color 0.18s ease;
     position: relative;
+    transition: color 0.18s ease;
 
     &:hover {
       color: #3aa2ec;
@@ -196,7 +179,7 @@ const footerLinks = [
         bottom: -8px;
         height: 2px;
         background: #3aa2ec;
-        border-radius: 1px;
+        box-shadow: 0 0 8px #3aa2ec;
       }
     }
   }
@@ -207,11 +190,12 @@ const footerLinks = [
     flex-shrink: 0;
   }
 
+  // 對齊原作 .at-submit-btn / .at-submit-border-btn 視覺語言
   &__btn {
-    height: 36px;
-    min-width: 76px;
-    padding: 0 18px;
-    border-radius: 18px;
+    height: 38px;
+    min-width: 84px;
+    padding: 0 20px;
+    border-radius: 6px;
     font-size: 14px;
     font-weight: 700;
     font-family: inherit;
@@ -224,91 +208,29 @@ const footerLinks = [
       transform: scale(0.96);
     }
 
-    &--ghost {
+    &--login {
       color: #ffffff;
       background: linear-gradient(180deg, #3aa2ec 0%, #1859ff 100%);
       border: none;
+
+      &:hover {
+        filter: brightness(1.1);
+      }
     }
 
-    &--primary {
+    &--register {
       color: #ffffff;
       background: transparent;
       border: 1px solid #3aa2ec;
-    }
 
-    &:hover {
-      filter: brightness(1.08);
+      &:hover {
+        background: rgba(58, 162, 236, 0.18);
+      }
     }
   }
 
   &__main {
     flex: 1;
-    padding: 16px 0 64px;
-  }
-
-  &__container {
-    width: 1024px;
-    max-width: calc(100% - 48px);
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__footer {
-    background: #050a1a;
-    border-top: 1px solid #3aa2ec;
-    padding: 32px 0 24px;
-  }
-
-  &__footer-inner {
-    width: 1200px;
-    max-width: calc(100% - 48px);
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-    text-align: center;
-  }
-
-  &__footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  &__footer-logo {
-    height: 38px;
-    object-fit: contain;
-  }
-
-  &__footer-tag {
-    font-size: 13px;
-    color: #abacac;
-  }
-
-  &__footer-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-
-    a {
-      color: #abacac;
-      text-decoration: none;
-      font-size: 13px;
-      transition: color 0.15s ease;
-
-      &:hover {
-        color: #3aa2ec;
-      }
-    }
-  }
-
-  &__footer-copy {
-    font-size: 12px;
-    color: #6c6f75;
-    margin-top: 8px;
   }
 }
 </style>

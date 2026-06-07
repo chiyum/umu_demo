@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useDemoThemeStore } from "@/store/demo-theme.store";
-import HonestNo6MobileBanner from "./sections/honest-no6-mobile-banner.vue";
-import HonestNo6MobileMarquee from "./sections/honest-no6-mobile-marquee.vue";
-import HonestNo6MobileInfo from "./sections/honest-no6-mobile-info.vue";
-import HonestNo6MobileGameMenu from "./sections/honest-no6-mobile-game-menu.vue";
+import HonestNo6PcMarquee from "./sections/desktop/honest-no6-pc-marquee.vue";
+import HonestNo6PcBanner from "./sections/desktop/honest-no6-pc-banner.vue";
+import HonestNo6PcOnline from "./sections/desktop/honest-no6-pc-online.vue";
+import HonestNo6PcIntroduction from "./sections/desktop/honest-no6-pc-introduction.vue";
+import HonestNo6PcAppDownload from "./sections/desktop/honest-no6-pc-app-download.vue";
+import HonestNo6PcFooter from "./sections/desktop/honest-no6-pc-footer.vue";
 
 /**
- * honest-no6 桌面版佈局 — 沿用「mobile 結構橫向延伸」策略
+ * honest-no6 桌面版佈局 — 視覺骨架對齊 kingdom_front long/home/desktop.vue
  *
- * 與 honest-at / honest-max / vietvip 同理：honest_real 無 PC 原作，
- * 不硬套五段範式，改放大 mobile 元件 + sticky brand bar + 精簡 footer
+ * 五段範式 Marquee → Banner → OnlinePeople → Introduction → AppDownload → Footer
+ * 配色全部套用 honest-no6 紫黑神秘風（與手機版 token 一致）
  */
 
 const themeStore = useDemoThemeStore();
@@ -30,44 +32,42 @@ const navItems = [
   "彩球",
   "捕魚"
 ];
-
-const footerLinks = ["關於 FG", "服務條款", "VIP 福利", "綁定教學", "聯絡客服"];
 </script>
 
 <template>
-  <div class="honest-no6-layout">
-    <header class="honest-no6-layout__header">
-      <div class="honest-no6-layout__header-inner">
-        <a class="honest-no6-layout__brand" href="#" :aria-label="logoLabel">
+  <div class="honest-no6-pc-layout">
+    <header class="honest-no6-pc-layout__header">
+      <div class="honest-no6-pc-layout__header-inner">
+        <a class="honest-no6-pc-layout__brand" href="#" :aria-label="logoLabel">
           <img
             :src="logoSrc"
             :alt="logoLabel"
-            class="honest-no6-layout__logo"
-            :class="{ 'honest-no6-layout__logo--blend': useScreenBlend }"
+            class="honest-no6-pc-layout__logo"
+            :class="{ 'honest-no6-pc-layout__logo--blend': useScreenBlend }"
           />
         </a>
 
-        <nav class="honest-no6-layout__nav" aria-label="主導覽">
+        <nav class="honest-no6-pc-layout__nav" aria-label="主導覽">
           <a
             v-for="n in navItems"
             :key="n"
             href="#"
-            class="honest-no6-layout__nav-link"
+            class="honest-no6-pc-layout__nav-link"
           >
             {{ n }}
           </a>
         </nav>
 
-        <div class="honest-no6-layout__actions">
+        <div class="honest-no6-pc-layout__actions">
           <button
             type="button"
-            class="honest-no6-layout__btn honest-no6-layout__btn--ghost"
+            class="honest-no6-pc-layout__btn honest-no6-pc-layout__btn--log"
           >
             登入
           </button>
           <button
             type="button"
-            class="honest-no6-layout__btn honest-no6-layout__btn--primary"
+            class="honest-no6-pc-layout__btn honest-no6-pc-layout__btn--reg"
           >
             註冊
           </button>
@@ -75,72 +75,50 @@ const footerLinks = ["關於 FG", "服務條款", "VIP 福利", "綁定教學", 
       </div>
     </header>
 
-    <main class="honest-no6-layout__main">
-      <div class="honest-no6-layout__container">
-        <HonestNo6MobileBanner />
-        <HonestNo6MobileMarquee />
-        <HonestNo6MobileInfo />
-        <HonestNo6MobileGameMenu />
-      </div>
+    <main class="honest-no6-pc-layout__main">
+      <HonestNo6PcMarquee />
+      <HonestNo6PcBanner />
+      <HonestNo6PcOnline />
+      <HonestNo6PcIntroduction />
+      <HonestNo6PcAppDownload />
     </main>
 
-    <footer class="honest-no6-layout__footer">
-      <div class="honest-no6-layout__footer-inner">
-        <div class="honest-no6-layout__footer-brand">
-          <img
-            :src="logoSrc"
-            :alt="logoLabel"
-            class="honest-no6-layout__footer-logo"
-            :class="{ 'honest-no6-layout__logo--blend': useScreenBlend }"
-          />
-          <span class="honest-no6-layout__footer-tag">山日日 · 暮夜不眠</span>
-        </div>
-        <nav class="honest-no6-layout__footer-nav">
-          <a v-for="l in footerLinks" :key="l" href="#">{{ l }}</a>
-        </nav>
-        <div class="honest-no6-layout__footer-copy">
-          © {{ new Date().getFullYear() }} FG Demo Layout · All Rights Reserved
-        </div>
-      </div>
-    </footer>
+    <HonestNo6PcFooter />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.honest-no6-layout {
+.honest-no6-pc-layout {
   position: relative;
-  background: var(--bg-base);
-  background-image: var(--bg-decoration);
-  color: var(--text-on-primary);
-  font-family: var(--font-body);
+  background: #1a0526;
+  color: #ffffff;
+  font-family: var(--font-body, "Noto Sans TC", "PingFang TC", sans-serif);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
 
   &__header {
     position: sticky;
     top: 0;
-    z-index: 200;
+    z-index: 1000;
     background: linear-gradient(
       180deg,
-      rgba(10, 3, 18, 0.82) 0%,
-      rgba(10, 3, 18, 0.58) 100%
+      rgba(10, 3, 18, 0.92) 0%,
+      rgba(26, 5, 38, 0.85) 100%
     );
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--honest-no6-marquee-border);
-    box-shadow: var(--shadow-sticky);
+    padding: 0 5%;
+    border-bottom: 1px solid rgba(212, 78, 224, 0.4);
   }
 
   &__header-inner {
-    width: 1200px;
-    max-width: calc(100% - 48px);
-    margin: 0 auto;
-    padding: 0 12px;
-    height: 78px;
     display: flex;
     align-items: center;
-    gap: 28px;
+    margin: 0 auto;
+    max-width: 1696px;
+    height: 76px;
+    gap: 40px;
   }
 
   &__brand {
@@ -151,7 +129,7 @@ const footerLinks = ["關於 FG", "服務條款", "VIP 福利", "綁定教學", 
   }
 
   &__logo {
-    height: 44px;
+    height: 48px;
     width: auto;
     max-width: 180px;
     object-fit: contain;
@@ -166,19 +144,19 @@ const footerLinks = ["關於 FG", "服務條款", "VIP 福利", "綁定教學", 
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 28px;
   }
 
   &__nav-link {
-    color: var(--text-on-primary);
-    font-size: 15px;
+    color: #ffffff;
+    font-size: 16px;
     font-weight: 600;
     text-decoration: none;
-    transition: color 0.18s ease;
     position: relative;
+    transition: color 0.18s ease;
 
     &:hover {
-      color: var(--secondary-01);
+      color: #f7c66c;
 
       &::after {
         content: "";
@@ -187,8 +165,7 @@ const footerLinks = ["關於 FG", "服務條款", "VIP 福利", "綁定教學", 
         right: 0;
         bottom: -8px;
         height: 2px;
-        background: var(--gradient-gold);
-        border-radius: 1px;
+        background: linear-gradient(90deg, #f7c66c 0%, #d44ee0 100%);
       }
     }
   }
@@ -199,33 +176,41 @@ const footerLinks = ["關於 FG", "服務條款", "VIP 福利", "綁定教學", 
     flex-shrink: 0;
   }
 
+  // 對齊手機 header 視覺：log 半透明邊 / reg 金漸層
   &__btn {
-    height: 36px;
+    height: 38px;
+    min-width: 84px;
     padding: 0 22px;
-    border-radius: 18px;
+    border-radius: 19px;
     font-size: 14px;
     font-weight: 700;
+    font-family: inherit;
     cursor: pointer;
+    border: none;
     transition:
       filter 0.18s ease,
       transform 0.18s ease;
-    border: none;
 
     &:active {
       transform: scale(0.96);
     }
 
-    &--ghost {
-      color: var(--text-on-primary);
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.35);
+    &--log {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(6px);
     }
 
-    &--primary {
-      color: var(--text-on-gold);
-      background: var(--gradient-gold);
-      box-shadow: 0 4px 12px
-        hsla(var(--secondary-h), var(--secondary-s), 50%, 0.4);
+    &--reg {
+      color: #1a0526;
+      background: linear-gradient(
+        135deg,
+        #ffe79e 0%,
+        #f7c66c 50%,
+        #c79a45 100%
+      );
+      box-shadow: 0 2px 6px rgba(247, 198, 108, 0.42);
     }
 
     &:hover {
@@ -235,74 +220,6 @@ const footerLinks = ["關於 FG", "服務條款", "VIP 福利", "綁定教學", 
 
   &__main {
     flex: 1;
-    padding: 0 0 64px;
-  }
-
-  &__container {
-    width: 980px;
-    max-width: calc(100% - 48px);
-    margin: 0 auto;
-    padding-top: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  &__footer {
-    background: var(--footer-bg);
-    border-top: 1px solid var(--honest-no6-marquee-border);
-    padding: 32px 0 24px;
-  }
-
-  &__footer-inner {
-    width: 1200px;
-    max-width: calc(100% - 48px);
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-    text-align: center;
-  }
-
-  &__footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  &__footer-logo {
-    height: 38px;
-    object-fit: contain;
-  }
-
-  &__footer-tag {
-    font-size: 13px;
-    color: var(--footer-text);
-  }
-
-  &__footer-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-
-    a {
-      color: var(--footer-text);
-      text-decoration: none;
-      font-size: 13px;
-      transition: color 0.15s ease;
-
-      &:hover {
-        color: var(--secondary-01);
-      }
-    }
-  }
-
-  &__footer-copy {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 8px;
   }
 }
 </style>
