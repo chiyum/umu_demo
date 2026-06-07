@@ -1,0 +1,187 @@
+// honest-max（88WIN 桃粉藍綠混色風）token 主檔
+// ---
+// 對齊來源：honest_real src/pages/max/home.vue + assets/scss/max/*.scss
+// 主視覺特徵：
+//   - 整頁淡灰白底（#f5f6fa）+ 鮮豔卡片（粉紅 / 藍 / 黃 / 紫）
+//   - 頂部品牌條走藍紫漸層
+//   - 註冊（黃漸層球）/ 登入（藍漸層球）兩顆按鈕對比強烈
+//   - 卡片使用「人物角色站立全身 + 平台品牌色 logo」風格
+//   - sidebar 7 分類採直立色塊（真人粉 / 電子綠 / 體育紅 / 彩球藍 / 捕魚紫 / 對戰橙 / 電競青）
+// ---
+// 配色三變體：
+//   pink 預設 — 主桃紅 + 青藍副
+//   azure   — 藍主 + 銀亮副
+//   sunset  — 橘黃主 + 粉紅副
+
+[data-theme="honest-max"] {
+  // ─────── HSL 三軸 ───────
+  // 預設主色：桃粉 #e75bff → H 295 / S 100% / L 68%
+  --primary-h: 295;
+  --primary-s: 100%;
+  --primary-l: 68%;
+
+  // 副色：天空藍 #3ec1f5 → H 197 / S 90% / L 60%
+  --secondary-h: 197;
+  --secondary-s: 90%;
+  --secondary-l: 60%;
+
+  // ─────── primary 階層 ───────
+  --primary-01: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --primary-02: hsl(
+    calc(var(--primary-h) - 5),
+    var(--primary-s),
+    calc(var(--primary-l) + 8%)
+  );
+  --primary-03: hsl(
+    calc(var(--primary-h) + 5),
+    var(--primary-s),
+    calc(var(--primary-l) - 6%)
+  );
+  --primary-04: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) - 18%)
+  );
+  --primary-05: hsl(
+    calc(var(--primary-h) - 10),
+    calc(var(--primary-s) - 10%),
+    calc(var(--primary-l) - 28%)
+  );
+  --primary-06: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) - 40%)
+  );
+  --primary-07: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 20%),
+    calc(var(--primary-l) - 48%)
+  );
+  --primary-08: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) - 32%)
+  );
+
+  // ─────── secondary 階層 ───────
+  --secondary-01: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l)
+  );
+  --secondary-02: hsl(
+    calc(var(--secondary-h) - 10),
+    var(--secondary-s),
+    calc(var(--secondary-l) + 10%)
+  );
+  --secondary-03: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 10%),
+    calc(var(--secondary-l) + 16%)
+  );
+  --secondary-04: hsl(
+    calc(var(--secondary-h) + 8),
+    var(--secondary-s),
+    calc(var(--secondary-l) - 10%)
+  );
+  --secondary-05: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 15%),
+    calc(var(--secondary-l) - 22%)
+  );
+
+  // ─────── 共用 alias ───────
+  --color-primary: var(--primary-01);
+  --color-secondary: var(--secondary-01);
+  --color-accent: var(--secondary-01);
+
+  // 整頁淡灰白底（強調卡片色彩）
+  --bg-base: #f5f6fa;
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 80%, 0.18);
+  --text-primary: #2a1a3e;
+  --text-muted: #6d6486;
+  --text-on-primary: #ffffff;
+  --border: hsla(var(--primary-h), var(--primary-s), 70%, 0.4);
+  --shadow: 0 4px 14px rgba(95, 50, 130, 0.18);
+
+  // hero / CTA
+  --gradient-hero: linear-gradient(180deg, #d8b6ff 0%, #b27cff 60%, #6b4faa 100%);
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--secondary-02) 0%,
+    var(--secondary-01) 60%,
+    var(--secondary-05) 100%
+  );
+  --gradient-gold: linear-gradient(
+    135deg,
+    #ffd57c 0%,
+    #ff8a4c 50%,
+    #ff5959 100%
+  );
+  --text-on-gold: #2a0500;
+
+  // 對比 token
+  --bg-base-deep: #ecedf3;
+  --bg-base-translucent: rgba(245, 246, 250, 0.92);
+  --highlight-strip: #ffd57c;
+  --provider-card-bg: #ffffff;
+  --footer-bg: #ffffff;
+  --footer-text: #6d6486;
+  --footer-link: var(--primary-01);
+  --badge-live: #ff5252;
+
+  // device frame（PC 預覽用）
+  --device-frame-bg: linear-gradient(180deg, #2a1a3e 0%, #6b4faa 100%);
+  --device-frame-inner: #2a1a3e;
+  --device-screen-overlay: linear-gradient(180deg, #f5f6fa 0%, #e8e4f3 100%);
+
+  // banner 漸層
+  --banner-gradient-1: linear-gradient(135deg, #e75bff 0%, #3ec1f5 60%, #ffd57c 100%);
+  --banner-gradient-2: linear-gradient(135deg, #3ec1f5 0%, #e75bff 100%);
+  --banner-gradient-3: linear-gradient(135deg, #ffd57c 0%, #e75bff 100%);
+
+  // 字體：MAX 走「圓體 + 中文厚體」表達活潑感
+  --font-display:
+    "Inter", "Noto Sans TC", "PingFang TC", "微軟正黑體", sans-serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Segoe UI", tahoma, arial, sans-serif;
+
+  // shadow stack
+  --shadow-sm: 0 1px 2px rgba(95, 50, 130, 0.12);
+  --shadow-md: 0 4px 10px rgba(95, 50, 130, 0.18);
+  --shadow-lg: 0 8px 22px rgba(95, 50, 130, 0.25);
+  --shadow-xl: 3px 7px 14px rgba(95, 50, 130, 0.28);
+  --shadow-sticky:
+    0 1px 2px rgba(95, 50, 130, 0.14), 0 2px 8px rgba(95, 50, 130, 0.18);
+  --shadow-glow: 0 0 18px hsla(var(--primary-h), var(--primary-s), 65%, 0.6);
+
+  // 角落 radial 柔光：左上桃粉、右下天藍
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 0% 0%,
+      hsla(var(--primary-h), var(--primary-s), 80%, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 100% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 75%, 0.28) 0%,
+      transparent 65%
+    );
+
+  // honest-max specific：sidebar 7 分類各色
+  // 為什麼每個分類獨立 token：原作 sidebar 每個 button bg 不同，必須能在 variants 統一切換
+  --honest-max-cat-live: #ff6db6;     // 真人粉
+  --honest-max-cat-slot: #5ac26d;     // 電子綠
+  --honest-max-cat-sport: #ff5d68;    // 體育紅
+  --honest-max-cat-lottery: #5b9bff;  // 彩球藍
+  --honest-max-cat-fish: #b07cff;     // 捕魚紫
+  --honest-max-cat-versus: #ff9a4c;   // 對戰橙
+  --honest-max-cat-esport: #3dd7d3;   // 電競青
+  --honest-max-cat-bg: #ffffff;
+  --honest-max-card-purple: linear-gradient(180deg, #b27cff 0%, #6b4faa 100%);
+  --honest-max-card-pink: linear-gradient(180deg, #ff8acf 0%, #d951ad 100%);
+  --honest-max-card-cyan: linear-gradient(180deg, #5cd6ff 0%, #2790cf 100%);
+  --honest-max-card-yellow: linear-gradient(180deg, #ffd57c 0%, #ff8a4c 100%);
+}

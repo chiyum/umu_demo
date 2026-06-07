@@ -1,0 +1,117 @@
+// honest-at 配色變體：neon-purple / neon-cyan
+// ---
+// 預設 neon-blue 在 _tokens.scss 內，這份只覆寫差異 token
+// 注意：每個變體都要把 hero / banner / cta / jackpot / shadow / radial 等可見對比 token
+// 一起覆寫，否則切換時會殘色
+
+// ─────────────── neon-purple：紫色霓虹 ───────────────
+[data-theme="honest-at"][data-theme-color="neon-purple"] {
+  --primary-h: 275;
+  --primary-s: 85%;
+  --primary-l: 65%;
+  --secondary-h: 320;
+  --secondary-s: 90%;
+  --secondary-l: 62%;
+  --bg-base: #15082c;
+  --bg-surface: #1f1142;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 35%, 0.32);
+  --gradient-hero: linear-gradient(180deg, #1f1142 0%, #15082c 100%);
+  --gradient-gold: linear-gradient(
+    135deg,
+    #ffb0e9 0%,
+    var(--secondary-01) 50%,
+    #c879ff 100%
+  );
+  --bg-base-deep: #0a0316;
+  --bg-base-translucent: rgba(21, 8, 44, 0.92);
+  --device-frame-bg: linear-gradient(180deg, #0a0316 0%, #1f1142 100%);
+  --device-frame-inner: #1f1142;
+  --device-screen-overlay: linear-gradient(180deg, #1f1142 0%, #15082c 100%);
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    #2a1457 0%,
+    var(--primary-01) 60%,
+    var(--secondary-01) 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--primary-04) 0%,
+    var(--primary-01) 100%
+  );
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    #0a0316 0%,
+    var(--secondary-01) 100%
+  );
+  --shadow-glow: 0 0 18px hsla(var(--primary-h), var(--primary-s), 65%, 0.72);
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 0% 0%,
+      hsla(var(--primary-h), var(--primary-s), 45%, 0.35) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 100% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 60%, 0.22) 0%,
+      transparent 65%
+    );
+  --honest-at-jackpot-digit-bg: linear-gradient(180deg, #0a0316 0%, #1f1142 100%);
+  --honest-at-jackpot-digit-color: #ffb0e9;
+  --honest-at-card-bg: linear-gradient(180deg, #1f1142 0%, #15082c 100%);
+}
+
+// ─────────────── neon-cyan：螢光青綠 ───────────────
+[data-theme="honest-at"][data-theme-color="neon-cyan"] {
+  --primary-h: 165;
+  --primary-s: 92%;
+  --primary-l: 55%;
+  --secondary-h: 50;
+  --secondary-s: 100%;
+  --secondary-l: 60%;
+  --bg-base: #06231d;
+  --bg-surface: #0a3530;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 28%, 0.32);
+  --gradient-hero: linear-gradient(180deg, #0a3530 0%, #06231d 100%);
+  --gradient-gold: linear-gradient(
+    135deg,
+    #fff09a 0%,
+    var(--secondary-01) 50%,
+    var(--primary-01) 100%
+  );
+  --bg-base-deep: #021511;
+  --bg-base-translucent: rgba(6, 35, 29, 0.92);
+  --device-frame-bg: linear-gradient(180deg, #021511 0%, #0a3530 100%);
+  --device-frame-inner: #0a3530;
+  --device-screen-overlay: linear-gradient(180deg, #0a3530 0%, #06231d 100%);
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    #0a3530 0%,
+    var(--primary-01) 60%,
+    var(--secondary-01) 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--primary-04) 0%,
+    var(--primary-01) 100%
+  );
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    #021511 0%,
+    var(--secondary-01) 100%
+  );
+  --shadow-glow: 0 0 18px hsla(var(--primary-h), var(--primary-s), 65%, 0.7);
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 0% 0%,
+      hsla(var(--primary-h), var(--primary-s), 38%, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 100% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 55%, 0.2) 0%,
+      transparent 65%
+    );
+  --honest-at-jackpot-digit-bg: linear-gradient(180deg, #021511 0%, #0a3530 100%);
+  --honest-at-jackpot-digit-color: #fff09a;
+  --honest-at-card-bg: linear-gradient(180deg, #0a3530 0%, #06231d 100%);
+}

@@ -1,0 +1,190 @@
+// honest-no6（FG 紫黑神秘風）token 主檔
+// ---
+// 對齊來源：honest_real src/pages/no6/home.vue + assets/scss/no6/*.scss
+// 主視覺特徵：
+//   - 深黑紫底（#1a0526 → #0a0312）+ 紫粉光暈
+//   - hero 區城堡大門 + 三尊女戰士剪影
+//   - 「山日日」白色品牌大字 + 粉紅 sub「儲值 1000 試送 1000 流水只算一次即可提現」
+//   - 跑馬燈條頂端「公告 / 綁定帳戶注意事項 / FG 商城」
+//   - sidebar 7 分類用紫紅 active 強烈高亮
+//   - 卡片走「半身美女模特 + 平台 logo 半透明疊層」風格
+//   - 底部 5 tab，中間「首頁」放粉色圓凸 CTA 球
+// ---
+// 配色三變體：
+//   purple 預設 — 主紫黑神秘風
+//   midnight   — 更深黑底夜紫
+//   crimson    — 紫紅倒轉，紅主紫副
+
+[data-theme="honest-no6"] {
+  // ─────── HSL 三軸 ───────
+  // 預設主色：紫粉 #d44ee0 → H 295 / S 70% / L 60%
+  --primary-h: 295;
+  --primary-s: 70%;
+  --primary-l: 60%;
+
+  // 副色：金邊 #f7c66c → H 39 / S 90% / L 70%
+  --secondary-h: 39;
+  --secondary-s: 90%;
+  --secondary-l: 70%;
+
+  // ─────── primary 階層 ───────
+  --primary-01: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --primary-02: hsl(
+    calc(var(--primary-h) - 5),
+    var(--primary-s),
+    calc(var(--primary-l) + 8%)
+  );
+  --primary-03: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) - 12%)
+  );
+  --primary-04: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) - 22%)
+  );
+  --primary-05: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 20%),
+    calc(var(--primary-l) - 38%)
+  );
+  --primary-06: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 30%),
+    calc(var(--primary-l) - 48%)
+  );
+  --primary-07: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 40%),
+    calc(var(--primary-l) - 58%)
+  );
+  --primary-08: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) - 32%)
+  );
+
+  // ─────── secondary 階層（金） ───────
+  --secondary-01: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l)
+  );
+  --secondary-02: hsl(
+    calc(var(--secondary-h) - 5),
+    var(--secondary-s),
+    calc(var(--secondary-l) + 10%)
+  );
+  --secondary-03: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 10%),
+    calc(var(--secondary-l) + 16%)
+  );
+  --secondary-04: hsl(
+    calc(var(--secondary-h) + 8),
+    var(--secondary-s),
+    calc(var(--secondary-l) - 12%)
+  );
+  --secondary-05: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 15%),
+    calc(var(--secondary-l) - 22%)
+  );
+
+  // ─────── 共用 alias ───────
+  --color-primary: var(--primary-01);
+  --color-secondary: var(--secondary-01);
+  --color-accent: var(--secondary-01);
+
+  // 整頁深黑紫底
+  --bg-base: #1a0526;
+  --bg-surface: #2a1042;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 30%, 0.28);
+  --text-primary: #ffffff;
+  --text-muted: #a78cc0;
+  --text-on-primary: #ffffff;
+  --border: hsla(var(--primary-h), var(--primary-s), 50%, 0.4);
+  --shadow: 0 4px 14px rgba(20, 5, 35, 0.6);
+
+  // hero / CTA
+  --gradient-hero: linear-gradient(180deg, #3a0e58 0%, #1a0526 100%);
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--primary-02) 0%,
+    var(--primary-01) 60%,
+    var(--primary-04) 100%
+  );
+  --gradient-gold: linear-gradient(
+    135deg,
+    #ffe79e 0%,
+    var(--secondary-01) 50%,
+    var(--secondary-04) 100%
+  );
+  --text-on-gold: #1a0526;
+
+  // 對比 token
+  --bg-base-deep: #0a0312;
+  --bg-base-translucent: rgba(26, 5, 38, 0.92);
+  --highlight-strip: #ffe79e;
+  --provider-card-bg: #2a1042;
+  --footer-bg: #0a0312;
+  --footer-text: #a78cc0;
+  --footer-link: var(--primary-01);
+  --badge-live: var(--primary-01);
+
+  // device frame（PC 預覽用）
+  --device-frame-bg: linear-gradient(180deg, #0a0312 0%, #2a1042 100%);
+  --device-frame-inner: #2a1042;
+  --device-screen-overlay: linear-gradient(180deg, #3a0e58 0%, #1a0526 100%);
+
+  // banner 漸層
+  --banner-gradient-1: linear-gradient(135deg, #3a0e58 0%, var(--primary-01) 60%, #ffe79e 100%);
+  --banner-gradient-2: linear-gradient(135deg, var(--primary-04) 0%, var(--primary-01) 100%);
+  --banner-gradient-3: linear-gradient(135deg, #0a0312 0%, var(--primary-01) 100%);
+
+  // 字體：no6 走「銳利顯示體 + 中文厚體」表達神秘感
+  --font-display:
+    "Cinzel", "Playfair Display", "Noto Sans TC", "PingFang TC", "微軟正黑體",
+    serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Segoe UI", tahoma, arial, sans-serif;
+
+  // shadow stack：紫黑 alpha + 主色 glow
+  --shadow-sm: 0 1px 2px rgba(10, 3, 18, 0.5);
+  --shadow-md: 0 4px 10px rgba(10, 3, 18, 0.55);
+  --shadow-lg: 0 8px 22px rgba(10, 3, 18, 0.7);
+  --shadow-xl: 3px 7px 14px rgba(10, 3, 18, 0.7);
+  --shadow-sticky:
+    0 1px 2px rgba(10, 3, 18, 0.5), 0 2px 8px rgba(10, 3, 18, 0.55);
+  --shadow-glow: 0 0 18px hsla(var(--primary-h), var(--primary-s), 60%, 0.65);
+
+  // 角落 radial 柔光：右上紫光、左下金光（呼應原作 hero）
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 45%, 0.4) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 50%, 0.18) 0%,
+      transparent 65%
+    );
+
+  // honest-no6 specific
+  --honest-no6-hero-fade: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 60%,
+    rgba(26, 5, 38, 0.92) 100%
+  );
+  --honest-no6-marquee-bg: rgba(58, 14, 88, 0.7);
+  --honest-no6-marquee-border: hsla(var(--primary-h), var(--primary-s), 45%, 0.55);
+  --honest-no6-card-overlay: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.62) 100%
+  );
+}

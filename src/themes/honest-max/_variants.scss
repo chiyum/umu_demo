@@ -1,0 +1,137 @@
+// honest-max 配色變體：azure / sunset
+// ---
+// 預設 pink 在 _tokens.scss 內，這份只覆寫差異 token
+
+// ─────────────── azure：藍主 + 銀亮副 ───────────────
+[data-theme="honest-max"][data-theme-color="azure"] {
+  --primary-h: 215;
+  --primary-s: 92%;
+  --primary-l: 60%;
+  --secondary-h: 178;
+  --secondary-s: 85%;
+  --secondary-l: 55%;
+  --bg-base: #eef3fa;
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 78%, 0.18);
+  --gradient-hero: linear-gradient(180deg, #b8d5ff 0%, #5b9bff 60%, #2a5e9e 100%);
+  --gradient-gold: linear-gradient(
+    135deg,
+    #e6f4ff 0%,
+    var(--secondary-01) 50%,
+    var(--primary-01) 100%
+  );
+  --bg-base-deep: #d8e2ee;
+  --bg-base-translucent: rgba(238, 243, 250, 0.92);
+  --device-frame-bg: linear-gradient(180deg, #1a3858 0%, #5b9bff 100%);
+  --device-frame-inner: #1a3858;
+  --device-screen-overlay: linear-gradient(180deg, #eef3fa 0%, #d8e2ee 100%);
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    var(--primary-01) 0%,
+    var(--secondary-01) 60%,
+    #ffd57c 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--secondary-01) 0%,
+    var(--primary-01) 100%
+  );
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    var(--primary-04) 0%,
+    var(--secondary-01) 100%
+  );
+  --shadow-glow: 0 0 18px hsla(var(--primary-h), var(--primary-s), 65%, 0.55);
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 0% 0%,
+      hsla(var(--primary-h), var(--primary-s), 75%, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 100% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 70%, 0.28) 0%,
+      transparent 65%
+    );
+
+  // 七色分類略調飽和度，與藍主場景視覺平衡
+  --honest-max-cat-live: #ff7eb6;
+  --honest-max-cat-slot: #4dc66d;
+  --honest-max-cat-sport: #ff6b6b;
+  --honest-max-cat-lottery: #5b9bff;
+  --honest-max-cat-fish: #b07cff;
+  --honest-max-cat-versus: #ffb04c;
+  --honest-max-cat-esport: #34c7c4;
+  --honest-max-card-purple: linear-gradient(180deg, #8caaff 0%, #4d6fd4 100%);
+  --honest-max-card-pink: linear-gradient(180deg, #ff8acf 0%, #d951ad 100%);
+  --honest-max-card-cyan: linear-gradient(180deg, #5cd6ff 0%, #2790cf 100%);
+  --honest-max-card-yellow: linear-gradient(180deg, #ffd57c 0%, #ff8a4c 100%);
+}
+
+// ─────────────── sunset：橘黃主 + 粉紅副 ───────────────
+[data-theme="honest-max"][data-theme-color="sunset"] {
+  --primary-h: 25;
+  --primary-s: 100%;
+  --primary-l: 62%;
+  --secondary-h: 340;
+  --secondary-s: 88%;
+  --secondary-l: 65%;
+  --bg-base: #fff5ed;
+  --bg-surface: #ffffff;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 78%, 0.18);
+  --gradient-hero: linear-gradient(180deg, #ffd0ad 0%, #ff8a4c 60%, #cc5a23 100%);
+  --gradient-gold: linear-gradient(
+    135deg,
+    #fff09a 0%,
+    var(--primary-01) 50%,
+    var(--secondary-01) 100%
+  );
+  --bg-base-deep: #f7e3d2;
+  --bg-base-translucent: rgba(255, 245, 237, 0.92);
+  --device-frame-bg: linear-gradient(180deg, #6e3812 0%, #cc5a23 100%);
+  --device-frame-inner: #6e3812;
+  --device-screen-overlay: linear-gradient(180deg, #fff5ed 0%, #f7e3d2 100%);
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    var(--primary-01) 0%,
+    var(--secondary-01) 60%,
+    #5cd6ff 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--secondary-01) 0%,
+    var(--primary-01) 100%
+  );
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    #fff09a 0%,
+    var(--secondary-01) 100%
+  );
+  --shadow-glow: 0 0 18px hsla(var(--primary-h), var(--primary-s), 65%, 0.6);
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 0% 0%,
+      hsla(var(--primary-h), var(--primary-s), 75%, 0.38) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 100% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 75%, 0.28) 0%,
+      transparent 65%
+    );
+  --honest-max-cat-live: #ff7eb6;
+  --honest-max-cat-slot: #5ac26d;
+  --honest-max-cat-sport: #ff5d68;
+  --honest-max-cat-lottery: #5b9bff;
+  --honest-max-cat-fish: #b07cff;
+  --honest-max-cat-versus: var(--primary-01);
+  --honest-max-cat-esport: #3dd7d3;
+  --honest-max-card-purple: linear-gradient(180deg, #b27cff 0%, #6b4faa 100%);
+  --honest-max-card-pink: linear-gradient(180deg, #ff8acf 0%, #d951ad 100%);
+  --honest-max-card-cyan: linear-gradient(180deg, #5cd6ff 0%, #2790cf 100%);
+  --honest-max-card-yellow: linear-gradient(
+    180deg,
+    var(--primary-01) 0%,
+    #cc5a23 100%
+  );
+}

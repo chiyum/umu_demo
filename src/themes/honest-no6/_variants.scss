@@ -1,0 +1,109 @@
+// honest-no6 配色變體：midnight / crimson
+
+// ─────────────── midnight：更深夜紫 ───────────────
+[data-theme="honest-no6"][data-theme-color="midnight"] {
+  --primary-h: 265;
+  --primary-s: 70%;
+  --primary-l: 50%;
+  --secondary-h: 220;
+  --secondary-s: 85%;
+  --secondary-l: 62%;
+  --bg-base: #0a0518;
+  --bg-surface: #160a30;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 28%, 0.32);
+  --gradient-hero: linear-gradient(180deg, #1f0a48 0%, #0a0518 100%);
+  --gradient-gold: linear-gradient(
+    135deg,
+    #b5d1ff 0%,
+    var(--secondary-01) 50%,
+    var(--primary-01) 100%
+  );
+  --bg-base-deep: #050210;
+  --bg-base-translucent: rgba(10, 5, 24, 0.94);
+  --device-frame-bg: linear-gradient(180deg, #050210 0%, #160a30 100%);
+  --device-frame-inner: #160a30;
+  --device-screen-overlay: linear-gradient(180deg, #1f0a48 0%, #0a0518 100%);
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    #1f0a48 0%,
+    var(--primary-01) 60%,
+    var(--secondary-01) 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--primary-04) 0%,
+    var(--primary-01) 100%
+  );
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    #050210 0%,
+    var(--secondary-01) 100%
+  );
+  --shadow-glow: 0 0 18px hsla(var(--primary-h), var(--primary-s), 55%, 0.7);
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 38%, 0.4) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 48%, 0.22) 0%,
+      transparent 65%
+    );
+  --honest-no6-marquee-bg: rgba(22, 10, 48, 0.78);
+}
+
+// ─────────────── crimson：紫紅倒轉，紅主紫副 ───────────────
+[data-theme="honest-no6"][data-theme-color="crimson"] {
+  --primary-h: 355;
+  --primary-s: 78%;
+  --primary-l: 55%;
+  --secondary-h: 295;
+  --secondary-s: 65%;
+  --secondary-l: 60%;
+  --bg-base: #240612;
+  --bg-surface: #3a0a1f;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 30%, 0.32);
+  --gradient-hero: linear-gradient(180deg, #4a0e22 0%, #240612 100%);
+  --gradient-gold: linear-gradient(
+    135deg,
+    #ffd5b8 0%,
+    var(--primary-02) 50%,
+    var(--secondary-01) 100%
+  );
+  --bg-base-deep: #14040a;
+  --bg-base-translucent: rgba(36, 6, 18, 0.94);
+  --device-frame-bg: linear-gradient(180deg, #14040a 0%, #3a0a1f 100%);
+  --device-frame-inner: #3a0a1f;
+  --device-screen-overlay: linear-gradient(180deg, #4a0e22 0%, #240612 100%);
+  --banner-gradient-1: linear-gradient(
+    135deg,
+    #4a0e22 0%,
+    var(--primary-01) 60%,
+    var(--secondary-01) 100%
+  );
+  --banner-gradient-2: linear-gradient(
+    135deg,
+    var(--secondary-01) 0%,
+    var(--primary-01) 100%
+  );
+  --banner-gradient-3: linear-gradient(
+    135deg,
+    #14040a 0%,
+    var(--secondary-01) 100%
+  );
+  --shadow-glow: 0 0 18px hsla(var(--primary-h), var(--primary-s), 55%, 0.65);
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 38%, 0.4) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 45%, 0.22) 0%,
+      transparent 65%
+    );
+  --honest-no6-marquee-bg: rgba(58, 10, 31, 0.78);
+}

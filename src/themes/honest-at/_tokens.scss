@@ -1,0 +1,189 @@
+// honest-at（AT99 霓虹科技風）token 主檔
+// ---
+// 對齊來源：honest_real src/pages/at/home.vue + assets/scss/at/*.scss
+// 主視覺特徵：
+//   - 深藍漸層底（#0a1430 → #1a2350）+ 亮青藍霓虹高光（#2dd4ff）
+//   - hero 大標題粉紅金色文字（「日返1%」配色）
+//   - JACKPOT 數字框走金邊 + 暗藍底 + 七段顯示
+//   - 左側垂直 tab：「熱門 / 真人 / 電子 / 彩票 / 棋牌」
+//   - 卡片底圖 10035.png 帶霓虹邊框（科幻電競感）
+// ---
+// 配色三變體：
+//   neon-blue 預設 — 主青藍霓虹
+//   neon-purple   — 紫色霓虹（替代主色保留 hue 270）
+//   neon-cyan     — 螢光青綠（hue 165）
+
+[data-theme="honest-at"] {
+  // ─────── HSL 三軸（變體只改這三組即可帶動色階） ───────
+  // 預設主色：霓虹青藍 #2dd4ff → H 190 / S 100% / L 58%
+  --primary-h: 190;
+  --primary-s: 100%;
+  --primary-l: 58%;
+
+  // 副色：粉紅金漸層（hero 大字配色） #ff8a4c → H 22 / S 100% / L 65%
+  --secondary-h: 22;
+  --secondary-s: 100%;
+  --secondary-l: 65%;
+
+  // ─────── primary 階層 ───────
+  --primary-01: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --primary-02: hsl(
+    calc(var(--primary-h) - 5),
+    var(--primary-s),
+    calc(var(--primary-l) + 8%)
+  );
+  --primary-03: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 10%),
+    calc(var(--primary-l) - 12%)
+  );
+  --primary-04: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) - 22%)
+  );
+  --primary-05: hsl(
+    calc(var(--primary-h) + 5),
+    var(--primary-s),
+    calc(var(--primary-l) + 4%)
+  );
+  --primary-06: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 20%),
+    calc(var(--primary-l) - 36%)
+  );
+  --primary-07: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 40%),
+    calc(var(--primary-l) - 46%)
+  );
+  --primary-08: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 5%),
+    calc(var(--primary-l) - 30%)
+  );
+
+  // ─────── secondary 階層（粉橘金，hero 大字 + CTA） ───────
+  --secondary-01: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l)
+  );
+  --secondary-02: hsl(
+    calc(var(--secondary-h) + 8),
+    var(--secondary-s),
+    calc(var(--secondary-l) - 8%)
+  );
+  --secondary-03: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 10%),
+    calc(var(--secondary-l) + 10%)
+  );
+  --secondary-04: hsl(
+    calc(var(--secondary-h) - 4),
+    var(--secondary-s),
+    calc(var(--secondary-l) - 12%)
+  );
+  --secondary-05: hsl(
+    var(--secondary-h),
+    calc(var(--secondary-s) - 20%),
+    calc(var(--secondary-l) - 20%)
+  );
+
+  // ─────── 共用 alias ───────
+  --color-primary: var(--primary-01);
+  --color-secondary: var(--secondary-01);
+  --color-accent: var(--secondary-01);
+
+  // 整頁深藍底
+  --bg-base: #0a1430;
+  --bg-surface: #11203f;
+  --bg-overlay: hsla(var(--primary-h), var(--primary-s), 30%, 0.32);
+  --text-primary: #ffffff;
+  --text-muted: #8aa3c8;
+  --text-on-primary: #ffffff;
+  --border: hsla(var(--primary-h), var(--primary-s), 60%, 0.35);
+  --shadow: 0 4px 14px hsla(var(--primary-h), var(--primary-s), 25%, 0.5);
+
+  // hero / CTA
+  --gradient-hero: linear-gradient(180deg, #131e44 0%, #0a1430 100%);
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--primary-01) 0%,
+    var(--primary-04) 100%
+  );
+  --gradient-gold: linear-gradient(
+    135deg,
+    #ffd57c 0%,
+    var(--secondary-01) 50%,
+    #ff5959 100%
+  );
+  --text-on-gold: #1a0500;
+
+  // 對比 token
+  --bg-base-deep: #050a1a;
+  --bg-base-translucent: rgba(10, 20, 48, 0.92);
+  --highlight-strip: #ffd57c;
+  --provider-card-bg: #11203f;
+  --footer-bg: #050a1a;
+  --footer-text: #8aa3c8;
+  --footer-link: var(--primary-01);
+  --badge-live: var(--secondary-01);
+
+  // device frame（PC 預覽用）
+  --device-frame-bg: linear-gradient(180deg, #050a1a 0%, #11203f 100%);
+  --device-frame-inner: #11203f;
+  --device-screen-overlay: linear-gradient(
+    180deg,
+    #131e44 0%,
+    #0a1430 100%
+  );
+
+  // banner 漸層
+  --banner-gradient-1: linear-gradient(135deg, #1a2350 0%, var(--primary-01) 60%, #ff5959 100%);
+  --banner-gradient-2: linear-gradient(135deg, var(--primary-04) 0%, var(--primary-01) 100%);
+  --banner-gradient-3: linear-gradient(135deg, #050a1a 0%, var(--secondary-01) 100%);
+
+  // 字體
+  --font-display:
+    "Orbitron", "Rajdhani", "Noto Sans TC", "PingFang TC", "微軟正黑體",
+    sans-serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Segoe UI", tahoma, arial, sans-serif;
+
+  // shadow stack：青藍 alpha glow（科幻電競感）
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.42);
+  --shadow-md: 0 4px 10px hsla(var(--primary-h), var(--primary-s), 25%, 0.42);
+  --shadow-lg: 0 8px 22px rgba(0, 0, 0, 0.55);
+  --shadow-xl: 3px 7px 14px rgba(0, 0, 0, 0.6);
+  --shadow-sticky:
+    0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 18px hsla(var(--primary-h), var(--primary-s), 60%, 0.7);
+
+  // 角落 radial 柔光：左上青藍光、右下粉橘光
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 0% 0%,
+      hsla(var(--primary-h), var(--primary-s), 40%, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 100% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 55%, 0.18) 0%,
+      transparent 65%
+    );
+
+  // honest-at specific：JACKPOT 數字框專用 token
+  // 為什麼獨立 token：JACKPOT 是 AT99 最核心視覺，要能在 variants 內無痛換色
+  --honest-at-jackpot-frame: linear-gradient(
+    180deg,
+    #ffd57c 0%,
+    #c79a45 50%,
+    #6a4d20 100%
+  );
+  --honest-at-jackpot-digit-bg: linear-gradient(180deg, #050a1a 0%, #11203f 100%);
+  --honest-at-jackpot-digit-color: #ffd57c;
+  --honest-at-neon-frame: var(--primary-01);
+  --honest-at-card-bg: linear-gradient(180deg, #131e44 0%, #0a1430 100%);
+}

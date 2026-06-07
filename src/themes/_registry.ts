@@ -279,13 +279,103 @@ const vietvip: ThemeMeta = {
   logos: SHARED_LOGOS
 };
 
+/**
+ * honest-at 版面（AT99 霓虹科技風）
+ *
+ * 來源：honest_real src/pages/at/home.vue 完全照抄
+ * - mobile：sticky brand bar + 語系切換 / banner 輪播 + 中央漸層金大字 hero / JACKPOT 七段數字 /
+ *   左側 7 分類 sidebar + 熱門 5 圈 + 真人卡片 / 底部 5 tab（中間「存提」放大 CTA 球）
+ * - desktop：mobile 結構橫向延伸（sticky brand bar 加寬 + 1024 居中容器 + 精簡 footer）
+ * - 配色：HSL 三軸（neon-blue 預設 / neon-purple / neon-cyan），主視覺青藍霓虹科幻感
+ * - defaultLogo：dahsing 大亨 ONLINE（與 AT99 賭場霓虹品牌調性對齊）
+ */
+const honestAt: ThemeMeta = {
+  key: "honest-at",
+  label: "版面 F · AT99",
+  description:
+    "AT99 霓虹科技風，深藍底 + 青藍霓虹高光，hero 帶 JACKPOT 七段數字，預設霓虹藍 / 紫 / 青三種配色",
+  desktop: () => import("./honest-at/desktop.vue"),
+  mobile: () => import("./honest-at/mobile.vue"),
+  defaultColor: "neon-blue",
+  colors: [
+    { key: "neon-blue", label: "霓虹藍", swatch: "#2dd4ff" },
+    { key: "neon-purple", label: "紫色霓虹", swatch: "#c879ff" },
+    { key: "neon-cyan", label: "螢光青", swatch: "#3dd7d3" }
+  ],
+  previews: buildPreviews("honest-at"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS
+};
+
+/**
+ * honest-max 版面（88WIN 桃粉藍綠混色風）
+ *
+ * 來源：honest_real src/pages/max/home.vue 完全照抄
+ * - mobile：白底 brand bar + 雙顆對比按鈕（黃漸層註冊 / 藍漸層登入） /「人在塔在」banner /
+ *   左 7 分類 sidebar（彩色卡）+ 右 hot 2x2 大卡（KU 真人 / 3D 電子 / KU 體育 / KU 彩球）+
+ *   迪迦額外卡 + 紫色雙卡（免費電影 / 西甲）+ 切換版本列 / 底部 5 文字 tab（白底淡邊）
+ * - desktop：mobile 結構橫向延伸（white brand bar + 960 容器）
+ * - 配色：HSL 三軸（pink 預設桃粉 / azure 藍主 / sunset 橘黃），活潑、亮色簡潔感
+ * - defaultLogo：umu（亮色 brand 配色與 UMU 風格最搭，與 noya 區隔）
+ */
+const honestMax: ThemeMeta = {
+  key: "honest-max",
+  label: "版面 G · 88WIN",
+  description:
+    "88WIN 桃粉藍綠混色風，淡灰白底 + 彩色 hot 卡 + 紫色 CTA，預設桃粉 / 藍主 / 橘黃三種配色",
+  desktop: () => import("./honest-max/desktop.vue"),
+  mobile: () => import("./honest-max/mobile.vue"),
+  defaultColor: "pink",
+  colors: [
+    { key: "pink", label: "桃粉", swatch: "#e75bff" },
+    { key: "azure", label: "藍主", swatch: "#3ec1f5" },
+    { key: "sunset", label: "夕陽橘", swatch: "#ff8a4c" }
+  ],
+  previews: buildPreviews("honest-max"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS
+};
+
+/**
+ * honest-no6 版面（FG 紫黑神秘風）
+ *
+ * 來源：honest_real src/pages/no6/home.vue 完全照抄
+ * - mobile：絕對定位透明 header（疊在 hero 上）+ 城堡 banner 圖 +「山日日」白色大字 +
+ *   金漸層「儲值 1000 試送 1000」副標 / 跑馬燈條 + 3 張資訊小圖 /
+ *   左 7 分類 sidebar（active 紫紅高亮） + 右 2 列 girl-model 卡片 grid /
+ *   底部 5 tab，中間「首頁」放粉色圓凸 CTA 球
+ * - desktop：mobile 結構橫向延伸（紫黑 sticky brand bar + 金邊 nav + 980 容器）
+ * - 配色：HSL 三軸（purple 預設紫主 / midnight 夜紫 / crimson 紫紅倒轉）
+ * - defaultLogo：long-heng（金筆畫與 no6 的金色 hero 文字 + 紫黑底搭配最融洽）
+ */
+const honestNo6: ThemeMeta = {
+  key: "honest-no6",
+  label: "版面 H · FG",
+  description:
+    "FG 紫黑神秘風，紫黑底 + 城堡 hero + 金色 hero 副標 + girl-model 卡片，預設紫主 / 夜紫 / 紫紅三種配色",
+  desktop: () => import("./honest-no6/desktop.vue"),
+  mobile: () => import("./honest-no6/mobile.vue"),
+  defaultColor: "purple",
+  colors: [
+    { key: "purple", label: "紫主", swatch: "#d44ee0" },
+    { key: "midnight", label: "夜紫", swatch: "#5b3da1" },
+    { key: "crimson", label: "紫紅", swatch: "#d63d5e" }
+  ],
+  previews: buildPreviews("honest-no6"),
+  defaultLogo: "long-heng",
+  logos: SHARED_LOGOS
+};
+
 /** 對外暴露的 theme 表，key 是 layoutKey */
 export const themes: Record<string, ThemeMeta> = {
   noya,
   at99,
   "ant-sport": antSport,
   tycoon,
-  vietvip
+  vietvip,
+  "honest-at": honestAt,
+  "honest-max": honestMax,
+  "honest-no6": honestNo6
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */
