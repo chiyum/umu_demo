@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useDemoThemeStore } from "@/store/demo-theme.store";
-import HonestNo6MobileHero from "./sections/honest-no6-mobile-hero.vue";
+import HonestNo6MobileBanner from "./sections/honest-no6-mobile-banner.vue";
+import HonestNo6MobileMarquee from "./sections/honest-no6-mobile-marquee.vue";
+import HonestNo6MobileInfo from "./sections/honest-no6-mobile-info.vue";
 import HonestNo6MobileGameMenu from "./sections/honest-no6-mobile-game-menu.vue";
 
 /**
@@ -75,7 +77,9 @@ const footerLinks = ["關於 FG", "服務條款", "VIP 福利", "綁定教學", 
 
     <main class="honest-no6-layout__main">
       <div class="honest-no6-layout__container">
-        <HonestNo6MobileHero />
+        <HonestNo6MobileBanner />
+        <HonestNo6MobileMarquee />
+        <HonestNo6MobileInfo />
         <HonestNo6MobileGameMenu />
       </div>
     </main>

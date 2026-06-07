@@ -11,17 +11,31 @@ import iconLotto from "../assets/sidebar/lotto.png?url";
 import iconFish from "../assets/sidebar/fish.png?url";
 
 /**
- * honest-no6 mobile 遊戲選單 — 對齊 honest_real no6/widgets/pages/no6/game/index.vue
+ * honest-no6 mobile 遊戲選單 — 1:1 對齊 honest_real widgets/pages/no6/game/index.vue
  *
- * 原作結構：
- *   sidebar 7 個 sidebar-button（熱門 / 體育 / 真人 / 棋牌 / 電子 / 彩球 / 捕魚）
- *   右側 swiper 7 slide 各 8 張 .swiper-slide：每張卡用 background-image: live.png
- *     裡面有 ATG 平台 logo overlay；熱門 slide 預設啟用
+ * 原作 DOM：
+ *   .game (flex / padding 0 3% / padding-bottom calc(70px+0.2rem))
+ *     .sidebar (column / width 80px / overflow-y scroll)
+ *       button.sidebar-button v-for cat (7 cat)
+ *         <img :src="icon" /> + <span>{{ title }}</span>
+ *     .main (padding-left 5px / width calc(100% - 80px))
+ *       <swiper direction="vertical" pagination>
+ *         <swiper-slide v-for>
+ *           <div>
+ *             .item v-for（**display flex 橫向**，height 157px，
+ *                        backgroundImage = live.png，
+ *                        左邊 50% width 25px 高 紫粉漸層 <p> 顯文字 + 圓角 5px 0 5px 0，
+ *                        右邊 .logo padding 3px <img ATG.png />）
  *
- * Demo 化策略：
- * - sidebar 走「圖示縮圖 + active 紫紅色背景」對齊參考圖中熱門 active 視覺
- * - 卡片 grid 2 列，每張用 live.png 當 girl model bg + ATG logo 覆蓋
- *   為了多樣化，標籤改為 ATG真人 / RSG電子 / 數位真人 / DG真人 / DG真人 / DG真人
+ * 原作熱門 slide 7 個 item，每個都同樣結構：
+ *   1) ATG電子 / 2) RSG電子 / 3) DG真人 / 4) 歐博真人 / 5/6/7) DG真人 × 3
+ *
+ * 7 個 cat 對應 icon：hot / sport / live / chess / slot / lotto / fish
+ *
+ * Demo 化重點：
+ * - 7 個 item 垂直堆疊（**不是 2-col grid**）
+ * - 每個 item height 157px、display flex 左右兩半（label + logo）
+ * - 不對 sidebar icon 染色（原作就是彩色 icon，opacity 區分 active）
  */
 
 interface CatItem {
@@ -42,193 +56,161 @@ const CATEGORIES: CatItem[] = [
 
 const activeCategory = ref<string>("hot");
 
-interface GameCard {
-  label: string;
-}
-
-// 對齊 reference 顯示的 8 張卡（標籤循環 ATG真人 / RSG電子 / 數位真人 / DG真人）
-const GAME_CARDS: GameCard[] = [
-  { label: "ATG真人" },
-  { label: "RSG電子" },
-  { label: "數位真人" },
-  { label: "DG真人" },
-  { label: "DG真人" },
-  { label: "DG真人" }
+// 對齊原作 hot slide 內 7 個 item 的 label
+const GAME_ITEMS = [
+  "ATG電子",
+  "RSG電子",
+  "DG真人",
+  "歐博真人",
+  "DG真人",
+  "DG真人",
+  "DG真人"
 ];
 </script>
 
 <template>
-  <section class="honest-no6-m-menu">
-    <!-- 左 sidebar 7 cat -->
-    <aside class="honest-no6-m-menu__sidebar">
+  <div class="honest-no6-m-game">
+    <!-- 左 80px sidebar -->
+    <div class="honest-no6-m-game__sidebar">
       <button
         v-for="c in CATEGORIES"
         :key="c.key"
         type="button"
-        class="honest-no6-m-menu__cat"
-        :class="{ 'honest-no6-m-menu__cat--active': activeCategory === c.key }"
+        class="honest-no6-m-game__cat"
+        :class="{ 'honest-no6-m-game__cat--active': activeCategory === c.key }"
         @click="activeCategory = c.key"
       >
-        <span class="honest-no6-m-menu__cat-icon">
-          <img :src="c.icon" :alt="`${c.label} 圖示`" />
-        </span>
-        <span class="honest-no6-m-menu__cat-label">{{ c.label }}</span>
+        <img :src="c.icon" :alt="c.label" class="honest-no6-m-game__cat-icon" />
+        <span class="honest-no6-m-game__cat-label">{{ c.label }}</span>
       </button>
-    </aside>
+    </div>
 
-    <!-- 右 cards -->
-    <div class="honest-no6-m-menu__panel">
-      <div class="honest-no6-m-menu__grid">
-        <div
-          v-for="(card, i) in GAME_CARDS"
-          :key="i"
-          class="honest-no6-m-menu__card"
-        >
-          <img
-            :src="cardBg"
-            alt=""
-            class="honest-no6-m-menu__card-bg"
-            aria-hidden="true"
-          />
-          <div class="honest-no6-m-menu__card-overlay">
-            <img
-              :src="atgLogo"
-              :alt="card.label"
-              class="honest-no6-m-menu__card-logo"
-            />
-            <div class="honest-no6-m-menu__card-label">{{ card.label }}</div>
-          </div>
+    <!-- 右 main 7 vertical items -->
+    <div class="honest-no6-m-game__main">
+      <div
+        v-for="(label, i) in GAME_ITEMS"
+        :key="i"
+        class="honest-no6-m-game__item"
+        :style="{ backgroundImage: `url(${cardBg})` }"
+      >
+        <p class="honest-no6-m-game__item-label">{{ label }}</p>
+        <div class="honest-no6-m-game__item-logo">
+          <img :src="atgLogo" alt="" />
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.honest-no6-m-menu {
-  display: grid;
-  grid-template-columns: 76px 1fr;
-  gap: 8px;
-  padding: 0 8px 12px;
-}
-
-// ─────── sidebar ───────
-.honest-no6-m-menu__sidebar {
+// 對齊原作 .game：flex / padding 0 3%
+.honest-no6-m-game {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  padding: 0 3%;
 }
 
-.honest-no6-m-menu__cat {
+// 對齊原作 .sidebar：80px 寬 / column / center
+.honest-no6-m-game__sidebar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 10px 4px;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+// 對齊原作 .sidebar .item：min-width 58px / min-height 約 1rem / mb 0.2rem / 圓角 14px
+.honest-no6-m-game__cat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.2rem;
+  min-width: 58px;
+  min-height: 64px;
+  padding: 8px 4px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid transparent;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  color: #5b4f4f;
   cursor: pointer;
-  border-radius: 12px;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
+  transition: all 0.3s;
+  font-size: 12px;
+  font-weight: 600;
 
-  &:active {
-    transform: scale(0.96);
-  }
-
-  // active：紫粉 gradient bg + 白字 + 邊框金光
-  // 對齊原作熱門 active 強烈高亮的視覺感
+  // 對齊原作 .item.active：color #fff
   &--active {
-    background: var(--gradient-cta);
-    color: var(--text-on-primary);
-    border-color: var(--secondary-01);
-    box-shadow: var(--shadow-glow);
+    color: #ffffff;
+    background: linear-gradient(135deg, #d44ee0 0%, #6b3aa4 100%);
+    box-shadow: 0 4px 12px rgba(212, 78, 224, 0.45);
   }
 }
 
-.honest-no6-m-menu__cat-icon {
+.honest-no6-m-game__cat-icon {
   width: 32px;
   height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    opacity: 0.78;
-    transition: opacity 0.15s ease;
-  }
+  object-fit: contain;
+  opacity: 0.78;
+  transition: opacity 0.2s ease;
 }
 
-.honest-no6-m-menu__cat--active .honest-no6-m-menu__cat-icon img {
+.honest-no6-m-game__cat--active .honest-no6-m-game__cat-icon {
   opacity: 1;
 }
 
-// ─────── cards grid ───────
-.honest-no6-m-menu__panel {
-  display: flex;
-  flex-direction: column;
+.honest-no6-m-game__cat-label {
+  margin-top: 2px;
+  white-space: nowrap;
+  font-size: 12px;
 }
 
-.honest-no6-m-menu__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+// 對齊原作 .main：padding-left 5px / width calc(100% - 80px)
+.honest-no6-m-game__main {
+  padding-left: 5px;
+  width: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
-.honest-no6-m-menu__card {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 10px;
-  overflow: hidden;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-md);
-}
-
-.honest-no6-m-menu__card-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.honest-no6-m-menu__card-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
+// 對齊原作 .main .item：display flex / height 157px / background no-repeat right cover / 圓角 5px
+.honest-no6-m-game__item {
   display: flex;
-  flex-direction: column;
+  height: 157px;
+  background-color: #453c54;
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: cover;
+  border-radius: 5px;
+}
+
+// 對齊原作 p：50% 寬 / 25px 高 / linear-gradient #DE76D9→#453E97 / 圓角 5px 0 5px 0
+.honest-no6-m-game__item-label {
+  width: 50%;
+  height: 25px;
+  background: linear-gradient(to right, #de76d9, #453e97);
+  color: #ffffff;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  background: var(--honest-no6-card-overlay);
+  text-align: center;
+  border-radius: 5px 0;
+  font-weight: bold;
+  font-size: 13px;
+  margin: 0 4px 0 0;
 }
 
-.honest-no6-m-menu__card-logo {
-  width: 50%;
-  max-width: 80px;
-  height: auto;
-  object-fit: contain;
+// 對齊原作 .logo：padding 3px / img 100% width
+.honest-no6-m-game__item-logo {
+  padding: 3px;
+  height: 25px;
+  display: flex;
+  align-items: center;
 
-  // 對齊原作半透明大 logo 蓋在模特圖上的視覺
-  opacity: 0.92;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
-}
-
-.honest-no6-m-menu__card-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-on-primary);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  img {
+    width: 100%;
+    max-width: 80px;
+    height: auto;
+    object-fit: contain;
+  }
 }
 </style>

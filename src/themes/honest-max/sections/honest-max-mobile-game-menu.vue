@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import logoKu from "../assets/games/logo-ku.svg?url";
-import logoDg from "../assets/games/logo-dg.png?url";
 import logoLaliga from "../assets/games/logo-laliga.svg?url";
 import logoCi from "../assets/games/logo-ci.svg?url";
 import bgHot1 from "../assets/games/bg-hot-1.png?url";
@@ -215,22 +214,7 @@ const EXTRA_TITLE = "加碼 邀請抽一億";
         </div>
       </div>
 
-      <!-- 切換版本 + DG 真人小卡 -->
-      <div class="honest-max-m-menu__switch-row">
-        <div class="honest-max-m-menu__switch-pill">免費電影</div>
-        <div
-          class="honest-max-m-menu__switch-pill honest-max-m-menu__switch-pill--brand"
-        >
-          切換版本
-        </div>
-        <div class="honest-max-m-menu__switch-dg">
-          <img
-            :src="logoDg"
-            alt="DG"
-            class="honest-max-m-menu__switch-dg-img"
-          />
-        </div>
-      </div>
+      <!-- 切換版本是 Fab 拖曳球（layout 層級獨立元件），不放在 game-menu 內 -->
     </div>
   </section>
 </template>
@@ -459,47 +443,5 @@ const EXTRA_TITLE = "加碼 邀請抽一億";
   padding: 3px;
 }
 
-// ─────── 切換版本列 + DG 小卡 ───────
-.honest-max-m-menu__switch-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 80px;
-  gap: 8px;
-  align-items: center;
-}
-
-.honest-max-m-menu__switch-pill {
-  height: 36px;
-  border-radius: 18px;
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
-
-  &--brand {
-    background: var(--gradient-cta);
-    color: #ffffff;
-  }
-}
-
-.honest-max-m-menu__switch-dg {
-  height: 36px;
-  border-radius: 8px;
-  background: var(--bg-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-sm);
-}
-
-// 拆出避免 specificity 排序問題
-.honest-max-m-menu__switch-dg-img {
-  width: 60%;
-  height: 60%;
-  object-fit: contain;
-}
+// 「切換版本」是 Fab 拖曳球（獨立 section），不在 game-menu 內
 </style>

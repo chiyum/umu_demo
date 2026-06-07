@@ -1,26 +1,18 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useDemoThemeStore } from "@/store/demo-theme.store";
-import HonestAtMobileHero from "./sections/honest-at-mobile-hero.vue";
+import HonestAtMobileMarquee from "./sections/honest-at-mobile-marquee.vue";
+import HonestAtMobileBanner from "./sections/honest-at-mobile-banner.vue";
+import HonestAtMobilePrizepoor from "./sections/honest-at-mobile-prizepoor.vue";
 import HonestAtMobileGameMenu from "./sections/honest-at-mobile-game-menu.vue";
 
 /**
- * honest-at 桌面版佈局 — 「mobile 結構橫向延伸 + 同設計語言放大」
+ * honest-at 桌面版佈局 — 沿用「mobile 結構橫向延伸」策略
  *
- * honest_real 三個版本（at / max / no6）皆為純手機站，無 PC 原作。
- * 採與 vietvip 同樣的「忠於 mobile 元素、橫向延伸」策略：
- * - 頂部 sticky brand bar（mobile header 放大版 + 加 nav）
- * - 主內容區 1200px 居中容器，內嵌 mobile hero 與 mobile game-menu
- * - 不另開 PC 專屬 hero / game-grid 元件（避免維護兩套）
+ * honest_real 三個版本皆為純手機站，無 PC 原作。
+ * 採頂部 sticky brand bar + 1024 居中容器內嵌 mobile section + 精簡 footer
  *
- * 為什麼 hero + game-menu 直接重用 mobile 元件：
- * - 三個 honest theme 都是純手機原作，原本沒有 PC layout 可參考
- * - 與其硬掰 PC 五段塞 placeholder，不如「放大顯示手機核心元素」反而更貼近原作
- * - 還能 100% 維持配色 / token 一致性，沒有 PC / mobile drift 風險
- * - showcase 主頁主要看 mobile 縮圖，PC 縮圖只是輔助
- *
- * Header / Footer 仍走 PC 專屬樣式，因為 mobile header 是 sticky 透明
- * 直接放大會掉品牌識別度
+ * 不渲染 Fab：那是 mobile 版的拖曳球，PC 不需要
  */
 
 const themeStore = useDemoThemeStore();
@@ -52,7 +44,6 @@ const footerLinks = [
 
 <template>
   <div class="honest-at-layout">
-    <!-- 頂部 sticky brand bar（mobile 同設計語言加寬） -->
     <header class="honest-at-layout__header">
       <div class="honest-at-layout__header-inner">
         <a class="honest-at-layout__brand" href="#" :aria-label="logoLabel">
@@ -80,23 +71,23 @@ const footerLinks = [
             type="button"
             class="honest-at-layout__btn honest-at-layout__btn--ghost"
           >
-            註冊
+            登入
           </button>
           <button
             type="button"
             class="honest-at-layout__btn honest-at-layout__btn--primary"
           >
-            登入
+            註冊
           </button>
         </div>
       </div>
     </header>
 
     <main class="honest-at-layout__main">
-      <!-- 大寬版 hero + game menu：mobile section 直接放大顯示，
-           container 居中、寬度 1200，內部 mobile section 自動撐滿 -->
       <div class="honest-at-layout__container">
-        <HonestAtMobileHero />
+        <HonestAtMobileMarquee />
+        <HonestAtMobileBanner />
+        <HonestAtMobilePrizepoor />
         <HonestAtMobileGameMenu />
       </div>
     </main>
@@ -129,10 +120,12 @@ const footerLinks = [
 <style lang="scss" scoped>
 .honest-at-layout {
   position: relative;
-  background: var(--bg-base);
-  background-image: var(--bg-decoration);
-  color: var(--text-on-primary);
-  font-family: var(--font-body);
+  background-image: url("./assets/games/page-bg.jpg");
+  background-color: #050a1a;
+  background-size: cover;
+  background-position: center top;
+  color: #ffffff;
+  font-family: var(--font-body, "Noto Sans TC", "PingFang TC", sans-serif);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -142,14 +135,9 @@ const footerLinks = [
     position: sticky;
     top: 0;
     z-index: 200;
-    background: linear-gradient(
-      180deg,
-      rgba(5, 10, 26, 0.85) 0%,
-      rgba(5, 10, 26, 0.62) 100%
-    );
+    background: rgba(20, 23, 29, 0.92);
+    border-bottom: 1px solid #3aa2ec;
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--honest-at-neon-frame);
-    box-shadow: var(--shadow-sticky);
   }
 
   &__header-inner {
@@ -190,7 +178,7 @@ const footerLinks = [
   }
 
   &__nav-link {
-    color: var(--text-on-primary);
+    color: #ffffff;
     font-size: 15px;
     font-weight: 600;
     text-decoration: none;
@@ -198,7 +186,7 @@ const footerLinks = [
     position: relative;
 
     &:hover {
-      color: var(--honest-at-neon-frame);
+      color: #3aa2ec;
 
       &::after {
         content: "";
@@ -207,9 +195,8 @@ const footerLinks = [
         right: 0;
         bottom: -8px;
         height: 2px;
-        background: var(--honest-at-neon-frame);
+        background: #3aa2ec;
         border-radius: 1px;
-        box-shadow: 0 0 6px var(--honest-at-neon-frame);
       }
     }
   }
@@ -221,9 +208,10 @@ const footerLinks = [
   }
 
   &__btn {
-    height: 38px;
-    padding: 0 22px;
-    border-radius: 22px;
+    height: 36px;
+    min-width: 76px;
+    padding: 0 18px;
+    border-radius: 18px;
     font-size: 14px;
     font-weight: 700;
     font-family: inherit;
@@ -237,30 +225,25 @@ const footerLinks = [
     }
 
     &--ghost {
-      color: var(--honest-at-neon-frame);
-      background: transparent;
-      border: 1.5px solid var(--honest-at-neon-frame);
-
-      &:hover {
-        background: rgba(45, 212, 255, 0.18);
-      }
+      color: #ffffff;
+      background: linear-gradient(180deg, #3aa2ec 0%, #1859ff 100%);
+      border: none;
     }
 
     &--primary {
-      color: var(--text-on-gold);
-      background: var(--gradient-gold);
-      border: none;
-      box-shadow: 0 4px 12px rgba(255, 138, 76, 0.4);
+      color: #ffffff;
+      background: transparent;
+      border: 1px solid #3aa2ec;
+    }
 
-      &:hover {
-        filter: brightness(1.08);
-      }
+    &:hover {
+      filter: brightness(1.08);
     }
   }
 
   &__main {
     flex: 1;
-    padding: 24px 0 64px;
+    padding: 16px 0 64px;
   }
 
   &__container {
@@ -269,16 +252,11 @@ const footerLinks = [
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-
-    // 為什麼 1024 而非 1200：mobile section 內部已是 100% 寬度的 grid 配置，
-    // 整體放大太多會造成 hero 文字過大、卡片之間 gap 太寬，視覺反而失衡
   }
 
-  // ─────── footer ───────
   &__footer {
-    background: var(--footer-bg);
-    border-top: 1px solid var(--honest-at-neon-frame);
+    background: #050a1a;
+    border-top: 1px solid #3aa2ec;
     padding: 32px 0 24px;
   }
 
@@ -306,7 +284,7 @@ const footerLinks = [
 
   &__footer-tag {
     font-size: 13px;
-    color: var(--footer-text);
+    color: #abacac;
   }
 
   &__footer-nav {
@@ -316,20 +294,20 @@ const footerLinks = [
     justify-content: center;
 
     a {
-      color: var(--footer-text);
+      color: #abacac;
       text-decoration: none;
       font-size: 13px;
       transition: color 0.15s ease;
 
       &:hover {
-        color: var(--honest-at-neon-frame);
+        color: #3aa2ec;
       }
     }
   }
 
   &__footer-copy {
     font-size: 12px;
-    color: var(--text-muted);
+    color: #6c6f75;
     margin-top: 8px;
   }
 }

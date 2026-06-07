@@ -1,53 +1,66 @@
 <script setup lang="ts">
 import HonestAtMobileHeader from "./sections/honest-at-mobile-header.vue";
-import HonestAtMobileHero from "./sections/honest-at-mobile-hero.vue";
+import HonestAtMobileMarquee from "./sections/honest-at-mobile-marquee.vue";
+import HonestAtMobileBanner from "./sections/honest-at-mobile-banner.vue";
+import HonestAtMobilePrizepoor from "./sections/honest-at-mobile-prizepoor.vue";
 import HonestAtMobileGameMenu from "./sections/honest-at-mobile-game-menu.vue";
+import HonestAtMobileFab from "./sections/honest-at-mobile-fab.vue";
 import HonestAtMobileTabBar from "./sections/honest-at-mobile-tab-bar.vue";
 
 /**
- * honest-at 手機版佈局 — 對齊 honest_real src/pages/at/home.vue
+ * honest-at 手機版佈局 — 1:1 對齊 honest_real src/pages/at/home.vue + layouts/layout-at-home.vue
  *
- * 由上到下：
- * 1. Header     logo + 語系切換（demo 已登入視角，移除註冊/登入按鈕）
- * 2. Hero       banner 輪播 + 跑馬燈 + JACKPOT 數字框（封裝同一段）
- * 3. GameMenu   左 7 分類 sidebar + 右 game grid（熱門 / 真人 各一頁）
- * 底部 TabBar   5 個固定 tab（中間「存提」放大成 CTA 球）
+ * 原作 DOM 順序（home.vue）：
+ *   .at-home
+ *     .at-home-header   ← logo + 登入 + 註冊 + 語系
+ *     .at-home-marquee-wrap
+ *       .at-home-marquee
+ *     <Banner />        ← 純 img swiper，3 張 jpg
+ *     <Prizepoor />     ← JACKPOT 11 位 sprite（疊在 banner 底部 margin -50px）
+ *     <Game />          ← 25/75 grid，7 cat + 5 hot 卡
+ *     <Fab />           ← 切換版本拖曳球
+ *   ↓ 外層 layout-at-home.vue 渲染
+ *   .layout-at-actions  ← 底部 5 tab (home 頁不顯示首頁項)
  *
- * 整頁深藍底：bg-base + radial 雙角柔光
+ * 原作 layout SCSS：.layout-at 整頁鋪 url(10114.jpg) bg / padding-bottom 75px
+ *
+ * 注意：不可在 Banner 上疊任何 HTML overlay（標題副標 jackpot 都在 jpg 內）
  */
 </script>
 
 <template>
   <div class="honest-at-m-layout">
-    <HonestAtMobileHeader />
-
-    <main class="honest-at-m-layout__main">
-      <HonestAtMobileHero />
+    <div class="honest-at-m-layout__page">
+      <HonestAtMobileHeader />
+      <HonestAtMobileMarquee />
+      <HonestAtMobileBanner />
+      <HonestAtMobilePrizepoor />
       <HonestAtMobileGameMenu />
-    </main>
-
+      <HonestAtMobileFab />
+    </div>
     <HonestAtMobileTabBar />
   </div>
 </template>
 
 <style lang="scss" scoped>
+// 對齊原作 .layout-at：整頁鋪 10114.jpg / padding-bottom 75px
 .honest-at-m-layout {
   position: relative;
   min-height: 100vh;
-  color: var(--text-on-primary);
-  font-family: var(--font-body);
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-base);
-  background-image: var(--bg-decoration);
-  background-attachment: scroll;
-  overflow: hidden;
+  background-image: url("./assets/games/page-bg.jpg");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #050a1a;
+  color: #ffffff;
+  font-family: var(--font-body, "Noto Sans TC", "PingFang TC", sans-serif);
+  padding-bottom: 75px;
+  overflow-x: hidden;
 
-  &__main {
-    flex: 1;
-
-    // 底部留出 tab bar 空間（中間 CTA 球 56px + 安全距離）
-    padding-bottom: calc(100px + env(safe-area-inset-bottom));
+  // page 區作為 Fab parent（Fab onMounted 取 parent 尺寸算右下角位置）
+  &__page {
+    position: relative;
+    min-height: calc(100vh - 75px);
   }
 }
 </style>

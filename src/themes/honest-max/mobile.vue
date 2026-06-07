@@ -2,30 +2,34 @@
 import HonestMaxMobileHeader from "./sections/honest-max-mobile-header.vue";
 import HonestMaxMobileBanner from "./sections/honest-max-mobile-banner.vue";
 import HonestMaxMobileGameMenu from "./sections/honest-max-mobile-game-menu.vue";
+import HonestMaxMobileFab from "./sections/honest-max-mobile-fab.vue";
 import HonestMaxMobileTabBar from "./sections/honest-max-mobile-tab-bar.vue";
 
 /**
- * honest-max 手機版佈局 — 對齊 honest_real src/pages/max/home.vue
+ * honest-max 手機版佈局 — 1:1 對齊 honest_real src/pages/max/home.vue
  *
- * 由上到下：
- * 1. Header   logo + 註冊 / 登入兩顆對比按鈕
- * 2. Banner   人在塔在主視覺輪播
- * 3. GameMenu 左 7 分類 sidebar + 右 hot/extra/purple 卡組合
- * 底部 TabBar 5 個白底淡邊 tab
+ * 原作 DOM 順序：
+ *   .home
+ *     .home__header   ← 88win2-logo 78px + 註冊鈕（前）+ 登入鈕（後）
+ *     .home__banner   ← 純 img Banner（BannerGuest01.jpg，內含「人在塔在」視覺）
+ *     // marquee 註解掉
+ *     // home__action v-if isEmpty(user) 不顯示（user 是寫死的物件）
+ *     // home__user__action 註解
+ *     .home__game     ← Game (左 7 cat + swiper 多 slide)
+ *   <Fab :parent="'.home'" />
  *
- * 整頁淡灰白底（與 honest-at 深底對比鮮明）+ radial 雙角柔光
+ * 注意：banner 上**禁止疊任何 HTML overlay 文字**，視覺主體是 BannerGuest01.jpg
  */
 </script>
 
 <template>
   <div class="honest-max-m-layout">
-    <HonestMaxMobileHeader />
-
-    <main class="honest-max-m-layout__main">
+    <div class="honest-max-m-layout__page">
+      <HonestMaxMobileHeader />
       <HonestMaxMobileBanner />
       <HonestMaxMobileGameMenu />
-    </main>
-
+      <HonestMaxMobileFab />
+    </div>
     <HonestMaxMobileTabBar />
   </div>
 </template>
@@ -36,19 +40,15 @@ import HonestMaxMobileTabBar from "./sections/honest-max-mobile-tab-bar.vue";
   min-height: 100vh;
   color: var(--text-primary);
   font-family: var(--font-body);
-  display: flex;
-  flex-direction: column;
   background: var(--bg-base);
   background-image: var(--bg-decoration);
   background-attachment: scroll;
-  overflow: hidden;
+  overflow-x: hidden;
+  padding-bottom: calc(70px + env(safe-area-inset-bottom));
 
-  &__main {
-    flex: 1;
-    padding: 0 4px;
-
-    // 底部留出 tab bar 空間
-    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+  &__page {
+    position: relative;
+    min-height: calc(100vh - 70px);
   }
 }
 </style>
