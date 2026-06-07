@@ -4,7 +4,6 @@ import HonestNo6MobileBanner from "./sections/honest-no6-mobile-banner.vue";
 import HonestNo6MobileMarquee from "./sections/honest-no6-mobile-marquee.vue";
 import HonestNo6MobileInfo from "./sections/honest-no6-mobile-info.vue";
 import HonestNo6MobileGameMenu from "./sections/honest-no6-mobile-game-menu.vue";
-import HonestNo6MobileFab from "./sections/honest-no6-mobile-fab.vue";
 import HonestNo6MobileTabBar from "./sections/honest-no6-mobile-tab-bar.vue";
 
 /**
@@ -17,8 +16,10 @@ import HonestNo6MobileTabBar from "./sections/honest-no6-mobile-tab-bar.vue";
  *     .home__marquee       ← Marquee 元件（紫色 wrap + 黑底）
  *     .home__action v-if   ← 不顯示（user 有值）
  *     .grid grid-cols-3    ← 三張資訊小圖
- *     .home__game          ← 左 sidebar + 右 vertical item list
- *   <Fab />                ← 切換版本拖曳球
+ *     .home__game          ← 左 sidebar + 右 2-col grid items
+ *
+ * Demo 站不渲染原作 <Fab /> 切換版本拖曳球（使用者明確要求拿掉，
+ *   demo 不需切換 mode 功能）
  *
  * 注意：banner 上**禁止疊任何 HTML overlay**（山日日 / 儲值1000 / tags 都在 banner.png 內）
  */
@@ -32,7 +33,6 @@ import HonestNo6MobileTabBar from "./sections/honest-no6-mobile-tab-bar.vue";
       <HonestNo6MobileMarquee />
       <HonestNo6MobileInfo />
       <HonestNo6MobileGameMenu />
-      <HonestNo6MobileFab />
     </div>
     <HonestNo6MobileTabBar />
   </div>

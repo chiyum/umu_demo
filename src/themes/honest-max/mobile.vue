@@ -2,7 +2,6 @@
 import HonestMaxMobileHeader from "./sections/honest-max-mobile-header.vue";
 import HonestMaxMobileBanner from "./sections/honest-max-mobile-banner.vue";
 import HonestMaxMobileGameMenu from "./sections/honest-max-mobile-game-menu.vue";
-import HonestMaxMobileFab from "./sections/honest-max-mobile-fab.vue";
 import HonestMaxMobileTabBar from "./sections/honest-max-mobile-tab-bar.vue";
 
 /**
@@ -16,7 +15,9 @@ import HonestMaxMobileTabBar from "./sections/honest-max-mobile-tab-bar.vue";
  *     // home__action v-if isEmpty(user) 不顯示（user 是寫死的物件）
  *     // home__user__action 註解
  *     .home__game     ← Game (左 7 cat + swiper 多 slide)
- *   <Fab :parent="'.home'" />
+ *
+ * Demo 站不渲染原作 <Fab /> 切換版本拖曳球（使用者明確要求拿掉，
+ *   demo 不需切換 mode 功能）
  *
  * 注意：banner 上**禁止疊任何 HTML overlay 文字**，視覺主體是 BannerGuest01.jpg
  */
@@ -28,7 +29,6 @@ import HonestMaxMobileTabBar from "./sections/honest-max-mobile-tab-bar.vue";
       <HonestMaxMobileHeader />
       <HonestMaxMobileBanner />
       <HonestMaxMobileGameMenu />
-      <HonestMaxMobileFab />
     </div>
     <HonestMaxMobileTabBar />
   </div>

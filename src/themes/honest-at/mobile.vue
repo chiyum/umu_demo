@@ -4,7 +4,6 @@ import HonestAtMobileMarquee from "./sections/honest-at-mobile-marquee.vue";
 import HonestAtMobileBanner from "./sections/honest-at-mobile-banner.vue";
 import HonestAtMobilePrizepoor from "./sections/honest-at-mobile-prizepoor.vue";
 import HonestAtMobileGameMenu from "./sections/honest-at-mobile-game-menu.vue";
-import HonestAtMobileFab from "./sections/honest-at-mobile-fab.vue";
 import HonestAtMobileTabBar from "./sections/honest-at-mobile-tab-bar.vue";
 
 /**
@@ -18,9 +17,11 @@ import HonestAtMobileTabBar from "./sections/honest-at-mobile-tab-bar.vue";
  *     <Banner />        ← 純 img swiper，3 張 jpg
  *     <Prizepoor />     ← JACKPOT 11 位 sprite（疊在 banner 底部 margin -50px）
  *     <Game />          ← 25/75 grid，7 cat + 5 hot 卡
- *     <Fab />           ← 切換版本拖曳球
  *   ↓ 外層 layout-at-home.vue 渲染
  *   .layout-at-actions  ← 底部 5 tab (home 頁不顯示首頁項)
+ *
+ * Demo 站不渲染原作 <Fab /> 切換版本拖曳球（使用者明確要求拿掉，
+ *   demo 不需切換 mode 功能）
  *
  * 原作 layout SCSS：.layout-at 整頁鋪 url(10114.jpg) bg / padding-bottom 75px
  *
@@ -36,7 +37,6 @@ import HonestAtMobileTabBar from "./sections/honest-at-mobile-tab-bar.vue";
       <HonestAtMobileBanner />
       <HonestAtMobilePrizepoor />
       <HonestAtMobileGameMenu />
-      <HonestAtMobileFab />
     </div>
     <HonestAtMobileTabBar />
   </div>
@@ -57,7 +57,6 @@ import HonestAtMobileTabBar from "./sections/honest-at-mobile-tab-bar.vue";
   padding-bottom: 75px;
   overflow-x: hidden;
 
-  // page 區作為 Fab parent（Fab onMounted 取 parent 尺寸算右下角位置）
   &__page {
     position: relative;
     min-height: calc(100vh - 75px);
