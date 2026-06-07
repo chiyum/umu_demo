@@ -123,25 +123,20 @@ function handleTap(item: TabItem): void {
     justify-content: center;
   }
 
-  // icon 白色 silhouette PNG / SVG → 用 CSS filter 染成金色
-  // 為什麼用 filter 而非另外準備兩套圖：
-  // - 原 5 個 SVG 都是白色 silhouette，可吃 filter 做染色
-  // - 兩態（normal/active）只差金色深淺，靠 brightness / hue-rotate 一行搞定
+  // icon 直接用 SVG 原色顯示，normal / active 用 opacity 區分
+  // 原作 SVG 是 #D9D9D9 mask-based 灰色（不是純黑），過去套
+  // brightness(0) + invert + sepia + hue-rotate 染色鏈會異常失效，
+  // 改為信任原圖、僅用透明度突顯 active 即可
   &__icon img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-
-    // 把白色 silhouette 染成深金（normal）
-    filter: brightness(0) saturate(100%) invert(63%) sepia(48%) saturate(531%)
-      hue-rotate(7deg) brightness(91%) contrast(86%);
-    transition: filter 0.15s ease;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
   }
 
   &__item--active &__icon img {
-    // active：染成更亮的金（對應 --vietvip-gold-1）
-    filter: brightness(0) saturate(100%) invert(89%) sepia(28%) saturate(637%)
-      hue-rotate(2deg) brightness(106%) contrast(91%);
+    opacity: 1;
   }
 
   &__label {
