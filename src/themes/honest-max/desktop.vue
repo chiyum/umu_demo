@@ -88,9 +88,9 @@ const navItems = [
 <style lang="scss" scoped>
 .honest-max-pc-layout {
   position: relative;
-  background: #f5f6fa;
-  color: #2a1a3e;
-  font-family: var(--font-body, "Noto Sans TC", "PingFang TC", sans-serif);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -100,9 +100,9 @@ const navItems = [
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: #ffffff;
+    background: var(--bg-surface);
     padding: 0 5%;
-    box-shadow: 0 2px 6px rgba(95, 50, 130, 0.18);
+    box-shadow: var(--shadow-sticky);
   }
 
   &__header-inner {
@@ -137,7 +137,7 @@ const navItems = [
   }
 
   &__nav-link {
-    color: #2a1a3e;
+    color: var(--text-primary);
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
@@ -145,7 +145,7 @@ const navItems = [
     transition: color 0.18s ease;
 
     &:hover {
-      color: #e75bff;
+      color: var(--primary-01);
 
       &::after {
         content: "";
@@ -154,7 +154,11 @@ const navItems = [
         right: 0;
         bottom: -8px;
         height: 2px;
-        background: linear-gradient(90deg, #e75bff 0%, #3ec1f5 100%);
+        background: linear-gradient(
+          90deg,
+          var(--primary-01) 0%,
+          var(--secondary-01) 100%
+        );
       }
     }
   }
@@ -187,17 +191,16 @@ const navItems = [
     }
 
     &--reg {
-      background: linear-gradient(
-        135deg,
-        #ffd57c 0%,
-        #ff8a4c 50%,
-        #ff5959 100%
-      );
-      color: #2a0500;
+      background: var(--gradient-gold);
+      color: var(--text-on-gold);
     }
 
     &--log {
-      background: linear-gradient(135deg, #3ec1f5 0%, #2a7fc4 100%);
+      background: linear-gradient(
+        135deg,
+        var(--secondary-01) 0%,
+        var(--secondary-05) 100%
+      );
     }
 
     &:hover {

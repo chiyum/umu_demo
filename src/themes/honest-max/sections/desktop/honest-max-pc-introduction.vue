@@ -53,15 +53,15 @@ const INTRO_ITEMS = [
   padding: 60px 8%;
   background: radial-gradient(
       ellipse 1700px 1400px at top right,
-      rgba(231, 91, 255, 0.12) 0%,
+      hsla(var(--primary-h), var(--primary-s), 70%, 0.12) 0%,
       transparent 70%
     ),
     radial-gradient(
       ellipse 1200px 800px at 30% 120%,
-      rgba(62, 193, 245, 0.12) 0%,
+      hsla(var(--secondary-h), var(--secondary-s), 70%, 0.12) 0%,
       transparent 70%
     ),
-    #f5f6fa;
+    var(--bg-base);
 
   &__item {
     display: flex;
@@ -85,9 +85,12 @@ const INTRO_ITEMS = [
   &__title {
     font-size: 28px;
     font-weight: 600;
-    color: #2a1a3e;
     margin-bottom: 12px;
-    background: linear-gradient(90deg, #e75bff 0%, #3ec1f5 100%);
+    background: linear-gradient(
+      90deg,
+      var(--primary-01) 0%,
+      var(--secondary-01) 100%
+    );
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -95,7 +98,7 @@ const INTRO_ITEMS = [
 
   &__content {
     font-size: 16px;
-    color: #6d6486;
+    color: var(--text-muted);
     line-height: 1.6;
   }
 }

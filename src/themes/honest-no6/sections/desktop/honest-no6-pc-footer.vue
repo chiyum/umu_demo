@@ -41,7 +41,7 @@ const INSIDE_LINKS = [
 <style lang="scss" scoped>
 .honest-no6-pc-footer {
   width: 100%;
-  background: #0a0312;
+  background: var(--footer-bg);
 }
 
 .honest-no6-pc-footer__logo-bg {
@@ -59,9 +59,13 @@ const INSIDE_LINKS = [
   flex-direction: column;
   gap: 16px;
   padding: 28px 0 24px;
-  color: #ffffff;
-  background: linear-gradient(180deg, #2a1042 0%, #0a0312 100%);
-  border-top: 1px solid rgba(212, 78, 224, 0.4);
+  color: var(--text-on-primary);
+  background: linear-gradient(
+    180deg,
+    var(--bg-surface) 0%,
+    var(--bg-base-deep) 100%
+  );
+  border-top: 1px solid hsla(var(--primary-h), var(--primary-s), 60%, 0.4);
 }
 
 .honest-no6-pc-footer__nav-inside {
@@ -74,11 +78,11 @@ const INSIDE_LINKS = [
 
 .honest-no6-pc-footer__nav-item {
   cursor: pointer;
-  color: #a78cc0;
+  color: var(--footer-text);
   transition: color 0.15s ease;
 
   &:hover {
-    color: #f7c66c;
+    color: var(--secondary-01);
   }
 }
 
@@ -96,21 +100,21 @@ const INSIDE_LINKS = [
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(212, 78, 224, 0.18);
-  border: 1px solid #d44ee0;
-  color: #f7c66c;
+  background: hsla(var(--primary-h), var(--primary-s), 60%, 0.18);
+  border: 1px solid var(--primary-01);
+  color: var(--secondary-01);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.15s ease;
 
   &:hover {
-    background: rgba(212, 78, 224, 0.35);
+    background: hsla(var(--primary-h), var(--primary-s), 60%, 0.35);
   }
 }
 
 .honest-no6-pc-footer__copyright {
   font-size: 13px;
-  color: #6e5784;
+  color: var(--text-muted);
 }
 </style>

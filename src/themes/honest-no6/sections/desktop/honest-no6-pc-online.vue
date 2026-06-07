@@ -56,7 +56,11 @@ function digits(n: number): number[] {
   justify-content: center;
   flex-direction: column;
   padding: 60px 0 40px;
-  background: linear-gradient(to bottom, #1a0526 0%, #2a1042 100%);
+  background: linear-gradient(
+    to bottom,
+    var(--bg-base) 0%,
+    var(--bg-surface) 100%
+  );
   position: relative;
 
   &::before {
@@ -65,7 +69,7 @@ function digits(n: number): number[] {
     inset: 0;
     background: radial-gradient(
       ellipse 1200px 400px at center,
-      rgba(212, 78, 224, 0.2) 0%,
+      hsla(var(--primary-h), var(--primary-s), 60%, 0.2) 0%,
       transparent 60%
     );
     pointer-events: none;
@@ -75,8 +79,8 @@ function digits(n: number): number[] {
     margin-bottom: 24px;
     font-size: 40px;
     font-weight: 500;
-    color: #ffffff;
-    text-shadow: 0 0 12px rgba(212, 78, 224, 0.55);
+    color: var(--text-on-primary);
+    text-shadow: 0 0 12px hsla(var(--primary-h), var(--primary-s), 60%, 0.55);
     position: relative;
     z-index: 1;
   }
@@ -85,12 +89,12 @@ function digits(n: number): number[] {
     display: flex;
     gap: 12px;
     padding: 18px 32px;
-    background: rgba(10, 3, 18, 0.78);
-    border: 1px solid #f7c66c;
+    background: var(--bg-base-translucent);
+    border: 1px solid var(--secondary-01);
     border-radius: 8px;
     box-shadow:
-      0 0 18px rgba(212, 78, 224, 0.42),
-      inset 0 0 12px rgba(212, 78, 224, 0.25);
+      0 0 18px hsla(var(--primary-h), var(--primary-s), 60%, 0.42),
+      inset 0 0 12px hsla(var(--primary-h), var(--primary-s), 60%, 0.25);
     margin-bottom: 16px;
     position: relative;
     z-index: 1;
@@ -101,7 +105,11 @@ function digits(n: number): number[] {
     height: 60px;
     overflow: hidden;
     position: relative;
-    background: linear-gradient(to bottom, #f7c66c 0%, #c79a45 100%);
+    background: linear-gradient(
+      to bottom,
+      var(--secondary-01) 0%,
+      var(--secondary-05) 100%
+    );
     border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.3);
   }
@@ -122,7 +130,7 @@ function digits(n: number): number[] {
     font-family: "Inter", "Segoe UI", sans-serif;
     font-size: 36px;
     font-weight: 900;
-    color: #1a0526;
+    color: var(--bg-base);
   }
 
   &__line {

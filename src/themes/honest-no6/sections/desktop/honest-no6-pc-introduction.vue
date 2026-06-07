@@ -52,15 +52,15 @@ const INTRO_ITEMS = [
   padding: 60px 8%;
   background: radial-gradient(
       ellipse 1700px 1400px at top right,
-      rgba(212, 78, 224, 0.18) 0%,
+      hsla(var(--primary-h), var(--primary-s), 60%, 0.18) 0%,
       transparent 70%
     ),
     radial-gradient(
       ellipse 1200px 800px at 30% 120%,
-      rgba(247, 198, 108, 0.1) 0%,
+      hsla(var(--secondary-h), var(--secondary-s), 60%, 0.1) 0%,
       transparent 70%
     ),
-    #1a0526;
+    var(--bg-base);
 
   &__item {
     display: flex;
@@ -85,7 +85,11 @@ const INTRO_ITEMS = [
   &__title {
     font-size: 28px;
     font-weight: 600;
-    background: linear-gradient(90deg, #f7c66c 0%, #d44ee0 100%);
+    background: linear-gradient(
+      90deg,
+      var(--secondary-01) 0%,
+      var(--primary-01) 100%
+    );
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -94,7 +98,7 @@ const INTRO_ITEMS = [
 
   &__content {
     font-size: 16px;
-    color: #a78cc0;
+    color: var(--text-muted);
     line-height: 1.6;
   }
 }

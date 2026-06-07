@@ -38,7 +38,11 @@ const MARQUEE_TEXTS = [
 <style lang="scss" scoped>
 .honest-no6-pc-marquee {
   width: 100%;
-  background: linear-gradient(180deg, #48405a 0%, #402937 100%);
+  background: linear-gradient(
+    180deg,
+    var(--bg-surface) 0%,
+    var(--bg-base-deep) 100%
+  );
 
   &__inner {
     display: flex;
@@ -47,7 +51,7 @@ const MARQUEE_TEXTS = [
     height: 62px;
     max-width: 1696px;
     margin: 0 auto;
-    background: #08090d;
+    background: var(--bg-base-deep);
     margin-top: 8px;
     margin-bottom: 8px;
     border-radius: 10px;
@@ -73,7 +77,7 @@ const MARQUEE_TEXTS = [
     padding-left: 100%;
     font-size: 16px;
     font-weight: 600;
-    color: #f7c66c;
+    color: var(--secondary-01);
     animation: honest-no6-pc-marquee-scroll 30s linear infinite;
   }
 

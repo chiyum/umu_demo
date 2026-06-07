@@ -36,7 +36,11 @@ const MARQUEE_TEXTS = [
 // 對齊 kingdom long/marquee：62px / 左右 padding / 配色改為 max 桃粉漸層
 .honest-max-pc-marquee {
   width: 100%;
-  background: linear-gradient(90deg, #e75bff 0%, #3ec1f5 100%);
+  background: linear-gradient(
+    90deg,
+    var(--primary-01) 0%,
+    var(--secondary-01) 100%
+  );
 
   &__inner {
     display: flex;
@@ -67,9 +71,9 @@ const MARQUEE_TEXTS = [
     padding-left: 100%;
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-on-primary);
     animation: honest-max-pc-marquee-scroll 30s linear infinite;
-    text-shadow: 0 1px 2px rgba(149, 30, 168, 0.3);
+    text-shadow: 0 1px 2px hsla(var(--primary-h), var(--primary-s), 30%, 0.3);
   }
 
   &__item {

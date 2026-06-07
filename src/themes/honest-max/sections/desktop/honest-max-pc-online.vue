@@ -64,24 +64,24 @@ function digits(n: number): number[] {
   padding: 60px 0 40px;
   background: linear-gradient(
     to left,
-    rgba(231, 91, 255, 0.08) 0%,
-    rgba(252, 254, 255, 0.95) 50%
+    hsla(var(--primary-h), var(--primary-s), 75%, 0.18) 0%,
+    var(--bg-base) 50%
   );
 
   &__title {
     margin-bottom: 24px;
     font-size: 40px;
     font-weight: 500;
-    color: #2a1a3e;
+    color: var(--text-primary);
   }
 
   &__counter {
     display: flex;
     gap: 12px;
     padding: 18px 32px;
-    background: #ffffff;
+    background: var(--bg-surface);
     border-radius: 8px;
-    box-shadow: 0 4px 14px rgba(95, 50, 130, 0.18);
+    box-shadow: var(--shadow-md);
     margin-bottom: 16px;
   }
 
@@ -90,7 +90,11 @@ function digits(n: number): number[] {
     height: 60px;
     overflow: hidden;
     position: relative;
-    background: linear-gradient(to bottom, #e75bff 0%, #3ec1f5 100%);
+    background: linear-gradient(
+      to bottom,
+      var(--primary-01) 0%,
+      var(--secondary-01) 100%
+    );
     border-radius: 6px;
   }
 
@@ -110,7 +114,7 @@ function digits(n: number): number[] {
     font-family: "Inter", "Segoe UI", sans-serif;
     font-size: 36px;
     font-weight: 900;
-    color: #ffffff;
+    color: var(--text-on-primary);
   }
 
   &__line {

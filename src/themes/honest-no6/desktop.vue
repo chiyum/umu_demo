@@ -90,9 +90,9 @@ const navItems = [
 <style lang="scss" scoped>
 .honest-no6-pc-layout {
   position: relative;
-  background: #1a0526;
-  color: #ffffff;
-  font-family: var(--font-body, "Noto Sans TC", "PingFang TC", sans-serif);
+  background: var(--bg-base);
+  color: var(--text-on-primary);
+  font-family: var(--font-body);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -104,12 +104,12 @@ const navItems = [
     z-index: 1000;
     background: linear-gradient(
       180deg,
-      rgba(10, 3, 18, 0.92) 0%,
-      rgba(26, 5, 38, 0.85) 100%
+      var(--bg-base-translucent) 0%,
+      hsla(var(--primary-h), var(--primary-s), 8%, 0.85) 100%
     );
     backdrop-filter: blur(10px);
     padding: 0 5%;
-    border-bottom: 1px solid rgba(212, 78, 224, 0.4);
+    border-bottom: 1px solid hsla(var(--primary-h), var(--primary-s), 60%, 0.4);
   }
 
   &__header-inner {
@@ -148,7 +148,7 @@ const navItems = [
   }
 
   &__nav-link {
-    color: #ffffff;
+    color: var(--text-on-primary);
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
@@ -156,7 +156,7 @@ const navItems = [
     transition: color 0.18s ease;
 
     &:hover {
-      color: #f7c66c;
+      color: var(--secondary-01);
 
       &::after {
         content: "";
@@ -165,7 +165,11 @@ const navItems = [
         right: 0;
         bottom: -8px;
         height: 2px;
-        background: linear-gradient(90deg, #f7c66c 0%, #d44ee0 100%);
+        background: linear-gradient(
+          90deg,
+          var(--secondary-01) 0%,
+          var(--primary-01) 100%
+        );
       }
     }
   }
@@ -196,21 +200,17 @@ const navItems = [
     }
 
     &--log {
-      color: #ffffff;
+      color: var(--text-on-primary);
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.4);
       backdrop-filter: blur(6px);
     }
 
     &--reg {
-      color: #1a0526;
-      background: linear-gradient(
-        135deg,
-        #ffe79e 0%,
-        #f7c66c 50%,
-        #c79a45 100%
-      );
-      box-shadow: 0 2px 6px rgba(247, 198, 108, 0.42);
+      color: var(--text-on-gold);
+      background: var(--gradient-gold);
+      box-shadow: 0 2px 6px
+        hsla(var(--secondary-h), var(--secondary-s), 50%, 0.42);
     }
 
     &:hover {

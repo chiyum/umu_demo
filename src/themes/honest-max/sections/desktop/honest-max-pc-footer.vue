@@ -41,7 +41,7 @@ const INSIDE_LINKS = ["常見問題", "新手教學", "公司資訊", "聯絡我
 <style lang="scss" scoped>
 .honest-max-pc-footer {
   width: 100%;
-  background: #ffffff;
+  background: var(--bg-surface);
 }
 
 .honest-max-pc-footer__logo-bg {
@@ -58,8 +58,12 @@ const INSIDE_LINKS = ["常見問題", "新手教學", "公司資訊", "聯絡我
   flex-direction: column;
   gap: 16px;
   padding: 28px 0 24px;
-  color: #ffffff;
-  background: linear-gradient(90deg, #e75bff 0%, #3ec1f5 100%);
+  color: var(--text-on-primary);
+  background: linear-gradient(
+    90deg,
+    var(--primary-01) 0%,
+    var(--secondary-01) 100%
+  );
 }
 
 .honest-max-pc-footer__nav-inside {
