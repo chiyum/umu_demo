@@ -1,31 +1,71 @@
 <script setup lang="ts">
-import banner1 from "../../assets/banner/banner-1.jpg?url";
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import banner from "../../assets/banner/banner-1.jpg?url";
 
 /**
- * honest-max 桌面版 banner — 視覺骨架參考 kingdom_front long/banner.vue
+ * honest-max 桌面版 banner — 視覺結構參考 slime-wu88-pc widgets/index/banner.vue
  *
- * 圖檔沿用手機版 BannerGuest01.jpg（人在塔在），純 img 無 overlay
+ * 對應原作 DOM：
+ *   <swiper effect="fade" autoplay loop pagination navigation>
+ *     <swiper-slide v-for=banner items>
+ *       <div bannerImg :style backgroundImage>
+ *
+ * Demo 化：純 img 輪播（沿用手機 banner.png × 6），fade 切換 + 圓點
+ * 禁止疊任何 HTML overlay（人在塔在等字都在 banner JPG 內）
  */
+// max 手機原作只有 1 張 BannerGuest01.jpg；桌面 demo 重複展示同一張即可
+const SLIDES = Array.from({ length: 4 }, () => banner);
+const activeIdx = ref<number>(0);
+let timer: number | null = null;
 
-const BANNERS: string[] = [banner1];
+onMounted(() => {
+  timer = window.setInterval(() => {
+    activeIdx.value = (activeIdx.value + 1) % SLIDES.length;
+  }, 2500);
+});
+
+onBeforeUnmount(() => {
+  if (timer !== null) window.clearInterval(timer);
+});
+
+function goTo(idx: number): void {
+  activeIdx.value = idx;
+}
 </script>
 
 <template>
   <div class="honest-max-pc-banner">
     <div
-      v-for="(src, idx) in BANNERS"
+      v-for="(src, idx) in SLIDES"
       :key="idx"
-      class="honest-max-pc-banner__slide honest-max-pc-banner__slide--active"
+      class="honest-max-pc-banner__slide"
+      :class="{ 'honest-max-pc-banner__slide--active': activeIdx === idx }"
     >
       <img :src="src" alt="" class="honest-max-pc-banner__img" />
     </div>
+
     <div class="honest-max-pc-banner__dots">
       <span
-        v-for="(_, idx) in BANNERS"
+        v-for="(_, idx) in SLIDES"
         :key="idx"
-        class="honest-max-pc-banner__dot honest-max-pc-banner__dot--active"
+        class="honest-max-pc-banner__dot"
+        :class="{ 'honest-max-pc-banner__dot--active': activeIdx === idx }"
+        @click="goTo(idx)"
       />
     </div>
+
+    <button
+      type="button"
+      class="honest-max-pc-banner__arrow honest-max-pc-banner__arrow--prev"
+      @click="goTo((activeIdx - 1 + SLIDES.length) % SLIDES.length)"
+      aria-label="上一張"
+    />
+    <button
+      type="button"
+      class="honest-max-pc-banner__arrow honest-max-pc-banner__arrow--next"
+      @click="goTo((activeIdx + 1) % SLIDES.length)"
+      aria-label="下一張"
+    />
   </div>
 </template>
 
@@ -33,9 +73,9 @@ const BANNERS: string[] = [banner1];
 .honest-max-pc-banner {
   position: relative;
   width: 100%;
-  aspect-ratio: 192 / 61;
+  aspect-ratio: 192 / 65;
   overflow: hidden;
-  background: linear-gradient(180deg, #e8e4f3 0%, #ffffff 100%);
+  background: var(--bg-base-deep);
 }
 
 .honest-max-pc-banner__slide {
@@ -56,9 +96,10 @@ const BANNERS: string[] = [banner1];
   display: block;
 }
 
+// pagination dots
 .honest-max-pc-banner__dots {
   position: absolute;
-  bottom: 16px;
+  bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -70,12 +111,59 @@ const BANNERS: string[] = [banner1];
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
 
   &--active {
-    background: #ffffff;
-    transform: scale(1.2);
-    box-shadow: 0 0 6px #e75bff;
+    background: var(--secondary-01);
+    transform: scale(1.25);
+    box-shadow: 0 0 6px var(--secondary-01);
+  }
+}
+
+// navigation arrows
+.honest-max-pc-banner__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--secondary-01);
+  cursor: pointer;
+  z-index: 3;
+  transition: background 0.18s ease;
+
+  &--prev {
+    left: 24px;
+  }
+
+  &--next {
+    right: 24px;
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid var(--secondary-01);
+    border-right: 2px solid var(--secondary-01);
+    transform: translateX(-2px) rotate(45deg);
+  }
+
+  &--prev::before {
+    transform: translateX(2px) rotate(225deg);
   }
 }
 </style>
