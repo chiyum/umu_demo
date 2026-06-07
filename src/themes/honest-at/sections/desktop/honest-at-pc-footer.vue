@@ -43,7 +43,7 @@ const INSIDE_LINKS = ["常見問題", "新手教學", "公司資訊", "聯絡我
 // 對齊 kingdom long/desktop/footer：兩段（上 logo bg / 下 link bar）
 .honest-at-pc-footer {
   width: 100%;
-  background: #050a1a;
+  background: var(--footer-bg);
 }
 
 .honest-at-pc-footer__logo-bg {
@@ -60,9 +60,9 @@ const INSIDE_LINKS = ["常見問題", "新手教學", "公司資訊", "聯絡我
   flex-direction: column;
   gap: 16px;
   padding: 28px 0 24px;
-  color: #ffffff;
-  background-color: #0c1429;
-  border-top: 1px solid #3aa2ec;
+  color: var(--text-on-primary);
+  background-color: var(--honest-at-tab-bg);
+  border-top: 1px solid var(--honest-at-neon-frame);
 }
 
 .honest-at-pc-footer__nav-inside {
@@ -75,11 +75,11 @@ const INSIDE_LINKS = ["常見問題", "新手教學", "公司資訊", "聯絡我
 
 .honest-at-pc-footer__nav-item {
   cursor: pointer;
-  color: #abacac;
+  color: var(--footer-text);
   transition: color 0.15s ease;
 
   &:hover {
-    color: #3aa2ec;
+    color: var(--honest-at-neon-frame);
   }
 }
 
@@ -97,21 +97,21 @@ const INSIDE_LINKS = ["常見問題", "新手教學", "公司資訊", "聯絡我
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(58, 162, 236, 0.15);
-  border: 1px solid #3aa2ec;
-  color: #3aa2ec;
+  background: hsla(var(--primary-h), var(--primary-s), 60%, 0.15);
+  border: 1px solid var(--honest-at-neon-frame);
+  color: var(--honest-at-neon-frame);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.15s ease;
 
   &:hover {
-    background: rgba(58, 162, 236, 0.32);
+    background: hsla(var(--primary-h), var(--primary-s), 60%, 0.32);
   }
 }
 
 .honest-at-pc-footer__copyright {
   font-size: 13px;
-  color: #6c6f75;
+  color: var(--text-muted);
 }
 </style>

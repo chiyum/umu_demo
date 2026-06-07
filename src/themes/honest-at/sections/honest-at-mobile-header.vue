@@ -89,7 +89,7 @@ function selectLang(value: "tw" | "en"): void {
   align-items: center;
   padding: 1px 10px 2px;
   height: 52px;
-  background: #14171d;
+  background: var(--honest-at-header-bg);
   z-index: 5;
 
   &__brand {
@@ -129,12 +129,12 @@ function selectLang(value: "tw" | "en"): void {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: linear-gradient(180deg, #3aa2ec 0%, #1859ff 100%);
+    background: var(--honest-at-header-btn-bg);
     transition: filter 0.15s ease;
 
     &--border {
       background: transparent;
-      border: 1px solid #3aa2ec;
+      border: 1px solid var(--honest-at-neon-frame);
     }
 
     &:hover {
@@ -178,9 +178,9 @@ function selectLang(value: "tw" | "en"): void {
     width: 100px;
     gap: 5px;
     flex-direction: column;
-    color: #ffffff;
+    color: var(--text-on-primary);
     background: rgba(0, 0, 0, 0.8);
-    border: 1px solid #3aa2ec;
+    border: 1px solid var(--honest-at-neon-frame);
     border-radius: 5px;
     z-index: 3;
   }
@@ -194,7 +194,7 @@ function selectLang(value: "tw" | "en"): void {
     font-size: 12px;
 
     &:hover {
-      background: rgba(58, 162, 236, 0.18);
+      background: hsla(var(--primary-h), var(--primary-s), 60%, 0.18);
     }
 
     img {

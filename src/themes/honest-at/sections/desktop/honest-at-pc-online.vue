@@ -72,7 +72,11 @@ function digits(n: number): number[] {
   justify-content: center;
   flex-direction: column;
   padding: 60px 0 40px;
-  background: linear-gradient(to bottom, #0a1430 0%, #14233f 100%);
+  background: linear-gradient(
+    to bottom,
+    var(--bg-base) 0%,
+    var(--bg-surface) 100%
+  );
   position: relative;
 
   &::before {
@@ -81,7 +85,7 @@ function digits(n: number): number[] {
     inset: 0;
     background: radial-gradient(
       ellipse 1200px 400px at center,
-      rgba(58, 162, 236, 0.18) 0%,
+      hsla(var(--primary-h), var(--primary-s), 60%, 0.18) 0%,
       transparent 60%
     );
     pointer-events: none;
@@ -91,8 +95,8 @@ function digits(n: number): number[] {
     margin-bottom: 24px;
     font-size: 40px;
     font-weight: 500;
-    color: #ffffff;
-    text-shadow: 0 0 12px rgba(58, 162, 236, 0.5);
+    color: var(--text-on-primary);
+    text-shadow: 0 0 12px hsla(var(--primary-h), var(--primary-s), 60%, 0.5);
     position: relative;
     z-index: 1;
   }
@@ -101,12 +105,12 @@ function digits(n: number): number[] {
     display: flex;
     gap: 12px;
     padding: 18px 32px;
-    background: rgba(5, 10, 26, 0.85);
-    border: 1px solid #3aa2ec;
+    background: var(--bg-base-translucent);
+    border: 1px solid var(--honest-at-neon-frame);
     border-radius: 8px;
     box-shadow:
-      0 0 18px rgba(58, 162, 236, 0.4),
-      inset 0 0 12px rgba(58, 162, 236, 0.2);
+      0 0 18px hsla(var(--primary-h), var(--primary-s), 60%, 0.4),
+      inset 0 0 12px hsla(var(--primary-h), var(--primary-s), 60%, 0.2);
     margin-bottom: 16px;
     position: relative;
     z-index: 1;
@@ -117,7 +121,7 @@ function digits(n: number): number[] {
     height: 60px;
     overflow: hidden;
     position: relative;
-    background: linear-gradient(to bottom, #68f1ff 0%, #1c77ff 100%);
+    background: var(--honest-at-pc-digit-bg);
     border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.3);
   }
@@ -138,7 +142,7 @@ function digits(n: number): number[] {
     font-family: "Inter", "Segoe UI", sans-serif;
     font-size: 36px;
     font-weight: 900;
-    color: #ffffff;
+    color: var(--text-on-primary);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   }
 

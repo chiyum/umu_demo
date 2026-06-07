@@ -55,13 +55,14 @@ const MARQUEE_TEXT =
   position: relative;
   height: 25px;
   padding: 0.5rem 0;
-  color: #ffffff;
-  background: rgba(12, 18, 22, 0.8);
+  color: var(--text-on-primary);
+  background: var(--honest-at-marquee-bg);
   z-index: 2;
   overflow: hidden;
   display: flex;
   align-items: center;
 
+  // 上下兩條霓虹線：linear-gradient 透過 token --honest-at-marquee-line 跟動變體
   &::before {
     content: "";
     position: absolute;
@@ -69,7 +70,7 @@ const MARQUEE_TEXT =
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(to right, #1b1e1a, #3aa2ec, #1c1e1c);
+    background: var(--honest-at-marquee-line);
   }
 
   &::after {
@@ -79,7 +80,7 @@ const MARQUEE_TEXT =
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(to right, #1b1e1a, #3aa2ec, #1c1e1c);
+    background: var(--honest-at-marquee-line);
   }
 
   // 對齊原作 .at-home-marquee-icon：absolute top 6px / 20px×15px / bg #000
@@ -105,7 +106,7 @@ const MARQUEE_TEXT =
   // CSS-only 跑馬燈動畫
   &__text {
     font-size: 12px;
-    color: #ffffff;
+    color: var(--honest-at-marquee-text);
     display: inline-block;
     padding-left: 100%;
     animation: honest-at-m-marquee-scroll 30s linear infinite;

@@ -60,15 +60,15 @@ const INTRO_ITEMS = [
   padding: 60px 8%;
   background: radial-gradient(
       ellipse 1700px 1400px at top right,
-      rgba(58, 162, 236, 0.18) 0%,
+      hsla(var(--primary-h), var(--primary-s), 60%, 0.18) 0%,
       transparent 70%
     ),
     radial-gradient(
       ellipse 1200px 800px at 30% 120%,
-      rgba(58, 162, 236, 0.12) 0%,
+      hsla(var(--secondary-h), var(--secondary-s), 60%, 0.12) 0%,
       transparent 70%
     ),
-    #0a1430;
+    var(--bg-base);
 
   &__item {
     display: flex;
@@ -92,14 +92,14 @@ const INTRO_ITEMS = [
   &__title {
     font-size: 28px;
     font-weight: 600;
-    color: #3aa2ec;
+    color: var(--honest-at-pc-intro-title-color);
     margin-bottom: 12px;
-    text-shadow: 0 0 8px rgba(58, 162, 236, 0.4);
+    text-shadow: 0 0 8px hsla(var(--primary-h), var(--primary-s), 60%, 0.4);
   }
 
   &__content {
     font-size: 16px;
-    color: #abacac;
+    color: var(--honest-at-tab-text-muted);
     line-height: 1.6;
   }
 }

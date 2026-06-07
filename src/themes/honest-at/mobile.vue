@@ -44,6 +44,7 @@ import HonestAtMobileTabBar from "./sections/honest-at-mobile-tab-bar.vue";
 
 <style lang="scss" scoped>
 // 對齊原作 .layout-at：整頁鋪 10114.jpg / padding-bottom 75px
+// 背景色走 token 讓變體可以切換底色（image 為灰階科幻底圖，各變體都能套）
 .honest-at-m-layout {
   position: relative;
   min-height: 100vh;
@@ -51,9 +52,9 @@ import HonestAtMobileTabBar from "./sections/honest-at-mobile-tab-bar.vue";
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #050a1a;
-  color: #ffffff;
-  font-family: var(--font-body, "Noto Sans TC", "PingFang TC", sans-serif);
+  background-color: var(--bg-base-deep);
+  color: var(--text-on-primary);
+  font-family: var(--font-body);
   padding-bottom: 75px;
   overflow-x: hidden;
 

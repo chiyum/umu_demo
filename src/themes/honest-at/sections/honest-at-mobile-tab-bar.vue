@@ -88,13 +88,14 @@ function handleTap(item: TabItem): void {
   width: 100%;
   height: 75px;
   padding: 0 1.5rem max(0px, env(safe-area-inset-bottom));
-  background: #0c1429;
+  background: var(--honest-at-tab-bg);
   backdrop-filter: blur(30px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   z-index: 5;
 
+  // 上方 1.5px 霓虹漸層線，走 token 跟動變體
   &::before {
     content: "";
     position: absolute;
@@ -102,7 +103,7 @@ function handleTap(item: TabItem): void {
     left: 0;
     width: 100%;
     height: 1.5px;
-    background: linear-gradient(to right, #1b1e1a, #3aa2ec, #1c1e1c);
+    background: var(--honest-at-marquee-line);
   }
 
   // 對齊原作 .layout-at-actions-items：column / center / center
@@ -149,14 +150,14 @@ function handleTap(item: TabItem): void {
     transform: scale(1.75);
   }
 
-  // 對齊原作 .layout-at-actions-items-text：0.75rem #abacac
+  // 對齊原作 .layout-at-actions-items-text：0.75rem #abacac → token 跟動變體
   &__label {
     font-size: 0.75rem;
-    color: #abacac;
+    color: var(--honest-at-tab-text-muted);
   }
 
   &__item--active &__label {
-    color: #ffffff;
+    color: var(--text-on-primary);
   }
 }
 </style>

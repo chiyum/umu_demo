@@ -105,24 +105,28 @@ const navItems = [
 <style lang="scss" scoped>
 .honest-at-pc-layout {
   position: relative;
-  background: #0a1430;
-  color: #ffffff;
-  font-family: var(--font-body, "Noto Sans TC", "PingFang TC", sans-serif);
+  background: var(--bg-base);
+  color: var(--text-on-primary);
+  font-family: var(--font-body);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
 
-  // 對齊 kingdom long/desktop/header：sticky / 白底 → 改為 honest-at 深底 + 青藍光線
+  // 對齊 kingdom long/desktop/header：sticky / 改為 honest-at 深底 + 霓虹線（變體跟動）
   &__header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: linear-gradient(180deg, #14171d 0%, #1a1f2e 100%);
+    background: linear-gradient(
+      180deg,
+      var(--honest-at-header-bg) 0%,
+      var(--bg-surface) 100%
+    );
     padding: 0 5%;
     box-shadow:
       0 2px 6px rgba(0, 0, 0, 0.5),
-      inset 0 -1px 0 #3aa2ec;
+      inset 0 -1px 0 var(--honest-at-neon-frame);
   }
 
   &__header-inner {
@@ -161,7 +165,7 @@ const navItems = [
   }
 
   &__nav-link {
-    color: #ffffff;
+    color: var(--text-on-primary);
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
@@ -169,7 +173,7 @@ const navItems = [
     transition: color 0.18s ease;
 
     &:hover {
-      color: #3aa2ec;
+      color: var(--honest-at-neon-frame);
 
       &::after {
         content: "";
@@ -178,8 +182,8 @@ const navItems = [
         right: 0;
         bottom: -8px;
         height: 2px;
-        background: #3aa2ec;
-        box-shadow: 0 0 8px #3aa2ec;
+        background: var(--honest-at-neon-frame);
+        box-shadow: 0 0 8px var(--honest-at-neon-frame);
       }
     }
   }
@@ -209,8 +213,8 @@ const navItems = [
     }
 
     &--login {
-      color: #ffffff;
-      background: linear-gradient(180deg, #3aa2ec 0%, #1859ff 100%);
+      color: var(--text-on-primary);
+      background: var(--honest-at-header-btn-bg);
       border: none;
 
       &:hover {
@@ -219,12 +223,12 @@ const navItems = [
     }
 
     &--register {
-      color: #ffffff;
+      color: var(--text-on-primary);
       background: transparent;
-      border: 1px solid #3aa2ec;
+      border: 1px solid var(--honest-at-neon-frame);
 
       &:hover {
-        background: rgba(58, 162, 236, 0.18);
+        background: hsla(var(--primary-h), var(--primary-s), 60%, 0.18);
       }
     }
   }

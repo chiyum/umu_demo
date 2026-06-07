@@ -58,6 +58,13 @@
   --honest-at-jackpot-digit-bg: linear-gradient(180deg, #0a0316 0%, #1f1142 100%);
   --honest-at-jackpot-digit-color: #ffb0e9;
   --honest-at-card-bg: linear-gradient(180deg, #1f1142 0%, #15082c 100%);
+
+  // 結構色全部跟動紫色變體
+  --honest-at-header-bg: #1a0a3a;
+  --honest-at-marquee-bg: rgba(15, 5, 35, 0.85);
+  --honest-at-tab-bg: #15082c;
+  --honest-at-tab-text-muted: #b89ed4;
+  --honest-at-neon-line: var(--primary-01);
 }
 
 // ─────────────── neon-cyan：螢光青綠 ───────────────
@@ -114,4 +121,11 @@
   --honest-at-jackpot-digit-bg: linear-gradient(180deg, #021511 0%, #0a3530 100%);
   --honest-at-jackpot-digit-color: #fff09a;
   --honest-at-card-bg: linear-gradient(180deg, #0a3530 0%, #06231d 100%);
+
+  // 結構色全部跟動青綠變體
+  --honest-at-header-bg: #0a2520;
+  --honest-at-marquee-bg: rgba(4, 18, 14, 0.85);
+  --honest-at-tab-bg: #06231d;
+  --honest-at-tab-text-muted: #8ac0b6;
+  --honest-at-neon-line: var(--primary-01);
 }

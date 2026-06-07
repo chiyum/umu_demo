@@ -174,16 +174,67 @@
       transparent 65%
     );
 
-  // honest-at specific：JACKPOT 數字框專用 token
-  // 為什麼獨立 token：JACKPOT 是 AT99 最核心視覺，要能在 variants 內無痛換色
+  // ─────── honest-at specific：mobile / desktop 各 section 共用結構 token ───────
+  // 為什麼把這些抽出來：variants（neon-purple / neon-cyan）整頁換色，
+  // border / background / shadow 必須跟著走，不能在 SFC 內硬寫 #3aa2ec / #14171d 等色碼
+  //
+  // 命名規約：
+  //   --honest-at-neon-*    霓虹色（框 / 線 / hover）
+  //   --honest-at-header-*  header 結構色
+  //   --honest-at-tab-*     底部 tab 結構色
+  //   --honest-at-marquee-* 跑馬燈色
+  //   --honest-at-card-*    卡片色
+
+  // JACKPOT 是 AT99 最核心視覺，金邊框三色直接寫死（金色不隨變體換）
   --honest-at-jackpot-frame: linear-gradient(
     180deg,
     #ffd57c 0%,
     #c79a45 50%,
     #6a4d20 100%
   );
-  --honest-at-jackpot-digit-bg: linear-gradient(180deg, #050a1a 0%, #11203f 100%);
+  --honest-at-jackpot-digit-bg: linear-gradient(
+    180deg,
+    var(--bg-base-deep) 0%,
+    var(--bg-surface) 100%
+  );
   --honest-at-jackpot-digit-color: #ffd57c;
+
+  // 霓虹色：主框 / hover line / 卡片邊
   --honest-at-neon-frame: var(--primary-01);
-  --honest-at-card-bg: linear-gradient(180deg, #131e44 0%, #0a1430 100%);
+  --honest-at-neon-line: var(--primary-01);
+
+  // header / tab / marquee 結構色（變體換色時整套跟動）
+  --honest-at-header-bg: #14171d;
+  --honest-at-header-btn-bg: linear-gradient(
+    180deg,
+    var(--primary-01) 0%,
+    var(--primary-04) 100%
+  );
+  --honest-at-marquee-bg: rgba(12, 18, 22, 0.8);
+  --honest-at-marquee-line: linear-gradient(
+    to right,
+    #1b1e1a,
+    var(--primary-01),
+    #1c1e1c
+  );
+  --honest-at-marquee-text: var(--text-on-primary);
+  --honest-at-tab-bg: #0c1429;
+  --honest-at-tab-text-muted: #abacac;
+
+  // 卡片底色
+  --honest-at-card-bg: linear-gradient(
+    180deg,
+    var(--bg-surface) 0%,
+    var(--bg-base) 100%
+  );
+
+  // 桌面 PC online 計數器數字色階（變體跟動）
+  --honest-at-pc-digit-bg: linear-gradient(
+    to bottom,
+    var(--primary-02) 0%,
+    var(--primary-04) 100%
+  );
+
+  // 桌面 PC introduction 區塊背景（變體跟動）
+  --honest-at-pc-intro-title-color: var(--primary-01);
 }

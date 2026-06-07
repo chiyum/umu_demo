@@ -40,10 +40,14 @@ const MARQUEE_TEXTS = [
 // 對齊 kingdom long/marquee: 62px / 左右 padding / 上下青藍漸層線（取自手機 marquee）
 .honest-at-pc-marquee {
   width: 100%;
-  background: linear-gradient(90deg, #14171d 0%, #1a2540 100%);
-  border-top: 1px solid #3aa2ec;
-  border-bottom: 1px solid #3aa2ec;
-  box-shadow: 0 0 12px rgba(58, 162, 236, 0.3);
+  background: linear-gradient(
+    90deg,
+    var(--honest-at-header-bg) 0%,
+    var(--bg-surface) 100%
+  );
+  border-top: 1px solid var(--honest-at-neon-frame);
+  border-bottom: 1px solid var(--honest-at-neon-frame);
+  box-shadow: 0 0 12px hsla(var(--primary-h), var(--primary-s), 60%, 0.3);
 
   &__inner {
     display: flex;
@@ -74,16 +78,16 @@ const MARQUEE_TEXTS = [
     padding-left: 100%;
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-on-primary);
     animation: honest-at-pc-marquee-scroll 30s linear infinite;
   }
 
   &__item {
     margin: 0 24px;
-    color: #3aa2ec;
+    color: var(--honest-at-neon-frame);
 
     &:first-child {
-      color: #ffd57c;
+      color: var(--highlight-strip);
     }
   }
 }
