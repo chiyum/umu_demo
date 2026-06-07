@@ -177,7 +177,6 @@
   // ─────── honest-at specific：mobile / desktop 各 section 共用結構 token ───────
   // 為什麼把這些抽出來：variants（neon-purple / neon-cyan）整頁換色，
   // border / background / shadow 必須跟著走，不能在 SFC 內硬寫 #3aa2ec / #14171d 等色碼
-  //
   // 命名規約：
   //   --honest-at-neon-*    霓虹色（框 / 線 / hover）
   //   --honest-at-header-*  header 結構色

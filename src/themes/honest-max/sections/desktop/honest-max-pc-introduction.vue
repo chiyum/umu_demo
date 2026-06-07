@@ -92,7 +92,6 @@ const INTRO_ITEMS = [
       var(--secondary-01) 100%
     );
     background-clip: text;
-    -webkit-background-clip: text;
     color: transparent;
   }
 
@@ -103,7 +102,7 @@ const INTRO_ITEMS = [
   }
 }
 
-@media (max-width: 1440px) {
+@media (width <= 1440px) {
   .honest-max-pc-intro {
     &__title {
       font-size: 24px;

@@ -208,7 +208,7 @@ const GAME_ITEMS = [
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 5px 0 5px 0;
+  border-radius: 5px 0;
   font-weight: bold;
   font-size: 12px;
   margin: 0 4px 0 0;

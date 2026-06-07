@@ -79,7 +79,6 @@ import appLight from "../../assets/desktop/app-light.png?url";
     font-weight: 700;
     background: linear-gradient(90deg, #ffffff 0%, #ffd57c 50%, #ffffff 100%);
     background-clip: text;
-    -webkit-background-clip: text;
     color: transparent;
     margin-bottom: 24px;
   }

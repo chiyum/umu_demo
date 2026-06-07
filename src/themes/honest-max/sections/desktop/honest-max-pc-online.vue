@@ -111,7 +111,7 @@ function digits(n: number): number[] {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: "Inter", "Segoe UI", sans-serif;
+    font-family: Inter, "Segoe UI", sans-serif;
     font-size: 36px;
     font-weight: 900;
     color: var(--text-on-primary);

@@ -104,7 +104,7 @@ const INTRO_ITEMS = [
   }
 }
 
-@media (max-width: 1440px) {
+@media (width <= 1440px) {
   .honest-at-pc-intro {
     &__title {
       font-size: 24px;
