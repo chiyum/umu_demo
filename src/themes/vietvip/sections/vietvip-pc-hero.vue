@@ -448,12 +448,12 @@ const actions: ActionItem[] = [
       inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   }
 
+  // 同 mobile user-card 規範：icon 直接用 SVG 原色顯示，
+  // 不對 SVG silhouette 套 mix-blend / filter 染色（金漸層只當圓背景）
   &__card-action-icon img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    mix-blend-mode: multiply;
-    opacity: 0.85;
   }
 
   &__card-action-label {

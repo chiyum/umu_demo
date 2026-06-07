@@ -81,6 +81,7 @@ const actions: ActionItem[] = [
         </span>
       </div>
       <div class="vietvip-m-user__credit-row">
+        <span class="vietvip-m-user__account">demo_vip</span>
         <span class="vietvip-m-user__currency" aria-label="餘額">
           <img :src="iconMoney" alt="" class="vietvip-m-user__currency-img" />
         </span>
@@ -169,6 +170,24 @@ const actions: ActionItem[] = [
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+
+  // 帳號名顯示在 credit-row 最左
+  // 為什麼用 text-muted 而非 text-primary：
+  // - text-primary 是深酒紅，與 credit 數字（也是深酒紅 var(--primary-01)）同色會搶焦點
+  // - text-muted 偏灰是「次要資訊」的標準視覺權重，credit 仍是 row 主角
+  // 為什麼加 min-width: 0 + overflow-wrap break-word：
+  // - 長帳號可能擠壓 credit 顯示，限制最大寬度 + 截斷比硬擠來得乾淨
+  &__account {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    line-height: 1.2;
+    min-width: 0;
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   // 金錢符號圖示：對齊原專案 .user__icon.money 0.28×0.33rem
@@ -266,14 +285,14 @@ const actions: ActionItem[] = [
       inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   }
 
+  // icon 直接用 SVG 原色顯示，不對 SVG silhouette 套 mix-blend / filter 染色
+  // 與 tab-bar 修正同根因：原作 SVG 是灰階 mask-based 填色（非純黑），
+  // 套 multiply 會把白底洗掉但同時把線條也吃掉，圖示變得幾乎看不見。
+  // 金漸層只當圓形背景，圖示維持原色清楚呈現
   &__action-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-
-    // 原 SVG 是白色填色，配金底反而失焦 → mix-blend-mode: multiply 把白變透明、線條留下
-    mix-blend-mode: multiply;
-    opacity: 0.85;
   }
 
   &__action-label {
