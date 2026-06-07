@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TycoonMobileHeader from "./sections/tycoon-mobile-header.vue";
-import TycoonMobileHero from "./sections/tycoon-mobile-hero.vue";
+import TycoonMobileBannerSwiper from "./sections/tycoon-mobile-banner-swiper.vue";
 import TycoonMobileMarquee from "./sections/tycoon-mobile-marquee.vue";
 import TycoonMobileBody from "./sections/tycoon-mobile-body.vue";
 import TycoonMobileTabBar from "./sections/tycoon-mobile-tab-bar.vue";
@@ -9,16 +9,22 @@ import TycoonMobileTabBar from "./sections/tycoon-mobile-tab-bar.vue";
  * tycoon 手機版佈局 — 對齊使用者設計稿（大亨娛樂城.html）五段結構
  *
  * 由上到下：
- * 1. Header     頂部 logo bar + 註冊/登入按鈕 + 語系國旗
- * 2. Hero       藍冰漸層 banner + 大斜體標語 + 形象圖
- * 3. Marquee    跑馬燈
- * 4. Body       左 6 分類 sidebar + 右 6 張遊戲卡（核心結構）
- * 5. TabBar     底部 5 tab（首頁/優惠/存提/客服/我的，fixed 固定）
+ * 1. Header        頂部 logo bar + 註冊/登入按鈕 + 語系國旗
+ * 2. BannerSwiper  4 張 ant-sport banner 輪播（取代原 hero 段固定畫面）
+ * 3. Marquee       跑馬燈
+ * 4. Body          左 6 分類 sidebar + 右 6 張遊戲卡（核心結構）
+ * 5. TabBar        底部 5 tab（首頁/優惠/存提/客服/我的，fixed 固定）
+ *
+ * 為什麼第 2 段從 hero 改成 banner swiper：
+ * - 原 hero 是「左標語 + 右單張 figure」固定畫面，視覺與其他 theme（noya / ant-sport /
+ *   vietvip）的「mobile 第二段 = banner 輪播」範式不一致
+ * - 改成 banner swiper 後與整套 theme 庫的設計語言對齊，showcase 主頁切換時更容易
+ *   做視覺比對
  *
  * 為什麼整體背景用 radial-gradient + 對角線冰光條紋：
  * - 對齊設計稿 .phone 的層次：radial 底色 + ::before 條紋
  * - radial: 右上偏亮、左下偏深，模擬「金屬冰光從右上灑下」
- * - 條紋：兩條對角白光，與 hero swoosh 視覺呼應
+ * - 條紋：兩條對角白光
  *
  * 為什麼不直接搬設計稿的 .phone 寫法：
  * - 設計稿 .phone max-width: 430px + center align 是「展示用塑膠手機殼」效果
@@ -36,7 +42,7 @@ import TycoonMobileTabBar from "./sections/tycoon-mobile-tab-bar.vue";
     <TycoonMobileHeader />
 
     <main class="tycoon-m-layout__main">
-      <TycoonMobileHero />
+      <TycoonMobileBannerSwiper />
       <TycoonMobileMarquee />
       <TycoonMobileBody />
     </main>
