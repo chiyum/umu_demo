@@ -137,6 +137,7 @@ onBeforeUnmount(stopAuto);
 
   &__slide {
     flex: 0 0 100%;
+
     // 對齊 ant-sport banner 原 750×400 比例（15/8）
     aspect-ratio: 15 / 8;
     overflow: hidden;
