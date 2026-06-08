@@ -401,6 +401,42 @@ const atDeluxe: ThemeMeta = {
   logos: SHARED_LOGOS
 };
 
+/**
+ * fived 版面（5D 暗金禮盒風）
+ *
+ * 來源：5d_v2 src/pages/base/home.vue + src/assets/scss/pages/_index.scss
+ * - 為什麼選 base 不選 plus：plus 是 quasar q-card 空殼沒實質視覺；
+ *   base 有完整 banner swiper + news 雙欄 grid + hotGame 3D 卡片金邊發光，
+ *   是 5d_v2 真正的「視覺主軸」所在
+ * - mobile：banner swiper + news 公告卡 + 熱門遊戲 2-col 金邊卡
+ * - desktop：grid 雙欄（66.5% banner + 33.5% news 公告列表）+ 熱門遊戲 3-col 金邊大卡
+ * - 配色：HSL 三軸（gold-deep 預設暗金 / royal-blue 銀邊深藍 / crimson-rose 酒紅）
+ * - defaultLogo：long-heng（金筆畫與暗金主視覺最搭）
+ *
+ * key 命名為 fived（CSS class 不能以數字開頭，避免 `5d`）
+ *
+ * 與其他 theme 區隔：
+ * - 與 noya（暖玫瑰金）/ vietvip（酒紅金）色域接近，但「裝飾線條更乾淨、
+ *   字體 Noto Sans 顯示體 + 雙欄 grid 結構 + tag 多色標籤」是獨有
+ */
+const fived: ThemeMeta = {
+  key: "fived",
+  label: "版面 J · 5D",
+  description:
+    "5D 暗金禮盒風，深棕底 + 金漸層邊框 + 雙欄 banner+news + tag 多色標籤，預設暗金 / 銀邊深藍 / 酒紅玫瑰三種配色",
+  desktop: () => import("./fived/desktop.vue"),
+  mobile: () => import("./fived/mobile.vue"),
+  defaultColor: "gold-deep",
+  colors: [
+    { key: "gold-deep", label: "暗金", swatch: "#e2bd87" },
+    { key: "royal-blue", label: "皇家藍", swatch: "#6fa8ff" },
+    { key: "crimson-rose", label: "酒紅玫瑰", swatch: "#d63d5e" }
+  ],
+  previews: buildPreviews("fived"),
+  defaultLogo: "long-heng",
+  logos: SHARED_LOGOS
+};
+
 /** 對外暴露的 theme 表，key 是 layoutKey */
 export const themes: Record<string, ThemeMeta> = {
   noya,
@@ -411,7 +447,8 @@ export const themes: Record<string, ThemeMeta> = {
   "honest-at": honestAt,
   "honest-max": honestMax,
   "honest-no6": honestNo6,
-  "at-deluxe": atDeluxe
+  "at-deluxe": atDeluxe,
+  fived
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */

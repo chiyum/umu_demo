@@ -1,0 +1,197 @@
+// fived（5D 暗金禮盒風）token 主檔
+// ---
+// 對齊來源：5d_v2 src/pages/base/home.vue + src/assets/scss/pages/_index.scss
+//
+// 主視覺特徵（取自原作 _index.scss）：
+//   - banner-list grid 雙欄：左 66.5% banner swiper / 右 33.5% news 公告
+//   - banner 框 2px solid #ccb28a 米金邊
+//   - news 區塊用「titleBox icon + 中文 + 英文副標」三層標題
+//   - hotGame block：linear-gradient(180deg, #13060a → #4d0e27) 暗紅底
+//     + ::before 雙層金邊 linear-gradient(180deg, #ffdaa4 → #7d571e) 用 mask-composite exclude
+//     + hover box-shadow: 0 0 12px #ffdaa460 金光暈
+//     + h3 #e2bd87 暗金 22px / p #a67c8b 玫粉灰 18px
+//   - swiper pagination bullet drop-shadow #fff700 金黃發光
+//   - 3D carousel 中央放大左右縮（mobile）
+//
+// 配色三變體：
+//   gold-deep 預設 — 暗金主視覺（5d_v2 原色基準）
+//   royal-blue   — 銀邊深藍倒轉（金 → 銀，暗紅 → 深藍）
+//   crimson-rose — 酒紅玫瑰（hotGame 暗紅底擴大成整頁主視覺）
+
+[data-theme="fived"] {
+  // ─────── HSL 三軸 ───────
+  // 預設主色：暗金 #e2bd87 → H 33 / S 56% / L 71%
+  --primary-h: 33;
+  --primary-s: 56%;
+  --primary-l: 71%;
+
+  // 副色：暗紅 #4d0e27 → H 339 / S 70% / L 18%（hotGame block gradient 終點）
+  --secondary-h: 339;
+  --secondary-s: 70%;
+  --secondary-l: 18%;
+
+  // ─────── primary 階層（金亮 → 金深）───────
+  --primary-01: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --primary-02: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) + 10%)
+  );
+  // 米金（亮）= #ffdaa4 → primary-03
+  --primary-03: hsl(
+    calc(var(--primary-h) + 1),
+    calc(var(--primary-s) + 38%),
+    calc(var(--primary-l) + 12%)
+  );
+  // 中金 = #c79968
+  --primary-04: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) - 12%)
+  );
+  // 暗金（描邊終點）= #7d571e
+  --primary-05: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) + 8%),
+    calc(var(--primary-l) - 40%)
+  );
+
+  // ─────── secondary 階層（暗紅 → 暗紅光） ───────
+  --secondary-01: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l)
+  );
+  --secondary-02: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    calc(var(--secondary-l) - 10%)
+  );
+  --secondary-03: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    calc(var(--secondary-l) + 15%)
+  );
+
+  // ─────── 共用 alias ───────
+  --color-primary: var(--primary-01);
+  --color-secondary: var(--secondary-01);
+  --color-accent: var(--primary-01);
+
+  // ─────── 整頁底色（深棕 + 暗紅光感）───────
+  --bg-base: #1a0c12;
+  --bg-surface: #2e1822;
+  --bg-overlay: hsla(var(--secondary-h), 50%, 14%, 0.6);
+  --text-primary: #ffffff;
+  --text-muted: #a67c8b;
+  --text-on-primary: #ffffff;
+  --border: rgba(226, 189, 135, 0.32);
+  --shadow: 0 4px 14px rgba(13, 6, 10, 0.6);
+
+  // hero：取自原作 hotGame-wrap linear-gradient(0deg, #000000e2 80%, #2e1822 100%)
+  --gradient-hero: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.88) 80%,
+    #2e1822 100%
+  );
+
+  // CTA：金漸層按鈕
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--primary-03) 0%,
+    var(--primary-01) 50%,
+    var(--primary-04) 100%
+  );
+
+  // 卡片金邊（原作 hotGame-block::before）
+  --gradient-card-border: linear-gradient(
+    180deg,
+    var(--primary-03) 0%,
+    var(--primary-05) 100%
+  );
+
+  // hot game block 內漸層（暗紅）
+  --gradient-card-fill: linear-gradient(
+    180deg,
+    #13060a 46.63%,
+    #4d0e27 100%
+  );
+
+  // 對比 / 結構 token
+  --bg-base-deep: #0c0608;
+  --bg-base-translucent: rgba(26, 12, 18, 0.92);
+  --highlight-strip: #ffdaa4;
+  --provider-card-bg: rgba(46, 24, 34, 0.7);
+  --footer-bg: #0c0608;
+  --footer-text: #a67c8b;
+  --footer-link: var(--primary-01);
+  --badge-live: var(--primary-01);
+
+  // device frame
+  --device-frame-bg: linear-gradient(180deg, #0c0608 0%, #2e1822 100%);
+  --device-frame-inner: #2e1822;
+  --device-screen-overlay: linear-gradient(180deg, #2e1822 0%, #1a0c12 100%);
+
+  // banner 漸層（多 slide 用）
+  --banner-gradient-1: linear-gradient(135deg, #1a0c12 0%, #e2bd87 100%);
+  --banner-gradient-2: linear-gradient(135deg, #4d0e27 0%, #ffdaa4 100%);
+  --banner-gradient-3: linear-gradient(135deg, #1a0c12 0%, #c79968 100%);
+
+  // 字體 — 5D 走 serif + Noto Sans 中文，與 vietvip 風格不同的是字幅更窄
+  --font-display:
+    "Noto Sans", "Noto Sans TC", "PingFang TC", "微軟正黑體", sans-serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Segoe UI", tahoma, arial, sans-serif;
+
+  // shadow stack（暗棕 alpha + 金 alpha 雙系）
+  --shadow-sm: 0 1px 2px rgba(12, 6, 8, 0.5);
+  --shadow-md: 0 4px 10px rgba(12, 6, 8, 0.55);
+  --shadow-lg: 0 8px 22px rgba(12, 6, 8, 0.65);
+  --shadow-xl: 3px 7px 14px rgba(12, 6, 8, 0.7);
+  --shadow-sticky:
+    0 1px 2px rgba(12, 6, 8, 0.6), 0 2px 8px rgba(12, 6, 8, 0.5);
+  // 對齊原作 hotGame-block hover: 0 0 12px 2px #ffdaa460
+  --shadow-glow: 0 0 12px 2px rgba(255, 218, 164, 0.38);
+  // 對齊 swiper bullet drop-shadow #fff700
+  --shadow-glow-dot: 0 0 2px #fff700;
+
+  // 角落 radial 柔光：右上暗金、左下深紅
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1100px 800px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 55%, 0.16) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 900px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 35%, 0.22) 0%,
+      transparent 65%
+    );
+
+  // 給共用元件吃的 gradient-gold / text-on-gold（5d 本就是金主視覺）
+  --gradient-gold: linear-gradient(
+    135deg,
+    var(--primary-03) 0%,
+    var(--primary-01) 50%,
+    var(--primary-04) 100%
+  );
+  --text-on-gold: #1a0c12;
+
+  // ─────── fived-specific token ───────
+  // 卡片暗紅底（hotGame block）
+  --fived-card-fill: var(--gradient-card-fill);
+  // 卡片金邊（hover 時 opacity 0→1）
+  --fived-card-border: var(--gradient-card-border);
+  // banner 米金邊 #ccb28a（原作 banner figure 2px border）
+  --fived-banner-border: #ccb28a;
+  // news 區 tag 多色（系統 / 促銷 / 其他 / 活動 / 遊戲）
+  --fived-tag-system: #1cdadc;
+  --fived-tag-promo: #ff02bc;
+  --fived-tag-other: #ffffff;
+  --fived-tag-event: #f9cc44;
+  --fived-tag-game: #f76965;
+  // titleBox 標題字色：cn 暗金 / en 暗金低調
+  --fived-title-cn: var(--primary-01);
+  --fived-title-en: var(--primary-04);
+}
