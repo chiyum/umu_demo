@@ -201,7 +201,7 @@ const games = [hot1, hot2, hot3, hot4, hot5, hot6];
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 1px;
-  border-radius: 6px 0 8px 0;
+  border-radius: 6px 0 8px;
   box-shadow: var(--shadow-glow-hot);
 }
 

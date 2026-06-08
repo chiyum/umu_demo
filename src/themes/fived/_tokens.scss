@@ -1,7 +1,5 @@
 // fived（5D 暗金禮盒風）token 主檔
-// ---
 // 對齊來源：5d_v2 src/pages/base/home.vue + src/assets/scss/pages/_index.scss
-//
 // 主視覺特徵（取自原作 _index.scss）：
 //   - banner-list grid 雙欄：左 66.5% banner swiper / 右 33.5% news 公告
 //   - banner 框 2px solid #ccb28a 米金邊
@@ -12,7 +10,6 @@
 //     + h3 #e2bd87 暗金 22px / p #a67c8b 玫粉灰 18px
 //   - swiper pagination bullet drop-shadow #fff700 金黃發光
 //   - 3D carousel 中央放大左右縮（mobile）
-//
 // 配色三變體：
 //   gold-deep 預設 — 暗金主視覺（5d_v2 原色基準）
 //   royal-blue   — 銀邊深藍倒轉（金 → 銀，暗紅 → 深藍）
@@ -37,18 +34,21 @@
     var(--primary-s),
     calc(var(--primary-l) + 10%)
   );
+
   // 米金（亮）= #ffdaa4 → primary-03
   --primary-03: hsl(
     calc(var(--primary-h) + 1),
     calc(var(--primary-s) + 38%),
     calc(var(--primary-l) + 12%)
   );
+
   // 中金 = #c79968
   --primary-04: hsl(
     var(--primary-h),
     var(--primary-s),
     calc(var(--primary-l) - 12%)
   );
+
   // 暗金（描邊終點）= #7d571e
   --primary-05: hsl(
     var(--primary-h),
@@ -151,8 +151,10 @@
   --shadow-xl: 3px 7px 14px rgba(12, 6, 8, 0.7);
   --shadow-sticky:
     0 1px 2px rgba(12, 6, 8, 0.6), 0 2px 8px rgba(12, 6, 8, 0.5);
+
   // 對齊原作 hotGame-block hover: 0 0 12px 2px #ffdaa460
   --shadow-glow: 0 0 12px 2px rgba(255, 218, 164, 0.38);
+
   // 對齊 swiper bullet drop-shadow #fff700
   --shadow-glow-dot: 0 0 2px #fff700;
 
@@ -181,16 +183,20 @@
   // ─────── fived-specific token ───────
   // 卡片暗紅底（hotGame block）
   --fived-card-fill: var(--gradient-card-fill);
+
   // 卡片金邊（hover 時 opacity 0→1）
   --fived-card-border: var(--gradient-card-border);
+
   // banner 米金邊 #ccb28a（原作 banner figure 2px border）
   --fived-banner-border: #ccb28a;
+
   // news 區 tag 多色（系統 / 促銷 / 其他 / 活動 / 遊戲）
   --fived-tag-system: #1cdadc;
   --fived-tag-promo: #ff02bc;
   --fived-tag-other: #ffffff;
   --fived-tag-event: #f9cc44;
   --fived-tag-game: #f76965;
+
   // titleBox 標題字色：cn 暗金 / en 暗金低調
   --fived-title-cn: var(--primary-01);
   --fived-title-en: var(--primary-04);

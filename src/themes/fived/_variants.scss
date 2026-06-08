@@ -1,5 +1,4 @@
 // fived 配色變體：royal-blue / crimson-rose
-//
 // 變體只動 HSL 三軸 + 關鍵 gradient token：
 //   - royal-blue：金 → 銀（藍冷光），暗紅 → 深藍底
 //   - crimson-rose：金邊保留但拉淡，整頁 hotGame 暗紅底擴成主視覺
@@ -10,23 +9,21 @@
   --primary-h: 215;
   --primary-s: 100%;
   --primary-l: 72%;
+
   // 副色拉到深皇家藍 #14223a
   --secondary-h: 218;
   --secondary-s: 48%;
   --secondary-l: 16%;
-
   --bg-base: #0c1424;
   --bg-surface: #14223a;
   --bg-base-deep: #050a16;
   --bg-base-translucent: rgba(12, 20, 36, 0.92);
   --border: rgba(111, 168, 255, 0.36);
-
   --gradient-hero: linear-gradient(
     0deg,
     rgba(0, 0, 0, 0.88) 80%,
     #14223a 100%
   );
-
   --gradient-card-border: linear-gradient(
     180deg,
     #b8d4ff 0%,
@@ -37,7 +34,6 @@
     #050a16 46.63%,
     #14223a 100%
   );
-
   --gradient-gold: linear-gradient(
     135deg,
     #b8d4ff 0%,
@@ -45,11 +41,9 @@
     #3a6fc4 100%
   );
   --text-on-gold: #050a16;
-
   --banner-gradient-1: linear-gradient(135deg, #0c1424 0%, #6fa8ff 100%);
   --banner-gradient-2: linear-gradient(135deg, #14223a 0%, #b8d4ff 100%);
   --banner-gradient-3: linear-gradient(135deg, #050a16 0%, #3a6fc4 100%);
-
   --device-frame-bg: linear-gradient(180deg, #050a16 0%, #14223a 100%);
   --device-frame-inner: #14223a;
   --device-screen-overlay: linear-gradient(
@@ -57,16 +51,13 @@
     #14223a 0%,
     #0c1424 100%
   );
-
   --shadow-glow: 0 0 12px 2px rgba(184, 212, 255, 0.4);
   --shadow-glow-dot: 0 0 2px #ffffff;
-
   --fived-card-fill: var(--gradient-card-fill);
   --fived-card-border: var(--gradient-card-border);
   --fived-banner-border: #6fa8ff;
   --fived-title-cn: var(--primary-01);
   --fived-title-en: #3a6fc4;
-
   --bg-decoration:
     radial-gradient(
       ellipse 1100px 800px at 100% 0%,
@@ -86,23 +77,21 @@
   --primary-h: 350;
   --primary-s: 67%;
   --primary-l: 54%;
+
   // 副色保留暗紅但拉深
   --secondary-h: 348;
   --secondary-s: 78%;
   --secondary-l: 18%;
-
   --bg-base: #240612;
   --bg-surface: #3a0a1f;
   --bg-base-deep: #14040a;
   --bg-base-translucent: rgba(36, 6, 18, 0.94);
   --border: rgba(214, 61, 94, 0.4);
-
   --gradient-hero: linear-gradient(
     0deg,
     rgba(0, 0, 0, 0.88) 80%,
     #3a0a1f 100%
   );
-
   --gradient-card-border: linear-gradient(
     180deg,
     #ffb5c5 0%,
@@ -113,7 +102,6 @@
     #14040a 46.63%,
     #4d0e27 100%
   );
-
   --gradient-gold: linear-gradient(
     135deg,
     #ffd5e1 0%,
@@ -121,11 +109,9 @@
     #821e36 100%
   );
   --text-on-gold: #14040a;
-
   --banner-gradient-1: linear-gradient(135deg, #240612 0%, #d63d5e 100%);
   --banner-gradient-2: linear-gradient(135deg, #3a0a1f 0%, #ffd5e1 100%);
   --banner-gradient-3: linear-gradient(135deg, #14040a 0%, #821e36 100%);
-
   --device-frame-bg: linear-gradient(180deg, #14040a 0%, #3a0a1f 100%);
   --device-frame-inner: #3a0a1f;
   --device-screen-overlay: linear-gradient(
@@ -133,16 +119,13 @@
     #3a0a1f 0%,
     #240612 100%
   );
-
   --shadow-glow: 0 0 12px 2px rgba(214, 61, 94, 0.42);
   --shadow-glow-dot: 0 0 2px #ffd5e1;
-
   --fived-card-fill: var(--gradient-card-fill);
   --fived-card-border: var(--gradient-card-border);
   --fived-banner-border: #d63d5e;
   --fived-title-cn: var(--primary-01);
   --fived-title-en: #821e36;
-
   --bg-decoration:
     radial-gradient(
       ellipse 1100px 800px at 100% 0%,

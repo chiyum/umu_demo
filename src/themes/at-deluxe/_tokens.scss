@@ -1,8 +1,6 @@
 // at-deluxe（AT99 Deluxe 賭場霓虹奢華風）token 主檔
-// ---
 // 對齊來源：slime-at99 src/pages/at99/desktop.vue + mobile.vue
 //   + src/assets/scss/pages/* + components/desktop/* + components/mobile/*
-//
 // 主視覺特徵（取自原作）：
 //   - 深藍 radial 漸層底（#0c1429 → #202d4d，hero 邊框 14px 圓角 + 雙層光暈）
 //   - 霓虹青 #69ffff 為主光點，搭配霓虹紅 #f24a82 hot 標
@@ -10,12 +8,10 @@
 //   - mobile：垂直 sidebar 8 分類（漸層膠囊 #263557 → #3b4d71）+ 右側 2-col grid
 //   - desktop：banner + marquee + 熱門 hotGame 列 + gameBar 真人/捕魚 雙列 + Rankings
 //   - 熱門卡有「hot 紅角徽」（#f24a82 → #c71f57 漸層）
-//
 // 配色三變體：
 //   cyan-neon 預設 — 霓虹青主軸（slime-at99 原色基準）
 //   rose-neon       — 霓虹玫紅倒轉（把 hot 主色拉成全頁主色）
 //   gold-deluxe     — 賭場金邊（金色點綴取代青色，更接近「奢華 deluxe」slot 視覺）
-//
 // 與既有 at99 區隔：
 //   - at99 = 單軸霓虹（藍 / 紫 / 綠），sections 是「網格遊戲列表」純扁平
 //   - at-deluxe = 雙層光暈 hero + JACKPOT 數字 + 漸層膠囊 sidebar，結構更接近「賭場大廳」
@@ -81,7 +77,7 @@
   // 原作 mb-home-slide 的 radial-gradient(96.76% at 50% 3.24%, #202d4d→#0c1429) 衍生
   --bg-base: #0a1024;
   --bg-surface: #18223f;
-  --bg-overlay: hsla(220, 60%, 28%, 0.5);
+  --bg-overlay: hsla(220deg, 60%, 28%, 0.5);
   --text-primary: #ffffff;
   --text-muted: #97a8c7;
   --text-on-primary: #ffffff;

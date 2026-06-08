@@ -141,6 +141,7 @@ onBeforeUnmount(() => {
   max-width: calc(100% - 48px);
   margin: 0 auto;
   padding: 0 16px;
+
   // 對齊原作：grid-template-columns 66.5% 1fr / gap implicit
   display: grid;
   grid-template-columns: 66.5% 1fr;

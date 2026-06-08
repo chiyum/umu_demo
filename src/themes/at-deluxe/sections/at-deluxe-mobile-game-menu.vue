@@ -240,7 +240,7 @@ const activeCategory = ref<string>("hot");
   color: #ffffff;
   font-size: 11px;
   font-weight: 900;
-  border-radius: 5px 0 8px 0;
+  border-radius: 5px 0 8px;
   box-shadow: var(--shadow-glow-hot);
 }
 

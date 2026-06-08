@@ -137,10 +137,10 @@ const GAMES: GameCard[] = [
     border-radius: 8px;
     background: var(--fived-card-border);
     mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
+      linear-gradient(#ffffff 0 0) content-box,
+      linear-gradient(#ffffff 0 0);
     mask-composite: exclude;
-    -webkit-mask-composite: destination-out;
+    mask-composite: destination-out;
     pointer-events: none;
     opacity: 0.6;
     transition: opacity 0.3s ease;
