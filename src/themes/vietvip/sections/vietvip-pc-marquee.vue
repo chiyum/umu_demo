@@ -104,13 +104,6 @@ const joinedText = items.join("　·　");
     height: 100%;
     display: flex;
     align-items: center;
-    mask-image: linear-gradient(
-      to right,
-      transparent 0,
-      #000000 3%,
-      #000000 97%,
-      transparent 100%
-    );
   }
 
   &__track {

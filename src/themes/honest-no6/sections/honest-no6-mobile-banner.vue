@@ -64,7 +64,7 @@ onBeforeUnmount(() => {
 .honest-no6-m-banner {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 11;
+  aspect-ratio: 27 / 11;
   overflow: hidden;
 }
 
