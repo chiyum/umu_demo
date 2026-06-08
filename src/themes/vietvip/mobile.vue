@@ -5,7 +5,6 @@ import VietvipMobileMarquee from "./sections/vietvip-mobile-marquee.vue";
 import VietvipMobileUserCard from "./sections/vietvip-mobile-user-card.vue";
 import VietvipMobileGameMenu from "./sections/vietvip-mobile-game-menu.vue";
 import VietvipMobileBuoy from "./sections/vietvip-mobile-buoy.vue";
-import VietvipMobileDownload from "./sections/vietvip-mobile-download.vue";
 import VietvipMobileTabBar from "./sections/vietvip-mobile-tab-bar.vue";
 
 /**
@@ -56,7 +55,6 @@ import VietvipMobileTabBar from "./sections/vietvip-mobile-tab-bar.vue";
     </main>
 
     <VietvipMobileBuoy />
-    <VietvipMobileDownload />
     <VietvipMobileTabBar />
   </div>
 </template>

@@ -123,9 +123,7 @@ const actions: ActionItem[] = [
   background: var(--bg-surface);
   border: 1px solid var(--vietvip-gold-2);
   border-radius: 16px;
-  box-shadow:
-    0 8px 22px var(--vietvip-card-glow),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 22px var(--vietvip-card-glow);
 
   &__data {
     display: flex;
@@ -157,11 +155,9 @@ const actions: ActionItem[] = [
     letter-spacing: 0.8px;
     color: #ffffff;
     background: var(--gradient-gold);
-    border: 1px solid rgba(255, 255, 255, 0.55);
+    border: 1px solid var(--vietvip-gold-2);
     border-radius: 12px;
-    box-shadow:
-      0 2px 6px rgba(199, 154, 69, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    box-shadow: 0 2px 6px rgba(199, 154, 69, 0.4);
     text-shadow: 0 1px 2px rgba(122, 80, 12, 0.35);
     font-family: var(--font-display);
   }
