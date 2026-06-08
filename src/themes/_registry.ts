@@ -366,6 +366,41 @@ const honestNo6: ThemeMeta = {
   logos: SHARED_LOGOS
 };
 
+/**
+ * at-deluxe 版面（AT99 Deluxe 賭場霓虹奢華風）
+ *
+ * 來源：slime-at99 src/pages/at99/{desktop,mobile}.vue
+ * - mobile：banner + JACKPOT 七段顯示 + marquee 上下青藍細線 +
+ *   左 sidebar 8 分類（漸層膠囊）+ 右 2-col grid 卡片（hot 紅角徽）+
+ *   demo 補 sticky header / bottom tab bar（5 tab 中間凸出 CTA 球）
+ * - desktop：sticky brand bar + banner 大框 + JACKPOT 浮層 + 跑馬燈條 +
+ *   熱門遊戲 3-col grid + 真人/捕魚 雙列遊戲列 + 精簡 footer
+ * - 配色：HSL 三軸（cyan-neon 預設霓虹青 / rose-neon 玫紅 / gold-deluxe 賭場金）
+ * - defaultLogo：dahsing（大亨 ONLINE 與「霓虹賭場」品牌調性對齊）
+ *
+ * 與既有 at99 區隔：
+ * - at99 是「霓虹藍紫綠單軸高飽和」、桌面 hero 三段組合單純扁平
+ * - at-deluxe 是「深藍 radial + JACKPOT 七段數字 + 漸層膠囊 sidebar + 雙列遊戲」
+ *   多層次賭場大廳結構，視覺密度高且帶 hot 紅角徽 / 金球凸出 CTA
+ */
+const atDeluxe: ThemeMeta = {
+  key: "at-deluxe",
+  label: "版面 I · AT Deluxe",
+  description:
+    "AT99 Deluxe 賭場霓虹奢華風，深藍 radial + JACKPOT 七段顯示 + 漸層膠囊 sidebar，預設霓虹青 / 玫紅 / 賭場金三種配色",
+  desktop: () => import("./at-deluxe/desktop.vue"),
+  mobile: () => import("./at-deluxe/mobile.vue"),
+  defaultColor: "cyan-neon",
+  colors: [
+    { key: "cyan-neon", label: "霓虹青", swatch: "#69ffff" },
+    { key: "rose-neon", label: "霓虹玫紅", swatch: "#f24a82" },
+    { key: "gold-deluxe", label: "賭場金", swatch: "#ffd86b" }
+  ],
+  previews: buildPreviews("at-deluxe"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS
+};
+
 /** 對外暴露的 theme 表，key 是 layoutKey */
 export const themes: Record<string, ThemeMeta> = {
   noya,
@@ -375,7 +410,8 @@ export const themes: Record<string, ThemeMeta> = {
   vietvip,
   "honest-at": honestAt,
   "honest-max": honestMax,
-  "honest-no6": honestNo6
+  "honest-no6": honestNo6,
+  "at-deluxe": atDeluxe
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */

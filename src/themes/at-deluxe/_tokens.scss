@@ -1,0 +1,195 @@
+// at-deluxe（AT99 Deluxe 賭場霓虹奢華風）token 主檔
+// ---
+// 對齊來源：slime-at99 src/pages/at99/desktop.vue + mobile.vue
+//   + src/assets/scss/pages/* + components/desktop/* + components/mobile/*
+//
+// 主視覺特徵（取自原作）：
+//   - 深藍 radial 漸層底（#0c1429 → #202d4d，hero 邊框 14px 圓角 + 雙層光暈）
+//   - 霓虹青 #69ffff 為主光點，搭配霓虹紅 #f24a82 hot 標
+//   - JACKPOT 七段顯示數字 + 上下藍霓虹光帶（mb-home-jackPot）
+//   - mobile：垂直 sidebar 8 分類（漸層膠囊 #263557 → #3b4d71）+ 右側 2-col grid
+//   - desktop：banner + marquee + 熱門 hotGame 列 + gameBar 真人/捕魚 雙列 + Rankings
+//   - 熱門卡有「hot 紅角徽」（#f24a82 → #c71f57 漸層）
+//
+// 配色三變體：
+//   cyan-neon 預設 — 霓虹青主軸（slime-at99 原色基準）
+//   rose-neon       — 霓虹玫紅倒轉（把 hot 主色拉成全頁主色）
+//   gold-deluxe     — 賭場金邊（金色點綴取代青色，更接近「奢華 deluxe」slot 視覺）
+//
+// 與既有 at99 區隔：
+//   - at99 = 單軸霓虹（藍 / 紫 / 綠），sections 是「網格遊戲列表」純扁平
+//   - at-deluxe = 雙層光暈 hero + JACKPOT 數字 + 漸層膠囊 sidebar，結構更接近「賭場大廳」
+
+[data-theme="at-deluxe"] {
+  // ─────── HSL 三軸 ───────
+  // 預設主色：霓虹青 #69ffff → H 180 / S 100% / L 70%
+  --primary-h: 180;
+  --primary-s: 100%;
+  --primary-l: 70%;
+
+  // 副色：霓虹玫紅 #f24a82 → H 339 / S 87% / L 62%
+  --secondary-h: 339;
+  --secondary-s: 87%;
+  --secondary-l: 62%;
+
+  // ─────── primary 階層（霓虹青從亮到深）───────
+  --primary-01: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+  --primary-02: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) + 10%)
+  );
+  --primary-03: hsl(
+    var(--primary-h),
+    var(--primary-s),
+    calc(var(--primary-l) - 15%)
+  );
+  --primary-04: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 20%),
+    calc(var(--primary-l) - 28%)
+  );
+  --primary-05: hsl(
+    var(--primary-h),
+    calc(var(--primary-s) - 30%),
+    calc(var(--primary-l) - 42%)
+  );
+
+  // ─────── secondary 階層（霓虹玫紅）───────
+  --secondary-01: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    var(--secondary-l)
+  );
+  --secondary-02: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    calc(var(--secondary-l) - 14%)
+  );
+  --secondary-03: hsl(
+    var(--secondary-h),
+    var(--secondary-s),
+    calc(var(--secondary-l) + 12%)
+  );
+
+  // ─────── 共用 alias ───────
+  --color-primary: var(--primary-01);
+  --color-secondary: var(--secondary-01);
+  --color-accent: var(--primary-01);
+
+  // ─────── 整頁底色（深藍 radial 雙圈）───────
+  // 原作 mb-home-slide 的 radial-gradient(96.76% at 50% 3.24%, #202d4d→#0c1429) 衍生
+  --bg-base: #0a1024;
+  --bg-surface: #18223f;
+  --bg-overlay: hsla(220, 60%, 28%, 0.5);
+  --text-primary: #ffffff;
+  --text-muted: #97a8c7;
+  --text-on-primary: #ffffff;
+  --border: rgba(105, 255, 255, 0.32);
+  --shadow: 0 4px 14px rgba(0, 12, 30, 0.55);
+
+  // hero 漸層：對齊原作 mb-home-slide radial
+  --gradient-hero: radial-gradient(
+    96% 96% at 50% 3%,
+    rgba(32, 45, 77, 0.92) 21%,
+    rgba(12, 20, 41, 0.92) 100%
+  );
+
+  // CTA：青霓虹漸層
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--primary-02) 0%,
+    var(--primary-01) 60%,
+    var(--primary-03) 100%
+  );
+
+  // hot 標（紅角徽）：對齊原作 mb-home-games--hot
+  --gradient-hot: linear-gradient(180deg, #f24a82 0%, #c71f57 100%);
+
+  // sidebar 膠囊漸層：對齊原作 mb-home-tab--item
+  --gradient-sidebar-cat: linear-gradient(270deg, #263557 0%, #3b4d71 100%);
+  --gradient-sidebar-cat-active: linear-gradient(
+    270deg,
+    #2dd4ff 0%,
+    #3b78d1 100%
+  );
+
+  // 卡片金邊（即使在預設 cyan 變體也用青藍邊框）
+  --gradient-card-border: linear-gradient(135deg, #485092 0%, #2dd4ff 100%);
+
+  // 對比 / 結構 token
+  --bg-base-deep: #050913;
+  --bg-base-translucent: rgba(10, 16, 36, 0.92);
+  --highlight-strip: #69ffff;
+  --provider-card-bg: rgba(30, 42, 73, 0.7);
+  --footer-bg: #050913;
+  --footer-text: #97a8c7;
+  --footer-link: var(--primary-01);
+  --badge-live: var(--secondary-01);
+
+  // device frame
+  --device-frame-bg: linear-gradient(180deg, #050913 0%, #18223f 100%);
+  --device-frame-inner: #18223f;
+  --device-screen-overlay: radial-gradient(
+    96% 96% at 50% 3%,
+    #202d4d 21%,
+    #0c1429 100%
+  );
+
+  // banner 漸層（多 slide 用）
+  --banner-gradient-1: linear-gradient(135deg, #0c1429 0%, #2dd4ff 100%);
+  --banner-gradient-2: linear-gradient(135deg, #0c1429 0%, #f24a82 100%);
+  --banner-gradient-3: linear-gradient(135deg, #18223f 0%, #69ffff 100%);
+
+  // 字體 — 賭場奢華 + 數字顯示用 Orbitron（原作 mb-home-number 用）
+  --font-display:
+    "Orbitron", "Noto Sans TC", "PingFang TC", "微軟正黑體", sans-serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Segoe UI", tahoma, arial, sans-serif;
+
+  // shadow stack（深藍 alpha + 青光雙系）
+  --shadow-sm: 0 1px 2px rgba(5, 9, 19, 0.5);
+  --shadow-md: 0 4px 10px rgba(5, 9, 19, 0.6);
+  --shadow-lg: 0 8px 22px rgba(5, 9, 19, 0.75);
+  --shadow-xl: 3px 7px 14px rgba(5, 9, 19, 0.7);
+  --shadow-sticky:
+    0 1px 2px rgba(5, 9, 19, 0.6), 0 2px 8px rgba(5, 9, 19, 0.55);
+  --shadow-glow: 0 0 16px hsla(var(--primary-h), var(--primary-s), 60%, 0.6);
+  --shadow-glow-hot: 0 0 14px rgba(242, 74, 130, 0.55);
+
+  // 角落 radial 柔光：右上青光、左下玫紅光
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1100px 800px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 55%, 0.18) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 900px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 55%, 0.14) 0%,
+      transparent 65%
+    );
+
+  // 給共用元件吃的 gradient-gold / text-on-gold
+  // 預設 cyan 變體：把 gradient-gold 用青藍漸層替代，視覺一致
+  --gradient-gold: linear-gradient(135deg, #b5fcff 0%, #69ffff 50%, #2dd4ff 100%);
+  --text-on-gold: #0a1024;
+
+  // ─────── at-deluxe-specific token ───────
+  // JACKPOT 數字面板（原作 mb-home-jackPot--line 用青藍漸層細線）
+  --at-deluxe-jackpot-line: linear-gradient(to right, #18233f 0%, #69ffff 100%);
+  --at-deluxe-jackpot-digit: #69ffff;
+
+  // marquee news 條（原作 mb-home-news 上下漸層細線）
+  --at-deluxe-marquee-line: linear-gradient(
+    to right,
+    #1b1e1a,
+    #3aa2ec,
+    #1c1e1c
+  );
+
+  // 卡片邊框（原作 mb-home-games--box 1px solid #485092；hover 青藍）
+  --at-deluxe-card-border: #485092;
+  --at-deluxe-card-border-active: #63ffff;
+}

@@ -1,0 +1,158 @@
+// at-deluxe 配色變體：rose-neon / gold-deluxe
+//
+// 變體只動 HSL 三軸 + 幾個 gradient token，不重寫整套階層
+// 三變體都共用「深藍 radial 大底」骨架，差異在主色從青藍 → 玫紅 → 金邊
+
+// ─────────────── rose-neon：霓虹玫紅倒轉（hot 主色當主色）───────────────
+[data-theme="at-deluxe"][data-theme-color="rose-neon"] {
+  --primary-h: 339;
+  --primary-s: 87%;
+  --primary-l: 62%;
+  --secondary-h: 180;
+  --secondary-s: 100%;
+  --secondary-l: 70%;
+
+  --bg-base: #1a0a1c;
+  --bg-surface: #2f1430;
+  --bg-base-deep: #110510;
+  --bg-base-translucent: rgba(26, 10, 28, 0.92);
+  --border: rgba(242, 74, 130, 0.4);
+
+  --gradient-hero: radial-gradient(
+    96% 96% at 50% 3%,
+    rgba(74, 24, 60, 0.92) 21%,
+    rgba(26, 10, 28, 0.92) 100%
+  );
+
+  --gradient-sidebar-cat: linear-gradient(270deg, #4a1830 0%, #722547 100%);
+  --gradient-sidebar-cat-active: linear-gradient(
+    270deg,
+    #f24a82 0%,
+    #c71f57 100%
+  );
+
+  --gradient-card-border: linear-gradient(135deg, #4a1830 0%, #f24a82 100%);
+
+  --gradient-gold: linear-gradient(
+    135deg,
+    #ffb5cf 0%,
+    #f24a82 50%,
+    #c71f57 100%
+  );
+  --text-on-gold: #1a0a1c;
+
+  --banner-gradient-1: linear-gradient(135deg, #1a0a1c 0%, #f24a82 100%);
+  --banner-gradient-2: linear-gradient(135deg, #1a0a1c 0%, #ffb5cf 100%);
+  --banner-gradient-3: linear-gradient(135deg, #2f1430 0%, #69ffff 100%);
+
+  --device-frame-bg: linear-gradient(180deg, #110510 0%, #2f1430 100%);
+  --device-frame-inner: #2f1430;
+  --device-screen-overlay: radial-gradient(
+    96% 96% at 50% 3%,
+    #4a1830 21%,
+    #1a0a1c 100%
+  );
+
+  --at-deluxe-jackpot-line: linear-gradient(
+    to right,
+    #1a0a1c 0%,
+    #f24a82 100%
+  );
+  --at-deluxe-jackpot-digit: #f24a82;
+  --at-deluxe-marquee-line: linear-gradient(
+    to right,
+    #1a0a1c,
+    #f24a82,
+    #1a0a1c
+  );
+  --at-deluxe-card-border: #722547;
+  --at-deluxe-card-border-active: #f24a82;
+
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1100px 800px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 55%, 0.2) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 900px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 55%, 0.16) 0%,
+      transparent 65%
+    );
+}
+
+// ─────────────── gold-deluxe：賭場金邊（深藍底 + 金色主視覺）───────────────
+[data-theme="at-deluxe"][data-theme-color="gold-deluxe"] {
+  --primary-h: 44;
+  --primary-s: 92%;
+  --primary-l: 60%;
+  --secondary-h: 180;
+  --secondary-s: 100%;
+  --secondary-l: 70%;
+
+  --bg-base: #0a1024;
+  --bg-surface: #1a2447;
+  --bg-base-deep: #050913;
+
+  --gradient-hero: radial-gradient(
+    96% 96% at 50% 3%,
+    rgba(40, 50, 90, 0.92) 21%,
+    rgba(12, 20, 41, 0.92) 100%
+  );
+
+  --gradient-sidebar-cat: linear-gradient(270deg, #2a3354 0%, #3f4977 100%);
+  --gradient-sidebar-cat-active: linear-gradient(
+    270deg,
+    #ffd86b 0%,
+    #c79968 100%
+  );
+
+  --gradient-card-border: linear-gradient(135deg, #485092 0%, #ffd86b 100%);
+
+  --gradient-gold: linear-gradient(
+    135deg,
+    #ffe79e 0%,
+    #ffd86b 50%,
+    #c79968 100%
+  );
+  --text-on-gold: #0a1024;
+
+  --banner-gradient-1: linear-gradient(135deg, #0a1024 0%, #ffd86b 100%);
+  --banner-gradient-2: linear-gradient(135deg, #0a1024 0%, #ffe79e 100%);
+  --banner-gradient-3: linear-gradient(135deg, #1a2447 0%, #ffd86b 100%);
+
+  --device-frame-bg: linear-gradient(180deg, #050913 0%, #1a2447 100%);
+  --device-frame-inner: #1a2447;
+  --device-screen-overlay: radial-gradient(
+    96% 96% at 50% 3%,
+    #28325a 21%,
+    #0a1024 100%
+  );
+
+  --at-deluxe-jackpot-line: linear-gradient(
+    to right,
+    #18233f 0%,
+    #ffd86b 100%
+  );
+  --at-deluxe-jackpot-digit: #ffd86b;
+  --at-deluxe-marquee-line: linear-gradient(
+    to right,
+    #18233f,
+    #ffd86b,
+    #18233f
+  );
+  --at-deluxe-card-border: #485092;
+  --at-deluxe-card-border-active: #ffd86b;
+
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1100px 800px at 100% 0%,
+      hsla(var(--primary-h), var(--primary-s), 55%, 0.18) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 900px 700px at 0% 100%,
+      hsla(var(--secondary-h), var(--secondary-s), 55%, 0.14) 0%,
+      transparent 65%
+    );
+}
