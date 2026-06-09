@@ -18,7 +18,9 @@
     #fdf2e4 40%,
     #fbe9d6 100%
   );
-  --gradient-cta: linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%);
+  // 主 CTA 銅金漸層（原稿 .btn-fill / .play / .hgo / .go / .pic 共用視覺）
+  // 與 dahsing-waterfall 同；nav active 漸層改由 sidebar 元件層 hard-code
+  --gradient-cta: linear-gradient(180deg, #c47e44 0%, #a85a28 100%);
 
   --bg-base-deep: #f3ece1;
   --bg-base-translucent: rgba(253, 253, 252, 0.94);

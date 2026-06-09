@@ -29,8 +29,17 @@
     #fdf2e4 40%,
     #fbe9d6 100%
   );
-  // gradient-cta：左側 nav-item active 背景（使用者指定 0deg 由下到上）
-  --gradient-cta: linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%);
+  // gradient-cta：主 CTA 銅金漸層（原稿 .btn-fill / .play / .hgo / .go / .pic 等共用視覺）
+  //
+  // 為什麼從「nav active 漸層」改回「銅金 CTA 漸層」：
+  // - reviewer WARN 指出 --gradient-cta 同時被 sidebar nav active 與 hot-bar 標題、登入按鈕、
+  //   .play / .pic / .go 等多處引用；若用 nav active 那條米橘漸層（0deg, #fcf7f4 → #bb7353），
+  //   套到 hot-bar 標題 background-clip:text 會變「下淺上深」幾乎看不見，套到白字 CTA 按鈕
+  //   也會因下半段是淺米色而文字不可讀
+  // - 12 var 公約：--gradient-cta 的語意原本就是「主 CTA 漸層」，不該被 sidebar 專用視覺綁架
+  // - sidebar 的 nav active 漸層由元件層 hard-code，與 token 解耦（見 dahsing-sidebar.vue）
+  // - 銅金值取自原稿 .btn-fill / .hgo / .play / .go 共用的 linear-gradient(180deg, #c47e44, #a85a28)
+  --gradient-cta: linear-gradient(180deg, #c47e44 0%, #a85a28 100%);
 
   // ── 對比 / 結構 token（其他 theme 也有，提供擴充點）─────────────
   --bg-base-deep: #f3ece1;
