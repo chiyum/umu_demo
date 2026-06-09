@@ -448,6 +448,31 @@ src/themes/
 注意：chrome --dump-dom / chrome headless 之前踩過 mount-race 坑（SPA 還沒 mount 就截、profile 路徑卡 race），務必用 Playwright。
 networkidle 在 dev server 下可能因 HMR client polling 永不達成，用 domcontentloaded + 顯式 selector wait 較穩。
 
+### Showcase 圖片 Lazy-Load 機制
+
+Showcase 主頁（`/home` 路由，根據 vue-router 自動產生規則 `src/pages/default/home.vue` → `/home`）
+會一次渲染全部 theme 卡片，每張卡片含一張 desktop 預覽圖；
+總圖數量隨 theme 增加會線性放大，網速慢時若全部圖片同時下載會嚴重拖慢首屏。
+為解決此問題，以下兩處 `<img>` 套用瀏覽器原生 lazy-load：
+
+| 元件 | 圖片用途 | 屬性 |
+|---|---|---|
+| `showcase-theme-card.vue` | 卡片縮圖（desktop 預覽） | `loading="lazy"` + `decoding="async"` |
+| `showcase-preview-dialog.vue` | 彈窗預覽圖（desktop / mobile） | `loading="lazy"` + `decoding="async"` |
+
+設計重點：
+
+- **only below-the-fold**：`showcase-hero` 沒有 `<img>`，`showcase-logo-switcher` 的
+  logo 圖在首屏 above-the-fold（hero 下方平鋪 row），**不加 lazy** 以免閃爍
+- **防 CLS**：theme-card thumb 外層 `.theme-card__thumb-btn` 已用 `aspect-ratio: 16 / 10`
+  穩定佔位，圖片載入前後不會跳版。新增 `<img>` 時遵守同原則：用 CSS aspect-ratio
+  或父容器固定尺寸佔位，**不要**靠 width/height attribute（CSS aspect-ratio 會蓋掉）
+- **`decoding="async"`**：把圖片解碼工作丟到非主執行緒，捲動與切換 tab 時更順
+- **dialog 內的圖**：dialog 用 `v-if` 動態 mount，理論上只在開啟時才下載；
+  仍保留 `loading="lazy"` 作為「快速 desktop ↔ mobile tab 切換時」的瀏覽器排程保險
+
+新增 showcase 卡片 / 預覽相關 `<img>` 時請延續同樣的 lazy 設定，保持首屏載入體驗一致。
+
 ### ant-sport 版面（蚂蚁体育對齊）
 
 `src/themes/ant-sport/` 是 lilian_ant_pc 桌面 main.vue 5 段 + lilian_ant_web 手機 home.vue 6 段

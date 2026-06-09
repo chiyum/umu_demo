@@ -83,11 +83,20 @@ function handleOpenDemo(): void {
       :aria-label="`預覽 ${props.theme.label}`"
       @click="handlePreview"
     >
+      <!--
+        效能：showcase 主頁會渲染全部 theme 卡片（>10 張），每張卡片一張 desktop 預覽圖。
+        - loading="lazy"：瀏覽器原生延遲載入 below-the-fold 圖，首屏只下載可見卡片
+        - decoding="async"：圖片解碼不阻塞主執行緒，捲動時也更順
+        - 防 CLS：外層 .theme-card__thumb-btn 已用 aspect-ratio: 16 / 10 佔位，
+          圖片載入前後不會跳版，不必再硬塞 width/height attribute（理由：實際渲染尺寸
+          由 CSS 控制，attribute 寫死的 intrinsic ratio 反而會被 CSS aspect-ratio 蓋掉）
+      -->
       <img
         :src="thumbSrc"
         :alt="`${props.theme.label} 預覽縮圖`"
         class="theme-card__thumb"
         loading="lazy"
+        decoding="async"
       />
       <span class="theme-card__thumb-overlay">
         <span class="theme-card__thumb-overlay-text">點擊預覽</span>

@@ -157,7 +157,18 @@ function pickDevice(device: "desktop" | "mobile"): void {
         </header>
 
         <div class="preview__body" :data-device="showcaseStore.previewDevice">
-          <img :src="previewSrc" :alt="previewAlt" class="preview__img" />
+          <!--
+            效能：dialog 本身用 v-if 動態 mount，僅在 user 點預覽時才產生此 img；
+            仍補上 loading="lazy" + decoding="async" 作為穩定保險，並讓瀏覽器在
+            使用者快速切換 desktop / mobile tab 時能更好地排程解碼工作。
+          -->
+          <img
+            :src="previewSrc"
+            :alt="previewAlt"
+            class="preview__img"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
     </div>
