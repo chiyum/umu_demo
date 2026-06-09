@@ -30,7 +30,7 @@ defineProps<{
   place-items: center;
   font-weight: 900;
   line-height: 1;
-  color: currentColor;
+  color: currentcolor;
 
   &--lotto {
     font-size: 15px;
@@ -53,7 +53,7 @@ defineProps<{
       position: absolute;
       width: 11px;
       height: 15px;
-      background: currentColor;
+      background: currentcolor;
       border-radius: 2px;
     }
 

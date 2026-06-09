@@ -58,7 +58,7 @@ import { trophySrc } from "../_assets";
       width: 96px;
       padding: 4px 0;
       background: linear-gradient(180deg, #e35d34, #c23a16);
-      color: #fff;
+      color: #ffffff;
       font-size: 13px;
       font-weight: 900;
       font-style: italic;
@@ -82,7 +82,6 @@ import { trophySrc } from "../_assets";
     letter-spacing: 0.5px;
     line-height: 1.05;
     background: var(--gradient-cta);
-    -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
@@ -126,8 +125,7 @@ import { trophySrc } from "../_assets";
     object-fit: cover;
     object-position: left center;
     z-index: 2;
-    mask: linear-gradient(90deg, transparent 0%, #000 34%, #000 100%);
-    -webkit-mask: linear-gradient(90deg, transparent 0%, #000 34%, #000 100%);
+    mask: linear-gradient(90deg, transparent 0%, #000000 34%, #000000 100%);
   }
 }
 </style>

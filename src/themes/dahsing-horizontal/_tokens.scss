@@ -18,10 +18,10 @@
     #fdf2e4 40%,
     #fbe9d6 100%
   );
+
   // 主 CTA 銅金漸層（原稿 .btn-fill / .play / .hgo / .go / .pic 共用視覺）
   // 與 dahsing-waterfall 同；nav active 漸層改由 sidebar 元件層 hard-code
   --gradient-cta: linear-gradient(180deg, #c47e44 0%, #a85a28 100%);
-
   --bg-base-deep: #f3ece1;
   --bg-base-translucent: rgba(253, 253, 252, 0.94);
   --text-on-primary: #ffffff;
@@ -30,7 +30,6 @@
   --footer-text: #6b5a48;
   --footer-link: #8a7a6a;
   --badge-live: #e0552b;
-
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 8px rgba(187, 115, 83, 0.14);
   --shadow-lg: 0 8px 16px rgba(187, 115, 83, 0.18);
@@ -38,14 +37,12 @@
   --shadow-sticky:
     0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
   --shadow-glow: 0 0 12px rgba(187, 115, 83, 0.45);
-
   --font-display:
     "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
     "Microsoft JhengHei", pmingliu, sans-serif;
   --font-body:
     "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
     "Microsoft JhengHei", pmingliu, sans-serif;
-
   --bg-decoration:
     radial-gradient(
       ellipse 1200px 900px at 100% 0%,

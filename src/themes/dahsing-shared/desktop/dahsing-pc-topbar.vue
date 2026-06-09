@@ -131,7 +131,7 @@ const logoLabel = computed(() => themeStore.currentLogo.label);
       right: -28px;
       padding: 1px 5px;
       background: var(--badge-live, #e0552b);
-      color: #fff;
+      color: #ffffff;
       font-size: 8px;
       font-weight: 900;
       letter-spacing: 0.5px;

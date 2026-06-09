@@ -191,7 +191,7 @@ function miniKind(kind: string): "lotto" | "slot" | "cards" | null {
     right: 14px;
     padding: 2px 6px;
     background: var(--badge-live, #e0552b);
-    color: #fff;
+    color: #ffffff;
     font-size: 9px;
     font-weight: 900;
     font-style: italic;

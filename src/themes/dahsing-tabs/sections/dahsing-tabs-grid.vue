@@ -96,7 +96,7 @@ const gridStyle = computed(() => ({
   }
 
   // 桌面卡片加高（內部尺寸不變但卡片更大）
-  @media (min-width: 1024px) {
+  @media (width >= 1024px) {
     &__card {
       height: 170px;
     }
@@ -110,8 +110,7 @@ const gridStyle = computed(() => ({
     height: 100%;
     object-fit: cover;
     object-position: center bottom;
-    mask: linear-gradient(90deg, transparent 0%, #000 32%, #000 100%);
-    -webkit-mask: linear-gradient(90deg, transparent 0%, #000 32%, #000 100%);
+    mask: linear-gradient(90deg, transparent 0%, #000000 32%, #000000 100%);
   }
 
   &__meta {

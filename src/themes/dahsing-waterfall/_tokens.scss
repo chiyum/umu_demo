@@ -1,12 +1,10 @@
 // dahsing-waterfall 版面預設配色：米橘暖系（瀑布流大廳）
-//
 // 預設色票由使用者指定（嚴格遵守 12 個 CSS Var 命名公約）：
 // - 主頁面背景 #fdfdfc（取代原 HTML 的 .phone radial-gradient 米色背景）
 // - 左側 nav-item 未 active 背景 #fcf7f4 / 文字色 #bb7353
 // - 左側 nav-item active 背景 linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%)
 //   注意 0deg = bottom to top，淺色在下、深色在上
 // - 12 個 CSS Var 名稱不可改，理由：README「CSS Var 命名公約」鐵則
-//
 // dahsing-waterfall 走「米橘」變體（預設）+ 「copper 經典」變體（_variants.scss）
 // 三 theme 共用同一份 token 模板，差異只在 layout 不在配色（與既有 noya/at99 設計哲學一致）
 
@@ -29,8 +27,8 @@
     #fdf2e4 40%,
     #fbe9d6 100%
   );
+
   // gradient-cta：主 CTA 銅金漸層（原稿 .btn-fill / .play / .hgo / .go / .pic 等共用視覺）
-  //
   // 為什麼從「nav active 漸層」改回「銅金 CTA 漸層」：
   // - reviewer WARN 指出 --gradient-cta 同時被 sidebar nav active 與 hot-bar 標題、登入按鈕、
   //   .play / .pic / .go 等多處引用；若用 nav active 那條米橘漸層（0deg, #fcf7f4 → #bb7353），

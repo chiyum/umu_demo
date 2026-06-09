@@ -52,7 +52,13 @@ import { QIcon } from "quasar";
     flex: 1;
     overflow: hidden;
     white-space: nowrap;
-    mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask: linear-gradient(
+      90deg,
+      transparent,
+      #000000 6%,
+      #000000 94%,
+      transparent
+    );
 
     span {
       display: inline-block;

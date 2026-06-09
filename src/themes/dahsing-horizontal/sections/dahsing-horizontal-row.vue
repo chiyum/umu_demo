@@ -176,7 +176,7 @@ withDefaults(
   &__zh {
     font-size: 14px;
     font-weight: 900;
-    color: #fff;
+    color: #ffffff;
     line-height: 1.05;
     white-space: nowrap;
   }
@@ -200,7 +200,7 @@ withDefaults(
     gap: 3px;
     padding: 3px 8px;
     background: linear-gradient(180deg, #e8602f, #c63d16);
-    color: #fff;
+    color: #ffffff;
     font-size: 9px;
     font-weight: 800;
     border-radius: 999px;
@@ -233,8 +233,7 @@ withDefaults(
       height: 100%;
       object-fit: cover;
       object-position: center bottom;
-      mask: linear-gradient(90deg, transparent, #000 38%);
-      -webkit-mask: linear-gradient(90deg, transparent, #000 38%);
+      mask: linear-gradient(90deg, transparent, #000000 38%);
     }
   }
 

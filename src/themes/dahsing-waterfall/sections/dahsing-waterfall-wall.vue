@@ -215,7 +215,7 @@ function tagIcon(kind: TagKind): string {
   &__zh {
     font-size: 15px;
     font-weight: 900;
-    color: #fff;
+    color: #ffffff;
     line-height: 1.05;
   }
 
@@ -245,7 +245,7 @@ function tagIcon(kind: TagKind): string {
 
     &--fire {
       background: linear-gradient(180deg, #e8602f, #c63d16);
-      color: #fff;
+      color: #ffffff;
     }
   }
 }
