@@ -30,14 +30,31 @@
 
   // gradient-cta：主 CTA 銅金漸層（原稿 .btn-fill / .play / .hgo / .go / .pic 等共用視覺）
   // 為什麼從「nav active 漸層」改回「銅金 CTA 漸層」：
-  // - reviewer WARN 指出 --gradient-cta 同時被 sidebar nav active 與 hot-bar 標題、登入按鈕、
-  //   .play / .pic / .go 等多處引用；若用 nav active 那條米橘漸層（0deg, #fcf7f4 → #bb7353），
-  //   套到 hot-bar 標題 background-clip:text 會變「下淺上深」幾乎看不見，套到白字 CTA 按鈕
-  //   也會因下半段是淺米色而文字不可讀
+  // - reviewer WARN 指出 --gradient-cta 同時被 hot-bar 標題、登入按鈕、.play / .pic / .go
+  //   等多處引用；若用 nav active 那條米橘漸層（0deg, #fcf7f4 → #bb7353），套到 hot-bar 標題
+  //   background-clip:text 會變「下淺上深」幾乎看不見，套到白字 CTA 按鈕也會因下半段是淺米色
+  //   而文字不可讀
   // - 12 var 公約：--gradient-cta 的語意原本就是「主 CTA 漸層」，不該被 sidebar 專用視覺綁架
-  // - sidebar 的 nav active 漸層由元件層 hard-code，與 token 解耦（見 dahsing-sidebar.vue）
+  // - sidebar 的 nav active 漸層改由 --gradient-nav-active token 提供（見下方擴充區）
   // - 銅金值取自原稿 .btn-fill / .hgo / .play / .go 共用的 linear-gradient(180deg, #c47e44, #a85a28)
   --gradient-cta: linear-gradient(180deg, #c47e44 0%, #a85a28 100%);
+
+  // ── dahsing 系列 6 個擴充 token（讓 4 套色變體可換 sidebar / 紅橘徽章 / 卡片英文字 / flag）
+  // 為什麼這 6 個放擴充區而非 12 必要 var：
+  // - 12 var 公約鎖死 section 元件相容性，不能擴張
+  // - 但 dahsing 三 theme 共用一組視覺特例（sidebar nav 漸層、HOT ribbon、fire tag、phone-frame
+  //   雙側陰影、英文字小標題、flag 色塊）；其他 theme 沒這些元素，不需要這 6 個 token
+  // - 走 var(--xxx, fallback) 模式：未升級的 theme 也不會破圖
+  --gradient-nav-active: linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%);
+  --gradient-hot-ribbon: linear-gradient(180deg, #e35d34, #c23a16);
+  --gradient-fire-tag: linear-gradient(180deg, #e8602f, #c63d16);
+  --shadow-phone: 0 0 60px rgba(120, 70, 30, 0.18);
+  --text-caption-en: #f4d9b8;
+  --gradient-flag-bg: radial-gradient(
+    circle at 50% 40%,
+    #f5e3d4 0%,
+    var(--color-primary) 75%
+  );
 
   // ── 對比 / 結構 token（其他 theme 也有，提供擴充點）─────────────
   --bg-base-deep: #f3ece1;

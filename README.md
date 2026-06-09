@@ -392,6 +392,19 @@ src/themes/
 | `--gradient-hero` | hero 區漸層背景 |
 | `--gradient-cta` | CTA 按鈕漸層 |
 
+#### dahsing 三 theme 擴充 token（6 個，dahsing-shared 元件用）
+
+dahsing-waterfall / tabs / horizontal 共用 sidebar / hot-bar / 卡片 fire tag / phone-frame / flag 等元素，這些視覺特性不在 12 必要 var 內，獨立成 6 個擴充 token；其他 theme 沒這些元素不需提供。三 theme 的 `_tokens.scss` 與每組 `_variants.scss` 都會列出對應色，元件層用 `var(--xxx, fallback)` 模式，未升級配置仍可運作。
+
+| Var | 用途 | hard-code 位置（已 token 化） |
+|---|---|---|
+| `--gradient-nav-active` | sidebar item / icon active 漸層（0deg 由下到上） | `dahsing-shared/atoms/dahsing-sidebar.vue` |
+| `--gradient-hot-ribbon` | hot-bar 左上 HOT 角標漸層 | `dahsing-shared/atoms/dahsing-hot-bar.vue` |
+| `--gradient-fire-tag` | 卡片 fire / hot 紅橘小徽章漸層 | `dahsing-waterfall/sections/dahsing-waterfall-wall.vue`、`dahsing-horizontal/sections/dahsing-horizontal-row.vue` |
+| `--shadow-phone` | mobile phone-frame 雙側陰影 | `dahsing-{waterfall,tabs,horizontal}/mobile.vue` |
+| `--text-caption-en` | 卡片英文小標題色（落在黑遮罩上的淺色文字） | `dahsing-waterfall-wall.vue`、`dahsing-horizontal-row.vue` |
+| `--gradient-flag-bg` | mobile-header / pc-topbar 圓形旗子色塊 radial 漸層 | `dahsing-mobile-header.vue`、`dahsing-shared/desktop/dahsing-pc-topbar.vue` |
+
 ### Theme Color FAB（浮標）
 
 `src/components/common/theme-color-fab.vue`（桌面）與
@@ -527,7 +540,16 @@ demo 不接後端 / 不接路由跳轉。
   - dahsing-waterfall：Pinterest-style 4 欄 masonry（mobile 2 欄延伸）
   - dahsing-tabs：Steam-style 全寬 subtabs + 3 欄 tgrid
   - dahsing-horizontal：Netflix-style 4 列橫滾（mobile 3 列 + 加一列電子）
-- **配色**：使用者指定米橘預設（主背景 `#fdfdfc` / nav 未 active 底 `#fcf7f4` + 文字 `#bb7353` / nav active 漸層 `linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%)`，0deg = 由下到上）+ copper 經典變體（保留原稿 `:root --copper / --copper-deep` 三色）
+- **配色（三 theme default 分離 + 4 套色可切換）**：為了讓 showcase 主頁三張預覽卡片視覺差異更明顯，三 theme 各自的 default 配色不同：
+  - 版面 K · waterfall：default = **米橘暖系**（主背景 `#fdfdfc` / nav 未 active 底 `#fcf7f4` + 文字 `#bb7353` / nav active 漸層 `linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%)`，0deg = 由下到上）
+  - 版面 L · tabs：default = **金奧華**（主色 `#c9a227` 經典金 / bg-base `#fffdf5` 米金白 / nav active 漸層 `linear-gradient(0deg, #faf1d4 0%, #c9a227 100%)`）
+  - 版面 M · horizontal：default = **紫貴族**（主色 `#6a1b9a` 深紫 / bg-base `#faf5fd` 米白略紫 / nav active 漸層 `linear-gradient(0deg, #f1e4f7 0%, #6a1b9a 100%)`）
+  - 每 theme 都提供 4 套 colorKey 可切（自己 default + 另外 3 套），`_variants.scss` 內 selector 對應如下：
+    - waterfall：`default(米橘) / copper / gold / purple`
+    - tabs：`default(金) / beige(米橘) / copper / purple`
+    - horizontal：`default(紫) / beige(米橘) / copper / gold`
+  - **colorKey 統一保留 `default`** 而非用語意名（如 `gold`）：維持向下相容（既有 `?color=default` URL / FAB localStorage 殘留仍命中），label 則顯示語意名（「米橘暖系」/「金奧華」/「紫貴族」）
+  - **切色不殘留**：每個 variant 都覆寫 12 必要 var + 6 個 dahsing 擴充 token（sidebar / HOT ribbon / fire tag / phone-frame / 英文字 / flag）；漏寫會看到 sidebar nav active 還是前一色
 - **logo**：三 theme 預設 `dahsing`（與 at99 一致使用「大亨 ONLINE」logo PNG），無需新增 logo 候選
 
 #### 借用既有 theme 元件對照表（traceability）
@@ -543,4 +565,6 @@ demo 不接後端 / 不接路由跳轉。
 #### 預覽截圖
 
 dahsing 三版型已補齊 18 張預覽截圖（3 theme × 3 logoKey × 2 device），存於 `src/assets/previews/dahsing-{waterfall,tabs,horizontal}-{dahsing,umu,long-heng}-{desktop,mobile}.png`，registry 透過 `buildPreviews()` helper + `import.meta.glob` 自動命中（與其他 theme 一致）。再次產截圖時沿用「預覽截圖矩陣」章節 SOP：等待 root selector `.dahsing-waterfall-pc` / `.dahsing-tabs-pc` / `.dahsing-horizontal-pc`（桌面）或 `.dahsing-waterfall-m` 等（mobile）。
+
+> **三 theme default 配色分離後的截圖維護**：waterfall default 仍是米橘（既有 6 張不動）；tabs default 改為金奧華、horizontal default 改為紫貴族，對應 12 張截圖（tabs × 3 logo × 2 device + horizontal × 3 logo × 2 device）需要以新 default 配色重截，覆蓋既有檔案後 registry 與 showcase 視覺即同步刷新。
 

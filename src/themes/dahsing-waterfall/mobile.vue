@@ -64,7 +64,9 @@ const activeNav = ref<string>("hot");
   margin: 0 auto;
   padding-bottom: 104px;
   background: var(--bg-base);
-  box-shadow: 0 0 60px rgba(120, 70, 30, 0.18);
+
+  // phone-frame 雙側陰影走 --shadow-phone token；金 / 紫變體用對應主色 rgba
+  box-shadow: var(--shadow-phone, 0 0 60px rgba(120, 70, 30, 0.18));
   overflow-x: hidden;
   font-family: var(--font-body);
   color: var(--text-primary);

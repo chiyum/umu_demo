@@ -181,16 +181,18 @@ withDefaults(
     white-space: nowrap;
   }
 
+  // 英文小標題色走 --text-caption-en token；fallback 為米橘 default 值 #f4d9b8
   &__en {
     margin-top: 2px;
     font-size: 9px;
     font-weight: 700;
-    color: #f4d9b8;
+    color: var(--text-caption-en, #f4d9b8);
     letter-spacing: 0.4px;
     font-style: italic;
     white-space: nowrap;
   }
 
+  // hcard 紅橘 hot tag：走 --gradient-fire-tag token；金 / 紫變體適配主色系
   &__tag {
     position: absolute;
     left: 8px;
@@ -199,7 +201,10 @@ withDefaults(
     align-items: center;
     gap: 3px;
     padding: 3px 8px;
-    background: linear-gradient(180deg, #e8602f, #c63d16);
+    background: var(
+      --gradient-fire-tag,
+      linear-gradient(180deg, #e8602f, #c63d16)
+    );
     color: #ffffff;
     font-size: 9px;
     font-weight: 800;

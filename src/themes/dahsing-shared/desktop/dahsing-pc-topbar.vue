@@ -172,16 +172,16 @@ const logoLabel = computed(() => themeStore.currentLogo.label);
     }
   }
 
+  // flag 色塊與 mobile-header 同 token：走 --gradient-flag-bg；fallback 為米橘 default
   &__flag {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     border: 2px solid var(--bg-surface);
     box-shadow: var(--shadow);
-    background: radial-gradient(
-      circle at 50% 40%,
-      #f5e3d4 0%,
-      var(--color-primary) 75%
+    background: var(
+      --gradient-flag-bg,
+      radial-gradient(circle at 50% 40%, #f5e3d4 0%, var(--color-primary) 75%)
     );
   }
 }

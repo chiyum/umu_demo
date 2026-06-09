@@ -103,6 +103,8 @@ const logoLabel = computed(() => themeStore.currentLogo.label);
   }
 
   // 旗子色塊：用 token 漸層代替 flagcdn 外連，視覺密度不變
+  // 走 --gradient-flag-bg token：各 theme variant 提供對應淺底起始色 + 主色終點
+  // fallback 為米橘 default 起始色 #f5e3d4，未升級配置仍可運作
   &__flag {
     flex-shrink: 0;
     width: 42px;
@@ -110,10 +112,9 @@ const logoLabel = computed(() => themeStore.currentLogo.label);
     border-radius: 50%;
     border: 2px solid var(--bg-surface);
     box-shadow: var(--shadow);
-    background: radial-gradient(
-      circle at 50% 40%,
-      #f5e3d4 0%,
-      var(--color-primary) 75%
+    background: var(
+      --gradient-flag-bg,
+      radial-gradient(circle at 50% 40%, #f5e3d4 0%, var(--color-primary) 75%)
     );
   }
 }

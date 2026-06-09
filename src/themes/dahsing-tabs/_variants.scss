@@ -1,6 +1,66 @@
-// dahsing-tabs 替代配色：copper 經典
-// 與 dahsing-waterfall 同套 copper 變體（覆寫所有相關 token 避免殘色）
+// dahsing-tabs 替代配色：beige / copper / purple 三套
+// default = 金（_tokens.scss 內），此檔提供另外 3 套：
+// - beige：米橘暖系（與 dahsing-waterfall default 同色票）
+// - copper：銅金經典（與 dahsing-waterfall copper variant 同色票）
+// - purple：紫貴族（與 dahsing-horizontal default 同色票）
+// 為什麼覆寫所有相關 token：切換 variants 時若漏寫會殘留前一色
+// 6 個 dahsing 擴充 token 必須與 12 必要 var 一起覆寫
 
+// ── beige 變體（米橘暖系） ─────────────────────────────
+[data-theme="dahsing-tabs"][data-theme-color="beige"] {
+  --color-primary: #bb7353;
+  --color-secondary: #c8824a;
+  --color-accent: #f0c79c;
+  --bg-base: #fdfdfc;
+  --bg-surface: #fcf7f4;
+  --bg-overlay: rgba(187, 115, 83, 0.08);
+  --text-primary: #3c2a1d;
+  --text-muted: #bb7353;
+  --border: #f1ddc8;
+  --shadow: 0 4px 10px rgba(187, 115, 83, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% 0%,
+    #fffaf4 0%,
+    #fdf2e4 40%,
+    #fbe9d6 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #c47e44 0%, #a85a28 100%);
+  --gradient-nav-active: linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%);
+  --gradient-hot-ribbon: linear-gradient(180deg, #e35d34, #c23a16);
+  --gradient-fire-tag: linear-gradient(180deg, #e8602f, #c63d16);
+  --shadow-phone: 0 0 60px rgba(120, 70, 30, 0.18);
+  --text-caption-en: #f4d9b8;
+  --gradient-flag-bg: radial-gradient(
+    circle at 50% 40%,
+    #f5e3d4 0%,
+    var(--color-primary) 75%
+  );
+  --bg-base-deep: #f3ece1;
+  --bg-base-translucent: rgba(253, 253, 252, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #fff8eb;
+  --footer-bg: #fcf7f4;
+  --footer-text: #6b5a48;
+  --footer-link: #8a7a6a;
+  --badge-live: #e0552b;
+  --shadow-md: 0 4px 8px rgba(187, 115, 83, 0.14);
+  --shadow-lg: 0 8px 16px rgba(187, 115, 83, 0.18);
+  --shadow-xl: 3px 7px 12px rgba(187, 115, 83, 0.22);
+  --shadow-glow: 0 0 12px rgba(187, 115, 83, 0.45);
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(240, 199, 156, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(187, 115, 83, 0.14) 0%,
+      transparent 65%
+    );
+}
+
+// ── copper 變體（銅金經典） ─────────────────────────────
 [data-theme="dahsing-tabs"][data-theme-color="copper"] {
   --color-primary: #b5652f;
   --color-secondary: #8f4b21;
@@ -19,6 +79,16 @@
     #f3c08e 100%
   );
   --gradient-cta: linear-gradient(180deg, #c47e44 0%, #a85a28 100%);
+  --gradient-nav-active: linear-gradient(0deg, #fcf1e4 0%, #b5652f 100%);
+  --gradient-hot-ribbon: linear-gradient(180deg, #e35d34, #c23a16);
+  --gradient-fire-tag: linear-gradient(180deg, #e8602f, #c63d16);
+  --shadow-phone: 0 0 60px rgba(170, 100, 40, 0.22);
+  --text-caption-en: #f4d9b8;
+  --gradient-flag-bg: radial-gradient(
+    circle at 50% 40%,
+    #f5e3d4 0%,
+    var(--color-primary) 75%
+  );
   --bg-base-deep: #efe2ce;
   --bg-base-translucent: rgba(253, 244, 234, 0.94);
   --text-on-primary: #ffffff;
@@ -40,6 +110,60 @@
     radial-gradient(
       ellipse 1000px 700px at 0% 100%,
       rgba(181, 101, 47, 0.18) 0%,
+      transparent 65%
+    );
+}
+
+// ── purple 變體（紫貴族） ─────────────────────────────
+[data-theme="dahsing-tabs"][data-theme-color="purple"] {
+  --color-primary: #6a1b9a;
+  --color-secondary: #4a0e6f;
+  --color-accent: #c39bd3;
+  --bg-base: #faf5fd;
+  --bg-surface: #f1e4f7;
+  --bg-overlay: rgba(106, 27, 154, 0.1);
+  --text-primary: #241038;
+  --text-muted: #6a1b9a;
+  --border: #d8c4e6;
+  --shadow: 0 4px 10px rgba(74, 14, 111, 0.22);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% 0%,
+    #fdf8ff 0%,
+    #ecdaf5 40%,
+    #dfc4ed 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #9b59c7 0%, #4a0e6f 100%);
+  --gradient-nav-active: linear-gradient(0deg, #f1e4f7 0%, #6a1b9a 100%);
+  --gradient-hot-ribbon: linear-gradient(180deg, #c026d3, #86198f);
+  --gradient-fire-tag: linear-gradient(180deg, #c026d3, #86198f);
+  --shadow-phone: 0 0 60px rgba(74, 14, 111, 0.22);
+  --text-caption-en: #e3c8f0;
+  --gradient-flag-bg: radial-gradient(
+    circle at 50% 40%,
+    #ecdaf5 0%,
+    var(--color-primary) 75%
+  );
+  --bg-base-deep: #e3cdee;
+  --bg-base-translucent: rgba(250, 245, 253, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #f8efff;
+  --footer-bg: #f1e4f7;
+  --footer-text: #4a3858;
+  --footer-link: #7d6a8a;
+  --badge-live: #e0552b;
+  --shadow-md: 0 4px 8px rgba(74, 14, 111, 0.16);
+  --shadow-lg: 0 8px 16px rgba(74, 14, 111, 0.2);
+  --shadow-xl: 3px 7px 12px rgba(74, 14, 111, 0.24);
+  --shadow-glow: 0 0 12px rgba(106, 27, 154, 0.48);
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(195, 155, 211, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(106, 27, 154, 0.16) 0%,
       transparent 65%
     );
 }

@@ -1,57 +1,95 @@
-// dahsing-horizontal 版面預設配色：米橘暖系（Netflix-style 橫向列表）
-// 與另外兩個 dahsing theme 共用同一份色票（使用者指定米橘 + nav active 漸層）
+// dahsing-horizontal 版面預設配色：紫貴族（Netflix-style 橫向列表）
+// 為什麼 horizontal 預設改為紫而非沿用米橘：
+// - 使用者要求三 theme 各自 default 不同（K 米橘 / L 金 / M 紫），用於 showcase 凸顯版面差異
+// - 仍可透過 _variants.scss 切回 beige / copper / gold 三套替代色
+// 配色設計重點：
+// - 主色 #6a1b9a（深紫）；副色 #4a0e6f 更深紫；accent #c39bd3 淺紫（不過亮避免英文字看不清）
+// - bg-base #faf5fd 米白略紫；bg-surface #f1e4f7 淺紫面（nav 未 active 底）
+// - 對比度 WCAG：#241038 on #faf5fd 約 16:1；白字 on #6a1b9a 約 9.4:1
+// 12 個 CSS Var 名稱不可改（README 鐵則）；6 個 dahsing 擴充 token 對應紫色系
 
 [data-theme="dahsing-horizontal"] {
-  --color-primary: #bb7353;
-  --color-secondary: #c8824a;
-  --color-accent: #f0c79c;
-  --bg-base: #fdfdfc;
-  --bg-surface: #fcf7f4;
-  --bg-overlay: rgba(187, 115, 83, 0.08);
-  --text-primary: #3c2a1d;
-  --text-muted: #bb7353;
-  --border: #f1ddc8;
-  --shadow: 0 4px 10px rgba(187, 115, 83, 0.18);
+  // ── 12 個必要 CSS Var（命名公約鐵則）────────────────────────────
+  --color-primary: #6a1b9a; // 深紫主色
+  --color-secondary: #4a0e6f; // 更深紫（邊框、副標）
+  --color-accent: #c39bd3; // 淺紫（亮點、徽章）
+  --bg-base: #faf5fd; // 米白略紫主背景
+  --bg-surface: #f1e4f7; // 淺紫面（nav 未 active 底）
+  --bg-overlay: rgba(106, 27, 154, 0.1);
+  --text-primary: #241038; // 深紫黑（落在淺紫底高對比）
+  --text-muted: #6a1b9a; // = primary，nav 未 active 文字
+  --border: #d8c4e6;
+  --shadow: 0 4px 10px rgba(74, 14, 111, 0.22);
   --gradient-hero: radial-gradient(
     120% 60% at 50% 0%,
-    #fffaf4 0%,
-    #fdf2e4 40%,
-    #fbe9d6 100%
+    #fdf8ff 0%,
+    #ecdaf5 40%,
+    #dfc4ed 100%
   );
 
-  // 主 CTA 銅金漸層（原稿 .btn-fill / .play / .hgo / .go / .pic 共用視覺）
-  // 與 dahsing-waterfall 同；nav active 漸層改由 sidebar 元件層 hard-code
-  --gradient-cta: linear-gradient(180deg, #c47e44 0%, #a85a28 100%);
-  --bg-base-deep: #f3ece1;
-  --bg-base-translucent: rgba(253, 253, 252, 0.94);
+  // 主 CTA 紫漸層（淺紫 → 深紫）；白字 CTA 落在下半段深紫上對比足
+  --gradient-cta: linear-gradient(180deg, #9b59c7 0%, #4a0e6f 100%);
+
+  // ── dahsing 系列 6 個擴充 token（紫色系對應）─────────────
+  // nav active 0deg：淺紫底 → 紫主色
+  --gradient-nav-active: linear-gradient(0deg, #f1e4f7 0%, #6a1b9a 100%);
+
+  // HOT ribbon 改紫紅徽章（與紫主視覺一致）
+  --gradient-hot-ribbon: linear-gradient(180deg, #c026d3, #86198f);
+
+  // fire tag 同 ribbon 紫紅色系
+  --gradient-fire-tag: linear-gradient(180deg, #c026d3, #86198f);
+
+  // phone-frame 雙側陰影：紫色 rgba
+  --shadow-phone: 0 0 60px rgba(74, 14, 111, 0.22);
+
+  // 卡片英文字小標題：米紫淺色（落在黑遮罩上對比 ~9:1）
+  --text-caption-en: #e3c8f0;
+
+  // flag 色塊 radial：淺紫底 → 紫主色
+  --gradient-flag-bg: radial-gradient(
+    circle at 50% 40%,
+    #ecdaf5 0%,
+    var(--color-primary) 75%
+  );
+
+  // ── 對比 / 結構 token ─────────────
+  --bg-base-deep: #e3cdee;
+  --bg-base-translucent: rgba(250, 245, 253, 0.94);
   --text-on-primary: #ffffff;
-  --highlight-strip: #fff8eb;
-  --footer-bg: #fcf7f4;
-  --footer-text: #6b5a48;
-  --footer-link: #8a7a6a;
-  --badge-live: #e0552b;
+  --highlight-strip: #f8efff;
+  --footer-bg: #f1e4f7;
+  --footer-text: #4a3858;
+  --footer-link: #7d6a8a;
+  --badge-live: #e0552b; // 維持紅色 badge 辨識度
+
+  // ── kingdom shadow stack（紫色 rgba）
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 8px rgba(187, 115, 83, 0.14);
-  --shadow-lg: 0 8px 16px rgba(187, 115, 83, 0.18);
-  --shadow-xl: 3px 7px 12px rgba(187, 115, 83, 0.22);
+  --shadow-md: 0 4px 8px rgba(74, 14, 111, 0.16);
+  --shadow-lg: 0 8px 16px rgba(74, 14, 111, 0.2);
+  --shadow-xl: 3px 7px 12px rgba(74, 14, 111, 0.24);
   --shadow-sticky:
     0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
-  --shadow-glow: 0 0 12px rgba(187, 115, 83, 0.45);
+  --shadow-glow: 0 0 12px rgba(106, 27, 154, 0.48);
+
+  // 字體與其他 theme 一致
   --font-display:
     "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
     "Microsoft JhengHei", pmingliu, sans-serif;
   --font-body:
     "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
     "Microsoft JhengHei", pmingliu, sans-serif;
+
+  // 桌面背景柔光（紫 rgba）
   --bg-decoration:
     radial-gradient(
       ellipse 1200px 900px at 100% 0%,
-      rgba(240, 199, 156, 0.32) 0%,
+      rgba(195, 155, 211, 0.32) 0%,
       transparent 60%
     ),
     radial-gradient(
       ellipse 1000px 700px at 0% 100%,
-      rgba(187, 115, 83, 0.14) 0%,
+      rgba(106, 27, 154, 0.16) 0%,
       transparent 65%
     );
 }

@@ -181,12 +181,16 @@ function miniKind(kind: string): "lotto" | "slot" | "cards" | null {
     gap: 5px;
   }
 
-  // active 漸層 hard-code 使用者指定的 nav 專用色（不走 token，理由見 script 區註解）
+  // active 漸層走 --gradient-nav-active token：各 theme 在 _tokens.scss / _variants.scss
+  // 自帶對應色（米橘 / copper / gold / purple）；token 不在時 fallback 米橘原值
   // 0deg = bottom to top，淺色在下、深色在上
-  // label 文字色用 var(--color-primary)（深棕橘）取代原本的 var(--text-on-primary)（白）
-  // —— 白字在漸層下半段 #fcf7f4 米白底上不可讀；深棕橘在淺底對比足夠
+  // label 文字色用 var(--color-primary) 取代原本的 var(--text-on-primary)（白）
+  // —— 白字在漸層下半段淺底上不可讀；主色在淺底對比足夠
   &__item--active {
-    background: linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%);
+    background: var(
+      --gradient-nav-active,
+      linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%)
+    );
     color: var(--color-primary);
     box-shadow: var(--shadow);
   }
@@ -225,10 +229,13 @@ function miniKind(kind: string): "lotto" | "slot" | "cards" | null {
     height: 16px;
   }
 
-  // active icon：與 item 同條 nav 漸層；icon 本身用白色（落在漸層上半段深棕橘區可讀）
-  // 為什麼不沿用 var(--gradient-cta)：同 item--active，避免被 token 重構又帶錯色
+  // active icon：與 item 同條 nav 漸層；icon 本身用白色（落在漸層上半段深色區可讀）
+  // 為什麼不沿用 var(--gradient-cta)：CTA 是主按鈕視覺，與 nav active 性質不同；走獨立 token
   &__item--active &__icon {
-    background: linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%);
+    background: var(
+      --gradient-nav-active,
+      linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%)
+    );
     color: var(--text-on-primary);
   }
 

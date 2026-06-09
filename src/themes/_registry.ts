@@ -423,13 +423,16 @@ const dahsingWaterfall: ThemeMeta = {
   key: "dahsing-waterfall",
   label: "版面 K · 大亨瀑布流",
   description:
-    "大亨米橘暖系瀑布流大廳，2 欄 masonry（mobile）/ 4 欄 masonry（桌面）+ HOT ribbon hotbar，預設米橘 + copper 經典兩種配色",
+    "大亨瀑布流大廳，2 欄 masonry（mobile）/ 4 欄 masonry（桌面）+ HOT ribbon hotbar，預設米橘暖系，可切換經典銅金 / 金奧華 / 紫貴族",
   desktop: () => import("./dahsing-waterfall/desktop.vue"),
   mobile: () => import("./dahsing-waterfall/mobile.vue"),
+  // default = 米橘（既有），key 用 "default" 維持向下相容（LS / URL ?color=default 殘留仍命中）
   defaultColor: "default",
   colors: [
     { key: "default", label: "米橘暖系", swatch: "#bb7353" },
-    { key: "copper", label: "經典銅金", swatch: "#b5652f" }
+    { key: "copper", label: "經典銅金", swatch: "#b5652f" },
+    { key: "gold", label: "金奧華", swatch: "#c9a227" },
+    { key: "purple", label: "紫貴族", swatch: "#6a1b9a" }
   ],
   previews: buildPreviews("dahsing-waterfall"),
   defaultLogo: "dahsing",
@@ -437,30 +440,32 @@ const dahsingWaterfall: ThemeMeta = {
 };
 
 /**
- * dahsing-tabs 版面（大亨米橘分頁切換廳堂）
+ * dahsing-tabs 版面（大亨金奧華分頁切換廳堂）
  *
  * 來源：/Users/georgehuang/Downloads/images 2/大亨首頁-版型B 分頁 (1).html
  * - mobile：statusbar / header / hero / marquee / stage(side + subtabs + promo + tgrid 2 col) / hotbar / tabbar
  * - desktop：Steam-style 全寬 subtabs + 3 col tgrid + sticky PC topbar
- * - 配色：同 dahsing-waterfall 米橘 + copper 兩變體
+ * - 配色：default = 金奧華（與 dahsing-waterfall 米橘 / dahsing-horizontal 紫互相區隔，凸顯三版面差異）
+ *   可切換 beige 米橘 / copper 銅金 / purple 紫貴族
  * - defaultLogo：dahsing
  *
- * 借用既有 theme 桌面元件對照：
- * - sticky PC topbar：dahsing-shared 共用元件（與 tycoon 同 pattern）
- * - subtabs 概念：對齊 ant-sport GameGrid 7-tabs 設計（但 ant-sport 是 inline tabs，我們是 pill scroll）
- * - tgrid 3 col：自寫，無既有元件可借
+ * 為什麼 default 改成金而非沿用米橘：
+ * - 使用者要求三 theme 各自 default 不同，讓 showcase 主頁 L / M 預覽圖用後出色系凸顯版面差異
+ * - colorKey 仍叫 "default" 維持向下相容（LS / URL ?color=default 殘留仍命中，只是視覺改成金）
  */
 const dahsingTabs: ThemeMeta = {
   key: "dahsing-tabs",
   label: "版面 L · 大亨分頁",
   description:
-    "大亨米橘暖系分頁切換廳堂，subtabs 子分頁 + VIP 條 + 2 欄整齊網格（mobile）/ 3 欄（桌面），預設米橘 + copper 經典兩種配色",
+    "大亨分頁切換廳堂，subtabs 子分頁 + VIP 條 + 2 欄整齊網格（mobile）/ 3 欄（桌面），預設金奧華，可切換米橘 / 銅金 / 紫貴族",
   desktop: () => import("./dahsing-tabs/desktop.vue"),
   mobile: () => import("./dahsing-tabs/mobile.vue"),
   defaultColor: "default",
   colors: [
-    { key: "default", label: "米橘暖系", swatch: "#bb7353" },
-    { key: "copper", label: "經典銅金", swatch: "#b5652f" }
+    { key: "default", label: "金奧華", swatch: "#c9a227" },
+    { key: "beige", label: "米橘暖系", swatch: "#bb7353" },
+    { key: "copper", label: "經典銅金", swatch: "#b5652f" },
+    { key: "purple", label: "紫貴族", swatch: "#6a1b9a" }
   ],
   previews: buildPreviews("dahsing-tabs"),
   defaultLogo: "dahsing",
@@ -468,30 +473,32 @@ const dahsingTabs: ThemeMeta = {
 };
 
 /**
- * dahsing-horizontal 版面（大亨米橘橫向列表）
+ * dahsing-horizontal 版面（大亨紫貴族橫向列表）
  *
  * 來源：/Users/georgehuang/Downloads/images 2/大亨首頁-版型C 橫向列表 (1).html
  * - mobile：statusbar / header / hero / marquee / stage(side + .rows 多列 horizontal scroller) / hotbar / tabbar
  * - desktop：Netflix-style 4 列橫滾 + sticky PC topbar
- * - 配色：同前兩 theme 米橘 + copper
+ * - 配色：default = 紫貴族（與 waterfall 米橘 / tabs 金分別對應，凸顯三版面差異）
+ *   可切換 beige 米橘 / copper 銅金 / gold 金奧華
  * - defaultLogo：dahsing
  *
- * 借用既有 theme 桌面元件對照：
- * - sticky PC topbar：dahsing-shared 共用元件
- * - 橫向 row scroller：對齊 vietvip / fived 桌面卡片橫滾邏輯，但我們用 scroll-snap-type 不加翻頁鈕
- * - hcard / feat 卡片：自寫，無既有元件可借
+ * 為什麼 default 改成紫而非沿用米橘：
+ * - 使用者要求三 theme 各自 default 不同，讓 showcase 主頁 L / M 預覽圖用後出色系凸顯版面差異
+ * - colorKey 仍叫 "default" 維持向下相容（LS / URL ?color=default 殘留仍命中，只是視覺改成紫）
  */
 const dahsingHorizontal: ThemeMeta = {
   key: "dahsing-horizontal",
   label: "版面 M · 大亨橫向列表",
   description:
-    "大亨米橘暖系橫向列表，多列 scroller + 首列精選大卡（mobile 3 列 / 桌面 4 列），預設米橘 + copper 經典兩種配色",
+    "大亨橫向列表，多列 scroller + 首列精選大卡（mobile 3 列 / 桌面 4 列），預設紫貴族，可切換米橘 / 銅金 / 金奧華",
   desktop: () => import("./dahsing-horizontal/desktop.vue"),
   mobile: () => import("./dahsing-horizontal/mobile.vue"),
   defaultColor: "default",
   colors: [
-    { key: "default", label: "米橘暖系", swatch: "#bb7353" },
-    { key: "copper", label: "經典銅金", swatch: "#b5652f" }
+    { key: "default", label: "紫貴族", swatch: "#6a1b9a" },
+    { key: "beige", label: "米橘暖系", swatch: "#bb7353" },
+    { key: "copper", label: "經典銅金", swatch: "#b5652f" },
+    { key: "gold", label: "金奧華", swatch: "#c9a227" }
   ],
   previews: buildPreviews("dahsing-horizontal"),
   defaultLogo: "dahsing",

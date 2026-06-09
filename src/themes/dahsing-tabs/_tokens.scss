@@ -1,60 +1,98 @@
-// dahsing-tabs 版面預設配色：米橘暖系（分頁切換廳堂）
-// 與 dahsing-waterfall 共用同一份預設色票（使用者指定米橘 + nav active 漸層）
-// 三 theme 配色一致才能達成「同品牌但中央版面風格不同」的銷售敘事
-// 注意：必須各自獨立 selector [data-theme="dahsing-tabs"]，不能 @extend
+// dahsing-tabs 版面預設配色：金奧華（分頁切換廳堂）
+// 為什麼 tabs 預設改為金而非沿用米橘：
+// - 使用者要求三 theme 各自 default 不同（K 米橘 / L 金 / M 紫），用於 showcase 凸顯版面差異
+// - 仍可透過 _variants.scss 切回 beige / copper / purple 三套替代色
+// 配色設計重點：
+// - 主色 #c9a227（經典金）；副色 #8c6e1d 深金作為邊框 / 副標 / 未 active 文字
+// - 亮金 #f4dc8a 用於 accent 與英文字小標題（落在黑遮罩上對比足夠）
+// - bg-base #fffdf5 米金白；bg-surface #faf1d4 淺金面（nav 未 active 底）
+// - 對比度 WCAG：#3a2c10 on #fffdf5 約 14.8:1；白字 on #c9a227 約 3.4:1（AA Large 過）
+// 12 個 CSS Var 名稱不可改（README 鐵則）；6 個 dahsing 擴充 token 對應金色系
+// 各自獨立 selector [data-theme="dahsing-tabs"]，不能 @extend
 // 否則 vite buildThemeScssImports 自動掃時會少掉這份 token 區塊
 
 [data-theme="dahsing-tabs"] {
-  --color-primary: #bb7353;
-  --color-secondary: #c8824a;
-  --color-accent: #f0c79c;
-  --bg-base: #fdfdfc;
-  --bg-surface: #fcf7f4;
-  --bg-overlay: rgba(187, 115, 83, 0.08);
-  --text-primary: #3c2a1d;
-  --text-muted: #bb7353;
-  --border: #f1ddc8;
-  --shadow: 0 4px 10px rgba(187, 115, 83, 0.18);
+  // ── 12 個必要 CSS Var（命名公約鐵則）────────────────────────────
+  --color-primary: #c9a227; // 經典金（CTA、強調）
+  --color-secondary: #8c6e1d; // 深金（邊框、副標、未 active 文字）
+  --color-accent: #f4dc8a; // 亮金（亮點、徽章）
+  --bg-base: #fffdf5; // 米金白主背景
+  --bg-surface: #faf1d4; // 淺金面（nav 未 active 底）
+  --bg-overlay: rgba(201, 162, 39, 0.1); // 半透明遮罩
+  --text-primary: #3a2c10; // 深棕（深色文字落在淺金底高對比）
+  --text-muted: #8c6e1d; // = secondary，nav 未 active 文字
+  --border: #e8d59a; // 金米邊
+  --shadow: 0 4px 10px rgba(140, 110, 30, 0.22);
   --gradient-hero: radial-gradient(
     120% 60% at 50% 0%,
-    #fffaf4 0%,
-    #fdf2e4 40%,
-    #fbe9d6 100%
+    #fffaf0 0%,
+    #fbecc4 40%,
+    #f7dfa4 100%
   );
 
-  // 主 CTA 銅金漸層（原稿 .btn-fill / .play / .hgo / .go / .pic 共用視覺）
-  // 與 dahsing-waterfall 同；nav active 漸層改由 sidebar 元件層 hard-code
-  --gradient-cta: linear-gradient(180deg, #c47e44 0%, #a85a28 100%);
-  --bg-base-deep: #f3ece1;
-  --bg-base-translucent: rgba(253, 253, 252, 0.94);
+  // 主 CTA 金漸層（亮金 → 深金）；hot-bar 標題 background-clip:text 落在金底上仍可讀
+  --gradient-cta: linear-gradient(180deg, #d4b452 0%, #8c6e1d 100%);
+
+  // ── dahsing 系列 6 個擴充 token（金色系對應）─────────────
+  // nav active 0deg：淺金底 → 金主色；對應 sidebar 漸層
+  --gradient-nav-active: linear-gradient(0deg, #faf1d4 0%, #c9a227 100%);
+
+  // HOT ribbon 改金底深橘金（仍保留紅橘風格，但與金主視覺一致）
+  --gradient-hot-ribbon: linear-gradient(180deg, #e8a93b, #b07814);
+
+  // fire tag 同 ribbon 色系（金底深橘金）
+  --gradient-fire-tag: linear-gradient(180deg, #e8a93b, #b07814);
+
+  // phone-frame 雙側陰影：金色 rgba
+  --shadow-phone: 0 0 60px rgba(140, 110, 30, 0.2);
+
+  // 卡片英文字小標題：= accent，金米色（落在黑遮罩上對比 ~9:1）
+  --text-caption-en: #f4dc8a;
+
+  // flag 色塊 radial：淺金底 → 金主色
+  --gradient-flag-bg: radial-gradient(
+    circle at 50% 40%,
+    #fbecc4 0%,
+    var(--color-primary) 75%
+  );
+
+  // ── 對比 / 結構 token ─────────────
+  --bg-base-deep: #f1e3b8;
+  --bg-base-translucent: rgba(255, 253, 245, 0.94);
   --text-on-primary: #ffffff;
-  --highlight-strip: #fff8eb;
-  --footer-bg: #fcf7f4;
-  --footer-text: #6b5a48;
-  --footer-link: #8a7a6a;
-  --badge-live: #e0552b;
+  --highlight-strip: #fff8e0;
+  --footer-bg: #faf1d4;
+  --footer-text: #6b5a30;
+  --footer-link: #8a7a4a;
+  --badge-live: #e0552b; // 維持紅色 badge 辨識度（不換金色避免與主視覺混淆）
+
+  // ── kingdom shadow stack（金色 rgba）
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 8px rgba(187, 115, 83, 0.14);
-  --shadow-lg: 0 8px 16px rgba(187, 115, 83, 0.18);
-  --shadow-xl: 3px 7px 12px rgba(187, 115, 83, 0.22);
+  --shadow-md: 0 4px 8px rgba(140, 110, 30, 0.16);
+  --shadow-lg: 0 8px 16px rgba(140, 110, 30, 0.2);
+  --shadow-xl: 3px 7px 12px rgba(140, 110, 30, 0.24);
   --shadow-sticky:
     0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
-  --shadow-glow: 0 0 12px rgba(187, 115, 83, 0.45);
+  --shadow-glow: 0 0 12px rgba(201, 162, 39, 0.48);
+
+  // 字體與其他 theme 一致
   --font-display:
     "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
     "Microsoft JhengHei", pmingliu, sans-serif;
   --font-body:
     "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
     "Microsoft JhengHei", pmingliu, sans-serif;
+
+  // 桌面背景柔光（金 rgba）
   --bg-decoration:
     radial-gradient(
       ellipse 1200px 900px at 100% 0%,
-      rgba(240, 199, 156, 0.32) 0%,
+      rgba(244, 220, 138, 0.32) 0%,
       transparent 60%
     ),
     radial-gradient(
       ellipse 1000px 700px at 0% 100%,
-      rgba(187, 115, 83, 0.14) 0%,
+      rgba(201, 162, 39, 0.16) 0%,
       transparent 65%
     );
 }

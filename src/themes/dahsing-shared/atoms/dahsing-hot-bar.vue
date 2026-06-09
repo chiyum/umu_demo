@@ -57,7 +57,12 @@ import { trophySrc } from "../_assets";
       top: 13px;
       width: 96px;
       padding: 4px 0;
-      background: linear-gradient(180deg, #e35d34, #c23a16);
+
+      // HOT ribbon 漸層走 --gradient-hot-ribbon token；金 / 紫變體會改色適配主色系
+      background: var(
+        --gradient-hot-ribbon,
+        linear-gradient(180deg, #e35d34, #c23a16)
+      );
       color: #ffffff;
       font-size: 13px;
       font-weight: 900;

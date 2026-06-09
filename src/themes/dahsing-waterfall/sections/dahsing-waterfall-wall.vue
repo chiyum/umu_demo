@@ -219,11 +219,13 @@ function tagIcon(kind: TagKind): string {
     line-height: 1.05;
   }
 
+  // 英文小標題色走 --text-caption-en token；各 variant 提供對應淺色（米金 / 米紫 / 米橘）
+  // fallback 為米橘 default 值 #f4d9b8
   &__en {
     margin-top: 2px;
     font-size: 10px;
     font-weight: 700;
-    color: #f4d9b8;
+    color: var(--text-caption-en, #f4d9b8);
     letter-spacing: 0.4px;
     font-style: italic;
   }
@@ -243,8 +245,12 @@ function tagIcon(kind: TagKind): string {
     border-radius: 999px;
     box-shadow: var(--shadow);
 
+    // fire tag 紅橘漸層走 --gradient-fire-tag token；金 / 紫變體適配主色系
     &--fire {
-      background: linear-gradient(180deg, #e8602f, #c63d16);
+      background: var(
+        --gradient-fire-tag,
+        linear-gradient(180deg, #e8602f, #c63d16)
+      );
       color: #ffffff;
     }
   }
