@@ -61,24 +61,42 @@ const LONG_HENG_LOGO_SRC = new URL(
  *   經 file 指令確認為 8-bit/color RGBA non-interlaced，符合透明背景慣例
  * - 三張都跳過 mix-blend-mode 處理，視覺一致
  */
+/**
+ * mainColor 拍板：用於 showcase「依 logo 主色推薦版型」演算法
+ *
+ * - dahsing（大亨 ONLINE）：黑底金字，金色 `#d4a574` 是最搶眼的視覺主體
+ *   → 與 noya rose-gold / dahsing-waterfall 米橘 / fived 暗金 等暖金 theme 距離近
+ * - umu（UMU）：藍黃漸層字標，藍佔比較大且為品牌識別色 `#3ec1f5`
+ *   → 與 honest-max azure / at99 霓虹藍 等藍系 theme 距離近
+ * - long-heng（隆亨 ONLINE）：青藍底大色塊 + 金字，整體視覺主導是青藍底 `#2dd4ff`
+ *   → 與 at99 / at-deluxe / honest-at 霓虹青藍 theme 距離近
+ *
+ * 為什麼選擇「整圖主導色」而非「品牌字色」：
+ * - 推薦演算法是給人「視覺融洽度」的暗示，黑底金字 logo 放在「金色系版面」上比放在「黑色版面」上更搶眼，
+ *   但放在「米橘 / 暖金 / 香檳金」等同色系版面上會有「品牌與版面延續」的高級感
+ * - 隆亨整圖青藍 + 金，但青藍佔幅遠大於金字，故取青藍當主色
+ */
 const SHARED_LOGOS: [LogoCandidate, LogoCandidate, LogoCandidate] = [
   {
     key: "dahsing",
     label: "大亨 ONLINE",
     src: DAHSING_LOGO_SRC,
-    transparentBg: true
+    transparentBg: true,
+    mainColor: "#d4a574"
   },
   {
     key: "umu",
     label: "UMU",
     src: UMU_LOGO_SRC,
-    transparentBg: true
+    transparentBg: true,
+    mainColor: "#3ec1f5"
   },
   {
     key: "long-heng",
     label: "隆亨 ONLINE",
     src: LONG_HENG_LOGO_SRC,
-    transparentBg: true
+    transparentBg: true,
+    mainColor: "#2dd4ff"
   }
 ];
 
@@ -231,7 +249,11 @@ const noya: ThemeMeta = {
   previews: buildPreviews("noya"),
   // noya 主視覺對應 UMU 品牌，預設帶 UMU
   defaultLogo: "umu",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 米白底 + 暖玫瑰金 accent，整體偏淺
+  brightness: "light",
+  // 真人視訊風 + 品味暖金 → live / luxury 兩個面向
+  categories: ["live", "luxury"]
 };
 
 /** at99 版面（深藍霓虹 / 賭場風） */
@@ -250,7 +272,11 @@ const at99: ThemeMeta = {
   previews: buildPreviews("at99"),
   // at99 主視覺對應大亨 ONLINE，預設帶 dahsing
   defaultLogo: "dahsing",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 深藍霓虹底色
+  brightness: "dark",
+  // 賭場大廳通用入口 + 電子遊戲分類占比較大
+  categories: ["general", "slots"]
 };
 
 /**
@@ -282,7 +308,11 @@ const antSport: ThemeMeta = {
   ],
   previews: buildPreviews("ant-sport"),
   defaultLogo: "long-heng",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 白底為主，僅 hero banner 帶藍底
+  brightness: "light",
+  // 體育博彩專屬版面
+  categories: ["sports"]
 };
 
 /**
@@ -314,7 +344,11 @@ const tycoon: ThemeMeta = {
   ],
   previews: buildPreviews("tycoon"),
   defaultLogo: "dahsing",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 藍冰冷光金屬，整體深色
+  brightness: "dark",
+  // sidebar 6 分類 + 遊戲卡列表，定位偏通用大廳
+  categories: ["general", "slots"]
 };
 
 /**
@@ -349,7 +383,11 @@ const vietvip: ThemeMeta = {
   ],
   previews: buildPreviews("vietvip"),
   defaultLogo: "long-heng",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 深紅金邊葉脈大底圖
+  brightness: "dark",
+  // VIP 4 徽章 + 高階廳堂風 → luxury 為主，同時含真人 + 多遊戲入口
+  categories: ["luxury", "live"]
 };
 
 /**
@@ -377,7 +415,11 @@ const honestAt: ThemeMeta = {
   ],
   previews: buildPreviews("honest-at"),
   defaultLogo: "dahsing",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 深藍底 + 青藍霓虹高光
+  brightness: "dark",
+  // hero JACKPOT 七段 + 老虎機集合
+  categories: ["slots", "general"]
 };
 
 /**
@@ -406,7 +448,11 @@ const honestMax: ThemeMeta = {
   ],
   previews: buildPreviews("honest-max"),
   defaultLogo: "umu",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 淡灰白底 + 彩色 hot 卡
+  brightness: "light",
+  // 大廳集合多品類（KU 真人 / 3D 電子 / 體育 / 彩球）
+  categories: ["general", "live"]
 };
 
 /**
@@ -436,7 +482,11 @@ const honestNo6: ThemeMeta = {
   ],
   previews: buildPreviews("honest-no6"),
   defaultLogo: "long-heng",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 紫黑神秘底色
+  brightness: "dark",
+  // girl-model 真人卡片為主 + 老虎機分類入口
+  categories: ["live", "slots"]
 };
 
 /**
@@ -471,7 +521,11 @@ const atDeluxe: ThemeMeta = {
   ],
   previews: buildPreviews("at-deluxe"),
   defaultLogo: "dahsing",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 深藍 radial + JACKPOT 數字賭場大廳奢華風
+  brightness: "dark",
+  // 電子捕魚雙列 + 賭場奢華調性
+  categories: ["slots", "luxury"]
 };
 
 /**
@@ -517,7 +571,11 @@ const dahsingWaterfall: ThemeMeta = {
     "default"
   ),
   defaultLogo: "dahsing",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 米橘暖系米白底
+  brightness: "light",
+  // 瀑布流大廳 + 多遊戲縮圖 → 通用 + 電子
+  categories: ["general", "slots"]
 };
 
 /**
@@ -557,7 +615,11 @@ const dahsingTabs: ThemeMeta = {
     "default"
   ),
   defaultLogo: "dahsing",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 金奧華米金白底
+  brightness: "light",
+  // subtabs 分頁集合 → 通用大廳；含體育子分頁
+  categories: ["general", "sports"]
 };
 
 /**
@@ -597,7 +659,11 @@ const dahsingHorizontal: ThemeMeta = {
     "default"
   ),
   defaultLogo: "dahsing",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 紫貴族但 bg-base 是米白略紫（#faf5fd），整體仍偏淺
+  brightness: "light",
+  // Netflix-style 橫滾多列 → 通用大廳 + 含真人列
+  categories: ["live", "general"]
 };
 
 /**
@@ -633,7 +699,11 @@ const fived: ThemeMeta = {
   ],
   previews: buildPreviews("fived"),
   defaultLogo: "long-heng",
-  logos: SHARED_LOGOS
+  logos: SHARED_LOGOS,
+  // 深棕底 + 金漸層邊框
+  brightness: "dark",
+  // 暗金禮盒奢華風 + 雙欄 banner+news 多品類
+  categories: ["luxury", "general"]
 };
 
 /** 對外暴露的 theme 表，key 是 layoutKey */
@@ -765,4 +835,73 @@ export function getPreview(
 /** 給 store / UI 列舉用 */
 export function listThemes(): ThemeMeta[] {
   return Object.values(themes);
+}
+
+/**
+ * 把 hex 色字串解析為 [r, g, b]（0~255 整數）
+ *
+ * 支援格式：
+ * - `#RGB`（3 位簡寫，每位展開為 RR/GG/BB）
+ * - `#RRGGBB`（6 位完整）
+ *
+ * 為什麼不丟給 CSS computed style 算：
+ * - registry 是純資料層，不應該依賴 DOM；推薦演算法可能在 SSR / unit test 環境跑
+ * - 純字串解析簡單可靠，效能也比建 DOM 取 computed style 高
+ *
+ * 容錯：拿到不合法字串時回 [0, 0, 0]（黑），讓推薦演算法不爆，極端情況下排序可能略有偏差但不影響功能
+ */
+function parseHexColor(hex: string): [number, number, number] {
+  if (typeof hex !== "string") return [0, 0, 0];
+  const trimmed = hex.trim().replace(/^#/, "");
+  // 3 位簡寫 → 展開為 6 位
+  const full =
+    trimmed.length === 3
+      ? trimmed
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : trimmed;
+  if (full.length !== 6 || !/^[0-9a-fA-F]{6}$/.test(full)) return [0, 0, 0];
+  const r = parseInt(full.slice(0, 2), 16);
+  const g = parseInt(full.slice(2, 4), 16);
+  const b = parseInt(full.slice(4, 6), 16);
+  return [r, g, b];
+}
+
+/**
+ * 兩個 hex 色的 RGB 歐式距離
+ *
+ * 公式：sqrt((r1-r2)^2 + (g1-g2)^2 + (b1-b2)^2)
+ * 範圍：0（同色）~ ~441（黑白兩極端）
+ *
+ * 為什麼用 RGB 距離而非 CIELAB / HSL：
+ * - 本 demo 只需「色感相近 / 不相近」的粗略排序，不需要符合人眼感知精度
+ * - RGB 三軸最簡單、無依賴；CIELAB 需要色彩空間轉換 + 矩陣運算，徒增複雜度
+ * - 推薦結果由「最近 5 個 theme」截斷，輕微誤差不影響使用者體驗
+ *
+ * 為什麼導出（export）：
+ * - 給 showcase.store 直接呼叫做推薦計算
+ * - 給未來測試 / 其他位置（例如 hover preview tooltip 顯示「色感相近度」）重用
+ */
+export function colorDistance(hexA: string, hexB: string): number {
+  const [r1, g1, b1] = parseHexColor(hexA);
+  const [r2, g2, b2] = parseHexColor(hexB);
+  const dr = r1 - r2;
+  const dg = g1 - g2;
+  const db = b1 - b2;
+  return Math.sqrt(dr * dr + dg * dg + db * db);
+}
+
+/**
+ * 取指定 theme 的 defaultColor 對應 swatch hex
+ *
+ * 為什麼這層 helper 必要：
+ * - 推薦演算法需要拿到 theme 的「代表色」算距離
+ * - theme.colors 內的 swatch 是 hex 字串，theme.defaultColor 是 colorKey，
+ *   需要對應查 → 抽出 helper 避免呼叫端寫 find
+ * - 找不到時退回第一個 swatch（colors 在型別內沒強制 non-empty，但實務上每個 theme 都至少 3 色）
+ */
+export function getThemeMainSwatch(theme: ThemeMeta): string {
+  const found = theme.colors.find((c) => c.key === theme.defaultColor);
+  return found?.swatch ?? theme.colors[0]?.swatch ?? "#000000";
 }

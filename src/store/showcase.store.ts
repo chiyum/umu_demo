@@ -1,6 +1,13 @@
 import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
-import { themes, DEFAULT_LAYOUT_KEY } from "@/themes/_registry";
+import {
+  themes,
+  DEFAULT_LAYOUT_KEY,
+  listThemes,
+  colorDistance,
+  getThemeMainSwatch
+} from "@/themes/_registry";
+import type { ThemeBrightness, ThemeCategory } from "@/themes/_types";
 
 /**
  * Showcase store — 服務「/」showcase 主頁
@@ -19,6 +26,18 @@ import { themes, DEFAULT_LAYOUT_KEY } from "@/themes/_registry";
  */
 
 export type PreviewDevice = "desktop" | "mobile";
+
+/**
+ * 亮暗篩選值
+ *
+ * 為什麼用 union 而非 ThemeBrightness | null：
+ * - "all" 是「不篩選」的明確語意值，比 null 更直覺
+ * - UI segmented control 可直接 v-model 綁這個值
+ */
+export type BrightnessFilter = "all" | ThemeBrightness;
+
+/** 推薦版型的最大數量：依使用者規格固定為 5 */
+const RECOMMEND_LIMIT = 5;
 
 /**
  * showcaseLogoKey 的 LS 鍵
@@ -123,8 +142,95 @@ export const useShowcaseStore = defineStore("showcase", () => {
    */
   const showcaseLogoKey = ref<string>(resolveInitialShowcaseLogoKey());
 
+  /**
+   * 亮暗主調篩選
+   *
+   * 預設 "all" 不篩選，呼應「使用者進站第一眼看到全部版型」直覺。
+   * 不 persist 到 LS：篩選是「per-session 探索行為」，重新進站重新自由瀏覽更合適
+   */
+  const filterBrightness = ref<BrightnessFilter>("all");
+
+  /**
+   * 類別篩選（multi-select）
+   *
+   * 空陣列 → 不篩選類別（等同全選）。
+   * 非空 → OR 邏輯：theme 的 categories 與 filterCategories 有任何交集就視為命中
+   *
+   * 為什麼用 OR 而非 AND：
+   * - 使用者點「體育 + 真人」通常意思是「我想看與其中任一相關的版型」而非「兩者都涵蓋的版型」
+   * - 此 demo 內每個 theme 平均掛 1-2 個分類，AND 會大幅減少可見版型，與探索意圖相違
+   *
+   * 不 persist 到 LS：同 filterBrightness 理由
+   */
+  const filterCategories = ref<ThemeCategory[]>([]);
+
   /** 所有可選的 logo 候選（給 UI row 渲染用） */
   const showcaseLogoOptions = computed(() => listShowcaseLogos());
+
+  /** 所有可選的類別 chip（依 ThemeCategory union 列舉順序） */
+  const allCategoryOptions: { key: ThemeCategory; label: string }[] = [
+    { key: "sports", label: "體育" },
+    { key: "live", label: "真人" },
+    { key: "slots", label: "電子" },
+    { key: "general", label: "綜合" },
+    { key: "luxury", label: "VIP 豪華" }
+  ];
+
+  /**
+   * 當前選定 logo 主色 → 對應推薦的 theme key 集合（依 RGB 距離取最近 RECOMMEND_LIMIT 個）
+   *
+   * 為什麼用 Set 而非排序後的陣列：
+   * - 卡片端只需要「O(1) 查我是不是推薦」的能力，不關心 5 個推薦的內部順序
+   * - 使用 Set 避免下游每張卡片都做 .includes 線性掃描
+   *
+   * 為什麼用 computed 而非 watch 寫進 ref：
+   * - 推薦集合是「派生狀態」，根源於 showcaseLogoKey + registry（不會改）
+   * - computed 自動依賴追蹤 + cache，比手動 watch 更安全
+   */
+  const recommendedThemeKeys = computed<Set<string>>(() => {
+    const currentLogo = showcaseLogoOptions.value.find(
+      (l) => l.key === showcaseLogoKey.value
+    );
+    // 找不到 logo（理論不可能，store 內邊界檢查擋住）→ 回空 set，所有卡片無推薦徽章
+    if (!currentLogo) return new Set();
+
+    const all = listThemes();
+    // 算距離 → 升序排 → 取前 N 個 key
+    const sorted = all
+      .map((t) => ({
+        key: t.key,
+        distance: colorDistance(currentLogo.mainColor, getThemeMainSwatch(t))
+      }))
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, RECOMMEND_LIMIT);
+    return new Set(sorted.map((x) => x.key));
+  });
+
+  /**
+   * 篩選後的 theme 列表（套用 brightness + categories 兩個條件）
+   *
+   * 為什麼篩選不影響推薦徽章邏輯：
+   * - 推薦徽章基於「logo vs theme 主色距離」，與篩選獨立計算
+   * - UI 表現：篩選後仍出現的推薦 theme 才會帶徽章（推薦 ∩ 篩選）
+   * - 若使用者篩到 0 結果，UI 顯示「目前條件沒有版型」提示
+   */
+  const filteredThemes = computed(() => {
+    const all = listThemes();
+    const wantBrightness = filterBrightness.value;
+    const wantCats = filterCategories.value;
+    return all.filter((t) => {
+      // brightness 篩選
+      if (wantBrightness !== "all" && t.brightness !== wantBrightness) {
+        return false;
+      }
+      // categories 篩選（空陣列 = 不篩；非空 = 任一交集即命中）
+      if (wantCats.length > 0) {
+        const hit = t.categories.some((c) => wantCats.includes(c));
+        if (!hit) return false;
+      }
+      return true;
+    });
+  });
 
   /** 給 UI 判斷便利用 */
   const isPreviewing = computed(() => previewDialogOpen.value);
@@ -189,6 +295,43 @@ export const useShowcaseStore = defineStore("showcase", () => {
     safeSetLS(LS_SHOWCASE_LOGO_KEY, v);
   });
 
+  /**
+   * 設定亮暗篩選
+   *
+   * 為什麼要有 action 而非讓 UI 直接寫 filterBrightness.value：
+   * - 保留未來插入「篩選變動時通知 analytics / 記錄使用者偏好」的接縫
+   * - UI 用 v-model 透過 setter 行為一致，便於 testing 觀察
+   */
+  function setFilterBrightness(value: BrightnessFilter): void {
+    filterBrightness.value = value;
+  }
+
+  /**
+   * 切換類別 chip 的選中狀態
+   *
+   * 為什麼用 toggle 而非 setFilterCategories(array)：
+   * - chip multi-select UI 慣用「點一下切換」互動，toggle 是天然 API
+   * - 避免呼叫端傳 array 時要先讀目前狀態 + manipulate，多一層心智負擔
+   */
+  function toggleFilterCategory(category: ThemeCategory): void {
+    const idx = filterCategories.value.indexOf(category);
+    if (idx >= 0) {
+      filterCategories.value.splice(idx, 1);
+    } else {
+      filterCategories.value.push(category);
+    }
+  }
+
+  /**
+   * 清空所有篩選條件（亮暗回 all，類別清空）
+   *
+   * 提供給 UI 「清除篩選」按鈕、或 0 結果頁的「重設」CTA
+   */
+  function clearFilters(): void {
+    filterBrightness.value = "all";
+    filterCategories.value = [];
+  }
+
   return {
     // state
     previewDialogOpen,
@@ -196,14 +339,22 @@ export const useShowcaseStore = defineStore("showcase", () => {
     previewDevice,
     previewColor,
     showcaseLogoKey,
+    filterBrightness,
+    filterCategories,
     // getters
     isPreviewing,
     showcaseLogoOptions,
+    allCategoryOptions,
+    recommendedThemeKeys,
+    filteredThemes,
     // actions
     openPreview,
     closePreview,
     setPreviewDevice,
     setPreviewColor,
-    setShowcaseLogoKey
+    setShowcaseLogoKey,
+    setFilterBrightness,
+    toggleFilterCategory,
+    clearFilters
   };
 });

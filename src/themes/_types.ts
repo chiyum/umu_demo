@@ -45,6 +45,11 @@ export interface ColorVariant {
  *   - true：跳過 mix-blend-mode，避免把透明底的彩色筆畫變淡
  *   為什麼這旗標必要：ant-sport 內 default-mobile 自帶透明背景，其他 3 張白底；
  *   若 mix-blend-mode 一律套，透明底 logo 會被洗成半透明發白
+ * - mainColor：logo 主色 hex（含 `#`），用於 showcase 主頁「依 logo 推薦版型」演算法
+ *   - 取「整張 logo 視覺主導色」（例如大亨金字 / UMU 藍 / 隆亨青藍底）
+ *   - 推薦演算法以 mainColor vs 各 theme defaultColor 的 RGB 歐式距離做排序，取最近 5 個 theme 加推薦徽章
+ *   - 為什麼放在 logo 而非 store：logo 主色屬於資產 metadata，與 src / label 同層級；
+ *     store 只負責「當前選了哪個 logo」與「篩選 state」，不該硬編品牌色
  *
  * 為什麼 src 用 string（URL）而非 SFC 內 ?url import：
  * - registry 是純 metadata，不該 import 任何 chunk 等級的圖檔
@@ -57,7 +62,45 @@ export interface LogoCandidate {
   src: string;
   /** 是否已是透明背景 PNG / SVG，影響深色 bar 是否要套 mix-blend-mode 洗底（預設 false） */
   transparentBg?: boolean;
+  /**
+   * Logo 主色 hex（必須以 `#` 開頭，3 或 6 位數十六進位）
+   *
+   * 用於 showcase 主頁「依 logo 推薦版型」演算法。
+   * 取「整張 logo 的視覺主導色」而非次要點綴色，例如：
+   * - 大亨 ONLINE：金字 `#d4a574`（黑底襯托下金字最搶眼）
+   * - UMU：藍標 `#3ec1f5`（藍黃漸層但藍佔比較大）
+   * - 隆亨 ONLINE：青藍底 `#2dd4ff`（金字在青藍背景上）
+   */
+  mainColor: string;
 }
+
+/**
+ * 版面分類列舉
+ *
+ * 為什麼用 union string literal 而非 enum：
+ * - 與既有 theme key / colorKey 風格一致（皆為 string literal union）
+ * - 編譯期防呆：拼錯立刻爆紅，不用等 runtime
+ * - JSON 化 / URL query 輸出時不需轉換層
+ *
+ * 5 個類別涵蓋此 demo 內 13 個 theme 的賭場主要業務面向：
+ * - sports：體育（足球 / 籃球 / 棒球等運彩盤口）
+ * - live：真人視訊（百家樂 / 龍虎 / 輪盤等發牌員直播）
+ * - slots：電子（老虎機 / 捕魚 / 街機等 RNG 遊戲）
+ * - general：綜合多品類（首頁集合多種遊戲入口的大廳）
+ * - luxury：VIP / 豪華（高端會員 / 高額限紅 / 禮賓服務調性）
+ */
+export type ThemeCategory = "sports" | "live" | "slots" | "general" | "luxury";
+
+/**
+ * 版面明暗主調
+ *
+ * 為什麼用 union 而非 boolean isDark：
+ * - 語意明確，避免「true = light 還是 true = dark」歧義
+ * - 未來若要加 auto / system / mixed 等選項，擴充直覺
+ *
+ * 判定依據：theme `bg-base` 是淡白系 → light；深色系 → dark
+ */
+export type ThemeBrightness = "light" | "dark";
 
 /**
  * 預覽截圖的「裝置 / logo」交叉表
@@ -154,6 +197,21 @@ export interface ThemeMeta {
    * 必為 logos[].key 之一
    */
   defaultLogo: string;
+  /**
+   * 該 theme 的明暗主調
+   *
+   * 影響 showcase 主頁「亮 / 暗 / 全部」篩選 toggle。
+   * 判定依據：theme `bg-base` 為淡白系 → "light"；深色系 → "dark"
+   */
+  brightness: ThemeBrightness;
+  /**
+   * 該 theme 對應的業務分類（1~多個）
+   *
+   * 用於 showcase 主頁類別 chip multi-select 篩選；空陣列代表完全不分類（目前不使用）
+   * 多分類時取「OR 邏輯」：使用者選中任何一個 chip 即視為命中
+   * 至少填 1 個（registry 建構期不檢，依約定填入；review 時把關）
+   */
+  categories: ThemeCategory[];
 }
 
 /**

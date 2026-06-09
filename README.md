@@ -465,6 +465,89 @@ dahsing-waterfall / tabs / horizontal 共用 sidebar / hot-bar / 卡片 fire tag
   `useDemoThemeStore().currentLogo` 取 logo src，使用者切 logo 時所有引用自動更新
 - FAB row 用縮圖按鈕（PC 36×36，mobile sheet 48×48 + label），active 樣式延續 colorBtn 反白邊框
 
+### Showcase 篩選 + 推薦機制（v4.2）
+
+Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」，並依「當前 LOGO 主色 vs 各 theme 主色」自動推薦最搭的 5 個版型。
+
+#### Theme 標籤：明暗 + 業務分類（必填）
+
+每個 `ThemeMeta` 新增兩個必填欄位（registry 拍板，使用者可後續微調）：
+
+- `brightness: "light" | "dark"` — 主調明暗，判定依據是該 theme 的 `bg-base` 是淡白系（light）或深色系（dark）
+- `categories: ThemeCategory[]` — 業務分類（多選），union 約束防拼錯。5 個合法值：
+  - `sports`（體育）/ `live`（真人）/ `slots`（電子）/ `general`（綜合）/ `luxury`（VIP 豪華）
+
+13 個 theme 的拍板分配表：
+
+| theme key | brightness | categories | 拍板理由 |
+|---|---|---|---|
+| `noya` | light | `live` / `luxury` | 米白 + 玫瑰金真人視訊風 |
+| `at99` | dark | `general` / `slots` | 深藍霓虹通用大廳 |
+| `ant-sport` | light | `sports` | 白底體育博彩專屬 |
+| `tycoon` | dark | `general` / `slots` | 藍冰大廳 sidebar + 遊戲列表 |
+| `vietvip` | dark | `luxury` / `live` | 深紅金邊 VIP + 真人廳堂 |
+| `honest-at` | dark | `slots` / `general` | 深藍霓虹 JACKPOT 老虎機 |
+| `honest-max` | light | `general` / `live` | 淡白底多品類大廳含真人 |
+| `honest-no6` | dark | `live` / `slots` | 紫黑 girl-model + 老虎機 |
+| `at-deluxe` | dark | `slots` / `luxury` | 深藍 radial + JACKPOT 奢華 |
+| `fived` | dark | `luxury` / `general` | 深棕暗金禮盒 |
+| `dahsing-waterfall` | light | `general` / `slots` | 米橘瀑布流多遊戲縮圖 |
+| `dahsing-tabs` | light | `general` / `sports` | 金奧華 subtabs 含體育子分頁 |
+| `dahsing-horizontal` | light | `live` / `general` | 米白略紫底 + Netflix 橫滾含真人列 |
+
+> 「dahsing-horizontal default 是紫貴族但 bg-base 是 `#faf5fd` 米白略紫」是 light 判定的關鍵。
+> 後續若有人覺得 horizontal 應該歸 dark（看 swatch 配色），改 registry 內該 theme 的 `brightness` 即可。
+
+#### 篩選列 UI
+
+`src/components/showcase/showcase-filter-bar.vue` 位於 logo 切換器與卡片 grid 之間：
+
+- **明暗 segmented control**：全部 / 亮色 / 暗色 三選一，預設「全部」
+- **類別 chip multi-select**：5 個 chip 可任意組合，OR 邏輯（任一交集即命中），預設全不選等同不篩選
+- **右上推薦提示**：說明「卡片帶徽章 = 依當前 LOGO 主色推薦的最佳搭配」
+- **清除篩選按鈕**：有任何條件生效時才顯示
+- **0 結果提示**：篩選結果為空時顯示「目前條件沒有版型」卡 + 清除篩選 CTA，避免使用者卡住
+
+篩選狀態（`filterBrightness` / `filterCategories`）存在 `useShowcaseStore`，**不 persist 到 LS**：篩選是 per-session 探索行為，重新進站重新自由瀏覽更合適。
+
+#### Logo 推薦演算法
+
+每個 `LogoCandidate` 新增 `mainColor: string`（hex）欄位：
+
+| logo key | mainColor | 取色理由 |
+|---|---|---|
+| `dahsing` | `#d4a574` | 金字最搶眼（黑底襯托） |
+| `umu` | `#3ec1f5` | 藍標佔比較大 |
+| `long-heng` | `#2dd4ff` | 青藍底為視覺主導 |
+
+演算法：對當前選定 logo 的 `mainColor` 與每個 theme 的「defaultColor swatch hex」算 **RGB 歐式距離**（`sqrt((r1-r2)² + (g1-g2)² + (b1-b2)²)`），距離最近的 5 個 theme 在卡片右上角加「LOGO 推薦」金色徽章。
+
+為什麼用 RGB 距離而非 CIELAB / HSL：本 demo 只需粗略「色感相近」排序，RGB 三軸最簡單、無依賴；輕微誤差由「最近 5 個」截斷掩蓋。
+
+預期推薦結果（registry 內目前拍板的 swatch 算出）：
+
+| 當前 LOGO | Top 5 推薦版型（由近到遠） |
+|---|---|
+| `dahsing`（暖金） | `noya` / `fived` / `dahsing-waterfall` / `dahsing-tabs` / `honest-no6` |
+| `umu`（青藍） | `at99` / `honest-at` / `tycoon` / `at-deluxe` / `ant-sport` |
+| `long-heng`（青藍） | `at99` / `honest-at` / `at-deluxe` / `tycoon` / `ant-sport` |
+
+#### 互動規約
+
+- **推薦徽章不影響卡片點擊**：徽章本身 `pointer-events: none`，整個卡片區仍由 thumb-btn / 「預覽」/「Demo」按鈕負責互動
+- **推薦 ∩ 篩選**：篩選後仍出現的推薦 theme 才會帶徽章（推薦集合與篩選集合各自 computed，不互相影響）
+- **reactive 更新**：切 logo / 切篩選都用 Pinia computed 重算，不全頁 reload
+- **TS union type 防呆**：`ThemeCategory` / `ThemeBrightness` / `BrightnessFilter` 都是 string literal union，拼錯立刻 TS 報錯
+- **無障礙**：segmented control 用 `role="radiogroup"` + `aria-checked`、chip 用 `aria-pressed`、徽章用 `role="note"` + `aria-label`
+
+#### 修改篩選分類 / 推薦演算法 SOP
+
+- **改 theme 的 brightness / categories**：只動 `src/themes/_registry.ts`，找到對應 theme 物件改值即可
+- **加 / 改 logo mainColor**：改 `SHARED_LOGOS` 對應條目的 `mainColor`；對應到實際 logo 主色越精準推薦越好
+- **加新類別**：先在 `src/themes/_types.ts` 的 `ThemeCategory` union 加新字串字面量，再到 store 的 `allCategoryOptions` 加 chip label，最後到 registry 為相關 theme 補上該分類
+- **改推薦數量**：改 `src/store/showcase.store.ts` 的 `RECOMMEND_LIMIT`（目前固定 5）
+- **改距離演算法**：改 `src/themes/_registry.ts` 的 `colorDistance` 實作（例如換 CIELAB Delta E）；型別簽名穩定，呼叫端不受影響
+
 ### 預覽截圖矩陣
 
 `ThemeMeta.previews` 是 `Record<logoKey, { desktop, mobile }>` 結構（default color 截圖鏈），

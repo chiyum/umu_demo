@@ -25,6 +25,14 @@ import { useShowcaseStore } from "@/store/showcase.store";
 
 const props = defineProps<{
   theme: ThemeMeta;
+  /**
+   * 是否為「依當前 logo 主色推薦」的版型
+   *
+   * 由父層（home.vue）依 showcaseStore.recommendedThemeKeys 計算傳入。
+   * 預設 false，避免 prop 漏傳時誤打徽章。
+   * 切 logo / 切篩選都會 reactive 更新（推薦集合 vs 篩選集合各自獨立 computed）
+   */
+  recommended?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -75,7 +83,25 @@ function handleOpenDemo(): void {
 </script>
 
 <template>
-  <article class="theme-card">
+  <article
+    class="theme-card"
+    :class="{ 'theme-card--recommended': props.recommended }"
+  >
+    <!--
+      推薦徽章：絕對定位在卡片右上角
+      - 不影響卡片本身點擊行為（pointer-events: none，徽章只是視覺標記）
+      - 用「LOGO 推薦」純文字 + 金色帶設計，避免 emoji
+    -->
+    <span
+      v-if="props.recommended"
+      class="theme-card__badge"
+      role="note"
+      aria-label="搭配當前 LOGO 主色推薦的版型"
+    >
+      <span class="theme-card__badge-mark" aria-hidden="true">★</span>
+      <span class="theme-card__badge-text">LOGO 推薦</span>
+    </span>
+
     <!-- 縮圖：點圖也算預覽（提高觸發機會） -->
     <button
       class="theme-card__thumb-btn"
@@ -144,6 +170,7 @@ function handleOpenDemo(): void {
 
 <style lang="scss" scoped>
 .theme-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   background: #ffffff;
@@ -153,11 +180,54 @@ function handleOpenDemo(): void {
   border: 1px solid rgba(212, 165, 116, 0.18);
   transition:
     transform 0.25s ease,
-    box-shadow 0.25s ease;
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 28px rgba(212, 165, 116, 0.24);
+  }
+
+  // 推薦態：金色邊框 + 加重陰影，視覺上比一般卡片更搶眼
+  &--recommended {
+    border-color: rgba(184, 133, 74, 0.6);
+    box-shadow: 0 6px 22px rgba(184, 133, 74, 0.22);
+
+    &:hover {
+      box-shadow: 0 14px 32px rgba(184, 133, 74, 0.34);
+    }
+  }
+
+  // 推薦徽章本體（絕對定位於卡片右上角）
+  &__badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #d4a574 0%, #b8854a 100%);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(184, 133, 74, 0.4);
+
+    // 徽章僅作為視覺標記，不應攔截點擊；確保「點卡片任何位置 = 觸發 thumb-btn 預覽」
+    // 但徽章本身有 role="note"，不該被點擊（也避免遮住底下縮圖按鈕）
+    pointer-events: none;
+  }
+
+  &__badge-mark {
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  &__badge-text {
+    line-height: 1;
   }
 
   // stylelint no-descending-specificity：所有低 specificity 的 base 規則
