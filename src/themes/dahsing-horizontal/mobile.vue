@@ -34,12 +34,14 @@ const activeNav = ref<string>("hot");
 // 三列資料對齊原稿 .rows 三 row
 const hotFeat = { zh: "DG 真人", en: "DG LIVE", img: chDgSrc };
 
+// 為什麼 tag.icon 改為 DahsingIcon 自家 name：
+// 原本 "material-symbols:xxx" 在 QIcon 上不會渲染（已造成 tag 跑版），全面改走 inline SVG 共用元件
 const hotCards = [
   {
     zh: "QT 電子",
     en: "QT SLOTS",
     img: chQtSrc,
-    tag: { text: "HOT", icon: "material-symbols:local-fire-department" }
+    tag: { text: "HOT", icon: "fire" as const }
   },
   { zh: "美女直播", en: "OFA GIRLS", img: chOfaSrc }
 ];
@@ -51,7 +53,7 @@ const liveCards = [
     zh: "RSG 真人",
     en: "RSG LIVE",
     img: chRsgSrc,
-    tag: { text: "新", icon: "material-symbols:star-outline" }
+    tag: { text: "新", icon: "star" as const }
   }
 ];
 
@@ -60,7 +62,7 @@ const sportCards = [
     zh: "熊貓體育",
     en: "PANDA SPORTS",
     img: chPandaSrc,
-    tag: { text: "熱", icon: "material-symbols:local-fire-department" }
+    tag: { text: "熱", icon: "fire" as const }
   },
   { zh: "滾球投注", en: "LIVE BET", img: chPandaSrc },
   { zh: "電競賽事", en: "E-SPORTS", img: chQtSrc }
@@ -83,18 +85,18 @@ const sportCards = [
         <div class="dahsing-horizontal-m__rows">
           <DahsingHorizontalRow
             title="熱門推薦"
-            icon="material-symbols:local-fire-department"
+            icon="fire"
             :feat-card="hotFeat"
             :cards="hotCards"
           />
           <DahsingHorizontalRow
             title="真人遊戲"
-            icon="material-symbols:headphones-outline"
+            icon="headphones"
             :cards="liveCards"
           />
           <DahsingHorizontalRow
             title="體育賽事"
-            icon="material-symbols:sports-soccer"
+            icon="soccer"
             :cards="sportCards"
           />
         </div>

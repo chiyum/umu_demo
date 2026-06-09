@@ -41,12 +41,14 @@ const activeNav = ref<string>("hot");
 const hotFeat = { zh: "DG 真人", en: "DG LIVE", img: chDgSrc };
 
 // 桌面每 row 卡片比 mobile 多（mobile 2-3 張、桌面 5-6 張）
+// 為什麼 tag.icon 改為 DahsingIcon 自家 name：
+// 原本 "material-symbols:xxx" 在 QIcon 上不會渲染（已造成 tag 跑版），全面改走 inline SVG 共用元件
 const hotCards = [
   {
     zh: "QT 電子",
     en: "QT SLOTS",
     img: chQtSrc,
-    tag: { text: "HOT", icon: "material-symbols:local-fire-department" }
+    tag: { text: "HOT", icon: "fire" as const }
   },
   { zh: "美女直播", en: "OFA GIRLS", img: chOfaSrc },
   { zh: "招財貓福袋", en: "FORTUNE CAT", img: chMascotSrc },
@@ -61,7 +63,7 @@ const liveCards = [
     zh: "RSG 真人",
     en: "RSG LIVE",
     img: chRsgSrc,
-    tag: { text: "新", icon: "material-symbols:star-outline" }
+    tag: { text: "新", icon: "star" as const }
   },
   { zh: "DG 龍虎", en: "DRAGON TIGER", img: chDgSrc },
   { zh: "OFA 輪盤", en: "OFA ROULETTE", img: chOfaSrc }
@@ -72,7 +74,7 @@ const sportCards = [
     zh: "熊貓體育",
     en: "PANDA SPORTS",
     img: chPandaSrc,
-    tag: { text: "熱", icon: "material-symbols:local-fire-department" }
+    tag: { text: "熱", icon: "fire" as const }
   },
   { zh: "滾球投注", en: "LIVE BET", img: chPandaSrc },
   { zh: "電競賽事", en: "E-SPORTS", img: chQtSrc },
@@ -85,7 +87,7 @@ const slotCards = [
     zh: "QT 老虎機",
     en: "QT JACKPOT",
     img: chQtSrc,
-    tag: { text: "推", icon: "material-symbols:star-outline" }
+    tag: { text: "推", icon: "star" as const }
   },
   { zh: "RSG 電子", en: "RSG SLOTS", img: chRsgSrc },
   { zh: "招財貓福袋", en: "FORTUNE CAT", img: chMascotSrc },
@@ -114,23 +116,23 @@ const slotCards = [
           <div class="dahsing-horizontal-pc__rows">
             <DahsingHorizontalRow
               title="熱門推薦"
-              icon="material-symbols:local-fire-department"
+              icon="fire"
               :feat-card="hotFeat"
               :cards="hotCards"
             />
             <DahsingHorizontalRow
               title="真人遊戲"
-              icon="material-symbols:headphones-outline"
+              icon="headphones"
               :cards="liveCards"
             />
             <DahsingHorizontalRow
               title="體育賽事"
-              icon="material-symbols:sports-soccer"
+              icon="soccer"
               :cards="sportCards"
             />
             <DahsingHorizontalRow
               title="電子遊戲"
-              icon="material-symbols:casino-outline"
+              icon="casino"
               :cards="slotCards"
             />
           </div>

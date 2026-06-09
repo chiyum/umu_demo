@@ -12,13 +12,25 @@
  *
  * 為什麼 showFeat 用 prop：首列才有 feat 大卡（原稿 row 1 才放 .feat），其他列純 hcard
  */
-import { QIcon } from "quasar";
+import DahsingIcon from "../../dahsing-shared/atoms/dahsing-icon.vue";
+
+// DahsingIcon name 集合（與元件 enum 對齊）
+// 為什麼用 union type：上游 desktop.vue / mobile.vue 傳入時可在編譯期檢核 name 拼字
+type DahsingIconName =
+  | "fire"
+  | "star"
+  | "soccer"
+  | "premium"
+  | "schedule"
+  | "casino"
+  | "headphones"
+  | "chevron-right";
 
 interface HCard {
   zh: string;
   en: string;
   img: string;
-  tag?: { text: string; icon: string };
+  tag?: { text: string; icon: DahsingIconName };
 }
 
 interface FeatCard {
@@ -30,14 +42,14 @@ interface FeatCard {
 withDefaults(
   defineProps<{
     title: string;
-    icon?: string;
+    icon?: DahsingIconName;
     moreText?: string;
     cards: HCard[];
     /** 首列才有的精選大卡 */
     featCard?: FeatCard;
   }>(),
   {
-    icon: "material-symbols:local-fire-department",
+    icon: "fire",
     moreText: "更多",
     featCard: undefined
   }
@@ -48,12 +60,12 @@ withDefaults(
   <div class="dahsing-horizontal-row">
     <div class="dahsing-horizontal-row__head">
       <div class="dahsing-horizontal-row__title">
-        <QIcon :name="icon" size="14px" />
+        <DahsingIcon :name="icon" size="14px" />
         {{ title }}
       </div>
       <div class="dahsing-horizontal-row__more">
         {{ moreText }}
-        <QIcon name="material-symbols:chevron-right" size="12px" />
+        <DahsingIcon name="chevron-right" size="12px" />
       </div>
     </div>
 
@@ -67,7 +79,7 @@ withDefaults(
         </div>
         <div class="dahsing-horizontal-row__feat-go">
           立即遊玩
-          <QIcon name="material-symbols:chevron-right" size="9px" />
+          <DahsingIcon name="chevron-right" size="9px" />
         </div>
       </div>
 
@@ -78,7 +90,7 @@ withDefaults(
         class="dahsing-horizontal-row__hcard"
       >
         <span v-if="card.tag" class="dahsing-horizontal-row__tag">
-          <QIcon :name="card.tag.icon" size="8px" />
+          <DahsingIcon :name="card.tag.icon" size="8px" />
           {{ card.tag.text }}
         </span>
         <img :src="card.img" :alt="card.zh" />
@@ -108,7 +120,8 @@ withDefaults(
     font-size: 16px;
     font-weight: 900;
 
-    :deep(.q-icon) {
+    // 切到 dahsing-icon class（取代原本 :deep(.q-icon)，QIcon 已被替換）
+    :deep(.dahsing-icon) {
       color: var(--badge-live, #e0552b);
     }
   }

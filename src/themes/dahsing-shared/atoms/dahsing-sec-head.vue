@@ -4,22 +4,36 @@
  *
  * 為什麼抽：版型 A 主區 + 各版桌面 section 都用，避免每處重寫
  * 為什麼 prop 接 icon name：原稿 .title 內含 fa-fire 等不同 icon，抽 prop 才能彈性
+ *
+ * icon prop 為什麼改為 DahsingIcon 自家 name 集合：
+ * - 原本接 Iconify 字串給 QIcon 但渲染為空（已造成版型跑版）
+ * - 改用 DahsingIcon 元件統一渲染 inline SVG，name 受元件 enum 約束
  */
-import { QIcon } from "quasar";
+import DahsingIcon from "./dahsing-icon.vue";
+
+type DahsingIconName =
+  | "fire"
+  | "star"
+  | "soccer"
+  | "premium"
+  | "schedule"
+  | "casino"
+  | "headphones"
+  | "chevron-right";
 
 withDefaults(
   defineProps<{
     /** 標題文字（如「熱門推薦」） */
     title: string;
-    /** 左側 icon 名稱（Iconify，預設熱門火焰） */
-    icon?: string;
+    /** 左側 icon 名稱（DahsingIcon name，預設熱門火焰） */
+    icon?: DahsingIconName;
     /** 是否顯示「查看更多」連結（預設 true） */
     showMore?: boolean;
     /** 「查看更多」文字（預設「查看更多」） */
     moreText?: string;
   }>(),
   {
-    icon: "material-symbols:local-fire-department",
+    icon: "fire",
     showMore: true,
     moreText: "查看更多"
   }
@@ -29,12 +43,12 @@ withDefaults(
 <template>
   <div class="dahsing-sec-head">
     <div class="dahsing-sec-head__title">
-      <QIcon :name="icon" size="16px" />
+      <DahsingIcon :name="icon" size="16px" />
       {{ title }}
     </div>
     <div v-if="showMore" class="dahsing-sec-head__more">
       {{ moreText }}
-      <QIcon name="material-symbols:chevron-right" size="12px" />
+      <DahsingIcon name="chevron-right" size="12px" />
     </div>
   </div>
 </template>
@@ -54,7 +68,8 @@ withDefaults(
     font-weight: 900;
     color: var(--text-primary);
 
-    :deep(.q-icon) {
+    // 切到 dahsing-icon class（取代原本 :deep(.q-icon)，QIcon 已被替換）
+    :deep(.dahsing-icon) {
       color: var(--badge-live, #e0552b);
     }
   }

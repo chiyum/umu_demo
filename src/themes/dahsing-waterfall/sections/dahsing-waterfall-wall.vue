@@ -17,7 +17,7 @@
  * 與既有 noya/at99 元件作法一致（資料硬編在元件內）
  */
 import { computed } from "vue";
-import { QIcon } from "quasar";
+import DahsingIcon from "../../dahsing-shared/atoms/dahsing-icon.vue";
 import {
   chDgSrc,
   chMascotSrc,
@@ -26,6 +26,15 @@ import {
   chQtSrc,
   chRsgSrc
 } from "../../dahsing-shared/_assets";
+
+// DahsingIcon 統一 name 集合（與元件 enum 對齊）
+type DahsingIconName =
+  | "fire"
+  | "star"
+  | "soccer"
+  | "premium"
+  | "schedule"
+  | "chevron-right";
 
 const props = withDefaults(
   defineProps<{
@@ -123,18 +132,19 @@ const extendedCards = computed<WaterfallCard[]>(() => {
   return [...cards, ...cards];
 });
 
-function tagIcon(kind: TagKind): string {
+// 為什麼回傳 DahsingIcon 自家 name：原 Iconify 字串在 QIcon 上無法渲染（已造成 tag 跑版）
+function tagIcon(kind: TagKind): DahsingIconName {
   switch (kind) {
     case "fire":
-      return "material-symbols:local-fire-department";
+      return "fire";
     case "star":
-      return "material-symbols:star-outline";
+      return "star";
     case "futbol":
-      return "material-symbols:sports-soccer";
+      return "soccer";
     case "crown":
-      return "material-symbols:workspace-premium";
+      return "premium";
     case "clock":
-      return "material-symbols:schedule-outline";
+      return "schedule";
   }
 }
 </script>
@@ -151,7 +161,7 @@ function tagIcon(kind: TagKind): string {
         class="dahsing-waterfall-wall__tag"
         :class="{ 'dahsing-waterfall-wall__tag--fire': card.tag === 'fire' }"
       >
-        <QIcon :name="tagIcon(card.tag)" size="9px" />
+        <DahsingIcon :name="tagIcon(card.tag)" size="9px" />
         {{ card.tagText }}
       </span>
       <img :src="card.img" :alt="card.zh" />

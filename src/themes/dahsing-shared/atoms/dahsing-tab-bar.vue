@@ -8,7 +8,7 @@
  * 為什麼預設「首頁」active：原稿 3 份 HTML 都是 .tab.active 在首頁，這是 demo 首頁狀態
  */
 import { ref } from "vue";
-import { QIcon } from "quasar";
+import DahsingIcon from "./dahsing-icon.vue";
 import { DAHSING_TAB_ITEMS } from "../_assets";
 
 const activeKey = ref<string>("home");
@@ -24,7 +24,7 @@ const activeKey = ref<string>("home");
       :class="{ 'dahsing-tab-bar__tab--active': activeKey === tab.key }"
       @click="activeKey = tab.key"
     >
-      <QIcon :name="tab.icon" size="21px" />
+      <DahsingIcon :name="tab.icon" size="21px" />
       <span>{{ tab.label }}</span>
     </button>
   </div>
@@ -66,7 +66,8 @@ const activeKey = ref<string>("home");
     &--active {
       color: var(--color-primary);
 
-      :deep(.q-icon) {
+      // 切到 dahsing-icon class（取代原本 :deep(.q-icon)，QIcon 已被替換）
+      :deep(.dahsing-icon) {
         filter: drop-shadow(0 3px 5px var(--shadow));
       }
     }

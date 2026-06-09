@@ -76,22 +76,22 @@ export const DAHSING_NAV_ITEMS: DahsingNavItem[] = [
  * 底部 5 tab（mobile bottom tab bar）固定資料
  *
  * 為什麼放在 _assets.ts 而非各自元件：理由同 NAV_ITEMS（純資料、跨 theme 重複）
+ *
+ * icon 為什麼改成 DahsingIcon 自家 name（不再用 material-symbols:xxx）：
+ * - 原本想吃 Iconify 字串，但 Quasar QIcon 不認 Iconify 命名空間 → 渲染為空 → 跑版
+ * - 改為由 DahsingIcon 元件內 inline SVG path 承擔，name 直接對應元件 enum
  */
 export interface DahsingTabItem {
   key: string;
   label: string;
-  /** Iconify icon name（material-symbols 系列，與專案其他 theme 一致） */
-  icon: string;
+  /** DahsingIcon name（與元件 enum 對齊） */
+  icon: "home" | "campaign" | "savings" | "support-agent" | "person";
 }
 
 export const DAHSING_TAB_ITEMS: DahsingTabItem[] = [
-  { key: "home", label: "首頁", icon: "material-symbols:home-outline" },
-  { key: "promo", label: "優惠", icon: "material-symbols:campaign-outline" },
-  {
-    key: "deposit",
-    label: "存提款",
-    icon: "material-symbols:savings-outline"
-  },
-  { key: "service", label: "客服", icon: "material-symbols:support-agent" },
-  { key: "me", label: "我的", icon: "material-symbols:person-outline" }
+  { key: "home", label: "首頁", icon: "home" },
+  { key: "promo", label: "優惠", icon: "campaign" },
+  { key: "deposit", label: "存提款", icon: "savings" },
+  { key: "service", label: "客服", icon: "support-agent" },
+  { key: "me", label: "我的", icon: "person" }
 ];

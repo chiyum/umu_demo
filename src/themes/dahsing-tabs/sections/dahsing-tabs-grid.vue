@@ -10,7 +10,7 @@
  * - .play 左下圓形 CTA（漸層底 + chev icon）
  */
 import { computed } from "vue";
-import { QIcon } from "quasar";
+import DahsingIcon from "../../dahsing-shared/atoms/dahsing-icon.vue";
 import {
   chDgSrc,
   chOfaSrc,
@@ -68,7 +68,7 @@ const gridStyle = computed(() => ({
         <div class="dahsing-tabs-grid__en">{{ card.en }}</div>
       </div>
       <div class="dahsing-tabs-grid__play">
-        <QIcon name="material-symbols:chevron-right" size="13px" />
+        <DahsingIcon name="chevron-right" size="13px" />
       </div>
     </div>
   </div>

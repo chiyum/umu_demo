@@ -8,7 +8,7 @@
  * - 原稿用 mask: linear-gradient(90deg, transparent, #000 34%) 讓獎盃左半邊淡出
  * - 與文字區自然銜接，不會硬切；這是視覺重點不可省略
  */
-import { QIcon } from "quasar";
+import DahsingIcon from "./dahsing-icon.vue";
 import { trophySrc } from "../_assets";
 </script>
 
@@ -20,7 +20,7 @@ import { trophySrc } from "../_assets";
       <div class="dahsing-hot-bar__sub">超值回饋等你拿！</div>
       <button type="button" class="dahsing-hot-bar__cta">
         立即查看
-        <QIcon name="material-symbols:chevron-right" size="11px" />
+        <DahsingIcon name="chevron-right" size="11px" />
       </button>
     </div>
     <img class="dahsing-hot-bar__trophy" :src="trophySrc" alt="獎盃" />

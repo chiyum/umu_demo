@@ -7,20 +7,20 @@
  * - 中間 b（VIP 專屬回饋）+ small（每日簽到領彩金）
  * - 右側 chev
  */
-import { QIcon } from "quasar";
+import DahsingIcon from "../../dahsing-shared/atoms/dahsing-icon.vue";
 </script>
 
 <template>
   <div class="dahsing-tabs-promo">
     <div class="dahsing-tabs-promo__pic">
-      <QIcon name="material-symbols:workspace-premium" size="15px" />
+      <DahsingIcon name="premium" size="15px" />
     </div>
     <div class="dahsing-tabs-promo__text">
       <b>VIP 專屬回饋</b>
       <small>每日簽到領彩金</small>
     </div>
-    <QIcon
-      name="material-symbols:chevron-right"
+    <DahsingIcon
+      name="chevron-right"
       size="13px"
       class="dahsing-tabs-promo__chev"
     />
