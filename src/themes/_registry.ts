@@ -183,27 +183,29 @@ const at99: ThemeMeta = {
 };
 
 /**
- * ant-sport 版面（蚂蚁体育 / 體育博彩風）
+ * ant-sport 版面（螞蟻體育 / 體育博彩風）
  *
  * DOM 1:1 對齊 lilian_ant_web home.vue + lilian_ant_pc main.vue 五段結構；
  * 配色 HSL 三軸（primary-h / primary-s / primary-l）推導，
  * 三變體：blue 預設 / midnight 深藍夜間 / red 紅
  *
  * 為什麼 ant-sport 預設 logo 改成 long-heng：
- * - 原本 ant-sport 沒有對應的真實品牌，過去用蚂蚁体育原圖佔位
+ * - 原本 ant-sport 沒有對應的真實品牌，過去用螞蟻體育原圖佔位
  * - 三 theme 統一三 logo 後，隆亨 ONLINE 剛好無歸屬 theme，視覺也搭得起來
  * - 與 at99（大亨）/ noya（UMU）的「品牌-版面」一對一映射對齊
  */
 const antSport: ThemeMeta = {
   key: "ant-sport",
-  label: "蚂蚁体育",
+  label: "版面 C · 體育博彩",
+  // 為什麼 description 內「蚂蚁体育」改繁體「螞蟻體育」：
+  // 與本次 label 簡繁統一同步處理，避免同一段文案混用簡繁
   description:
-    "對齊蚂蚁体育原視覺的體育博彩風格，預設藍 / 深藍夜間 / 節慶紅三種配色",
+    "對齊螞蟻體育原視覺的體育博彩風格，預設藍 / 深藍夜間 / 節慶紅三種配色",
   desktop: () => import("./ant-sport/desktop.vue"),
   mobile: () => import("./ant-sport/mobile.vue"),
   defaultColor: "blue",
   colors: [
-    { key: "blue", label: "蚂蚁藍", swatch: "#3c70fd" },
+    { key: "blue", label: "螞蟻藍", swatch: "#3c70fd" },
     { key: "midnight", label: "夜間藍", swatch: "#0d152b" },
     { key: "red", label: "節慶紅", swatch: "#e63946" }
   ],
@@ -421,9 +423,9 @@ const atDeluxe: ThemeMeta = {
  */
 const dahsingWaterfall: ThemeMeta = {
   key: "dahsing-waterfall",
-  label: "版面 K · 大亨瀑布流",
+  label: "版面 K · 瀑布流",
   description:
-    "大亨瀑布流大廳，2 欄 masonry（mobile）/ 4 欄 masonry（桌面）+ HOT ribbon hotbar，預設米橘暖系，可切換經典銅金 / 金奧華 / 紫貴族",
+    "瀑布流大廳，2 欄 masonry（mobile）/ 4 欄 masonry（桌面）+ HOT ribbon hotbar，預設米橘暖系，可切換經典銅金 / 金奧華 / 紫貴族",
   desktop: () => import("./dahsing-waterfall/desktop.vue"),
   mobile: () => import("./dahsing-waterfall/mobile.vue"),
   // default = 米橘（既有），key 用 "default" 維持向下相容（LS / URL ?color=default 殘留仍命中）
@@ -455,9 +457,9 @@ const dahsingWaterfall: ThemeMeta = {
  */
 const dahsingTabs: ThemeMeta = {
   key: "dahsing-tabs",
-  label: "版面 L · 大亨分頁",
+  label: "版面 L · 分頁",
   description:
-    "大亨分頁切換廳堂，subtabs 子分頁 + VIP 條 + 2 欄整齊網格（mobile）/ 3 欄（桌面），預設金奧華，可切換米橘 / 銅金 / 紫貴族",
+    "分頁切換廳堂，subtabs 子分頁 + VIP 條 + 2 欄整齊網格（mobile）/ 3 欄（桌面），預設金奧華，可切換米橘 / 銅金 / 紫貴族",
   desktop: () => import("./dahsing-tabs/desktop.vue"),
   mobile: () => import("./dahsing-tabs/mobile.vue"),
   defaultColor: "default",
@@ -488,9 +490,9 @@ const dahsingTabs: ThemeMeta = {
  */
 const dahsingHorizontal: ThemeMeta = {
   key: "dahsing-horizontal",
-  label: "版面 M · 大亨橫向列表",
+  label: "版面 M · 橫向列表",
   description:
-    "大亨橫向列表，多列 scroller + 首列精選大卡（mobile 3 列 / 桌面 4 列），預設紫貴族，可切換米橘 / 銅金 / 金奧華",
+    "橫向列表，多列 scroller + 首列精選大卡（mobile 3 列 / 桌面 4 列），預設紫貴族，可切換米橘 / 銅金 / 金奧華",
   desktop: () => import("./dahsing-horizontal/desktop.vue"),
   mobile: () => import("./dahsing-horizontal/mobile.vue"),
   defaultColor: "default",
