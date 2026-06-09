@@ -283,9 +283,11 @@ VUE_VITE_TS_START/                # 專案根目錄
 
 ## Theme（版面）系統
 
-本專案的 `/home` 頁面採用「單一 Route + 動態 Layout Component + CSS Var」架構，
-支援多個版面（layout）與多組配色（color variant）即時切換，
-切換時 URL 會帶 `?theme=<layoutKey>&color=<colorKey>` 並寫入 localStorage。
+本專案的 demo 頁採用「動態 Layout Component + CSS Var」架構，
+支援多個版面（layout）與多組配色（color variant）即時切換。
+- 版面：由 URL path 參數鎖定，路由為 `/demo/:layoutkey`（例：`/demo/noya`、`/demo/at99`）
+- 配色：由 URL query 控制，`?color=<colorKey>`，預設取該 theme 第一組配色
+- 持久化：FAB 切配色 / logo 時寫入 localStorage，下次同 theme 重新進入會 fallback 用
 
 ### 目錄結構
 
@@ -342,7 +344,7 @@ src/themes/
    `vite.config.ts` 的 `buildThemeScssImports()` 會在 build 時掃描
    `src/themes/<your-key>/_tokens.scss` 與 `_variants.scss` 並自動 `@use` 進去；
    只要檔名是 `_tokens.scss` / `_variants.scss` 就會被認到（variants 為可選）。
-5. **驗證**：`yarn build` 跑過後到 `/home?theme=<your-key>` 看效果
+5. **驗證**：`yarn build` 跑過後到 `/demo/<your-key>` 看效果（demo 路由格式：`/demo/:layoutkey`）
 
 ### CSS Var 命名公約
 
@@ -377,17 +379,19 @@ src/themes/
 - **可拖曳**：PC 滑鼠 + Mobile 觸控（使用 Pointer Events 統一處理）
 - **邊緣吸附**：拖到距邊 < 20px 自動吸到邊
 - **位置持久化**：位置存 ratio（百分比）寫入 localStorage，視窗縮放後不失真
-- **URL 同步**：layout / color 雙向同步 `?theme=&color=`，用 `router.replace` 不污染 history
+- **URL 同步**：color 與 URL `?color=` query 雙向同步，用 `router.replace` 不污染 history（layout 由路由 path `/demo/:layoutkey` 鎖定，FAB 不切 layout）
 - **多 fallback**：URL query > localStorage > 預設值
 
 ### 切換版面的 URL 範例
 
-- `/home?theme=noya&color=sunset` — noya 版面 + 日落橘配色
-- `/home?theme=at99&color=neon-purple` — at99 版面 + 霓虹紫配色
-- `/home?theme=dahsing-waterfall` — 大亨瀑布流（米橘預設）
-- `/home?theme=dahsing-waterfall&color=copper` — 大亨瀑布流（copper 經典）
-- `/home?theme=dahsing-tabs` — 大亨分頁切換
-- `/home?theme=dahsing-horizontal` — 大亨橫向列表
+> Demo 頁路由格式：`/demo/:layoutkey?color=<colorKey>`（layoutkey 為 path 參數，color 為 query；color 省略時取該 theme 第一組配色）
+
+- `/demo/noya?color=sunset` — noya 版面 + 日落橘配色
+- `/demo/at99?color=neon-purple` — at99 版面 + 霓虹紫配色
+- `/demo/dahsing-waterfall` — 大亨瀑布流（米橘預設）
+- `/demo/dahsing-waterfall?color=copper` — 大亨瀑布流（copper 經典）
+- `/demo/dahsing-tabs` — 大亨分頁切換
+- `/demo/dahsing-horizontal` — 大亨橫向列表
 
 ### Logo 候選與切換（v4：三 theme 統一三 logo）
 

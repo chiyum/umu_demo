@@ -101,6 +101,11 @@ function loadFabPosition(): FabPosition {
  *
  * URL 優先是為了「分享連結時收件方一定看到對應配色」，
  * 不會被收件方自己 localStorage 蓋掉。
+ *
+ * 註：本 store 為舊版實作，現役 demo 頁已改用 `useDemoThemeStore` +
+ * `/demo/:layoutkey` 路由（layoutKey 由 route path 而非 query 解析），
+ * 這裡的 `?theme=` query 解析只剩「舊連結相容讀法」，僅當 deprecated
+ * 元件 theme-switcher-fab.vue / theme-switcher-fab.mobile.vue 還被使用時生效。
  */
 function resolveInitialKeys() {
   let layoutKey = DEFAULT_LAYOUT_KEY;
