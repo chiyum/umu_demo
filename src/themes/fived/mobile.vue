@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import FivedMobileHeader from "./sections/fived-mobile-header.vue";
+import FivedMobileMenu from "./sections/fived-mobile-menu.vue";
 import FivedMobileBanner from "./sections/fived-mobile-banner.vue";
 import FivedMobileNews from "./sections/fived-mobile-news.vue";
 import FivedMobileHotGames from "./sections/fived-mobile-hot-games.vue";
@@ -9,16 +11,13 @@ import FivedMobileFooter from "./sections/fived-mobile-footer.vue";
  * fived 手機版佈局 — 視覺結構參考 5d_v2 src/pages/base/home.vue
  *   + src/layouts/layout-default.vue 的 mobile 部分
  *
- * 原作 DOM 順序（base/home.vue）：
- *   .index-wrap
- *     .index-block.index-block--swiper
- *       .index-slider-wrap   ← banner swiper（米金邊）
- *       <News />              ← 公告區（mobile 在 banner 下方）
- *     .index-block
- *       <GameCarousel />      ← 熱門遊戲 3D carousel
+ * 對齊原作 layout-default 的 mobile chrome：
+ *   <MobileMenu :isActive="isMenuActive" @toggleMenu="toggleMenu" />
+ *   <MobileHeader @toggleMenu="toggleMenu" :isScrolled="isScrolled" />
  *
  * Demo 化拆解：
- *   Header     ← demo 站補的 sticky header（原作在 layout 外層）
+ *   Menu       ← 從左滑入抽屜（6 大主分類 + 子項展開）
+ *   Header     ← sticky 漢堡 / logo / 登入按鈕
  *   Banner     ← banner swiper（米金邊 + 金黃方點 pagination）
  *   News       ← 公告卡（titleBox + 多色 tag）
  *   HotGames   ← 熱門遊戲 2-col grid（金邊 hover glow）
@@ -26,11 +25,21 @@ import FivedMobileFooter from "./sections/fived-mobile-footer.vue";
  *
  * 整體底色：深棕 + radial 暗金光（bg-decoration）
  */
+
+// 對齊 5d_v2 layout-default：isMenuActive 由 layout 維護，header & menu 共用
+const isMenuActive = ref<boolean>(false);
+function toggleMenu(): void {
+  isMenuActive.value = !isMenuActive.value;
+}
 </script>
 
 <template>
   <div class="fived-m-layout">
-    <FivedMobileHeader />
+    <FivedMobileMenu :is-active="isMenuActive" @toggle-menu="toggleMenu" />
+    <FivedMobileHeader
+      :is-menu-active="isMenuActive"
+      @toggle-menu="toggleMenu"
+    />
     <main class="fived-m-layout__main">
       <FivedMobileBanner />
       <FivedMobileNews />

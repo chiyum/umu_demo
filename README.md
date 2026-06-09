@@ -302,6 +302,25 @@ src/themes/
 │   ├── sections/            # 大區塊：hero / cta / grid / footer ...
 │   └── atoms/               # 共用小元件：按鈕、卡片
 ├── at99/                    # 結構同上
+├── fived/                   # 5D 暗金禮盒風（對齊 5d_v2 原稿）
+│   ├── desktop.vue          # PC：header + (left-sidebar | main) + right-sidebar + footer
+│   ├── mobile.vue           # M：抽屜選單 + header + banner/news/hot-games + bottom tab
+│   ├── _tokens.scss / _variants.scss
+│   ├── assets/              # banner / games / icon 三類圖
+│   └── sections/
+│       ├── fived-mobile-header.vue       # 漢堡(左) / logo(中) / 登入(右)，scroll 變色
+│       ├── fived-mobile-menu.vue         # 左滑入抽屜：6 大分類 + 子項 + 底部社群
+│       ├── fived-mobile-banner.vue
+│       ├── fived-mobile-news.vue
+│       ├── fived-mobile-hot-games.vue
+│       ├── fived-mobile-footer.vue
+│       └── desktop/
+│           ├── fived-pc-header.vue       # 6 主分類 hover 下拉 + 金漸層登入
+│           ├── fived-pc-left-sidebar.vue # 對齊原作為空殼 aside（保留 224px 寬度位置）
+│           ├── fived-pc-right-sidebar.vue # fixed 浮動：scrollY>500 顯示，QR/下載/社群/回頂
+│           ├── fived-pc-hero.vue
+│           ├── fived-pc-hot-games.vue
+│           └── fived-pc-footer.vue
 ├── dahsing-shared/          # 大亨三版型共用基底（不註冊為 theme，只匯出元件）
 │   ├── _assets.ts           # 8 張 asset URL 集中 + 7 nav / 5 tab 共用資料
 │   ├── assets/              # hero / trophy / ch-* 6 張共用圖片
