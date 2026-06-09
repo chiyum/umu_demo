@@ -98,6 +98,20 @@ export const useShowcaseStore = defineStore("showcase", () => {
   const activePreviewKey = ref<string | null>(null);
   /** dialog 內顯示的尺寸（desktop / mobile） */
   const previewDevice = ref<PreviewDevice>("desktop");
+  /**
+   * dialog 內當前預覽的 colorKey
+   *
+   * null 表示「使用 theme 的 defaultColor 截圖（即既有 default 檔名）」。
+   *
+   * 為什麼用 null 而非預設帶 defaultColor 值：
+   * - 開 dialog 時不知道 activeTheme 是哪個，無法先填對應 defaultColor
+   * - 用 null 當「初始 / 重置」狀態，由 getPreview helper 內統一處理「null 等同 defaultColor 截圖」
+   * - 也避免 watcher 在 openPreview 切 theme 時為了同步 previewColor 多寫一層條件
+   *
+   * 不 persist 到 LS：
+   * - 與 device tab 一致，色切換是「per-session 預覽偏好」，下次開 dialog 重新從 default 開始更合理
+   */
+  const previewColor = ref<string | null>(null);
 
   /**
    * showcaseLogoKey：影響「三張卡片縮圖」與「預覽 dialog 內圖片」要用哪個 logo 版本
@@ -119,10 +133,15 @@ export const useShowcaseStore = defineStore("showcase", () => {
    * 開啟預覽
    *
    * 為什麼參數帶 key 而不靠呼叫端先 setActive：避免「忘了 set 就 open」的時序坑
+   *
+   * 開啟時 previewColor 重置為 null（使用 theme 的 default 截圖），確保上一次 dialog
+   * 殘留的色選擇不會延續到下一個 theme（例如上次看 dahsing-tabs 切到 copper，
+   * 關掉後再開 dahsing-waterfall 應該是看 default 米橘而非 copper）。
    */
   function openPreview(key: string, device: PreviewDevice = "desktop"): void {
     activePreviewKey.value = key;
     previewDevice.value = device;
+    previewColor.value = null;
     previewDialogOpen.value = true;
   }
 
@@ -130,11 +149,27 @@ export const useShowcaseStore = defineStore("showcase", () => {
   function closePreview(): void {
     previewDialogOpen.value = false;
     activePreviewKey.value = null;
+    previewColor.value = null;
   }
 
   /** 切換 dialog 內的尺寸 tab */
   function setPreviewDevice(device: PreviewDevice): void {
     previewDevice.value = device;
+  }
+
+  /**
+   * 切換 dialog 內預覽的 colorKey
+   *
+   * 傳 null 或不傳 → 回到 theme default 截圖
+   * 傳具體 colorKey → 顯示對應色變體截圖（缺檔時 getPreview helper 內 fallback 回 default）
+   *
+   * 為什麼不做「colorKey 必須在 activeTheme.colors 內」的驗證：
+   * - 切換 UI 由 dialog template 內遍歷 activeTheme.colors 渲染 swatch 觸發，
+   *   理論上不可能傳到不存在的 key
+   * - 真有殘留 / 髒值，getPreview helper 的 fallback 鏈會處理，顯示 default 截圖
+   */
+  function setPreviewColor(colorKey: string | null): void {
+    previewColor.value = colorKey;
   }
 
   /**
@@ -159,6 +194,7 @@ export const useShowcaseStore = defineStore("showcase", () => {
     previewDialogOpen,
     activePreviewKey,
     previewDevice,
+    previewColor,
     showcaseLogoKey,
     // getters
     isPreviewing,
@@ -167,6 +203,7 @@ export const useShowcaseStore = defineStore("showcase", () => {
     openPreview,
     closePreview,
     setPreviewDevice,
+    setPreviewColor,
     setShowcaseLogoKey
   };
 });

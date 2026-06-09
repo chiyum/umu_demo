@@ -1,4 +1,10 @@
-import type { LogoCandidate, PreviewByLogo, ThemeMeta } from "./_types";
+import type {
+  ColorVariant,
+  LogoCandidate,
+  PreviewByColorLogo,
+  PreviewByLogo,
+  ThemeMeta
+} from "./_types";
 
 /**
  * 集中註冊所有版面
@@ -112,6 +118,11 @@ const PREVIEW_URL_MAP = import.meta.glob<string>("@/assets/previews/*.png", {
  * 為什麼回 string（而非 undefined）：
  * - getPreview helper 的 fallback 鏈會處理 undefined 情境，這層回 "" 較直接
  * - "" 進 <img src> 會破圖但不會 runtime crash，配合 fallback 鏈最差也只顯示預設 logo 截圖
+ *
+ * 注意：本函式只回「預先 build 時解析好的 URL 字串」，**不會 runtime 預抓圖片**。
+ * import.meta.glob 在 build 階段把命中檔案各自 emit 成獨立 asset 並產生對應 URL，
+ * 沒有 `<link rel="prefetch">` / `new Image()` 之類 preloader 行為。
+ * 實際下載發生時機：消費端把 URL 塞進 `<img src>` 之後由瀏覽器決定（搭配 loading="lazy" 更晚）。
  */
 function pickPreviewUrl(
   themeKey: string,
@@ -119,6 +130,28 @@ function pickPreviewUrl(
   device: "desktop" | "mobile"
 ): string {
   const key = `/src/assets/previews/${themeKey}-${logoKey}-${device}.png`;
+  return PREVIEW_URL_MAP[key] ?? "";
+}
+
+/**
+ * 從 PREVIEW_URL_MAP 查指定 (theme, color, logo, device) 對應的 URL
+ *
+ * 新色變體命名規約：`<themeKey>-<colorKey>-<logoKey>-<device>.png`
+ * 例：`dahsing-tabs-copper-dahsing-desktop.png`、`dahsing-waterfall-purple-umu-mobile.png`
+ *
+ * 為什麼與 pickPreviewUrl 拆兩支：
+ * - 雙規約並存（含 color 段 / 不含 color 段）若塞同一支函式內 if/else 反而難讀
+ * - 兩支對應「兩條 fallback 鏈支線」，呼叫端 getPreview 控流時也更直觀
+ *
+ * 同樣不會 runtime 預抓；URL 由 build-time glob 解析，缺檔回 ""。
+ */
+function pickColorPreviewUrl(
+  themeKey: string,
+  colorKey: string,
+  logoKey: string,
+  device: "desktop" | "mobile"
+): string {
+  const key = `/src/assets/previews/${themeKey}-${colorKey}-${logoKey}-${device}.png`;
   return PREVIEW_URL_MAP[key] ?? "";
 }
 
@@ -139,6 +172,44 @@ function buildPreviews(themeKey: string): PreviewByLogo {
       desktop: pickPreviewUrl(themeKey, lk, "desktop"),
       mobile: pickPreviewUrl(themeKey, lk, "mobile")
     };
+  }
+  return map;
+}
+
+/**
+ * 建立某個 theme 的「色變體」預覽矩陣 colorPreviews
+ *
+ * 為什麼新加這支而非重用 buildPreviews：
+ * - color 變體只有 dahsing 三 theme 需要，其他 theme 沒對應色截圖
+ * - 雙規約並存：含 color 段檔名 vs 不含 color 段檔名兩種樣態，呼叫端分流更清楚
+ * - 回傳 PreviewByColorLogo（colorKey → logoKey → device URL 三層），
+ *   getPreview helper 內依 colorKey 切換取哪個一級索引
+ *
+ * 為什麼跳過 theme 的 default color：
+ * - 該色直接用既有 previews（不含 color 段檔名），避免重複截一張同款圖
+ * - 例：dahsing-tabs 的 default color 是「金奧華」，截圖是 dahsing-tabs-<logo>-<device>.png；
+ *   buildColorPreviews 只展開 beige / copper / purple 三色，跳過 default
+ *
+ * 缺檔時 pickColorPreviewUrl 回 ""，getPreview helper 再 fallback 回 default 截圖。
+ */
+function buildColorPreviews(
+  themeKey: string,
+  colors: ColorVariant[],
+  defaultColorKey: string
+): PreviewByColorLogo {
+  const logoKeys = ["dahsing", "umu", "long-heng"];
+  const map: PreviewByColorLogo = {};
+  for (const c of colors) {
+    // 跳過 default color：直接用既有 previews 不含 color 段檔名
+    if (c.key === defaultColorKey) continue;
+    const inner: PreviewByLogo = {};
+    for (const lk of logoKeys) {
+      inner[lk] = {
+        desktop: pickColorPreviewUrl(themeKey, c.key, lk, "desktop"),
+        mobile: pickColorPreviewUrl(themeKey, c.key, lk, "mobile")
+      };
+    }
+    map[c.key] = inner;
   }
   return map;
 }
@@ -421,6 +492,13 @@ const atDeluxe: ThemeMeta = {
  * - at99/tycoon 是「大亨」字面但走霓虹 / 冰冷主題
  * - dahsing-* 系列是「大亨」原稿暖米橘調，與 noya 暖玫瑰金接近但更乾爽（米橘 < 玫瑰金 < 暖金）
  */
+const DAHSING_WATERFALL_COLORS: ColorVariant[] = [
+  { key: "default", label: "米橘暖系", swatch: "#bb7353" },
+  { key: "copper", label: "經典銅金", swatch: "#b5652f" },
+  { key: "gold", label: "金奧華", swatch: "#c9a227" },
+  { key: "purple", label: "紫貴族", swatch: "#6a1b9a" }
+];
+
 const dahsingWaterfall: ThemeMeta = {
   key: "dahsing-waterfall",
   label: "版面 K · 瀑布流",
@@ -430,13 +508,14 @@ const dahsingWaterfall: ThemeMeta = {
   mobile: () => import("./dahsing-waterfall/mobile.vue"),
   // default = 米橘（既有），key 用 "default" 維持向下相容（LS / URL ?color=default 殘留仍命中）
   defaultColor: "default",
-  colors: [
-    { key: "default", label: "米橘暖系", swatch: "#bb7353" },
-    { key: "copper", label: "經典銅金", swatch: "#b5652f" },
-    { key: "gold", label: "金奧華", swatch: "#c9a227" },
-    { key: "purple", label: "紫貴族", swatch: "#6a1b9a" }
-  ],
+  colors: DAHSING_WATERFALL_COLORS,
   previews: buildPreviews("dahsing-waterfall"),
+  // color 變體截圖：跳過 default，只列 copper / gold / purple 三色
+  colorPreviews: buildColorPreviews(
+    "dahsing-waterfall",
+    DAHSING_WATERFALL_COLORS,
+    "default"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS
 };
@@ -455,6 +534,13 @@ const dahsingWaterfall: ThemeMeta = {
  * - 使用者要求三 theme 各自 default 不同，讓 showcase 主頁 L / M 預覽圖用後出色系凸顯版面差異
  * - colorKey 仍叫 "default" 維持向下相容（LS / URL ?color=default 殘留仍命中，只是視覺改成金）
  */
+const DAHSING_TABS_COLORS: ColorVariant[] = [
+  { key: "default", label: "金奧華", swatch: "#c9a227" },
+  { key: "beige", label: "米橘暖系", swatch: "#bb7353" },
+  { key: "copper", label: "經典銅金", swatch: "#b5652f" },
+  { key: "purple", label: "紫貴族", swatch: "#6a1b9a" }
+];
+
 const dahsingTabs: ThemeMeta = {
   key: "dahsing-tabs",
   label: "版面 L · 分頁",
@@ -463,13 +549,13 @@ const dahsingTabs: ThemeMeta = {
   desktop: () => import("./dahsing-tabs/desktop.vue"),
   mobile: () => import("./dahsing-tabs/mobile.vue"),
   defaultColor: "default",
-  colors: [
-    { key: "default", label: "金奧華", swatch: "#c9a227" },
-    { key: "beige", label: "米橘暖系", swatch: "#bb7353" },
-    { key: "copper", label: "經典銅金", swatch: "#b5652f" },
-    { key: "purple", label: "紫貴族", swatch: "#6a1b9a" }
-  ],
+  colors: DAHSING_TABS_COLORS,
   previews: buildPreviews("dahsing-tabs"),
+  colorPreviews: buildColorPreviews(
+    "dahsing-tabs",
+    DAHSING_TABS_COLORS,
+    "default"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS
 };
@@ -488,6 +574,13 @@ const dahsingTabs: ThemeMeta = {
  * - 使用者要求三 theme 各自 default 不同，讓 showcase 主頁 L / M 預覽圖用後出色系凸顯版面差異
  * - colorKey 仍叫 "default" 維持向下相容（LS / URL ?color=default 殘留仍命中，只是視覺改成紫）
  */
+const DAHSING_HORIZONTAL_COLORS: ColorVariant[] = [
+  { key: "default", label: "紫貴族", swatch: "#6a1b9a" },
+  { key: "beige", label: "米橘暖系", swatch: "#bb7353" },
+  { key: "copper", label: "經典銅金", swatch: "#b5652f" },
+  { key: "gold", label: "金奧華", swatch: "#c9a227" }
+];
+
 const dahsingHorizontal: ThemeMeta = {
   key: "dahsing-horizontal",
   label: "版面 M · 橫向列表",
@@ -496,13 +589,13 @@ const dahsingHorizontal: ThemeMeta = {
   desktop: () => import("./dahsing-horizontal/desktop.vue"),
   mobile: () => import("./dahsing-horizontal/mobile.vue"),
   defaultColor: "default",
-  colors: [
-    { key: "default", label: "紫貴族", swatch: "#6a1b9a" },
-    { key: "beige", label: "米橘暖系", swatch: "#bb7353" },
-    { key: "copper", label: "經典銅金", swatch: "#b5652f" },
-    { key: "gold", label: "金奧華", swatch: "#c9a227" }
-  ],
+  colors: DAHSING_HORIZONTAL_COLORS,
   previews: buildPreviews("dahsing-horizontal"),
+  colorPreviews: buildColorPreviews(
+    "dahsing-horizontal",
+    DAHSING_HORIZONTAL_COLORS,
+    "default"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS
 };
@@ -607,34 +700,66 @@ export function getLogo(
 }
 
 /**
- * 取得指定 (theme, logoKey, device) 對應的預覽截圖 URL
+ * 取得指定 (theme, logoKey, device, colorKey?) 對應的預覽截圖 URL
  *
  * 為什麼這層 helper 必要：
  * - showcase 卡片 / dialog 都需要依「當下選定的 showcaseLogoKey」決定預覽圖
- * - fallback 鏈：指定 logoKey → theme.defaultLogo → theme.logos[0].key
- *   任何一層都保證命中 previews 矩陣（registry 建構時 buildPreviews 列出三 logoKey 完整 18 張）
- * - 呼叫端拿 string 即可塞 <img src>，不必懂 fallback 邏輯
+ * - 預覽 dialog 加上 color 切換後，還要依「當下 previewColor」決定走 default 截圖還是色變體截圖
+ * - fallback 鏈集中在這層，呼叫端拿 string 即可塞 <img src>，不必懂 fallback 邏輯
  *
- * 為什麼不直接讓呼叫端做 `theme.previews[logoKey].desktop`：
- * - 若使用者切到一個 theme 沒列出的 logoKey（理論上不該發生，但 LS 殘留可能造成），
- *   直接索引會吃到 undefined → noya/at99/ant-sport 卡片同時破圖
- * - helper 內處理 fallback 後最差也只是顯示預設 logo 的截圖，UI 不會塌
+ * Fallback 順序（colorKey 提供時）：
+ * 1. 若 colorKey == null / undefined / theme.defaultColor → 直接走 default 截圖鏈（從 previews 取）
+ * 2. 若 colorKey 為非 default 色 → 嘗試 colorPreviews[colorKey][logoKey][device]
+ *    - 命中且 URL 非空 → 回傳
+ *    - 未命中 / URL 空 → 嘗試 colorPreviews[colorKey][theme.defaultLogo][device]
+ *    - 仍未命中 → 退回 default 截圖鏈（走 previews）
+ * 3. default 截圖鏈：previews[logoKey] → previews[theme.defaultLogo] → previews[theme.logos[0].key]
+ *
+ * 為什麼這樣排：
+ * - 色變體截圖只有 dahsing 三 theme 補齊；其他 theme 沒提供 colorPreviews 直接走 default 鏈
+ * - dahsing 三 theme 內若使用者切到某 color 而該色截圖還沒補齊（例如初期補了 desktop 沒補 mobile），
+ *   退回 default 截圖避免破圖，但呼叫端 watch URL 變化的 loading state 仍會正常觸發
+ *
+ * 為什麼不直接讓呼叫端做 `theme.colorPreviews?.[c]?.[l]?.[d]`：
+ * - fallback 鏈一旦寫在 template / computed 內會非常雜亂
+ * - 集中在這層也方便未來加 logging / metrics（例如統計哪個 (theme, color, logo) 缺截圖）
  */
 export function getPreview(
   theme: ThemeMeta,
   logoKey: string | null | undefined,
-  device: "desktop" | "mobile"
+  device: "desktop" | "mobile",
+  colorKey?: string | null
 ): string {
-  const direct = logoKey ? theme.previews[logoKey] : undefined;
-  if (direct) return direct[device];
-  const def = theme.previews[theme.defaultLogo];
-  if (def) return def[device];
-  // 最後底線：拿 logos[0] 的 key 找；型別保證 logos non-empty
-  const firstKey = theme.logos[0].key;
-  const first = theme.previews[firstKey];
-  // 若連 first 都缺（registry 配置漏寫），回空字串避免 runtime crash；
-  // <img src=""> 會破圖，但比丟 undefined 進 src 觸發 Vue 警告好
-  return first ? first[device] : "";
+  // default 截圖鏈（fallback 終點）
+  const fromDefaultChain = (): string => {
+    const direct = logoKey ? theme.previews[logoKey] : undefined;
+    if (direct && direct[device]) return direct[device];
+    const def = theme.previews[theme.defaultLogo];
+    if (def && def[device]) return def[device];
+    const firstKey = theme.logos[0].key;
+    const first = theme.previews[firstKey];
+    return first ? first[device] : "";
+  };
+
+  // colorKey 為 null / undefined / 與 defaultColor 同 → 直接走 default 鏈
+  if (!colorKey || colorKey === theme.defaultColor) {
+    return fromDefaultChain();
+  }
+
+  // colorPreviews 缺整個欄位（其他不支援色變體的 theme）→ 退回 default 鏈
+  const colorMap = theme.colorPreviews?.[colorKey];
+  if (!colorMap) return fromDefaultChain();
+
+  // 試指定 logo
+  const byLogo = logoKey ? colorMap[logoKey] : undefined;
+  if (byLogo && byLogo[device]) return byLogo[device];
+
+  // 試 default logo
+  const byDefaultLogo = colorMap[theme.defaultLogo];
+  if (byDefaultLogo && byDefaultLogo[device]) return byDefaultLogo[device];
+
+  // 該 color 該 device 全部都缺檔 → 退回 default 截圖鏈
+  return fromDefaultChain();
 }
 
 /** 給 store / UI 列舉用 */

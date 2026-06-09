@@ -1,6 +1,13 @@
 import type { Component } from "vue";
 
 /**
+ * 既有 import 入口（保留 default 簽名以供其他模組）
+ *
+ * 本檔案下方陸續追加 PreviewByColorLogo / ThemeMeta.colorPreviews 等型別，
+ * 對應 showcase 預覽 dialog 新增 color 切換能力。
+ */
+
+/**
  * Theme 系統的型別定義
  *
  * 設計理念：
@@ -69,6 +76,22 @@ export interface LogoCandidate {
 export type PreviewByLogo = Record<string, { desktop: string; mobile: string }>;
 
 /**
+ * 配色變體的預覽截圖矩陣（colorKey × logoKey × device）
+ *
+ * 為什麼加這個結構：
+ * - showcase 預覽 dialog 加上 color 切換後，每個 (theme, color, logo, device) 都對應獨立截圖
+ * - 為避免破壞既有 theme（非 dahsing 系列沒有 color 變體截圖），這個欄位為 optional
+ * - 命名規約：`<themeKey>-<colorKey>-<logoKey>-<device>.png`（注意：與既有 default 檔名差別在 colorKey 段）
+ * - 既有 `previews` 欄位視為「default color」的截圖，getPreview helper 內負責 fallback：
+ *   有 color 變體就用 colorPreviews[color][logo][device]，否則退回 previews[logo][device]
+ *
+ * 為什麼是 optional 而非強迫所有 theme 都列：
+ * - 截圖補齊是漸進式工作，使用者只先補 dahsing 三 theme（4 color × 3 logo × 2 device = 24 張 / theme）
+ * - 沒列的 theme 行為與本次改動前完全一致（fallback 鏈會自動退回 default 截圖）
+ */
+export type PreviewByColorLogo = Record<string, PreviewByLogo>;
+
+/**
  * Theme（版面）的 metadata
  *
  * - key：路由 query / localStorage / data-theme 屬性都用這個
@@ -100,6 +123,21 @@ export interface ThemeMeta {
    * 找不到對應條目時 fallback 到該 theme 的 defaultLogo，再不行 fallback 到第一張 logo
    */
   previews: PreviewByLogo;
+  /**
+   * （可選）配色變體預覽矩陣：colorKey × logoKey × device → URL
+   *
+   * 何時提供：
+   * - 該 theme 想讓 showcase 預覽 dialog 切 color swatch 時換對應截圖（dahsing 三 theme 是目標）
+   * - 其他 theme 不提供 → dialog 仍會渲染 swatch row（如果有多 color），但點下去只是換 CSS（dialog 不會切圖，因為沒色變體截圖）
+   *
+   * 為什麼 optional 而非強制：
+   * - 避免逼所有既有 theme 補齊截圖；只有 dahsing 三 theme 補 4 color × 3 logo × 2 device = 24 張 / theme
+   * - getPreview helper 內處理 fallback：colorKey = defaultColor 或 colorPreviews 缺對應條目 → 回 previews（default 截圖）
+   *
+   * 命名規約：`<themeKey>-<colorKey>-<logoKey>-<device>.png`
+   * 例：`dahsing-tabs-copper-dahsing-desktop.png`
+   */
+  colorPreviews?: PreviewByColorLogo;
   /**
    * 該 theme 可用的 logo 候選清單
    *

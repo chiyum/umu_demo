@@ -467,15 +467,41 @@ dahsing-waterfall / tabs / horizontal 共用 sidebar / hot-bar / 卡片 fire tag
 
 ### 預覽截圖矩陣
 
-`ThemeMeta.previews` 是 `Record<logoKey, { desktop, mobile }>` 結構，
-3 theme × 3 logoKey × 2 device = **18 張靜態截圖**，存放於 `src/assets/previews/`：
+`ThemeMeta.previews` 是 `Record<logoKey, { desktop, mobile }>` 結構（default color 截圖鏈），
+搭配可選的 `ThemeMeta.colorPreviews`（`Record<colorKey, Record<logoKey, { desktop, mobile }>>`）
+用於支援 showcase 預覽 dialog 內的「色切換」能力。
 
-命名規約：`<themeKey>-<logoKey>-<device>.png`
-例：`at99-dahsing-desktop.png`、`noya-umu-mobile.png`、`ant-sport-long-heng-desktop.png`
+命名規約（雙規約並存）：
 
-`getPreview(theme, logoKey, device)` helper 內含 fallback 鏈：
-指定 logoKey → theme.defaultLogo → theme.logos[0].key，
-任一層都保證命中 18 張之一，showcase 不會破圖。
+- **default color**：`<themeKey>-<logoKey>-<device>.png`（既有，不動）
+  - 例：`at99-dahsing-desktop.png`、`noya-umu-mobile.png`、`ant-sport-long-heng-desktop.png`、`dahsing-tabs-dahsing-desktop.png`
+- **色變體**：`<themeKey>-<colorKey>-<logoKey>-<device>.png`（新增於 v4.1）
+  - 例：`dahsing-tabs-copper-dahsing-desktop.png`、`dahsing-waterfall-purple-umu-mobile.png`、`dahsing-horizontal-gold-long-heng-desktop.png`
+  - 僅 dahsing 三 theme 需要色變體截圖（4 colors × 3 logos × 2 devices = 24 張 / theme，但 default 那組沿用既有檔名，所以實際新增 3 colors × 3 logos × 2 devices = 18 張 / theme）
+  - 其他 theme 不需色變體截圖（colorPreviews 欄位未設定，getPreview 自動 fallback 到 default 截圖）
+
+`getPreview(theme, logoKey, device, colorKey?)` helper 內含完整 fallback 鏈：
+
+1. colorKey 為 null / 等於 theme.defaultColor → 走 default 截圖鏈（從 `previews`）
+2. colorKey 為非 default 色 → 嘗試 `colorPreviews[colorKey][logoKey][device]`
+   - 命中 → 回傳
+   - 缺檔 → 試 `colorPreviews[colorKey][theme.defaultLogo][device]`
+   - 仍缺 → 退回 default 截圖鏈
+3. default 截圖鏈：`previews[logoKey]` → `previews[theme.defaultLogo]` → `previews[theme.logos[0].key]`
+
+任一層都保證命中現有截圖之一，showcase 不會破圖。
+
+#### dahsing 三 theme 色變體截圖補齊清單（QA 接續處理）
+
+每個 dahsing theme 需要 18 張新色截圖（3 非 default colors × 3 logos × 2 devices）：
+
+| theme | default color（既有檔名沿用） | 需新增的色變體 |
+|---|---|---|
+| `dahsing-waterfall` | `default`（米橘暖系） | `copper` / `gold` / `purple` |
+| `dahsing-tabs` | `default`（金奧華） | `beige` / `copper` / `purple` |
+| `dahsing-horizontal` | `default`（紫貴族） | `beige` / `copper` / `gold` |
+
+合計 3 theme × 18 張 = **54 張新色變體截圖**，加上既有 18 張 default 截圖共 72 張覆蓋 dahsing 系列。截圖時用「預覽截圖矩陣」章節 SOP（Playwright + domcontentloaded + 顯式 selector wait），URL 上帶 `?color=<colorKey>` 切色再截。
 
 截圖更新流程（qa-screenshots 在 .gitignore 內，腳本不入版控）：
 
@@ -502,7 +528,7 @@ Showcase 主頁（`/home` 路由，根據 vue-router 自動產生規則 `src/pag
 | 元件 | 圖片用途 | 屬性 |
 |---|---|---|
 | `showcase-theme-card.vue` | 卡片縮圖（desktop 預覽） | `loading="lazy"` + `decoding="async"` |
-| `showcase-preview-dialog.vue` | 彈窗預覽圖（desktop / mobile） | `loading="lazy"` + `decoding="async"` |
+| `showcase-preview-dialog.vue` | 彈窗預覽圖（desktop / mobile，含 color 切換） | `loading="lazy"` + `decoding="async"` + spinner overlay |
 
 設計重點：
 
@@ -513,7 +539,13 @@ Showcase 主頁（`/home` 路由，根據 vue-router 自動產生規則 `src/pag
   或父容器固定尺寸佔位，**不要**靠 width/height attribute（CSS aspect-ratio 會蓋掉）
 - **`decoding="async"`**：把圖片解碼工作丟到非主執行緒，捲動與切換 tab 時更順
 - **dialog 內的圖**：dialog 用 `v-if` 動態 mount，理論上只在開啟時才下載；
-  仍保留 `loading="lazy"` 作為「快速 desktop ↔ mobile tab 切換時」的瀏覽器排程保險
+  仍保留 `loading="lazy"` 作為「快速 desktop ↔ mobile / color swatch 切換時」的瀏覽器排程保險
+- **dialog 切換 loading state**（v4.1 新增）：dialog 內 `previewSrc` 變化（切 device / logo / color）會觸發
+  `imgLoading = true`，期間圖片 opacity:0 + spinner 顯示在同位置；`<img @load>` 觸發 `imgLoading = false` 淡入新圖。
+  用 opacity 控制而非 v-if 切換 `<img>`，避免瀏覽器丟掉背景已下載的請求
+- **嚴禁 preload / prefetch**：getPreview helper 只回 URL 字串，不會 runtime 預抓；
+  buildPreviews 用 `import.meta.glob` 是 **build-time** URL 解析（每張圖各自 emit 為 hashed asset），
+  不是 runtime 預抓。任何 `<link rel="prefetch">` / `new Image()` / `fetchpriority="high"` 都不該出現在 showcase 相關元件
 
 新增 showcase 卡片 / 預覽相關 `<img>` 時請延續同樣的 lazy 設定，保持首屏載入體驗一致。
 
@@ -567,4 +599,10 @@ demo 不接後端 / 不接路由跳轉。
 dahsing 三版型已補齊 18 張預覽截圖（3 theme × 3 logoKey × 2 device），存於 `src/assets/previews/dahsing-{waterfall,tabs,horizontal}-{dahsing,umu,long-heng}-{desktop,mobile}.png`，registry 透過 `buildPreviews()` helper + `import.meta.glob` 自動命中（與其他 theme 一致）。再次產截圖時沿用「預覽截圖矩陣」章節 SOP：等待 root selector `.dahsing-waterfall-pc` / `.dahsing-tabs-pc` / `.dahsing-horizontal-pc`（桌面）或 `.dahsing-waterfall-m` 等（mobile）。
 
 > **三 theme default 配色分離後的截圖維護**：waterfall default 仍是米橘（既有 6 張不動）；tabs default 改為金奧華、horizontal default 改為紫貴族，對應 12 張截圖（tabs × 3 logo × 2 device + horizontal × 3 logo × 2 device）需要以新 default 配色重截，覆蓋既有檔案後 registry 與 showcase 視覺即同步刷新。
+
+#### dahsing 色變體預覽（v4.1：dialog 內 color 切換）
+
+showcase 預覽 dialog 新增 color swatch row，可在 dialog 內切換配色看對應截圖（dahsing 三 theme 限定）。registry 用 `buildColorPreviews(themeKey, colors, defaultColor)` helper 在 `ThemeMeta.colorPreviews` 內展開 3 個非 default 色 × 3 logo × 2 device 的 URL 表，命名 `<themeKey>-<colorKey>-<logoKey>-<device>.png`。`getPreview` 第四參數 `colorKey` 控制走 default 截圖鏈或色變體鏈，缺檔自動 fallback 回 default 截圖避免破圖。Loading 體驗詳見「Showcase 圖片 Lazy-Load 機制」章節。
+
+色變體截圖補齊清單見「預覽截圖矩陣 → dahsing 三 theme 色變體截圖補齊清單」表。
 
