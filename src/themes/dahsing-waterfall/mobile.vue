@@ -18,7 +18,6 @@
  * 因為 theme 入口元件不是 page，是被 layout-theme-host 動態載入
  */
 import { ref } from "vue";
-import DahsingStatusBar from "../dahsing-shared/atoms/dahsing-status-bar.vue";
 import DahsingMobileHeader from "../dahsing-shared/atoms/dahsing-mobile-header.vue";
 import DahsingHeroBanner from "../dahsing-shared/atoms/dahsing-hero-banner.vue";
 import DahsingMarquee from "../dahsing-shared/atoms/dahsing-marquee.vue";
@@ -33,7 +32,6 @@ const activeNav = ref<string>("hot");
 
 <template>
   <div class="dahsing-waterfall-m">
-    <DahsingStatusBar />
     <DahsingMobileHeader />
     <DahsingHeroBanner width-mode="phone" />
     <DahsingMarquee />

@@ -521,7 +521,7 @@ demo 不接後端 / 不接路由跳轉。
 
 `src/themes/dahsing-{waterfall,tabs,horizontal}/` 是「同品牌、三種中央 layout 風格」的三版面組合：
 
-- **共用基底**：`src/themes/dahsing-shared/` 含 8 個 mobile atoms（status-bar / mobile-header / hero-banner / marquee / sidebar / sec-head / hot-bar / tab-bar / mini-icon）+ 桌面 sticky topbar；8 張 asset（hero / trophy / ch-* 6 張遊戲縮圖）集中於 `dahsing-shared/assets/`，三 theme 引用同一份不重複 emit
+- **共用基底**：`src/themes/dahsing-shared/` 含 8 個 mobile atoms（mobile-header / hero-banner / marquee / sidebar / sec-head / hot-bar / tab-bar / mini-icon）+ 桌面 sticky topbar；8 張 asset（hero / trophy / ch-* 6 張遊戲縮圖）集中於 `dahsing-shared/assets/`，三 theme 引用同一份不重複 emit
 - **mobile 1:1 對齊原稿 HTML**：來源檔案 `/Users/georgehuang/Downloads/images 2/大亨首頁-版型{A 瀑布流,B 分頁,C 橫向列表} (1).html`，DOM 結構 / class 語意 / 卡片尺寸（wcard.t img 182px、wcard.s img 128px、tcard 138px、hcard 132×152、feat 230×152）嚴格對齊
 - **桌面三 theme 風格差異化**（無原稿，自主設計，借鑑既有 theme pattern）：
   - dahsing-waterfall：Pinterest-style 4 欄 masonry（mobile 2 欄延伸）
