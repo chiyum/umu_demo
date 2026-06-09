@@ -207,6 +207,33 @@ yarn build 生產模式
 yarn build:uat 測試模式
 ```
 
+### 品質檢查與已知地雷
+
+```
+yarn lint:style       # 手動跑 stylelint，列出全 src 的 SCSS / Vue style 違規
+yarn lint:style:fix   # 同上但自動修可修的（建議先 commit 再跑，方便還原）
+```
+
+**已知地雷：「`yarn build` 通過但 `yarn dev` 起不來」**
+
+歷史上多次踩到：build 模式下 stylelint 違規不擋 build，但 dev 模式 `vite-plugin-stylelint`
+的 `lintOnStart: true` 會在 `buildStart` hook 嚴格擋 error，導致開發者改完 SCSS 後 commit、
+push、build 都過，**唯獨開發者本機 dev server 起不來**。已透過 commit `6d93797` / `1ae172e`
+等修光既有 debt（目前 `npx stylelint "src/**/*.{css,scss,sass,vue}"` 應回 `0 problems found`），
+但流程上仍需提醒：
+
+| 場景 | 必跑 | 理由 |
+|---|---|---|
+| 改完 SCSS / Vue style block | `yarn lint:style` **與** `yarn dev`（看到 `ready in ... ms`） | 避免「build 通過 dev 起不來」漏網 |
+| 改完 TS / Vue script block | `npx eslint <檔案>` 或 `yarn build` | ESLint 在 build 與 dev 都同樣嚴格 |
+| 跨改 SCSS + Vue + TS | `yarn build` + `yarn dev`（10 秒看 ready）+ `yarn lint:style` | 三軌都過才算完成 |
+
+**為什麼不直接讓 build 也擋 stylelint：** 目前 debt = 0，改 `vite.config.ts`
+的價值低風險不對稱（沒有保護到任何已知錯誤，但有可能影響 GitHub Actions build 行為），
+保持現狀，以 `yarn lint:style` script 提供開發者顯式驗證入口。
+若未來 stylelint debt 再次堆積到顯著規模（例如 > 20 個 error），再考慮把 build 也擋下並
+搭配 husky pre-commit hook。
+
 ### Deploy
 
 執行 compile 之後根目錄下產生 `/dist` 檔案夾
