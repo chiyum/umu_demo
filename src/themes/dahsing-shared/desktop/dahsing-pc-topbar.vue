@@ -102,12 +102,9 @@ const logoLabel = computed(() => themeStore.currentLogo.label);
     display: flex;
     align-items: center;
     gap: 22px;
-    overflow-x: auto;
-    scrollbar-width: none;
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    // 不設 overflow：桌面 1280 寬下 nav 約 590-680px，actions 已 flex-shrink:0 保護
+    // 設了 overflow-x:auto 會建立 clipping context 把 HOT badge ::after 的負偏移裁掉
   }
 
   &__nav-link {
