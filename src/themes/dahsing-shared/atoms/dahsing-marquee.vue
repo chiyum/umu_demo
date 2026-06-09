@@ -7,27 +7,32 @@
  *
  * 為什麼 mask 漸層保留：原稿用 mask: linear-gradient(...) 讓兩端文字淡出，避免硬切顯得粗糙；
  * 移除會讓滾動視覺斷裂。
+ *
+ * 為什麼 icon 改內嵌 SVG：原本用 <q-icon name="material-symbols:campaign-outline">，但 Quasar
+ * 不認 Iconify name（需額外載入 icon set），導致 spk 元素沒寬高、flex layout 被擠跑版。
+ * 內嵌 SVG + fill="currentColor" 跟主題色變數同步，且不需任何 icon set 依賴。
  */
-import { QIcon } from "quasar";
 </script>
 
 <template>
   <div class="dahsing-marquee">
-    <QIcon
-      name="material-symbols:campaign-outline"
-      size="16px"
-      class="dahsing-marquee__spk"
-    />
+    <span class="dahsing-marquee__spk" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 2.05v2.06a8 8 0 0 1 0 15.78v2.06A10 10 0 0 0 14 2.05z"
+        />
+      </svg>
+    </span>
     <div class="dahsing-marquee__track">
       <span
         >公告跑馬燈示意&emsp;公告跑馬燈示意&emsp;公告跑馬燈示意&emsp;歡迎來到大亨遊戲城！</span
       >
     </div>
-    <QIcon
-      name="material-symbols:chevron-right"
-      size="14px"
-      class="dahsing-marquee__chev"
-    />
+    <span class="dahsing-marquee__chev" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M9 6l6 6-6 6V6z" />
+      </svg>
+    </span>
   </div>
 </template>
 
@@ -43,9 +48,21 @@ import { QIcon } from "quasar";
   border-radius: 14px;
   box-shadow: var(--shadow);
 
+  // 喇叭 icon：固定 16×16，色彩跟著 --color-primary，svg 用 currentColor 自動同步
   &__spk {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
     color: var(--color-primary);
     flex-shrink: 0;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
   }
 
   &__track {
@@ -70,9 +87,21 @@ import { QIcon } from "quasar";
     }
   }
 
+  // 右箭頭：原本 size 14px，內嵌 svg 同步用 14×14，色彩維持 --text-muted
   &__chev {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
     color: var(--text-muted);
     flex-shrink: 0;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      display: block;
+    }
   }
 }
 
