@@ -402,6 +402,108 @@ const atDeluxe: ThemeMeta = {
 };
 
 /**
+ * dahsing-waterfall 版面（大亨米橘瀑布流大廳）
+ *
+ * 來源：使用者提供的 /Users/georgehuang/Downloads/images 2/大亨首頁-版型A 瀑布流 (1).html
+ * - mobile：statusbar / header / hero / marquee / stage(side.compact + .wall masonry 2 col) / hotbar / tabbar
+ * - desktop：Pinterest-style 4 col masonry + sticky PC topbar + 全寬 hero
+ * - 配色：使用者指定米橘預設（#fdfdfc 主背景 / #fcf7f4 nav 未 active 底 / #bb7353 文字色 / nav active 漸層 0deg #fcf7f4→#bb7353）
+ * - copper 變體保留原稿經典 :root --copper / --copper-deep 三色
+ * - defaultLogo：dahsing（與 at99 一致使用「大亨 ONLINE」logo PNG）
+ *
+ * 借用既有 theme 桌面元件對照：
+ * - sticky PC topbar 結構：借鑑 tycoon / at99 桌面 topbar pattern（重寫成 dahsing-shared/desktop/dahsing-pc-topbar.vue）
+ * - 桌面 4 col masonry：與既有 theme 無類似元件，自寫 column-count: 4
+ *
+ * 為什麼 previews 為空物件：
+ * - dahsing 三 theme 的 18 張截圖待補（README 標註「截圖待補」）
+ * - registry 的 getPreview helper 已有 fallback 鏈，遇空物件回 "" 不會 crash；
+ *   showcase 卡片暫顯破圖佔位，後續 Playwright 補圖時再填回
+ *
+ * 與 at99（霓虹大亨）、tycoon（藍冰大亨）區隔：
+ * - at99/tycoon 是「大亨」字面但走霓虹 / 冰冷主題
+ * - dahsing-* 系列是「大亨」原稿暖米橘調，與 noya 暖玫瑰金接近但更乾爽（米橘 < 玫瑰金 < 暖金）
+ */
+const dahsingWaterfall: ThemeMeta = {
+  key: "dahsing-waterfall",
+  label: "版面 K · 大亨瀑布流",
+  description:
+    "大亨米橘暖系瀑布流大廳，2 欄 masonry（mobile）/ 4 欄 masonry（桌面）+ HOT ribbon hotbar，預設米橘 + copper 經典兩種配色",
+  desktop: () => import("./dahsing-waterfall/desktop.vue"),
+  mobile: () => import("./dahsing-waterfall/mobile.vue"),
+  defaultColor: "default",
+  colors: [
+    { key: "default", label: "米橘暖系", swatch: "#bb7353" },
+    { key: "copper", label: "經典銅金", swatch: "#b5652f" }
+  ],
+  previews: {},
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS
+};
+
+/**
+ * dahsing-tabs 版面（大亨米橘分頁切換廳堂）
+ *
+ * 來源：/Users/georgehuang/Downloads/images 2/大亨首頁-版型B 分頁 (1).html
+ * - mobile：statusbar / header / hero / marquee / stage(side + subtabs + promo + tgrid 2 col) / hotbar / tabbar
+ * - desktop：Steam-style 全寬 subtabs + 3 col tgrid + sticky PC topbar
+ * - 配色：同 dahsing-waterfall 米橘 + copper 兩變體
+ * - defaultLogo：dahsing
+ *
+ * 借用既有 theme 桌面元件對照：
+ * - sticky PC topbar：dahsing-shared 共用元件（與 tycoon 同 pattern）
+ * - subtabs 概念：對齊 ant-sport GameGrid 7-tabs 設計（但 ant-sport 是 inline tabs，我們是 pill scroll）
+ * - tgrid 3 col：自寫，無既有元件可借
+ */
+const dahsingTabs: ThemeMeta = {
+  key: "dahsing-tabs",
+  label: "版面 L · 大亨分頁",
+  description:
+    "大亨米橘暖系分頁切換廳堂，subtabs 子分頁 + VIP 條 + 2 欄整齊網格（mobile）/ 3 欄（桌面），預設米橘 + copper 經典兩種配色",
+  desktop: () => import("./dahsing-tabs/desktop.vue"),
+  mobile: () => import("./dahsing-tabs/mobile.vue"),
+  defaultColor: "default",
+  colors: [
+    { key: "default", label: "米橘暖系", swatch: "#bb7353" },
+    { key: "copper", label: "經典銅金", swatch: "#b5652f" }
+  ],
+  previews: {},
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS
+};
+
+/**
+ * dahsing-horizontal 版面（大亨米橘橫向列表）
+ *
+ * 來源：/Users/georgehuang/Downloads/images 2/大亨首頁-版型C 橫向列表 (1).html
+ * - mobile：statusbar / header / hero / marquee / stage(side + .rows 多列 horizontal scroller) / hotbar / tabbar
+ * - desktop：Netflix-style 4 列橫滾 + sticky PC topbar
+ * - 配色：同前兩 theme 米橘 + copper
+ * - defaultLogo：dahsing
+ *
+ * 借用既有 theme 桌面元件對照：
+ * - sticky PC topbar：dahsing-shared 共用元件
+ * - 橫向 row scroller：對齊 vietvip / fived 桌面卡片橫滾邏輯，但我們用 scroll-snap-type 不加翻頁鈕
+ * - hcard / feat 卡片：自寫，無既有元件可借
+ */
+const dahsingHorizontal: ThemeMeta = {
+  key: "dahsing-horizontal",
+  label: "版面 M · 大亨橫向列表",
+  description:
+    "大亨米橘暖系橫向列表，多列 scroller + 首列精選大卡（mobile 3 列 / 桌面 4 列），預設米橘 + copper 經典兩種配色",
+  desktop: () => import("./dahsing-horizontal/desktop.vue"),
+  mobile: () => import("./dahsing-horizontal/mobile.vue"),
+  defaultColor: "default",
+  colors: [
+    { key: "default", label: "米橘暖系", swatch: "#bb7353" },
+    { key: "copper", label: "經典銅金", swatch: "#b5652f" }
+  ],
+  previews: {},
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS
+};
+
+/**
  * fived 版面（5D 暗金禮盒風）
  *
  * 來源：5d_v2 src/pages/base/home.vue + src/assets/scss/pages/_index.scss
@@ -448,7 +550,10 @@ export const themes: Record<string, ThemeMeta> = {
   "honest-max": honestMax,
   "honest-no6": honestNo6,
   "at-deluxe": atDeluxe,
-  fived
+  fived,
+  "dahsing-waterfall": dahsingWaterfall,
+  "dahsing-tabs": dahsingTabs,
+  "dahsing-horizontal": dahsingHorizontal
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */

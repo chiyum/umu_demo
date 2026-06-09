@@ -1,0 +1,48 @@
+// dahsing-horizontal 替代配色：copper 經典
+// 與另外兩個 dahsing theme 同套 copper 變體
+
+[data-theme="dahsing-horizontal"][data-theme-color="copper"] {
+  --color-primary: #b5652f;
+  --color-secondary: #8f4b21;
+  --color-accent: #c8824a;
+  --bg-base: #fdf4ea;
+  --bg-surface: #fcf1e4;
+  --bg-overlay: rgba(181, 101, 47, 0.08);
+  --text-primary: #3c2a1d;
+  --text-muted: #b59079;
+  --border: #f1ddc8;
+  --shadow: 0 4px 12px rgba(170, 100, 40, 0.22);
+  --gradient-hero: linear-gradient(
+    120deg,
+    #fbe2c6 0%,
+    #f6cda3 55%,
+    #f3c08e 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #c47e44 0%, #a85a28 100%);
+
+  --bg-base-deep: #efe2ce;
+  --bg-base-translucent: rgba(253, 244, 234, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #fff8eb;
+  --footer-bg: #fdf4ea;
+  --footer-text: #6c584a;
+  --footer-link: #a98e74;
+  --badge-live: #e0552b;
+
+  --shadow-md: 0 4px 8px rgba(170, 100, 40, 0.18);
+  --shadow-lg: 0 8px 16px rgba(170, 100, 40, 0.22);
+  --shadow-xl: 3px 7px 12px rgba(170, 100, 40, 0.28);
+  --shadow-glow: 0 0 12px rgba(181, 101, 47, 0.48);
+
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(200, 130, 74, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(181, 101, 47, 0.18) 0%,
+      transparent 65%
+    );
+}

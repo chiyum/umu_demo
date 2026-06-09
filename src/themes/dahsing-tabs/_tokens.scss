@@ -1,0 +1,63 @@
+// dahsing-tabs 版面預設配色：米橘暖系（分頁切換廳堂）
+//
+// 與 dahsing-waterfall 共用同一份預設色票（使用者指定米橘 + nav active 漸層）
+// 三 theme 配色一致才能達成「同品牌但中央版面風格不同」的銷售敘事
+//
+// 注意：必須各自獨立 selector [data-theme="dahsing-tabs"]，不能 @extend
+// 否則 vite buildThemeScssImports 自動掃時會少掉這份 token 區塊
+
+[data-theme="dahsing-tabs"] {
+  --color-primary: #bb7353;
+  --color-secondary: #c8824a;
+  --color-accent: #f0c79c;
+  --bg-base: #fdfdfc;
+  --bg-surface: #fcf7f4;
+  --bg-overlay: rgba(187, 115, 83, 0.08);
+  --text-primary: #3c2a1d;
+  --text-muted: #bb7353;
+  --border: #f1ddc8;
+  --shadow: 0 4px 10px rgba(187, 115, 83, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% 0%,
+    #fffaf4 0%,
+    #fdf2e4 40%,
+    #fbe9d6 100%
+  );
+  --gradient-cta: linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%);
+
+  --bg-base-deep: #f3ece1;
+  --bg-base-translucent: rgba(253, 253, 252, 0.94);
+  --text-on-primary: #ffffff;
+  --highlight-strip: #fff8eb;
+  --footer-bg: #fcf7f4;
+  --footer-text: #6b5a48;
+  --footer-link: #8a7a6a;
+  --badge-live: #e0552b;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px rgba(187, 115, 83, 0.14);
+  --shadow-lg: 0 8px 16px rgba(187, 115, 83, 0.18);
+  --shadow-xl: 3px 7px 12px rgba(187, 115, 83, 0.22);
+  --shadow-sticky:
+    0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 12px rgba(187, 115, 83, 0.45);
+
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(240, 199, 156, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(187, 115, 83, 0.14) 0%,
+      transparent 65%
+    );
+}

@@ -1,0 +1,74 @@
+// dahsing-waterfall 版面預設配色：米橘暖系（瀑布流大廳）
+//
+// 預設色票由使用者指定（嚴格遵守 12 個 CSS Var 命名公約）：
+// - 主頁面背景 #fdfdfc（取代原 HTML 的 .phone radial-gradient 米色背景）
+// - 左側 nav-item 未 active 背景 #fcf7f4 / 文字色 #bb7353
+// - 左側 nav-item active 背景 linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%)
+//   注意 0deg = bottom to top，淺色在下、深色在上
+// - 12 個 CSS Var 名稱不可改，理由：README「CSS Var 命名公約」鐵則
+//
+// dahsing-waterfall 走「米橘」變體（預設）+ 「copper 經典」變體（_variants.scss）
+// 三 theme 共用同一份 token 模板，差異只在 layout 不在配色（與既有 noya/at99 設計哲學一致）
+
+[data-theme="dahsing-waterfall"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）────────────────────────────
+  --color-primary: #bb7353; // 主色（CTA、nav-item active 文字色）
+  --color-secondary: #c8824a; // 輔助色（按鈕邊框、副標）
+  --color-accent: #f0c79c; // 亮點（active 邊框、徽章）
+  --bg-base: #fdfdfc; // 頁面背景（使用者指定）
+  --bg-surface: #fcf7f4; // 卡片 / nav 未 active 背景（使用者指定）
+  --bg-overlay: rgba(187, 115, 83, 0.08); // 半透明遮罩
+  --text-primary: #3c2a1d; // 主要文字（原稿 .ink）
+  --text-muted: #bb7353; // 次要文字（使用者指定 nav 未 active 文字）
+  --border: #f1ddc8; // 分隔線（原稿 .card-edge）
+  --shadow: 0 4px 10px rgba(187, 115, 83, 0.18); // 通用陰影
+  // gradient-hero：原稿 .phone radial 米色背景（保留 fallback 視覺，但主背景已改 bg-base）
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% 0%,
+    #fffaf4 0%,
+    #fdf2e4 40%,
+    #fbe9d6 100%
+  );
+  // gradient-cta：左側 nav-item active 背景（使用者指定 0deg 由下到上）
+  --gradient-cta: linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%);
+
+  // ── 對比 / 結構 token（其他 theme 也有，提供擴充點）─────────────
+  --bg-base-deep: #f3ece1;
+  --bg-base-translucent: rgba(253, 253, 252, 0.94);
+  --text-on-primary: #ffffff; // 落在 primary 色塊上的對比文字色
+  --highlight-strip: #fff8eb;
+  --footer-bg: #fcf7f4;
+  --footer-text: #6b5a48;
+  --footer-link: #8a7a6a;
+  --badge-live: #e0552b; // 紅色 HOT / 推薦 badge
+
+  // ── kingdom shadow stack（與既有 theme 一致用於卡片 / sticky bar）
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px rgba(187, 115, 83, 0.14);
+  --shadow-lg: 0 8px 16px rgba(187, 115, 83, 0.18);
+  --shadow-xl: 3px 7px 12px rgba(187, 115, 83, 0.22);
+  --shadow-sticky:
+    0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 12px rgba(187, 115, 83, 0.45);
+
+  // 字體：與專案其他 theme 保持一致 stack
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+
+  // 桌面背景柔光（與 noya 同 pattern，輔助景深）
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(240, 199, 156, 0.32) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(187, 115, 83, 0.14) 0%,
+      transparent 65%
+    );
+}

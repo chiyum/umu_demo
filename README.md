@@ -291,17 +291,25 @@ VUE_VITE_TS_START/                # 專案根目錄
 
 ```
 src/themes/
-├── _types.ts          # ThemeMeta / ColorVariant / FabPosition 型別
-├── _registry.ts       # 集中註冊所有版面，給 store 與 host 讀取
+├── _types.ts                # ThemeMeta / ColorVariant / FabPosition 型別
+├── _registry.ts             # 集中註冊所有版面，給 store 與 host 讀取
 ├── noya/
 │   ├── index.ts
-│   ├── desktop.vue    # 桌面入口
-│   ├── mobile.vue     # 手機入口
-│   ├── _tokens.scss   # 該版面預設配色（CSS var）
-│   ├── _variants.scss # 該版面替代配色
-│   ├── sections/      # 大區塊：hero / cta / grid / footer ...
-│   └── atoms/         # 共用小元件：按鈕、卡片
-└── at99/              # 結構同上
+│   ├── desktop.vue          # 桌面入口
+│   ├── mobile.vue           # 手機入口
+│   ├── _tokens.scss         # 該版面預設配色（CSS var）
+│   ├── _variants.scss       # 該版面替代配色
+│   ├── sections/            # 大區塊：hero / cta / grid / footer ...
+│   └── atoms/               # 共用小元件：按鈕、卡片
+├── at99/                    # 結構同上
+├── dahsing-shared/          # 大亨三版型共用基底（不註冊為 theme，只匯出元件）
+│   ├── _assets.ts           # 8 張 asset URL 集中 + 7 nav / 5 tab 共用資料
+│   ├── assets/              # hero / trophy / ch-* 6 張共用圖片
+│   ├── atoms/               # 8 個 mobile 共用 atoms
+│   └── desktop/             # 桌面共用 chrome（sticky topbar）
+├── dahsing-waterfall/       # 大亨瀑布流（A 版）
+├── dahsing-tabs/            # 大亨分頁（B 版）
+└── dahsing-horizontal/      # 大亨橫向列表（C 版）
 ```
 
 ### 新增第三個版面流程
@@ -357,6 +365,10 @@ src/themes/
 
 - `/home?theme=noya&color=sunset` — noya 版面 + 日落橘配色
 - `/home?theme=at99&color=neon-purple` — at99 版面 + 霓虹紫配色
+- `/home?theme=dahsing-waterfall` — 大亨瀑布流（米橘預設）
+- `/home?theme=dahsing-waterfall&color=copper` — 大亨瀑布流（copper 經典）
+- `/home?theme=dahsing-tabs` — 大亨分頁切換
+- `/home?theme=dahsing-horizontal` — 大亨橫向列表
 
 ### Logo 候選與切換（v4：三 theme 統一三 logo）
 
@@ -429,4 +441,31 @@ networkidle 在 dev server 下可能因 HMR client polling 永不達成，用 do
 
 未引入 swiper / qrcode-vue3 套件，banner 用自寫 translateX + interval，QR 用靜態示意圖；
 demo 不接後端 / 不接路由跳轉。
+
+### dahsing 三版型（大亨米橘暖系，A 瀑布流 / B 分頁 / C 橫向列表）
+
+`src/themes/dahsing-{waterfall,tabs,horizontal}/` 是「同品牌、三種中央 layout 風格」的三版面組合：
+
+- **共用基底**：`src/themes/dahsing-shared/` 含 8 個 mobile atoms（status-bar / mobile-header / hero-banner / marquee / sidebar / sec-head / hot-bar / tab-bar / mini-icon）+ 桌面 sticky topbar；8 張 asset（hero / trophy / ch-* 6 張遊戲縮圖）集中於 `dahsing-shared/assets/`，三 theme 引用同一份不重複 emit
+- **mobile 1:1 對齊原稿 HTML**：來源檔案 `/Users/georgehuang/Downloads/images 2/大亨首頁-版型{A 瀑布流,B 分頁,C 橫向列表} (1).html`，DOM 結構 / class 語意 / 卡片尺寸（wcard.t img 182px、wcard.s img 128px、tcard 138px、hcard 132×152、feat 230×152）嚴格對齊
+- **桌面三 theme 風格差異化**（無原稿，自主設計，借鑑既有 theme pattern）：
+  - dahsing-waterfall：Pinterest-style 4 欄 masonry（mobile 2 欄延伸）
+  - dahsing-tabs：Steam-style 全寬 subtabs + 3 欄 tgrid
+  - dahsing-horizontal：Netflix-style 4 列橫滾（mobile 3 列 + 加一列電子）
+- **配色**：使用者指定米橘預設（主背景 `#fdfdfc` / nav 未 active 底 `#fcf7f4` + 文字 `#bb7353` / nav active 漸層 `linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%)`，0deg = 由下到上）+ copper 經典變體（保留原稿 `:root --copper / --copper-deep` 三色）
+- **logo**：三 theme 預設 `dahsing`（與 at99 一致使用「大亨 ONLINE」logo PNG），無需新增 logo 候選
+
+#### 借用既有 theme 元件對照表（traceability）
+
+| dahsing theme | 桌面元件 | 借用來源 / 自寫 |
+|---|---|---|
+| 全部三 theme | dahsing-pc-topbar（sticky topbar） | 結構借鑑 tycoon / at99 桌面 topbar pattern |
+| 全部三 theme | dahsing-hero-banner widthMode='wide' | 自寫（hero.png 直立比例 + 桌面 1280×320 拉伸） |
+| dahsing-waterfall | column-count: 4 masonry | 自寫（既有 theme 無瀑布流元件） |
+| dahsing-tabs | subtabs pill + tgrid 3 col | subtabs 概念對齊 ant-sport GameGrid，tgrid 自寫 |
+| dahsing-horizontal | row scroller 4 列 | scroll 邏輯對齊 vietvip / fived 橫滾卡片，scroll-snap 自寫 |
+
+#### 預覽截圖
+
+dahsing 三版型截圖待補（既有 18 張預覽矩陣是 noya/at99/ant-sport 用，dahsing 三 theme registry 內 `previews: {}`，showcase 會走 `getPreview` fallback 鏈回 `""`，不會 runtime crash）。後續若要產截圖，沿用「預覽截圖矩陣」章節 SOP：等待 root selector `.dahsing-waterfall-pc` / `.dahsing-tabs-pc` / `.dahsing-horizontal-pc`（桌面）或 `.dahsing-waterfall-m` 等（mobile）。
 
