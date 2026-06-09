@@ -542,5 +542,5 @@ demo 不接後端 / 不接路由跳轉。
 
 #### 預覽截圖
 
-dahsing 三版型截圖待補（既有 18 張預覽矩陣是 noya/at99/ant-sport 用，dahsing 三 theme registry 內 `previews: {}`，showcase 會走 `getPreview` fallback 鏈回 `""`，不會 runtime crash）。後續若要產截圖，沿用「預覽截圖矩陣」章節 SOP：等待 root selector `.dahsing-waterfall-pc` / `.dahsing-tabs-pc` / `.dahsing-horizontal-pc`（桌面）或 `.dahsing-waterfall-m` 等（mobile）。
+dahsing 三版型已補齊 18 張預覽截圖（3 theme × 3 logoKey × 2 device），存於 `src/assets/previews/dahsing-{waterfall,tabs,horizontal}-{dahsing,umu,long-heng}-{desktop,mobile}.png`，registry 透過 `buildPreviews()` helper + `import.meta.glob` 自動命中（與其他 theme 一致）。再次產截圖時沿用「預覽截圖矩陣」章節 SOP：等待 root selector `.dahsing-waterfall-pc` / `.dahsing-tabs-pc` / `.dahsing-horizontal-pc`（桌面）或 `.dahsing-waterfall-m` 等（mobile）。
 

@@ -415,11 +415,6 @@ const atDeluxe: ThemeMeta = {
  * - sticky PC topbar 結構：借鑑 tycoon / at99 桌面 topbar pattern（重寫成 dahsing-shared/desktop/dahsing-pc-topbar.vue）
  * - 桌面 4 col masonry：與既有 theme 無類似元件，自寫 column-count: 4
  *
- * 為什麼 previews 為空物件：
- * - dahsing 三 theme 的 18 張截圖待補（README 標註「截圖待補」）
- * - registry 的 getPreview helper 已有 fallback 鏈，遇空物件回 "" 不會 crash；
- *   showcase 卡片暫顯破圖佔位，後續 Playwright 補圖時再填回
- *
  * 與 at99（霓虹大亨）、tycoon（藍冰大亨）區隔：
  * - at99/tycoon 是「大亨」字面但走霓虹 / 冰冷主題
  * - dahsing-* 系列是「大亨」原稿暖米橘調，與 noya 暖玫瑰金接近但更乾爽（米橘 < 玫瑰金 < 暖金）
@@ -436,7 +431,7 @@ const dahsingWaterfall: ThemeMeta = {
     { key: "default", label: "米橘暖系", swatch: "#bb7353" },
     { key: "copper", label: "經典銅金", swatch: "#b5652f" }
   ],
-  previews: {},
+  previews: buildPreviews("dahsing-waterfall"),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS
 };
@@ -467,7 +462,7 @@ const dahsingTabs: ThemeMeta = {
     { key: "default", label: "米橘暖系", swatch: "#bb7353" },
     { key: "copper", label: "經典銅金", swatch: "#b5652f" }
   ],
-  previews: {},
+  previews: buildPreviews("dahsing-tabs"),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS
 };
@@ -498,7 +493,7 @@ const dahsingHorizontal: ThemeMeta = {
     { key: "default", label: "米橘暖系", swatch: "#bb7353" },
     { key: "copper", label: "經典銅金", swatch: "#b5652f" }
   ],
-  previews: {},
+  previews: buildPreviews("dahsing-horizontal"),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS
 };
