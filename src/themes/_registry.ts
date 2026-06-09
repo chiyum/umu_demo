@@ -3,8 +3,53 @@ import type {
   LogoCandidate,
   PreviewByColorLogo,
   PreviewByLogo,
+  ThemeCategory,
   ThemeMeta
 } from "./_types";
+
+/**
+ * Theme 編號規約（v4.3 起，每個 theme label 都帶「類別字母 + 兩位流水號」前綴）
+ *
+ * label 格式：`<letter><nn> · <名稱>`
+ *   - letter：取自 CATEGORY_LETTER_MAP，依該 theme `categories` 陣列「第一個元素」決定
+ *   - nn：兩位流水號（從 01 起算），每個類別獨立計數
+ *   - 名稱：原 theme 顯示名稱（拿掉舊版「版面 X · 」前綴）
+ *   - 範例：c01 · 暖金（live 類第一個）、a01 · 霓虹（general 類第一個）、d01 · 體育博彩（sports 類第一個）
+ *
+ * 字母 → 類別對應（固定，禁止改動順序與字母）：
+ *   a → general（通用大廳）
+ *   b → slots（電子 / 老虎機）
+ *   c → live（真人視訊）
+ *   d → sports（體育博彩）
+ *   e → luxury（VIP / 奢華）
+ *
+ * 新增 theme SOP：
+ *   1. 決定該 theme 的 `categories`，第一個元素即為「主類別」
+ *   2. 查本檔下方所有 ThemeMeta，找出該主類別已使用的最大流水號
+ *   3. label 寫成 `<letter><maxN+1> · <名稱>`（流水號永遠兩位數，<10 補 0）
+ *   4. 若該主類別尚未有 theme，從 01 起算
+ *
+ * 為什麼 label 仍寫死字串而非由常數動態生成：
+ *   - 編號決定後通常不變，沒必要為了避免 5 個字元重複而引入 indirection 拖慢可讀性
+ *   - 字串寫死讓 grep 規約對照表更直觀，CATEGORY_LETTER_MAP 作為「字母來源說明」+「未來新類別擴充入口」存在
+ *
+ * 為什麼 Record<ThemeCategory, string> 而非自由 Record<string, string>：
+ *   - 編譯期保證 CATEGORY_LETTER_MAP 覆蓋所有 ThemeCategory 值，未來新增類別忘了補字母會被 TS 直接擋下
+ *
+ * 既有 13 個 theme 編號對照（與本檔下方 ThemeMeta label 完全一致）：
+ *   a01 霓虹（at99）/ a02 藍冰大亨（tycoon）/ a03 88WIN（honest-max）/ a04 瀑布流（dahsing-waterfall）/ a05 分頁（dahsing-tabs）
+ *   b01 AT99（honest-at）/ b02 AT Deluxe（at-deluxe）
+ *   c01 暖金（noya）/ c02 FG（honest-no6）/ c03 橫向列表（dahsing-horizontal）
+ *   d01 體育博彩（ant-sport）
+ *   e01 越南 VIP（vietvip）/ e02 5D（fived）
+ */
+export const CATEGORY_LETTER_MAP: Record<ThemeCategory, string> = {
+  general: "a",
+  slots: "b",
+  live: "c",
+  sports: "d",
+  luxury: "e"
+};
 
 /**
  * 集中註冊所有版面
@@ -235,7 +280,7 @@ function buildColorPreviews(
 /** noya 版面（玫瑰金 / 暖色系） */
 const noya: ThemeMeta = {
   key: "noya",
-  label: "版面 A · 暖金",
+  label: "c01 · 暖金",
   description: "暖金奶油調的真人視訊風格，玫瑰金 / 日落橘 / 青檸綠三種配色",
   // 重點：箭頭函式內部才呼叫 dynamic import，這樣才會切 chunk
   desktop: () => import("./noya/desktop.vue"),
@@ -259,7 +304,7 @@ const noya: ThemeMeta = {
 /** at99 版面（深藍霓虹 / 賭場風） */
 const at99: ThemeMeta = {
   key: "at99",
-  label: "版面 B · 霓虹",
+  label: "a01 · 霓虹",
   description: "深藍霓虹的賭場風格，霓虹藍 / 紫 / 綠三種配色",
   desktop: () => import("./at99/desktop.vue"),
   mobile: () => import("./at99/mobile.vue"),
@@ -293,7 +338,7 @@ const at99: ThemeMeta = {
  */
 const antSport: ThemeMeta = {
   key: "ant-sport",
-  label: "版面 C · 體育博彩",
+  label: "d01 · 體育博彩",
   // 為什麼 description 內「蚂蚁体育」改繁體「螞蟻體育」：
   // 與本次 label 簡繁統一同步處理，避免同一段文案混用簡繁
   description:
@@ -331,7 +376,7 @@ const antSport: ThemeMeta = {
  */
 const tycoon: ThemeMeta = {
   key: "tycoon",
-  label: "版面 D · 藍冰大亨",
+  label: "a02 · 藍冰大亨",
   description:
     "藍冰大亨冷光金屬風，sidebar + 遊戲卡列表雙欄結構，預設冰藍 / 深海藍 / 金邊冰三種配色",
   desktop: () => import("./tycoon/desktop.vue"),
@@ -370,7 +415,7 @@ const tycoon: ThemeMeta = {
  */
 const vietvip: ThemeMeta = {
   key: "vietvip",
-  label: "版面 E · 越南 VIP",
+  label: "e01 · 越南 VIP",
   description:
     "東南亞深紅金邊 VIP 廳堂風格，葉脈紅金大底 + VIP 徽章四等級，預設酒紅 / 午夜深紅 / 純金禮盒三種配色",
   desktop: () => import("./vietvip/desktop.vue"),
@@ -402,7 +447,7 @@ const vietvip: ThemeMeta = {
  */
 const honestAt: ThemeMeta = {
   key: "honest-at",
-  label: "版面 F · AT99",
+  label: "b01 · AT99",
   description:
     "AT99 霓虹科技風，深藍底 + 青藍霓虹高光，hero 帶 JACKPOT 七段數字，預設霓虹藍 / 紫 / 青三種配色",
   desktop: () => import("./honest-at/desktop.vue"),
@@ -435,7 +480,7 @@ const honestAt: ThemeMeta = {
  */
 const honestMax: ThemeMeta = {
   key: "honest-max",
-  label: "版面 G · 88WIN",
+  label: "a03 · 88WIN",
   description:
     "88WIN 桃粉藍綠混色風，淡灰白底 + 彩色 hot 卡 + 紫色 CTA，預設桃粉 / 藍主 / 橘黃三種配色",
   desktop: () => import("./honest-max/desktop.vue"),
@@ -469,7 +514,7 @@ const honestMax: ThemeMeta = {
  */
 const honestNo6: ThemeMeta = {
   key: "honest-no6",
-  label: "版面 H · FG",
+  label: "c02 · FG",
   description:
     "FG 紫黑神秘風，紫黑底 + 城堡 hero + 金色 hero 副標 + girl-model 卡片，預設紫主 / 夜紫 / 紫紅三種配色",
   desktop: () => import("./honest-no6/desktop.vue"),
@@ -508,7 +553,7 @@ const honestNo6: ThemeMeta = {
  */
 const atDeluxe: ThemeMeta = {
   key: "at-deluxe",
-  label: "版面 I · AT Deluxe",
+  label: "b02 · AT Deluxe",
   description:
     "AT99 Deluxe 賭場霓虹奢華風，深藍 radial + JACKPOT 七段顯示 + 漸層膠囊 sidebar，預設霓虹青 / 玫紅 / 賭場金三種配色",
   desktop: () => import("./at-deluxe/desktop.vue"),
@@ -555,7 +600,7 @@ const DAHSING_WATERFALL_COLORS: ColorVariant[] = [
 
 const dahsingWaterfall: ThemeMeta = {
   key: "dahsing-waterfall",
-  label: "版面 K · 瀑布流",
+  label: "a04 · 瀑布流",
   description:
     "瀑布流大廳，2 欄 masonry（mobile）/ 4 欄 masonry（桌面）+ HOT ribbon hotbar，預設米橘暖系，可切換經典銅金 / 金奧華 / 紫貴族",
   desktop: () => import("./dahsing-waterfall/desktop.vue"),
@@ -601,7 +646,7 @@ const DAHSING_TABS_COLORS: ColorVariant[] = [
 
 const dahsingTabs: ThemeMeta = {
   key: "dahsing-tabs",
-  label: "版面 L · 分頁",
+  label: "a05 · 分頁",
   description:
     "分頁切換廳堂，subtabs 子分頁 + VIP 條 + 2 欄整齊網格（mobile）/ 3 欄（桌面），預設金奧華，可切換米橘 / 銅金 / 紫貴族",
   desktop: () => import("./dahsing-tabs/desktop.vue"),
@@ -645,7 +690,7 @@ const DAHSING_HORIZONTAL_COLORS: ColorVariant[] = [
 
 const dahsingHorizontal: ThemeMeta = {
   key: "dahsing-horizontal",
-  label: "版面 M · 橫向列表",
+  label: "c03 · 橫向列表",
   description:
     "橫向列表，多列 scroller + 首列精選大卡（mobile 3 列 / 桌面 4 列），預設紫貴族，可切換米橘 / 銅金 / 金奧華",
   desktop: () => import("./dahsing-horizontal/desktop.vue"),
@@ -686,7 +731,7 @@ const dahsingHorizontal: ThemeMeta = {
  */
 const fived: ThemeMeta = {
   key: "fived",
-  label: "版面 J · 5D",
+  label: "e02 · 5D",
   description:
     "5D 暗金禮盒風，深棕底 + 金漸層邊框 + 雙欄 banner+news + tag 多色標籤，預設暗金 / 銀邊深藍 / 酒紅玫瑰三種配色",
   desktop: () => import("./fived/desktop.vue"),

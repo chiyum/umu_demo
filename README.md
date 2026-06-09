@@ -316,6 +316,60 @@ VUE_VITE_TS_START/                # 專案根目錄
 - 配色：由 URL query 控制，`?color=<colorKey>`，預設取該 theme 第一組配色
 - 持久化：FAB 切配色 / logo 時寫入 localStorage，下次同 theme 重新進入會 fallback 用
 
+### Theme 編號規約（v4.3）
+
+每個 theme 的 `label` 都帶「類別字母 + 兩位流水號」前綴，方便 showcase / FAB / preview dialog
+列表掃視時快速辨識業務分類與同類別內排序。**新增 theme 時務必依本規約編號**。
+
+#### label 格式
+
+`<letter><nn> · <名稱>`
+
+- `<letter>`：依該 theme `categories` 陣列「第一個元素」對照下表
+- `<nn>`：兩位流水號（從 01 起算，< 10 補 0），每個類別獨立計數
+- `<名稱>`：theme 顯示名稱（無「版面 X · 」舊前綴）
+
+範例：`c01 · 暖金`（live 類第一個）、`a01 · 霓虹`（general 類第一個）、`d01 · 體育博彩`（sports 類第一個）
+
+#### 字母 → 類別對照（固定，禁止改動順序與字母）
+
+| 字母 | 類別 key | 中文 |
+|---|---|---|
+| `a` | `general` | 通用大廳 |
+| `b` | `slots` | 電子 / 老虎機 |
+| `c` | `live` | 真人視訊 |
+| `d` | `sports` | 體育博彩 |
+| `e` | `luxury` | VIP / 奢華 |
+
+該對照表同步定義在 `src/themes/_registry.ts` 的 `CATEGORY_LETTER_MAP` 常數（型別為
+`Record<ThemeCategory, string>`），未來新增 `ThemeCategory` 字面量時，TS 會強制要求補上對應字母。
+
+#### 新增 theme SOP
+
+1. 決定該 theme 的 `categories`，**第一個元素即為主類別**
+2. 打開 `src/themes/_registry.ts`，掃描現有同主類別的所有 label，找出最大流水號 `n`
+3. 新 theme 的 label 寫成 `<主類別字母><n+1>` 兩位數 + ` · <名稱>`（例如 general 類最大 `a05`，下一個就是 `a06`）
+4. 該主類別還沒有 theme → 從 `01` 起算
+5. 編號**一旦發布後不再改動**（重編會打散 sales demo 對外展示的順序記憶）
+
+#### 13 個現有 theme 編號對照
+
+| label | key | 主類別 |
+|---|---|---|
+| `a01 · 霓虹` | `at99` | general |
+| `a02 · 藍冰大亨` | `tycoon` | general |
+| `a03 · 88WIN` | `honest-max` | general |
+| `a04 · 瀑布流` | `dahsing-waterfall` | general |
+| `a05 · 分頁` | `dahsing-tabs` | general |
+| `b01 · AT99` | `honest-at` | slots |
+| `b02 · AT Deluxe` | `at-deluxe` | slots |
+| `c01 · 暖金` | `noya` | live |
+| `c02 · FG` | `honest-no6` | live |
+| `c03 · 橫向列表` | `dahsing-horizontal` | live |
+| `d01 · 體育博彩` | `ant-sport` | sports |
+| `e01 · 越南 VIP` | `vietvip` | luxury |
+| `e02 · 5D` | `fived` | luxury |
+
 ### 目錄結構
 
 ```
@@ -656,9 +710,9 @@ demo 不接後端 / 不接路由跳轉。
   - dahsing-tabs：Steam-style 全寬 subtabs + 3 欄 tgrid
   - dahsing-horizontal：Netflix-style 4 列橫滾（mobile 3 列 + 加一列電子）
 - **配色（三 theme default 分離 + 4 套色可切換）**：為了讓 showcase 主頁三張預覽卡片視覺差異更明顯，三 theme 各自的 default 配色不同：
-  - 版面 K · waterfall：default = **米橘暖系**（主背景 `#fdfdfc` / nav 未 active 底 `#fcf7f4` + 文字 `#bb7353` / nav active 漸層 `linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%)`，0deg = 由下到上）
-  - 版面 L · tabs：default = **金奧華**（主色 `#c9a227` 經典金 / bg-base `#fffdf5` 米金白 / nav active 漸層 `linear-gradient(0deg, #faf1d4 0%, #c9a227 100%)`）
-  - 版面 M · horizontal：default = **紫貴族**（主色 `#6a1b9a` 深紫 / bg-base `#faf5fd` 米白略紫 / nav active 漸層 `linear-gradient(0deg, #f1e4f7 0%, #6a1b9a 100%)`）
+  - `a04 · 瀑布流`（waterfall）：default = **米橘暖系**（主背景 `#fdfdfc` / nav 未 active 底 `#fcf7f4` + 文字 `#bb7353` / nav active 漸層 `linear-gradient(0deg, #fcf7f4 0%, #bb7353 100%)`，0deg = 由下到上）
+  - `a05 · 分頁`（tabs）：default = **金奧華**（主色 `#c9a227` 經典金 / bg-base `#fffdf5` 米金白 / nav active 漸層 `linear-gradient(0deg, #faf1d4 0%, #c9a227 100%)`）
+  - `c03 · 橫向列表`（horizontal）：default = **紫貴族**（主色 `#6a1b9a` 深紫 / bg-base `#faf5fd` 米白略紫 / nav active 漸層 `linear-gradient(0deg, #f1e4f7 0%, #6a1b9a 100%)`）
   - 每 theme 都提供 4 套 colorKey 可切（自己 default + 另外 3 套），`_variants.scss` 內 selector 對應如下：
     - waterfall：`default(米橘) / copper / gold / purple`
     - tabs：`default(金) / beige(米橘) / copper / purple`
