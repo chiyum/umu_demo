@@ -110,6 +110,9 @@ const activeCategory = ref<string>("hot");
 
 <style lang="scss" scoped>
 // 對齊原作 .mb-home-main：flex / margin 10px / padding 0.6rem
+// flex: 1 吃完父層 .at-deluxe-m-layout__main 分配的剩餘高度，
+// min-height: 0 是 flex 內部子捲動區（sidebar / grid）能正確 overflow 的關鍵
+// （否則 flex 子預設 min-content 會把內容撐開、忽略 overflow: auto）。
 .at-deluxe-m-game {
   display: flex;
   align-items: stretch;
@@ -117,9 +120,14 @@ const activeCategory = ref<string>("hot");
   padding: 10px;
   position: relative;
   gap: 8px;
+  flex: 1;
+  min-height: 0;
 }
 
 // 對齊原作 .mb-home-tab：flex column / width 90px / gap 8px
+// 移除原本對齊原作的 max-height: 360px，改由父容器（.at-deluxe-m-game）的高度
+// 決定可用空間；min-height: 0 是 flex item 在交叉軸允許縮小 + 啟用 overflow 的前提，
+// 內容超過時 sidebar 自身可滾，不會撐破父層。
 .at-deluxe-m-game__sidebar {
   display: flex;
   flex-direction: column;
@@ -130,8 +138,8 @@ const activeCategory = ref<string>("hot");
   list-style: none;
   flex-shrink: 0;
 
-  // overflow auto + 隱藏 scrollbar（對齊原作）
-  max-height: 360px;
+  // 隱藏 scrollbar（對齊原作的視覺；高度限制改由父層決定）
+  min-height: 0;
   overflow-y: auto;
   scrollbar-width: none;
 
@@ -184,13 +192,15 @@ const activeCategory = ref<string>("hot");
   letter-spacing: 1px;
 }
 
-// 對齊原作 .mb-home-games：grid 2-col / gap 8px / height 360px / overflow auto / 隱藏 scrollbar
+// 對齊原作 .mb-home-games：grid 2-col / gap 8px / overflow auto / 隱藏 scrollbar
+// 移除原作固定 height: 360px，改由父容器（.at-deluxe-m-game）的剩餘高度決定；
+// min-height: 0 同樣是 flex item 啟用內部 overflow 的必要條件，否則 grid 內容會把父層撐爆。
 .at-deluxe-m-game__grid {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
-  height: 360px;
+  min-height: 0;
   overflow-y: auto;
   scrollbar-width: none;
 
