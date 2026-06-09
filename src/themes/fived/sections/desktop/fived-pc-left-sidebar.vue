@@ -26,19 +26,19 @@
   min-width: 0;
 }
 
-@media (max-width: 1919px) {
+@media (width <= 1919px) {
   .fived-pc-left-sidebar {
     flex: 0 0 180px;
   }
 }
 
-@media (max-width: 1280px) {
+@media (width <= 1280px) {
   .fived-pc-left-sidebar {
     flex: 0 0 50px;
   }
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .fived-pc-left-sidebar {
     display: none;
   }

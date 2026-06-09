@@ -150,7 +150,7 @@ const socials: SocialItem[] = [
 }
 
 // d1280 以下隱藏（對齊原作 @include MQ(d1280) display: none）
-@media (max-width: 1280px) {
+@media (width <= 1280px) {
   .fived-pc-right-sidebar {
     display: none;
   }
@@ -238,41 +238,8 @@ const socials: SocialItem[] = [
   width: 170px;
   height: 170px;
   padding: 6px;
-  background: #fff;
+  background: #ffffff;
   border-radius: 6px;
-}
-
-// QR 視覺：7×7 方格陣列模擬碼點（不引 qrcode-vue3，純樣式）
-.fived-pc-right-sidebar__qr-grid {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(7, 1fr);
-  gap: 2px;
-
-  span {
-    background: #000;
-    border-radius: 1px;
-  }
-
-  // 用 nth-child 製造交替點陣（讓視覺不全黑也不規律）
-  span:nth-child(2n),
-  span:nth-child(5n + 1),
-  span:nth-child(7n + 3) {
-    background: transparent;
-  }
-
-  // 三角定位點（左上、右上、左下）
-  span:nth-child(1),
-  span:nth-child(7),
-  span:nth-child(43) {
-    background: #000;
-    box-shadow:
-      0 8px 0 0 #000,
-      8px 0 0 0 #000,
-      8px 8px 0 0 #000;
-  }
 }
 
 .fived-pc-right-sidebar__qr-center {
@@ -284,7 +251,7 @@ const socials: SocialItem[] = [
   background: var(--gradient-gold);
   border-radius: 4px;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 3px #fff;
+  box-shadow: 0 0 0 3px #ffffff;
 }
 
 // 下載按鈕兩排
@@ -429,6 +396,43 @@ const socials: SocialItem[] = [
 
   &:active {
     transform: scale(0.94);
+  }
+}
+
+// QR 視覺：7×7 方格陣列模擬碼點（不引 qrcode-vue3，純樣式）
+// 為什麼放到本檔最後（在 social-link / top-btn 之後）：
+// qr-grid 內 `span:nth-child(...)` 屬高 specificity 規則，
+// 若放前面，social-link / top-btn 內的裸 `span`（同元素低 specificity）會被 stylelint
+// no-descending-specificity 判為「specificity 倒退」並阻擋 dev server buildStart。
+.fived-pc-right-sidebar__qr-grid {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 2px;
+
+  span {
+    background: #000000;
+    border-radius: 1px;
+  }
+
+  // 用 nth-child 製造交替點陣（讓視覺不全黑也不規律）
+  span:nth-child(2n),
+  span:nth-child(5n + 1),
+  span:nth-child(7n + 3) {
+    background: transparent;
+  }
+
+  // 三角定位點（左上、右上、左下）
+  span:nth-child(1),
+  span:nth-child(7),
+  span:nth-child(43) {
+    background: #000000;
+    box-shadow:
+      0 8px 0 0 #000000,
+      8px 0 0 0 #000000,
+      8px 8px 0 0 #000000;
   }
 }
 

@@ -230,6 +230,46 @@ onUnmounted(() => {
   }
 }
 
+// 子選單下拉（對齊原作 .header-sub transform-origin: 50% 0 + scaleY 0→1）
+// 為什麼放在 .fived-pc-header__nav-box 之前：
+// stylelint no-descending-specificity 要求低 specificity 先出現；
+// 後面 nav-box 內含 `li:hover .fived-pc-header__sub` / `li > a` / `li:hover > a` 等高 specificity 規則，
+// 若 sub 預設樣式（含裸 a / &:hover）放後面，會被視為「specificity 倒退」並阻擋 dev server buildStart。
+.fived-pc-header__sub {
+  position: absolute;
+  top: 85px;
+  left: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 12px;
+  background: rgba(56, 29, 42, 0.88);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    color: var(--text-muted, #a67c8b);
+    font-size: 18px;
+    letter-spacing: 4px;
+    text-align: center;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  // hover 樣式用 :where() 降 specificity，避開 nav-box li > a / li:hover > a 的順序衝突
+  // :where() 將內部 selector specificity 計為 0，使整體降為 (0,1,1)，可安全放在 sub block 內
+  :where(&) a:hover {
+    color: var(--primary-03, #ffdaa4);
+  }
+}
+
 // nav-box：對齊原作 6 主分類橫向 flex，max-width 1214px
 .fived-pc-header__nav-box {
   display: flex;
@@ -289,40 +329,6 @@ onUnmounted(() => {
   }
 }
 
-// 子選單下拉（對齊原作 .header-sub transform-origin: 50% 0 + scaleY 0→1）
-.fived-pc-header__sub {
-  position: absolute;
-  top: 85px;
-  left: 0;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 12px;
-  background: rgba(56, 29, 42, 0.88);
-  transform: scaleY(0);
-  transform-origin: 50% 0;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    color: var(--text-muted, #a67c8b);
-    font-size: 18px;
-    letter-spacing: 4px;
-    text-align: center;
-    text-decoration: none;
-    transition: color 0.3s ease;
-
-    &:hover {
-      color: var(--primary-03, #ffdaa4);
-    }
-  }
-}
-
 // 右側登入按鈕（對齊原作 .header-nav--login + .header-nav-loginBtn 金漸層底）
 .fived-pc-header__login-li {
   margin-left: auto;
@@ -367,7 +373,7 @@ onUnmounted(() => {
 }
 
 // 對齊原作 d1280 隱藏（手機版另有 mobile-header）
-@media (max-width: 1280px) {
+@media (width <= 1280px) {
   .fived-pc-header {
     display: none;
   }

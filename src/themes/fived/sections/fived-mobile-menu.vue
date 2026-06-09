@@ -272,7 +272,62 @@ function handleNavClick(): void {
   }
 }
 
+// menu-logo（頂部）
+.fived-m-menu__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+
+  img {
+    height: 48px;
+    width: auto;
+    max-width: 80%;
+    object-fit: contain;
+  }
+}
+
+.fived-m-menu__logo-img--blend {
+  mix-blend-mode: screen;
+}
+
+// 子選單：依 is-toggle 控制 max-height 展開
+// 為什麼要在 .fived-m-menu__list 之前定義：
+// stylelint no-descending-specificity 要求低 specificity selector 必須在高 specificity 之前；
+// .fived-m-menu__sub a（裸 a）若放後面、而前面已出現 .fived-m-menu__list li > a，
+// 規則會被視為「specificity 倒退」並阻擋 dev server buildStart。
+.fived-m-menu__sub {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(33, 13, 20, 1);
+    color: var(--text-muted, #a67c8b);
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition:
+      color 0.18s ease,
+      background 0.18s ease;
+  }
+
+  .is-toggle & {
+    max-height: 400px;
+  }
+}
+
 // 主選單列
+// 為什麼放在 .fived-m-menu__sub 之後：
+// list li > a 的 specificity 比 sub 內 a 高，依 stylelint 升序原則放後面
 .fived-m-menu__list {
   padding-bottom: 8px;
 
@@ -326,58 +381,13 @@ function handleNavClick(): void {
   }
 }
 
-// menu-logo（頂部）
-.fived-m-menu__logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 4px 0 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
-
-  img {
-    height: 48px;
-    width: auto;
-    max-width: 80%;
-    object-fit: contain;
-  }
-}
-
-.fived-m-menu__logo-img--blend {
-  mix-blend-mode: screen;
-}
-
-// 子選單：依 is-toggle 控制 max-height 展開
-.fived-m-menu__sub {
-  display: block;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 8px;
-    background: rgba(255, 255, 255, 0.06);
-    border-bottom: 1px solid rgba(33, 13, 20, 1);
-    color: var(--text-muted, #a67c8b);
-    font-size: 16px;
-    letter-spacing: 1px;
-    text-decoration: none;
-    transition:
-      color 0.18s ease,
-      background 0.18s ease;
-
-    &:hover {
-      color: var(--primary-03, #ffdaa4);
-      background: rgba(255, 255, 255, 0.1);
-    }
-  }
-
-  .is-toggle & {
-    max-height: 400px;
-  }
+// 子選單 hover：拆出來放在 list 之後
+// 為什麼不寫在 .fived-m-menu__sub 巢狀內：
+// `.fived-m-menu__sub a:hover` specificity (0,2,1) 高於 `.fived-m-menu__list li > a` (0,1,2)，
+// 必須放在 list 規則之後才不違反 stylelint no-descending-specificity
+.fived-m-menu__sub a:hover {
+  color: var(--primary-03, #ffdaa4);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 // 底部 logo + 社群 + 版權
