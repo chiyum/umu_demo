@@ -361,6 +361,12 @@ VUE_VITE_TS_START/                # 專案根目錄
 | `a03 · 88WIN` | `honest-max` | general |
 | `a04 · 瀑布流` | `dahsing-waterfall` | general |
 | `a05 · 分頁` | `dahsing-tabs` | general |
+| `a06 · 大亨排行榜` | `daheng-rank` | general |
+| `a07 · 大亨滿版宮格` | `daheng-grid` | general |
+| `a08 · 大亨橫向滑軌` | `daheng-rail` | general |
+| `a09 · 大亨三欄密集` | `daheng-compact` | general |
+| `a10 · 大亨清單榜單` | `daheng-list` | general |
+| `a11 · 大亨雜誌精選` | `daheng-magazine` | general |
 | `b01 · AT99` | `honest-at` | slots |
 | `b02 · AT Deluxe` | `at-deluxe` | slots |
 | `c01 · 暖金` | `noya` | live |
@@ -411,7 +417,17 @@ src/themes/
 │   └── desktop/             # 桌面共用 chrome（sticky topbar）
 ├── dahsing-waterfall/       # 大亨瀑布流（A 版）
 ├── dahsing-tabs/            # 大亨分頁（B 版）
-└── dahsing-horizontal/      # 大亨橫向列表（C 版）
+├── dahsing-horizontal/      # 大亨橫向列表（C 版）
+├── daheng-shared/           # 棕金大亨 6 版型共用基底（不註冊為 theme，只匯出元件）
+│   ├── _data.ts             # 8 張 asset URL + GAMES / RANKS / CATS / CHIPS / TAB_ITEMS 共用資料
+│   ├── assets/              # hero / trophy / ch-mascot / ch-dg / ch-panda / ch-qt / ch-ofa / ch-rsg 共 8 張
+│   └── atoms/               # 9 個 mobile 共用 atoms（statusbar / header / hero / marquee / cats-row / cats-grid / chips / sec-head / promo / tabbar / cat-icon / tab-icon）
+├── daheng-rank/             # 大亨排行榜（a06，v1 對齊）；PC：左 sidebar + 中央 hero + 排行榜橫向卡片帶 + 右 promo 側欄
+├── daheng-grid/             # 大亨滿版宮格（a07，v2 對齊）；PC：mega header + 全幅 hero + 4 欄宮格牆 + promo 橫條
+├── daheng-rail/             # 大亨橫向滑軌（a08，v3 對齊）；PC：carousel hero（左大圖+右縮圖列）+ 三段大型分欄
+├── daheng-compact/          # 大亨三欄密集（a09，v4 對齊）；PC：dashboard 風格（左 menu + 中央 6 欄密集 grid + 右 panel）
+├── daheng-list/             # 大亨清單榜單（a10，v5 對齊）；PC：leaderboard 主題頁（top 3 大卡 + 表格式榜單含玩家數/賠率/趨勢）
+└── daheng-magazine/         # 大亨雜誌精選（a11，v6 對齊）；PC：雜誌封面風（大封面 banner + 編輯精選 + 4 欄 masonry）
 ```
 
 ### 新增第三個版面流程
@@ -742,4 +758,81 @@ dahsing 三版型已補齊 18 張預覽截圖（3 theme × 3 logoKey × 2 device
 showcase 預覽 dialog 新增 color swatch row，可在 dialog 內切換配色看對應截圖（dahsing 三 theme 限定）。registry 用 `buildColorPreviews(themeKey, colors, defaultColor)` helper 在 `ThemeMeta.colorPreviews` 內展開 3 個非 default 色 × 3 logo × 2 device 的 URL 表，命名 `<themeKey>-<colorKey>-<logoKey>-<device>.png`。`getPreview` 第四參數 `colorKey` 控制走 default 截圖鏈或色變體鏈，缺檔自動 fallback 回 default 截圖避免破圖。Loading 體驗詳見「Showcase 圖片 Lazy-Load 機制」章節。
 
 色變體截圖補齊清單見「預覽截圖矩陣 → dahsing 三 theme 色變體截圖補齊清單」表。
+
+### daheng 六版型（棕金大亨米橘暖系，a06 ~ a11，6 款手機 + 6 款獨立 PC）
+
+`src/themes/daheng-{rank,grid,rail,compact,list,magazine}/` 是來自使用者「大亨 版型探索 6 款」設計稿的 1:1 復刻 + PC 重構組合：
+
+- **共用基底**：`src/themes/daheng-shared/` 含 9 個 mobile atoms（statusbar / header / hero / marquee / cats-row / cats-grid / chips / sec-head / promo / tabbar + cat-icon / tab-icon）+ 8 張 asset（hero / trophy / ch-mascot 與 5 張遊戲縮圖，集中於 `daheng-shared/assets/`，6 theme 引用同一份不重複 emit）+ GAMES / RANKS / CATS / CHIPS / TAB_ITEMS 共用資料
+
+- **mobile 1:1 對齊原稿 phones.js**：來源 `/tmp/dh6_workspace/phones.js` 與 `shared.css`，DOM 結構 / class 語意 / SVG icon path / 卡片尺寸 / padding / 漸層 / 陰影 / 字級嚴格對齊；BEM 本地化（class 名一律改成 `daheng-<theme>__<block>--<modifier>` pattern）
+
+  | theme key | label | 對應原稿版型 | mobile 中央 main 結構 |
+  |---|---|---|---|
+  | `daheng-rank` | `a06 · 大亨排行榜` | phones.js v1 | 左 ranklist 5 名 / 看全部 + 右 grid2 2×3 6 張 |
+  | `daheng-grid` | `a07 · 大亨滿版宮格` | phones.js v2 | fwgrid 2×3 6 張大卡（150px 高） |
+  | `daheng-rail` | `a08 · 大亨橫向滑軌` | phones.js v3 | 3 條 rail：熱門推薦 4 張 / 真人 3 張 / 電子 3 張（208×132 卡片橫向滑動） |
+  | `daheng-compact` | `a09 · 大亨三欄密集` | phones.js v4 | cats-grid 4×2 + 3 欄 3 列 9 張 tcard（hero 用 small 變體 + tcard 含 96px 圖+名稱） |
+  | `daheng-list` | `a10 · 大亨清單榜單` | phones.js v5 | 6 列 glist（排名 22px 義大利斜體+70×70 縮圖+名稱 EN+進入 CTA） |
+  | `daheng-magazine` | `a11 · 大亨雜誌精選` | phones.js v6 | chips 6 個分類 + feature 200px hero+「立即遊玩」CTA + 2 欄 masonry 6 張（tall 3/4 + shortc 4/3 交錯） |
+
+- **桌面 6 theme 風格差異化**（無原稿，每款自由發揮以「不是 RWD 縮放、完全重構」的原則設計）：
+  - daheng-rank PC：左 220px sidebar（品牌+7 分類 nav+雙 CTA）+ 中央 940px main（hero 大圖+排行榜橫向 5 大卡+遊戲牆 3 欄）+ 右 240px aside（promo 卡+近期公告）
+  - daheng-grid PC：sticky mega header（橫向 7 nav）+ 全幅 hero（360px 高+swiper 點點）+ 4 欄宮格牆（12 張+浮動 HOT 標籤）+ promo 橫條
+  - daheng-rail PC：carousel hero（左 65% 大圖 + 右 35% 縮圖 4 列）+ 三段大型分欄（每段左 45% 大圖+右 4 小縮圖）+ promo bar
+  - daheng-compact PC：dashboard 風格（180px 左 menu + 中央 main with filter chip+6 欄 18 張高密度 grid + 240px 右 panel 聚合排行/promo/公告）
+  - daheng-list PC：leaderboard 主題頁（top 3 大卡橫排+金牌略放大+獎牌徽章+玩家數/賠率/趨勢統計）+ 表格式榜單（6 欄含進入 CTA）
+  - daheng-magazine PC：雜誌封面風（左 2/3 大封面+overlay 標題+CTA+右 1/3 編輯精選 5 筆）+ 4 欄 masonry（12 張 tall/shortc 交錯）
+
+- **配色（共用單一品牌色）**：6 theme 共用同一份米橘暖系色票（取自原稿 shared.css `:root`）：
+  - `--color-primary` `#b06a34`（brown，原稿 `--brown`）
+  - `--color-secondary` `#c98a52`（brown-soft）
+  - `--color-accent` `#d9a24b`（gold，排名數字色）
+  - `--bg-base` `#fdf4ea` / `--bg-surface` `#fcefdf`
+  - `--text-primary` `#2c2521`（ink）/ `--border` `#efddc8`
+  - `--gradient-cta` `linear-gradient(180deg, #cf8a4f, #a85d2b)`
+  - 每 theme 目前只有單一 default 色（`colors: [{key:'default', label:'米橘暖系', swatch:'#b06a34'}]`），`_variants.scss` 留空殼供未來擴充
+  - 為什麼 6 theme 不抽共用 token 檔：vite buildThemeScssImports 只掃 `src/themes/<key>/_tokens.scss`，跨 theme @use 共用需多走一層，務實複製 6 份 token 內容（命名公約鐵則：12 必要 var 不可改名）
+
+- **logo**：6 theme 共用單一 `daheng` logoKey（src 用 `daheng-shared/assets/ch-mascot.png` 吉祥物），不接 SHARED_LOGOS（dahsing/umu/long-heng）三 logo 切換 — 大亨 6 版是品牌專屬，FAB 切 logo 功能不適用
+
+- **缺失資源替代**（使用者拍板）：原稿引用 `logo.png` 與 `promo_v2.png` 在素材夾不存在；本實作以 `ch-mascot.png`（吉祥物）作 logo、`trophy.png`（獎盃）作 promo 區圖。所有引用點都在 commit message 與 `daheng-shared/_data.ts` 註解標明
+
+- **預覽截圖**：本次實作未產出 6 theme × 1 logo × 2 device = 12 張預覽截圖。registry 透過 `buildPreviews()` helper 嘗試 `src/assets/previews/daheng-<theme>-daheng-<device>.png`，缺檔時 `getPreview` fallback 鏈會處理破圖（回 ""）。QA 後續用 Playwright 補圖，等待 root selector `.daheng-<theme>-pc`（桌面）或 `.daheng-<theme>-m`（mobile）
+
+#### 排程顯示機制（`releaseDate` 欄位 + `?preview=1` bypass）
+
+6 個 daheng theme 在 `_registry.ts` 內各自帶 `releaseDate` 欄位（依 6/10 / 6/11 / 6/12 三批上架），showcase 主頁依本機時區比對顯示。
+
+- **排程批次**：
+  - 6/10：`daheng-rank`（a06）+ `daheng-grid`（a07）
+  - 6/11：`daheng-rail`（a08）+ `daheng-compact`（a09）
+  - 6/12：`daheng-list`（a10）+ `daheng-magazine`（a11）
+- **欄位定義**：`ThemeMeta.releaseDate?: string`（ISO `YYYY-MM-DD`，本機時區）。**既有 13 個 theme 不帶此欄位 = 永遠顯示**，行為完全不變
+- **過濾邏輯位置**：`src/themes/_registry.ts` 提供 `getLocalToday()` + `isThemeReleased(theme, today)` 純函式；`src/store/showcase.store.ts` 的 `releaseFilteredThemes` computed 套用過濾，`filteredThemes` 以此為 base 再疊 brightness / categories 篩選
+- **比較方式**：兩邊都正規化為 `YYYY-MM-DD` 字串字典序比較（前提：固定 zero-pad），避免時分秒誤差 / 跨瀏覽器 Date.parse 不一致
+- **本機時區處理**：`getLocalToday()` 用 `getFullYear / getMonth / getDate` 拼字串，**不走 UTC 轉換**（呼應使用者規約 [[feedback-schedule-release-by-date]]：「本機已 6/10 就該看到 6/10 上架的版型」）
+- **單一 theme 預覽頁不擋**：`/demo/:layoutkey` 直連路由由 `layout-theme-host` 直接讀 `themes[key]`，**完全不經過 showcase store filter**，即便該 theme 未到 releaseDate 也能直連預覽
+- **Query bypass**：showcase 主頁 URL 加 `?preview=1` 時跳過排程 filter，所有 theme 都顯示
+  - 容錯接受 `?preview=true` / `?preview=yes` / `?preview=on`（任一 truthy 字串）
+  - 不持久化到 LS（避免使用者忘了曾 enable 預覽模式）
+  - 同步機制：`home.vue` 用 `watch(route.query.preview)` + `immediate:true` 推進 store
+- **跨日邊界**：使用者半夜開頁停留到次日，computed 不會重算（無依賴變動）；demo 站台一般不會「停在主頁過夜」，可接受。若未來要支援自動跨日更新，加 `visibilitychange` 重算即可
+- **測試 URL 範例**：
+  - 正常 → `http://localhost:9528/`（只看到既有 13 + 已上架的 daheng）
+  - bypass → `http://localhost:9528/?preview=1`（顯示全部 19 個 theme 含未到日期的）
+  - 單一 theme 直連 → `http://localhost:9528/demo/daheng-list`（永遠可用不受日期影響）
+
+#### 借用既有 theme 元件對照表（traceability）
+
+| daheng theme | 行為 | 借鑑 / 自寫 |
+|---|---|---|
+| 全部 6 theme | mobile 9 atoms（statusbar/header/hero/marquee/cats-row/cats-grid/chips/sec-head/promo/tabbar）抽到 daheng-shared/atoms/ | 學 dahsing-shared pattern |
+| 全部 6 theme | SVG icon（7 分類 + 5 tab + flame + chev）寫在 daheng-cat-icon.vue / daheng-tab-icon.vue inline SVG | 對齊 dahsing-icon 不依賴 Iconify 的策略 |
+| daheng-rank PC | 排行榜橫向 5 大卡 | 自寫（既有 theme 無排行榜橫排元件） |
+| daheng-grid PC | 4 欄宮格牆 + 浮動 HOT 標籤 | 自寫（hot 標籤對齊原稿 cats-row hot-badge 撕角樣式） |
+| daheng-rail PC | carousel hero 左大圖+右縮圖列 | 自寫（與 fived hero swiper 概念類似但 layout 不同） |
+| daheng-compact PC | dashboard 風格（左 menu + 中央 grid + 右 panel 三欄） | 自寫（dahsing-tabs PC 是雙欄，daheng-compact 是三欄含右 panel） |
+| daheng-list PC | leaderboard top 3 大卡 + 表格式榜單含玩家數/賠率/趨勢 | 自寫（既有 theme 無 leaderboard pattern） |
+| daheng-magazine PC | 雜誌封面（大封面+overlay+編輯精選） + 4 欄 masonry | masonry 借鑑 dahsing-waterfall column-count 模式 |
 

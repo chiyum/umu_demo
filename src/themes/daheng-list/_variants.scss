@@ -1,0 +1,4 @@
+// daheng-list 替代配色（目前 6 個大亨 theme 僅提供單一 default 配色）
+// 未來若使用者要為此版面加深色 / 暗金等色變體，比照 dahsing-waterfall _variants.scss 模式：
+// [data-theme="daheng-list"][data-theme-color="<colorKey>"] { ...12 var... }
+// 此檔目前刻意留空，但保留檔案讓 vite buildThemeScssImports 掃描不報錯

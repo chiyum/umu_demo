@@ -36,8 +36,10 @@ import type {
  * 為什麼 Record<ThemeCategory, string> 而非自由 Record<string, string>：
  *   - 編譯期保證 CATEGORY_LETTER_MAP 覆蓋所有 ThemeCategory 值，未來新增類別忘了補字母會被 TS 直接擋下
  *
- * 既有 13 個 theme 編號對照（與本檔下方 ThemeMeta label 完全一致）：
+ * 既有 19 個 theme 編號對照（與本檔下方 ThemeMeta label 完全一致）：
  *   a01 霓虹（at99）/ a02 藍冰大亨（tycoon）/ a03 88WIN（honest-max）/ a04 瀑布流（dahsing-waterfall）/ a05 分頁（dahsing-tabs）
+ *   a06 大亨排行榜（daheng-rank）/ a07 大亨滿版宮格（daheng-grid）/ a08 大亨橫向滑軌（daheng-rail）
+ *   a09 大亨三欄密集（daheng-compact）/ a10 大亨清單榜單（daheng-list）/ a11 大亨雜誌精選（daheng-magazine）
  *   b01 AT99（honest-at）/ b02 AT Deluxe（at-deluxe）
  *   c01 暖金（noya）/ c02 FG（honest-no6）/ c03 橫向列表（dahsing-horizontal）
  *   d01 體育博彩（ant-sport）
@@ -712,6 +714,173 @@ const dahsingHorizontal: ThemeMeta = {
 };
 
 /**
+ * 大亨 6 版型（a06 ~ a11，棕金大亨米橘暖系）
+ *
+ * 來源：使用者提供的 /tmp/dh6_workspace/phones.js + shared.css 設計稿
+ * - phones.js 定義 6 個手機版型 v1~v6：
+ *   v1 排行榜 / v2 滿版宮格 / v3 橫向滑軌 / v4 三欄密集 / v5 清單榜單 / v6 雜誌精選
+ * - 6 個 theme 共用 daheng-shared/ 內的 9 個 mobile atoms + 8 張 asset + GAMES/RANKS/CATS data
+ * - 6 個 theme 的 desktop.vue 完全獨立，每款 PC 採完全不同版面策略：
+ *   - daheng-rank PC：左 sidebar + 中央 hero + 排行榜橫向卡片帶 + 右 promo 側欄
+ *   - daheng-grid PC：mega header + 全幅 hero + 4 欄宮格牆 + promo 橫條
+ *   - daheng-rail PC：carousel hero（左大圖+右縮圖列）+ 三段大型分欄 + promo bar
+ *   - daheng-compact PC：dashboard 風格（左 menu + 中央 6 欄密集 grid + 右 panel）
+ *   - daheng-list PC：leaderboard 主題頁（top 3 大卡 + 表格式榜單含玩家數/賠率/趨勢）
+ *   - daheng-magazine PC：雜誌封面風（大封面 banner + 編輯精選 + 4 欄 masonry）
+ *
+ * 共用品牌色票：棕金大亨米橘暖系
+ *   ink #2c2521 / brown #b06a34 / brown-soft #c98a52 / gold #d9a24b / 米橘漸層底
+ *
+ * 為什麼 logos 只有單一 mascot：
+ * - 6 個 daheng theme 是品牌專屬版型，不適用「FAB 切 logo」探索性功能
+ * - 用 ch-mascot.png（吉祥物）作 brand mark，single-logo tuple 滿足 LogoCandidate non-empty 約束
+ *
+ * 為什麼 previews 暫不填截圖：
+ * - 6 個新 theme 的截圖檔尚未產出，buildPreviews 找不到對應檔會回 ""，showcase 端 fallback 鏈會處理破圖
+ * - QA 後續會跑 Playwright 補 6 theme × 1 logo × 2 device = 12 張預覽圖
+ */
+const DAHENG_MASCOT_LOGO_SRC = new URL(
+  "./daheng-shared/assets/ch-mascot.png",
+  import.meta.url
+).href;
+
+const DAHENG_SHARED_LOGOS: [LogoCandidate] = [
+  {
+    key: "daheng",
+    label: "大亨吉祥物",
+    src: DAHENG_MASCOT_LOGO_SRC,
+    transparentBg: true,
+    // 棕金大亨米橘暖系主色取自 _tokens.scss --color-primary
+    mainColor: "#b06a34"
+  }
+];
+
+/**
+ * daheng 6 theme 排程上架日期表
+ *
+ * 依使用者規格分批上架：
+ * - 6/10：rank（v1 排行榜）+ grid（v2 滿版宮格）
+ * - 6/11：rail（v3 橫向滑軌）+ compact（v4 三欄密集）
+ * - 6/12：list（v5 清單榜單）+ magazine（v6 雜誌精選）
+ *
+ * 為什麼集中宣告成常數而非各 theme 內寫死：
+ * - 6 個日期集中一處方便日後微調批次
+ * - 與 theme 本體分離後，未來要把欄位從 registry 改抽到 cms 也容易
+ */
+const DAHENG_RELEASE_DATES = {
+  rank: "2026-06-10",
+  grid: "2026-06-10",
+  rail: "2026-06-11",
+  compact: "2026-06-11",
+  list: "2026-06-12",
+  magazine: "2026-06-12"
+} as const;
+
+const dahengRank: ThemeMeta = {
+  key: "daheng-rank",
+  label: "a06 · 大亨排行榜",
+  description:
+    "大亨排行榜版型，米橘暖系 + 左排行榜 5 名清單 + 右 2 欄遊戲縮圖；PC 重構為左 sidebar + 中央排行榜橫向卡片帶 + 右 promo 側欄",
+  desktop: () => import("./daheng-rank/desktop.vue"),
+  mobile: () => import("./daheng-rank/mobile.vue"),
+  defaultColor: "default",
+  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  previews: buildPreviews("daheng-rank"),
+  defaultLogo: "daheng",
+  logos: DAHENG_SHARED_LOGOS,
+  // 米白底 + 棕金暖系
+  brightness: "light",
+  // 通用大廳排行榜入口
+  categories: ["general"],
+  releaseDate: DAHENG_RELEASE_DATES.rank
+};
+
+const dahengGrid: ThemeMeta = {
+  key: "daheng-grid",
+  label: "a07 · 大亨滿版宮格",
+  description:
+    "大亨滿版宮格版型，米橘暖系 + 2 欄 3 列 6 張大卡；PC 重構為 mega header + 全幅 hero + 4 欄宮格牆",
+  desktop: () => import("./daheng-grid/desktop.vue"),
+  mobile: () => import("./daheng-grid/mobile.vue"),
+  defaultColor: "default",
+  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  previews: buildPreviews("daheng-grid"),
+  defaultLogo: "daheng",
+  logos: DAHENG_SHARED_LOGOS,
+  brightness: "light",
+  categories: ["general"],
+  releaseDate: DAHENG_RELEASE_DATES.grid
+};
+
+const dahengRail: ThemeMeta = {
+  key: "daheng-rail",
+  label: "a08 · 大亨橫向滑軌",
+  description:
+    "大亨橫向滑軌版型，米橘暖系 + 3 條橫向 rail（熱門/真人/電子）；PC 重構為 carousel hero + 三段大型分欄",
+  desktop: () => import("./daheng-rail/desktop.vue"),
+  mobile: () => import("./daheng-rail/mobile.vue"),
+  defaultColor: "default",
+  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  previews: buildPreviews("daheng-rail"),
+  defaultLogo: "daheng",
+  logos: DAHENG_SHARED_LOGOS,
+  brightness: "light",
+  categories: ["general"],
+  releaseDate: DAHENG_RELEASE_DATES.rail
+};
+
+const dahengCompact: ThemeMeta = {
+  key: "daheng-compact",
+  label: "a09 · 大亨三欄密集",
+  description:
+    "大亨三欄密集版型，米橘暖系 + cats-grid 4×2 + 3 欄 3 列 9 張 tcard；PC 重構為 dashboard 風格（左 menu + 中央 6 欄密集 grid + 右 panel）",
+  desktop: () => import("./daheng-compact/desktop.vue"),
+  mobile: () => import("./daheng-compact/mobile.vue"),
+  defaultColor: "default",
+  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  previews: buildPreviews("daheng-compact"),
+  defaultLogo: "daheng",
+  logos: DAHENG_SHARED_LOGOS,
+  brightness: "light",
+  categories: ["general"],
+  releaseDate: DAHENG_RELEASE_DATES.compact
+};
+
+const dahengList: ThemeMeta = {
+  key: "daheng-list",
+  label: "a10 · 大亨清單榜單",
+  description:
+    "大亨清單榜單版型，米橘暖系 + 6 列 glist（排名+縮圖+名稱+進入按鈕）；PC 重構為 leaderboard 主題頁（top 3 大卡 + 表格式榜單含玩家數/賠率/趨勢）",
+  desktop: () => import("./daheng-list/desktop.vue"),
+  mobile: () => import("./daheng-list/mobile.vue"),
+  defaultColor: "default",
+  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  previews: buildPreviews("daheng-list"),
+  defaultLogo: "daheng",
+  logos: DAHENG_SHARED_LOGOS,
+  brightness: "light",
+  categories: ["general"],
+  releaseDate: DAHENG_RELEASE_DATES.list
+};
+
+const dahengMagazine: ThemeMeta = {
+  key: "daheng-magazine",
+  label: "a11 · 大亨雜誌精選",
+  description:
+    "大亨雜誌精選版型，米橘暖系 + chips 分類 + feature 大圖 + 2 欄 masonry；PC 重構為雜誌封面風（封面 banner + 編輯精選 + 4 欄 masonry）",
+  desktop: () => import("./daheng-magazine/desktop.vue"),
+  mobile: () => import("./daheng-magazine/mobile.vue"),
+  defaultColor: "default",
+  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  previews: buildPreviews("daheng-magazine"),
+  defaultLogo: "daheng",
+  logos: DAHENG_SHARED_LOGOS,
+  brightness: "light",
+  categories: ["general"],
+  releaseDate: DAHENG_RELEASE_DATES.magazine
+};
+
+/**
  * fived 版面（5D 暗金禮盒風）
  *
  * 來源：5d_v2 src/pages/base/home.vue + src/assets/scss/pages/_index.scss
@@ -765,7 +934,13 @@ export const themes: Record<string, ThemeMeta> = {
   fived,
   "dahsing-waterfall": dahsingWaterfall,
   "dahsing-tabs": dahsingTabs,
-  "dahsing-horizontal": dahsingHorizontal
+  "dahsing-horizontal": dahsingHorizontal,
+  "daheng-rank": dahengRank,
+  "daheng-grid": dahengGrid,
+  "daheng-rail": dahengRail,
+  "daheng-compact": dahengCompact,
+  "daheng-list": dahengList,
+  "daheng-magazine": dahengMagazine
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */
@@ -949,4 +1124,60 @@ export function colorDistance(hexA: string, hexB: string): number {
 export function getThemeMainSwatch(theme: ThemeMeta): string {
   const found = theme.colors.find((c) => c.key === theme.defaultColor);
   return found?.swatch ?? theme.colors[0]?.swatch ?? "#000000";
+}
+
+/**
+ * 取得本機時區的「今天」字串（格式 `YYYY-MM-DD`）
+ *
+ * 為什麼自己拼而非用 `toISOString().slice(0, 10)`：
+ * - toISOString 強制走 UTC，跨時區會有「本機已 6/10 但 UTC 仍 6/9」的誤差
+ * - 使用者規約 [[feedback-schedule-release-by-date]] 明示「本機時區，不要 UTC 轉換」
+ * - 用 getFullYear / getMonth / getDate 拿到本機時區值再 padStart 拼字串，行為穩定
+ *
+ * 為什麼把它做成 helper 而非 inline：
+ * - 同一份判斷邏輯會被 showcase store / 未來其他地方（例如 sitemap / SSR）共用
+ * - 抽 helper 後 TS 一致回 string 型別，呼叫端不必處理 Date 物件
+ *
+ * 為什麼 export 而非僅 internal：
+ * - showcase store 需要它做 isThemeReleased 判斷的 base
+ * - 測試 / 開發工具未來可能也要查「現在被視為哪一天」
+ */
+export function getLocalToday(): string {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+/**
+ * 判斷指定 theme 是否「已上架」（依排程日期，純函式不碰 DOM / store）
+ *
+ * 規則：
+ * - 缺 `releaseDate` 欄位 → 視為「永遠顯示」回 true（既有 13 個 theme 不受影響）
+ * - 有欄位且 `releaseDate <= today` → 已上架回 true
+ * - 有欄位且 `releaseDate > today` → 未上架回 false
+ *
+ * 為什麼用字串字典序比較 `YYYY-MM-DD`：
+ * - 字串字典序 == 日期序（前提：固定 zero-pad 月日，本檔 helper 保證如此）
+ * - 不需要 Date.parse 或 timezone 換算，無跨瀏覽器地雷
+ * - 比 `new Date(a) <= new Date(b)` 快、易測、輸入合法時無例外
+ *
+ * 為什麼 today 走參數而非 helper 內部呼叫 getLocalToday：
+ * - 純函式更易測（傳入固定 today 可重現各種日期邊界 case）
+ * - 呼叫端通常一次過濾整個 themes 陣列，提取 today 到外層只算一次更省
+ *
+ * 為什麼不在這層加 query bypass：
+ * - bypass 是「使用者層的測試功能」屬 UI 行為，不該污染純資料層判斷
+ * - showcase store 在呼叫這支前自己 check query，bypass 時跳過整個 filter
+ *
+ * 為什麼 export：
+ * - showcase store 需要呼叫做 listing filter
+ * - 未來 sitemap 產生器 / E2E 測試 / dev tools 都可重用
+ */
+export function isThemeReleased(theme: ThemeMeta, today: string): boolean {
+  // 無欄位視為「永遠顯示」，與既有 13 個 theme 行為一致
+  if (!theme.releaseDate) return true;
+  // 字典序比較：releaseDate <= today 表示已到上架日
+  return theme.releaseDate <= today;
 }

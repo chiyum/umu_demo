@@ -1,0 +1,51 @@
+// daheng-magazine 版面（a11 大亨雜誌精選）預設配色：棕金大亨米橘暖系
+// 6 個 daheng theme 共用同一組色票（品牌色一致），差別只在 selector
+// 色票來源：phones.js shared.css :root :
+//   --ink:#2c2521 / --brown:#b06a34 / --brown-deep:#9a5526 / --brown-soft:#c98a52
+//   --gold:#d9a24b / --card:#fcefdf / --line:#efddc8
+// 為什麼不抽到 daheng-shared/_tokens.scss 統一 @use：
+//   vite.config.ts 的 buildThemeScssImports 是掃 src/themes/<key>/_tokens.scss 直接 @use 進 main，
+//   不會跨 theme @use 共用檔。複製到 6 個 theme 雖然有重複但仍是最務實做法
+//   （未來若使用者要 6 個 theme 用不同配色就直接改各自檔案不互相影響）
+
+[data-theme="daheng-magazine"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #b06a34; // brown（主 CTA / 品牌色）
+  --color-secondary: #c98a52; // brown-soft（按鈕邊框 / 副標）
+  --color-accent: #d9a24b; // gold（亮點 / 排名數字）
+  --bg-base: #fdf4ea; // 頁面背景（取自原稿 phone 漸層起點）
+  --bg-surface: #fcefdf; // 卡片底（原稿 --card）
+  --bg-overlay: rgba(176, 106, 52, 0.08);
+  --text-primary: #2c2521; // 原稿 --ink
+  --text-muted: #6a5a4c;
+  --border: #efddc8; // 原稿 --line
+  --shadow: 0 10px 26px -14px rgba(120, 72, 28, 0.35);
+  --gradient-hero: linear-gradient(
+    180deg,
+    #fdf4ea 0%,
+    #fbead8 46%,
+    #f6e0cb 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #cf8a4f 0%, #a85d2b 100%);
+
+  // ── 字體 stack（與 dahsing / noya 等其他 theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+
+  // ── PC 桌面背景柔光（PC 重構各自延伸用）
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(217, 162, 75, 0.22) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(176, 106, 52, 0.12) 0%,
+      transparent 65%
+    );
+}

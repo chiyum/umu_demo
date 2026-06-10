@@ -212,6 +212,32 @@ export interface ThemeMeta {
    * 至少填 1 個（registry 建構期不檢，依約定填入；review 時把關）
    */
   categories: ThemeCategory[];
+  /**
+   * （可選）排程上架日期（ISO 格式 `YYYY-MM-DD`，本機時區）
+   *
+   * 行為：
+   * - 缺欄位 → 視為「永遠顯示」（既有 13 個 theme 維持無欄位，showcase 行為完全不變）
+   * - 有欄位且 `releaseDate <= 本機 today` → showcase 主頁顯示
+   * - 有欄位且 `releaseDate > 本機 today` → showcase 主頁隱藏
+   * - 直連 `/demo/<theme-key>` 永遠不擋（單一 theme 預覽頁不經過 showcase store filter）
+   *
+   * 比較方式：把 releaseDate 與本機 today 都正規化為 `YYYY-MM-DD` 字串再比較
+   * （避免時分秒誤差；本機時區直接用 `new Date()` 各 component 拼接，不做 UTC 轉換）
+   *
+   * Query bypass：showcase 主頁 URL 加 `?preview=1` 時跳過排程 filter，
+   * 所有 theme 都顯示（含未到日期的）。query key 用 `preview` 而非 `showAll`，
+   * 語意更貼近「預覽未發布版型」用途
+   *
+   * 為什麼用 string 而非 Date：
+   * - Date 物件序列化 / hydration 複雜，registry 是純 metadata 用 string 最直觀
+   * - 日期比較不需要時分秒，字串字典序就等於日期序（YYYY-MM-DD 設計即如此）
+   * - 不會踩 Date.parse 跨瀏覽器格式不一致地雷
+   *
+   * 為什麼用本機時區而非 UTC：
+   * - 使用者規約 [[feedback-schedule-release-by-date]] 規定排程依本機 today 比對
+   * - 「本機已經 6/10 了就該看到 6/10 上架的版型」最符合直覺，UTC 會造成跨時區誤差
+   */
+  releaseDate?: string;
 }
 
 /**

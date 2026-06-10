@@ -5,7 +5,9 @@ import {
   DEFAULT_LAYOUT_KEY,
   listThemes,
   colorDistance,
-  getThemeMainSwatch
+  getThemeMainSwatch,
+  getLocalToday,
+  isThemeReleased
 } from "@/themes/_registry";
 import type { ThemeBrightness, ThemeCategory } from "@/themes/_types";
 
@@ -207,7 +209,54 @@ export const useShowcaseStore = defineStore("showcase", () => {
   });
 
   /**
-   * 篩選後的 theme 列表（套用 brightness + categories 兩個條件）
+   * 預覽模式旗標：URL `?preview=1` 時啟用，跳過 releaseDate filter，顯示所有 theme
+   *
+   * 為什麼用 ref 而非 computed(() => route.query.preview)：
+   * - showcase store 是 setup store，在 module level use route 會在 SSR / 測試環境踩到 router 未注入
+   * - 改由 home.vue 啟動時 setPreviewQueryActive 推進來，store 內維持單一資料源
+   * - 副作用：URL query 變動時 home.vue watch route 改寫一次，比直接 route reactive 更明確
+   *
+   * 為什麼 query key 用 `preview` 而非 `showAll`：
+   * - `preview` 語意更貼近「預覽未發布版型」用途（行銷 / QA / 內部 demo 場景）
+   * - 「showAll」聽起來像「忽略所有篩選」，會跟既有 brightness/categories 篩選混淆
+   * - 一個字省事且足以表意
+   *
+   * 為什麼不 persist 到 LS：
+   * - bypass 是「臨時性檢視」，每次帶 query 上門最清楚
+   * - 避免使用者忘了曾 enable 預覽模式而長期看到未發布 theme
+   */
+  const previewQueryActive = ref(false);
+
+  /**
+   * 排程過濾的 base theme 集合
+   *
+   * 為什麼把「依日期過濾」獨立成 computed 而非塞進 filteredThemes：
+   * - 兩種過濾語義不同：releaseDate 是「能不能看到」（業務排程），
+   *   brightness/categories 是「使用者想看什麼」（探索篩選）
+   * - 分層後 home.vue 用 filteredThemes 是「既排程後又使用者篩選」結果，
+   *   未來需要「排程已篩 + 未經使用者篩」的場景（例如 sitemap 列表）直接讀 releaseFilteredThemes
+   * - 邏輯位置與 isThemeReleased 純函式同層，比硬塞回 filteredThemes 連帶 brightness/categories 邏輯更乾淨
+   *
+   * 為什麼 today 在 computed 內每次重算而非快取：
+   * - getLocalToday 內僅做 4 個 Date.get* + 字串拼接，O(1) cost，無快取必要
+   * - computed 依賴 previewQueryActive；previewQueryActive 變動或 reactive 依賴觸發時都會重算
+   * - 跨日邊界：使用者半夜開頁停留到次日，computed 不會重算（無依賴變動），
+   *   但 demo 站台一般不會「停在主頁過夜」，可接受；若未來要支援，加 visibilitychange 重算即可
+   */
+  const releaseFilteredThemes = computed(() => {
+    const all = listThemes();
+    // ?preview=1 時跳過排程過濾，全部 theme 通過
+    if (previewQueryActive.value) return all;
+    const today = getLocalToday();
+    return all.filter((t) => isThemeReleased(t, today));
+  });
+
+  /**
+   * 篩選後的 theme 列表（套用 brightness + categories 兩個條件，base 已過排程 filter）
+   *
+   * 為什麼 base 從 listThemes 改成 releaseFilteredThemes：
+   * - 排程是「全域硬性過濾」，未到日期的 theme 不該出現在任何使用者面前（除非 ?preview=1）
+   * - brightness/categories 是「使用者主動篩選」，與排程獨立分層
    *
    * 為什麼篩選不影響推薦徽章邏輯：
    * - 推薦徽章基於「logo vs theme 主色距離」，與篩選獨立計算
@@ -215,10 +264,10 @@ export const useShowcaseStore = defineStore("showcase", () => {
    * - 若使用者篩到 0 結果，UI 顯示「目前條件沒有版型」提示
    */
   const filteredThemes = computed(() => {
-    const all = listThemes();
+    const base = releaseFilteredThemes.value;
     const wantBrightness = filterBrightness.value;
     const wantCats = filterCategories.value;
-    return all.filter((t) => {
+    return base.filter((t) => {
       // brightness 篩選
       if (wantBrightness !== "all" && t.brightness !== wantBrightness) {
         return false;
@@ -326,10 +375,22 @@ export const useShowcaseStore = defineStore("showcase", () => {
    * 清空所有篩選條件（亮暗回 all，類別清空）
    *
    * 提供給 UI 「清除篩選」按鈕、或 0 結果頁的「重設」CTA
+   *
+   * 注意：不會清掉 previewQueryActive — 那是 URL query 控制的，由 home.vue watch route 同步
    */
   function clearFilters(): void {
     filterBrightness.value = "all";
     filterCategories.value = [];
+  }
+
+  /**
+   * 設定 `?preview=1` 旗標
+   *
+   * 由 home.vue 在 onMounted + watch route.query 時呼叫；store 內單向接收，
+   * 避免在 store 直接 use useRoute（會踩到 setup store 在 SSR / 測試環境的 router 注入順序問題）
+   */
+  function setPreviewQueryActive(active: boolean): void {
+    previewQueryActive.value = active;
   }
 
   return {
@@ -341,11 +402,13 @@ export const useShowcaseStore = defineStore("showcase", () => {
     showcaseLogoKey,
     filterBrightness,
     filterCategories,
+    previewQueryActive,
     // getters
     isPreviewing,
     showcaseLogoOptions,
     allCategoryOptions,
     recommendedThemeKeys,
+    releaseFilteredThemes,
     filteredThemes,
     // actions
     openPreview,
@@ -355,6 +418,7 @@ export const useShowcaseStore = defineStore("showcase", () => {
     setShowcaseLogoKey,
     setFilterBrightness,
     toggleFilterCategory,
-    clearFilters
+    clearFilters,
+    setPreviewQueryActive
   };
 });

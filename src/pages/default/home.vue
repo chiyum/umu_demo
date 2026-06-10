@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useShowcaseStore } from "@/store/showcase.store";
 import ShowcaseHero from "@/components/showcase/showcase-hero.vue";
 import ShowcaseLogoSwitcher from "@/components/showcase/showcase-logo-switcher.vue";
@@ -38,6 +39,47 @@ defineOptions({
  */
 
 const showcaseStore = useShowcaseStore();
+const route = useRoute();
+
+/**
+ * 同步 URL `?preview=1` 到 showcase store
+ *
+ * 行為：
+ * - `?preview=1`（或任何 truthy 字串值）→ 跳過排程過濾，顯示所有 theme（含未到 releaseDate 的）
+ * - 沒帶 query / `?preview=0` → 正常排程過濾
+ *
+ * 為什麼在 home.vue 而非 store 內 useRoute：
+ * - showcase store 是 setup store，在 module load 階段 useRoute 會踩到 router 未注入的 SSR / 測試環境問題
+ * - 改由 page 元件持有 route 來源，store 接受 setter 推進來，職責邊界清楚
+ *
+ * 為什麼用 watch + immediate 而非 onMounted：
+ * - SPA navigation（query 變動）不會觸發 onMounted，watch 才會抓到 ?preview=1 → ?preview=0 切換
+ * - immediate=true 取代額外的 onMounted；首次 mount 時也會跑一次同步
+ *
+ * 為什麼用 truthy 判斷（"1"、"true"、"yes" 都可）：
+ * - 預期值是 `?preview=1` 但容錯接受其他常見 truthy 字串，避免使用者寫 `?preview=true` 失效
+ * - 空字串 / "0" / "false" 視為 false（明確關掉）
+ */
+function isQueryTruthy(value: unknown): boolean {
+  if (Array.isArray(value)) return value.some(isQueryTruthy);
+  if (value === null || value === undefined) return false;
+  const s = String(value).trim().toLowerCase();
+  return s === "1" || s === "true" || s === "yes" || s === "on";
+}
+
+watch(
+  () => route.query.preview,
+  (raw) => {
+    showcaseStore.setPreviewQueryActive(isQueryTruthy(raw));
+  },
+  { immediate: true }
+);
+
+// 額外保險：route 在某些情境（HMR / hydration 邊界）watch immediate 觸發前
+// 已經有值，這層 onMounted 確保 store 至少同步一次最新 route.query
+onMounted(() => {
+  showcaseStore.setPreviewQueryActive(isQueryTruthy(route.query.preview));
+});
 
 /**
  * 篩選後的可見版型清單（由 store 計算，套用 brightness + categories）
