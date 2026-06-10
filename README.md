@@ -809,9 +809,10 @@ showcase 預覽 dialog 新增 color swatch row，可在 dialog 內切換配色�
 
 - **缺失資源替代**（使用者拍板）：原稿引用 `logo.png` 與 `promo_v2.png` 在素材夾不存在。`logo.png` 原本以 `ch-mascot.png` 替代，但 v4.5 起 daheng-header 已改接 `themeStore.currentLogo`，**mascot 圖檔與 `_data.ts` 的 `mascotLogoSrc` export 保留作未來「吉祥物裝飾」使用，目前無消費點**；`promo_v2.png` → `trophy.png`（獎盃延續「優惠週週送」視覺）仍在使用
 
-- **預覽截圖（v4.5 補齊 108 張）**：6 theme × 3 colors × 3 logos × 2 devices = 108 張預覽截圖已補齊，存於 `src/assets/previews/`，命名 `daheng-<theme>-<color>-<logo>-<device>.png`（注意 `long-heng` 帶 hyphen 不要拆字）。registry 透過 `buildPreviews()` + `buildColorPreviews()` 自動命中（與其他 theme 一致）
+- **預覽截圖（v4.5 補齊 108 張、v4.6 修截圖內容重複 bug）**：6 theme × 3 colors × 3 logos × 2 devices = 108 張預覽截圖已補齊，存於 `src/assets/previews/`，命名 `daheng-<theme>-<color>-<logo>-<device>.png`（注意 `long-heng` 帶 hyphen 不要拆字）。registry 透過 `buildPreviews()` + `buildColorPreviews()` 自動命中（與其他 theme 一致）
   - **default 色檔命名**：buildPreviews 用 `<theme>-<logo>-<device>.png` 規約，但 v4.5 統一補的 108 張使用完整 `<theme>-<color>-<logo>-<device>.png` 規約（含 default 色段，方便未來腳本批次處理）。`getPreview` fallback 鏈會自動處理：default 色看不到 `<theme>-default-<logo>-<device>.png` 命中時退回 `<theme>-<logo>-<device>.png`（既有命名）
-  - **截圖 SOP**：見下方「截圖維護 SOP」小節
+  - **v4.6 修截圖內容重複 bug**：v4.5 截圖踩過 silent fail — 三個 logoKey 截出同一張圖（72/108 重複，reviewer md5 抓到）。根因：`useDemoThemeStore` 的 `resolveInitialColorKey()` 只讀 `?color=` 沒讀 `?logoKey=`，加上 `useThemeUrlSync` 的「store→URL」watcher immediate=true 把 store 預設 logoKey 寫回 URL 蓋掉原始 query。修法見 `demo-theme.store.ts` 的 `resolveInitialThemeQuery()`（v4.6）：同時解析 `?color=` 與 `?logoKey=`，URL 沒給才走 LS / defaultLogo 第二優先級
+  - **截圖 SOP + Sanity check**：見下方「截圖維護 SOP」小節
 
 #### 截圖維護 SOP
 
@@ -843,11 +844,19 @@ Script 規格：
 | Desktop viewport | 1440 × 900（渲染 desktop.vue） |
 | deviceScaleFactor | 1（避免 hidpi 截圖兩倍大） |
 | 等待策略 | domcontentloaded（dev）/ networkidle（prod）+ root selector wait + 600ms sleep |
+| **Sanity check（v4.6 新增）** | 截圖前驗 logo img.src 含 `LOGO_KEY_TO_SRC_FRAGMENT` 對應 fragment；不對就 throw → 個別 page 失敗（既有 try/catch 接住、exit code 1 列清單） |
 | 平行度 | 序列跑（避免 SPA 字體 / chunk 載入排程被打亂） |
 | 預估時間 | 108 張 × 約 3 秒 ≈ 5~6 分鐘 |
 | 失敗處理 | 個別 page 失敗時 console.error + 最後一次 exit code 1 列出，可重跑（既成功的覆寫即可） |
 
-URL query 控制（依賴 `use-theme-url-sync` 的 v4.5 雙向同步）：
+**Sanity check 細節**：
+- 防 v4.5 silent fail bug 再發生（截圖時實際渲染永遠是 store defaultLogo）
+- mobile 用 `.daheng-header__logo` selector，desktop 用 `[class*="__brand"] img`
+- fragment 對應：`dahsing → themes/at99/assets/logos/default`、`umu → themes/noya/assets/logos/default`、`long-heng → shared-logos/long-heng`
+- 為什麼 fragment 選 path 中間：dahsing 與 umu 的 logo 檔名都叫 `default.png`，差別只在 path 中間（at99 / noya）；結尾比對會雙方 match 失效
+- prod build 後 path 改成 `/assets/<filename>-<hash>.png`，sanity check 在 `IS_PRODUCTION_BASE=true` 時自動跳過
+
+URL query 控制（依賴 `use-theme-url-sync` 的 v4.5 雙向同步 + `demo-theme.store` 的 v4.6 init 解析）：
 
 - `?color=default` / `?color=noir` / `?color=jade` — 切配色
 - `?logoKey=dahsing` / `?logoKey=umu` / `?logoKey=long-heng` — 切 logo

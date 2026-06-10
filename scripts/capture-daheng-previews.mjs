@@ -70,6 +70,36 @@ const COLORS = ["default", "noir", "jade"];
 // 3 logos（與 SHARED_LOGOS 對齊；注意 long-heng 帶 hyphen 不要拆字）
 const LOGOS = ["dahsing", "umu", "long-heng"];
 
+/**
+ * Sanity check 用的「logoKey → 預期 img.src path fragment」map
+ *
+ * 為什麼需要 sanity check（reviewer 觀察 #3）：
+ * - v4.5 截圖踩過 silent fail bug：截圖時實際渲染的永遠是 store defaultLogo 而非
+ *   URL 帶的 ?logoKey=，三個 logoKey 截出同一張圖，但檔名不同（72/108 重複）
+ * - 既有 waitForReady 只 wait root selector 出現，沒驗 logo 真的切到指定值
+ * - 加 sanity check 後同樣 bug 再出現會 fail-loud：「logo mismatch: expected X, got Y」
+ *
+ * 為什麼 fragment 選 path 中間而非結尾：
+ * - dahsing 與 umu 兩者 logo 圖檔都叫 default.png，差別只在 path 中間（at99 / noya）
+ * - 結尾比對會雙方 match 失效；中間 path segment 唯一識別
+ * - long-heng 圖檔名本身就是 long-heng.png（path: src/assets/shared-logos/long-heng.png）
+ *
+ * fragment 來源（dev server 實測）：
+ * - dahsing:    http://.../src/themes/at99/assets/logos/default.png
+ * - umu:        http://.../src/themes/noya/assets/logos/default.png
+ * - long-heng:  http://.../src/assets/shared-logos/long-heng.png
+ *
+ * 注意：production build 後 vite 會把 path 改成 /assets/<filename>-<hash>.png，
+ * 不再保有原始路徑結構。本 script 預設跑 dev server（路徑保留可用），
+ * 若使用者改跑 prod build 站台（BASE_URL=https://...），sanity check 會誤判失敗。
+ * 因此 IS_PRODUCTION_BASE=true 時跳過 sanity check（信任 prod 已 reviewed）。
+ */
+const LOGO_KEY_TO_SRC_FRAGMENT = {
+  dahsing: "themes/at99/assets/logos/default",
+  umu: "themes/noya/assets/logos/default",
+  "long-heng": "shared-logos/long-heng"
+};
+
 // 2 devices
 const DEVICES = /** @type {const} */ ([
   { key: "mobile", viewport: { width: 390, height: 844 } },
@@ -108,6 +138,48 @@ async function ensureOutDir() {
 }
 
 /**
+ * Sanity check：驗證頁面實際渲染的 logo 對應 URL 帶的 logoKey
+ *
+ * 為什麼選 `.daheng-header__logo` 與 `[class*="__brand"] img` 兩個 selector：
+ * - mobile 走 daheng-header.vue（class: daheng-header__logo）
+ * - desktop 走各自 desktop.vue brand 區塊（class: daheng-<theme>-pc__brand img）
+ *   pattern 是 `[class*="__brand"] img`，命中 6 個 theme 的 PC brand logo
+ * - 不用其他 logo 渲染點（如 footer / drawer），避免無關 logo 干擾
+ *
+ * IS_PRODUCTION_BASE 跳過 sanity check：prod build 後 path 是 hash 命名，
+ * 與 dev server 完全不同，硬比對 fragment 必誤判失敗
+ *
+ * 為什麼 throw 而非回 false：
+ * - captureOne 的 try/catch 會接住，個別 page 失敗不中斷整個批次
+ * - error message 含 expected / actual 對照，方便偵錯
+ */
+async function assertLogoMatches(page, logoKey, device) {
+  if (IS_PRODUCTION_BASE) return;
+  const expectedFragment = LOGO_KEY_TO_SRC_FRAGMENT[logoKey];
+  if (!expectedFragment) {
+    throw new Error(`unknown logoKey: ${logoKey}（map 沒對應 fragment）`);
+  }
+  const selector =
+    device === "mobile"
+      ? ".daheng-header__logo"
+      : '[class*="__brand"] img';
+  const actualSrc = await page.evaluate((sel) => {
+    const img = document.querySelector(sel);
+    return img instanceof HTMLImageElement ? img.src : null;
+  }, selector);
+  if (!actualSrc) {
+    throw new Error(
+      `logo img not found (selector: ${selector}, device: ${device})`
+    );
+  }
+  if (!actualSrc.includes(expectedFragment)) {
+    throw new Error(
+      `logo mismatch: expected fragment "${expectedFragment}" (logoKey=${logoKey}), got src="${actualSrc}"`
+    );
+  }
+}
+
+/**
  * 截單張：navigate → wait → screenshot
  *
  * 為什麼每張各自一個新 page：
@@ -124,6 +196,9 @@ async function captureOne(context, theme, color, logoKey, device) {
   try {
     await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
     await waitForReady(page, theme, device.key);
+    // v4.6 加：sanity check 確認頁面實際渲染的 logo 對應 URL 帶的 logoKey
+    // 防 v4.5 silent fail bug 再發生（72/108 重複截圖）
+    await assertLogoMatches(page, logoKey, device.key);
     await page.screenshot({
       path: outPath,
       fullPage: true,

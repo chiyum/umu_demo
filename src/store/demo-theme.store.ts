@@ -93,17 +93,46 @@ function loadFabPosition(): FabPosition {
 }
 
 /**
- * 初始解析 colorKey
+ * 初始解析 URL query（colorKey + logoKey 一次處理）
  *
- * 優先順序：
- * 1. URL query ?color=xxx（分享連結時收件方一定看到指定配色）
- * 2. localStorage（使用者上次切過的同 theme colorKey）
- * 3. 該 theme 的 defaultColor
+ * 為什麼 v4.6 起改寫成 resolveInitialThemeQuery：
+ * - 既有 resolveInitialColorKey() 只讀 ?color=，沒讀 ?logoKey=
+ * - 而 useThemeUrlSync 的「store → URL」watcher 是 immediate=true，
+ *   會在 mount 第一拍立刻把 store 的 logoKey 寫回 URL 覆蓋掉原始 ?logoKey=
+ * - 「URL → store」watcher 沒 immediate，初始 URL 的 ?logoKey= 從未被讀進 store
+ * - 結果：截圖 script 用 ?logoKey=long-heng 開新 page，store 永遠 fallback 到
+ *   defaultLogo="dahsing"，三個 logoKey 截出同一張圖（reviewer 抓到 72/108 重複）
+ * - 修法：store init 時就把 URL 的 ?color= 與 ?logoKey= 一起吃，store 對齊 URL 後
+ *   store→URL watcher 的 immediate 跑也只是寫回同值，不會反向覆蓋
  *
- * 注意：這裡需要當下的 layoutKey 來決定 colorKey 是否在該 theme 的配色清單內。
- * layoutKey 來源是 window.location.pathname 解析（在 store init 階段 route 還沒 ready）
+ * colorKey 優先順序（與 v4.5 之前一致）：
+ * 1. URL query ?color=xxx → 合法即用（必須在 theme.colors 內）
+ * 2. localStorage → 合法即用
+ * 3. theme.defaultColor
+ *
+ * logoKey 優先順序（v4.6 新增 URL 第一優先級）：
+ * 1. URL query ?logoKey=xxx → 合法即用（必須在 theme.logos 內），不合法回 null
+ *    讓 store init 走第二優先級的 resolveInitialLogoKey()
+ * 2. localStorage（依 theme 分流的 LS key）
+ * 3. theme.defaultLogo
+ * 4. theme.logos[0].key（型別保證 non-empty）
+ *
+ * 為什麼 logoKey 回傳 `string | null` 而非直接 fallback 到 defaultLogo：
+ * - null 明確標示「URL 沒給，需走後續 LS / defaultLogo fallback 鏈」
+ * - store 內 resolveInitialLogoKey 已含完整 LS + defaultLogo 鏈，重複實作會 drift
+ * - 直接讓 store 看到 null 就 fallback 一目了然
+ *
+ * 為什麼 ?logoKey= 合法性檢查很重要：
+ * - 防 ?logoKey=invalid 把 store 變成壞值，後續 currentLogo computed 反覆 fallback
+ * - 不合法直接視為「URL 沒給」，走第二優先級鏈
+ *
+ * 注意：layoutKey 來源是 window.location.pathname 解析（在 store init 階段 route 還沒 ready）
  */
-function resolveInitialColorKey(): { layoutKey: string; colorKey: string } {
+function resolveInitialThemeQuery(): {
+  layoutKey: string;
+  colorKey: string;
+  logoKey: string | null;
+} {
   // 嘗試從 URL pathname 解析 layoutkey（/demo/noya → noya）
   // store 在 createPinia 階段才會被建立、useRoute 還沒 reactive 可用，
   // 但 store 是 setup-style，被首次 use 時 component 已 mount，route 才可用
@@ -120,27 +149,42 @@ function resolveInitialColorKey(): { layoutKey: string; colorKey: string } {
     // window 不存在或解析失敗：用 DEFAULT_LAYOUT_KEY
   }
 
-  let colorKey = themes[layoutKey].defaultColor;
+  const theme = themes[layoutKey];
+  let colorKey = theme.defaultColor;
+  let logoKey: string | null = null;
 
-  // URL ?color=xxx 優先
+  // URL ?color=xxx 與 ?logoKey=xxx 一起讀（同一個 URLSearchParams 實例）
   try {
     const search = new URLSearchParams(window.location.search);
+
+    // color 第一優先級
     const qColor = search.get("color");
-    if (qColor && themes[layoutKey].colors.some((c) => c.key === qColor)) {
+    if (qColor && theme.colors.some((c) => c.key === qColor)) {
       colorKey = qColor;
-      return { layoutKey, colorKey };
+    } else {
+      // color URL 沒給 → LS fallback
+      const lsColor = safeGetLS(LS_COLOR_KEY);
+      if (lsColor && theme.colors.some((c) => c.key === lsColor)) {
+        colorKey = lsColor;
+      }
     }
+
+    // logoKey 第一優先級（合法性檢查：必須在當前 theme 的 logos 內）
+    const qLogo = search.get("logoKey");
+    if (qLogo && theme.logos.some((l) => l.key === qLogo)) {
+      logoKey = qLogo;
+    }
+    // qLogo 不合法 / 沒帶 → 維持 null，store 走 resolveInitialLogoKey() 第二優先級
   } catch {
-    // 解析失敗：跳到下一步
+    // URLSearchParams 解析失敗：colorKey 維持 defaultColor，logoKey 維持 null
+    // 同樣 fallback 走 LS（color）/ defaultLogo（logo）
+    const lsColor = safeGetLS(LS_COLOR_KEY);
+    if (lsColor && theme.colors.some((c) => c.key === lsColor)) {
+      colorKey = lsColor;
+    }
   }
 
-  // LS fallback
-  const lsColor = safeGetLS(LS_COLOR_KEY);
-  if (lsColor && themes[layoutKey].colors.some((c) => c.key === lsColor)) {
-    colorKey = lsColor;
-  }
-
-  return { layoutKey, colorKey };
+  return { layoutKey, colorKey, logoKey };
 }
 
 /**
@@ -153,7 +197,9 @@ function resolveInitialColorKey(): { layoutKey: string; colorKey: string } {
 export const useDemoThemeStore = defineStore("demo-theme", () => {
   const route = useRoute();
 
-  const initial = resolveInitialColorKey();
+  // v4.6 起改用 resolveInitialThemeQuery（同時讀 ?color= 與 ?logoKey=），
+  // 解決截圖 script 用 ?logoKey= 開新 page 時被 store→URL watcher immediate 覆蓋的 bug
+  const initial = resolveInitialThemeQuery();
 
   /**
    * layoutKey：完全 derived from route.params.layoutkey
@@ -199,7 +245,14 @@ export const useDemoThemeStore = defineStore("demo-theme", () => {
     return theme.logos[0].key;
   }
 
-  const logoKey = ref<string>(resolveInitialLogoKey(initial.layoutKey));
+  // logoKey 初始值：URL 第一優先級，URL 沒給才走 LS / defaultLogo（resolveInitialLogoKey）
+  // 為什麼這層 fallback 在 store 內而非塞進 resolveInitialThemeQuery：
+  // resolveInitialLogoKey 需要 theme.logos / LS / defaultLogo 三層 fallback 邏輯，
+  // 重複實作會 drift；resolveInitialThemeQuery 只負責「URL 解析 + 合法性檢查」，
+  // store init 負責「URL 沒給 → LS → defaultLogo」第二優先級鏈
+  const logoKey = ref<string>(
+    initial.logoKey ?? resolveInitialLogoKey(initial.layoutKey)
+  );
 
   /** 當前 theme metadata */
   const currentTheme = computed(() => getTheme(layoutKey.value));
