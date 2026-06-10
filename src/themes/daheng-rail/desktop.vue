@@ -17,9 +17,14 @@ import {
   DAHENG_CATS,
   DAHENG_GAMES,
   heroSrc,
-  mascotLogoSrc,
   trophySrc
 } from "../daheng-shared/_data";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// logo 改接 themeStore.currentLogo（v4.5 起）：對齊既有 theme 慣例
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 const sections = computed(() => [
   {
@@ -47,7 +52,7 @@ const sections = computed(() => [
   <div class="daheng-rail-pc">
     <header class="daheng-rail-pc__header">
       <div class="daheng-rail-pc__brand">
-        <img :src="mascotLogoSrc" alt="大亨" />
+        <img :src="logoSrc" :alt="logoLabel" />
         <span>大亨娛樂城</span>
       </div>
       <nav class="daheng-rail-pc__nav">
@@ -167,10 +172,13 @@ const sections = computed(() => [
     align-items: center;
     gap: 10px;
 
+    // logo 樣式對齊 at99 / noya 橫式 logo pattern：height 固定 + width auto + max-width contain
     img {
-      width: 44px;
       height: 44px;
+      width: auto;
+      max-width: 120px;
       object-fit: contain;
+      display: block;
     }
 
     span {

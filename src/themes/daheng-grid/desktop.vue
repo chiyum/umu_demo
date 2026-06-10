@@ -12,13 +12,19 @@
  * - 手機 v2 = 2 欄 3 列 6 張，PC 重構成更大規模的 4 欄宮格牆
  * - mega header 替代手機 statusbar+header 雙列，凝聚成單列充分利用 PC 寬度
  */
+import { computed } from "vue";
 import {
   DAHENG_CATS,
   DAHENG_GAMES,
   heroSrc,
-  mascotLogoSrc,
   trophySrc
 } from "../daheng-shared/_data";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// logo 改接 themeStore.currentLogo（v4.5 起）：對齊既有 theme 慣例
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 // 展開 12 張卡（6 張 × 2）以填滿 4 欄宮格牆
 const wallGames = [...DAHENG_GAMES, ...DAHENG_GAMES];
@@ -29,7 +35,7 @@ const wallGames = [...DAHENG_GAMES, ...DAHENG_GAMES];
     <!-- 頂部 mega header -->
     <header class="daheng-grid-pc__header">
       <div class="daheng-grid-pc__brand">
-        <img :src="mascotLogoSrc" alt="大亨" />
+        <img :src="logoSrc" :alt="logoLabel" />
         <span>大亨娛樂城</span>
       </div>
       <nav class="daheng-grid-pc__nav">
@@ -120,10 +126,13 @@ const wallGames = [...DAHENG_GAMES, ...DAHENG_GAMES];
     align-items: center;
     gap: 10px;
 
+    // logo 樣式對齊 at99 / noya 橫式 logo pattern：height 固定 + width auto + max-width contain
     img {
-      width: 44px;
       height: 44px;
+      width: auto;
+      max-width: 120px;
       object-fit: contain;
+      display: block;
     }
 
     span {

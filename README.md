@@ -798,15 +798,16 @@ showcase 預覽 dialog 新增 color swatch row，可在 dialog 內切換配色�
   - 字體 stack（`--font-display` / `--font-body`）跨變體不變，繼承自上層 `[data-theme="daheng-x"]` selector，不重複覆寫
   - 為什麼 6 theme 不抽共用 token 檔：vite buildThemeScssImports 只掃 `src/themes/<key>/_tokens.scss`，跨 theme @use 共用需多走一層，務實複製 6 份 token 內容（命名公約鐵則：12 必要 var 不可改名）
 
-- **logo（v4.4 起改回 SHARED_LOGOS 三輪播）**：
-  - 6 theme 改接 `SHARED_LOGOS`（dahsing / umu / long-heng）；`defaultLogo` 統一設為 `"dahsing"`（大亨 ONLINE，棕金品牌調性與 daheng 識別最搭）
-  - **為什麼從獨立 `daheng` logoKey 改回 SHARED_LOGOS**：
-    - reviewer 觀察 5：showcase 主頁的 logo 切換 row 對 daheng 卡片無效（單一 logoKey 無得切），破壞「主頁訪客用同一組 logo 統一比對所有 theme」的 UX 一致性
-    - 使用者要求 showcase 體驗一致，6 theme 改為與 at99 / noya / dahsing-* 等既有 theme 一致接 SHARED_LOGOS
-    - 既有的 `DAHENG_MASCOT_LOGO_SRC` 與 `DAHENG_SHARED_LOGOS` 常數已從 `_registry.ts` 移除
-  - **daheng-header 內部仍渲染 ch-mascot**：showcase logo 切換的是「卡片預覽縮圖 + dialog 預覽圖」，與 theme 內部品牌頭視覺解耦；`daheng-shared/assets/ch-mascot.png` 仍透過 `_data.ts` 的 `mascotLogoSrc` 被 `daheng-header.vue` 使用，圖檔保留不動
+- **logo（v4.5 起 daheng-header / desktop brand 全接 themeStore.currentLogo）**：
+  - 6 theme 的 `logos` 接 `SHARED_LOGOS`（dahsing / umu / long-heng），`defaultLogo` 統一 `"dahsing"`（大亨 ONLINE，棕金品牌調性與 daheng 識別最搭）
+  - **v4.5 起 daheng-header 與 6 個 desktop.vue brand 區塊全部改接 `themeStore.currentLogo.src / .label`**：對齊 at99 / noya / dahsing-* 等既有 theme 慣例，使用者透過 FAB 或 showcase logo switcher 切 logo 時，daheng 內部 logo 跟著換
+  - **演進歷史**：
+    - v4.3 之前：6 daheng 用獨立 `daheng` logoKey + 單一 mascot logo（不接 SHARED_LOGOS）
+    - v4.4：`logos` 改接 SHARED_LOGOS 但 daheng-header 內部仍寫死 mascot（showcase 卡片有切但 theme 內部沒切，造成不一致）
+    - v4.5：daheng-header / 6 個 desktop.vue brand 區塊也接 `themeStore.currentLogo`，showcase 切換 + theme 內部 logo 完全聯動
+  - **logo 樣式調整（v4.5 起）**：對齊 at99-mobile-top-bar 的橫式 logo CSS pattern — `height: 固定` + `width: auto` + `max-width: contain`（取代既有方形 `width × height` 寫法，避免 SHARED_LOGOS 三張橫式 logo 被壓扁）。mobile header `height: 60px / max-width: 140px`；PC brand 區塊依各 theme 設計 height 44~60px / max-width 120~140px
 
-- **缺失資源替代**（使用者拍板）：原稿引用 `logo.png` 與 `promo_v2.png` 在素材夾不存在；本實作以 `ch-mascot.png`（吉祥物）作 daheng-header 品牌頭、`trophy.png`（獎盃）作 promo 區圖。所有引用點都在 commit message 與 `daheng-shared/_data.ts` 註解標明
+- **缺失資源替代**（使用者拍板）：原稿引用 `logo.png` 與 `promo_v2.png` 在素材夾不存在。`logo.png` 原本以 `ch-mascot.png` 替代，但 v4.5 起 daheng-header 已改接 `themeStore.currentLogo`，**mascot 圖檔與 `_data.ts` 的 `mascotLogoSrc` export 保留作未來「吉祥物裝飾」使用，目前無消費點**；`promo_v2.png` → `trophy.png`（獎盃延續「優惠週週送」視覺）仍在使用
 
 - **預覽截圖**：本次實作未產出 6 theme × 3 colors × 3 logos × 2 devices = 108 張預覽截圖。registry 透過 `buildPreviews()` + `buildColorPreviews()` 嘗試對應命名檔，缺檔時 `getPreview` fallback 鏈會處理（default 色檔缺 → 回 ""；非 default 色檔缺 → fallback 回 default 截圖）。QA 後續用 Playwright 至少補 default × 3 logos × 2 devices = 6 張 / theme（命名 `daheng-<theme>-<logoKey>-<device>.png`），等待 root selector `.daheng-<theme>-pc`（桌面）或 `.daheng-<theme>-m`（mobile）
 

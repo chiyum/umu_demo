@@ -20,10 +20,15 @@ import {
   DAHENG_GAMES,
   DAHENG_RANKS,
   heroSrc,
-  mascotLogoSrc,
   trophySrc
 } from "../daheng-shared/_data";
 import DahengCatIcon from "../daheng-shared/atoms/daheng-cat-icon.vue";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// logo 改接 themeStore.currentLogo（v4.5 起）：對齊既有 theme 慣例，使用者切 logo 時跟著換
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 // 排行榜橫排卡片：對應 5 名各自配一張遊戲縮圖（用 GAMES 前 5 張）
 const rankCards = computed(() =>
@@ -40,8 +45,8 @@ const rankCards = computed(() =>
     <aside class="daheng-rank-pc__sidebar">
       <div class="daheng-rank-pc__brand">
         <img
-          :src="mascotLogoSrc"
-          alt="大亨"
+          :src="logoSrc"
+          :alt="logoLabel"
           class="daheng-rank-pc__brand-logo"
         />
         <div class="daheng-rank-pc__brand-title">大亨娛樂城</div>
@@ -174,10 +179,13 @@ const rankCards = computed(() =>
     border-bottom: 1px solid var(--border);
   }
 
+  // logo 樣式對齊 at99 / noya 橫式 logo pattern：height 固定 + width auto + max-width contain
   &__brand-logo {
-    width: 48px;
     height: 48px;
+    width: auto;
+    max-width: 120px;
     object-fit: contain;
+    display: block;
   }
 
   &__brand-title {

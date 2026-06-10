@@ -12,12 +12,13 @@
  * - PC 用更大的封面 + 編輯精選 + 多欄 masonry 強化此風格
  */
 import { computed } from "vue";
-import {
-  DAHENG_CHIPS,
-  DAHENG_GAMES,
-  heroSrc,
-  mascotLogoSrc
-} from "../daheng-shared/_data";
+import { DAHENG_CHIPS, DAHENG_GAMES, heroSrc } from "../daheng-shared/_data";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// logo 改接 themeStore.currentLogo（v4.5 起）：對齊既有 theme 慣例
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 // 編輯精選清單：用 GAMES 前 5 個
 const editorPicks = computed(() => DAHENG_GAMES.slice(0, 5));
@@ -36,7 +37,7 @@ const masonryItems = computed(() => {
   <div class="daheng-magazine-pc">
     <header class="daheng-magazine-pc__header">
       <div class="daheng-magazine-pc__brand">
-        <img :src="mascotLogoSrc" alt="大亨" />
+        <img :src="logoSrc" :alt="logoLabel" />
         <span>大亨雜誌</span>
       </div>
       <div class="daheng-magazine-pc__chips">
@@ -134,10 +135,13 @@ const masonryItems = computed(() => {
     align-items: center;
     gap: 10px;
 
+    // logo 樣式對齊 at99 / noya 橫式 logo pattern：height 固定 + width auto + max-width contain
     img {
-      width: 44px;
       height: 44px;
+      width: auto;
+      max-width: 120px;
       object-fit: contain;
+      display: block;
     }
 
     span {

@@ -15,10 +15,15 @@ import {
   DAHENG_CATS,
   DAHENG_GAMES,
   DAHENG_RANKS,
-  mascotLogoSrc,
   trophySrc
 } from "../daheng-shared/_data";
 import DahengCatIcon from "../daheng-shared/atoms/daheng-cat-icon.vue";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// logo 改接 themeStore.currentLogo（v4.5 起）：對齊既有 theme 慣例
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 // 中央密集 grid：6 欄 × 3 列 = 18 張，用 GAMES 重複填滿
 const gridSet = computed(() => [
@@ -33,7 +38,7 @@ const gridSet = computed(() => [
     <!-- 左 vertical menu -->
     <aside class="daheng-compact-pc__menu">
       <div class="daheng-compact-pc__brand">
-        <img :src="mascotLogoSrc" alt="大亨" />
+        <img :src="logoSrc" :alt="logoLabel" />
       </div>
       <nav>
         <div
@@ -140,10 +145,13 @@ const gridSet = computed(() => [
     padding-bottom: 16px;
     border-bottom: 1px solid var(--border);
 
+    // logo 樣式對齊 at99 / noya 橫式 logo pattern：height 固定 + width auto + max-width contain
     img {
-      width: 60px;
       height: 60px;
+      width: auto;
+      max-width: 140px;
       object-fit: contain;
+      display: block;
     }
   }
 

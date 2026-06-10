@@ -736,11 +736,12 @@ const dahsingHorizontal: ThemeMeta = {
  *   logo 統一比對所有 theme」的 UX 一致性
  * - 6 theme 改接 SHARED_LOGOS（dahsing / umu / long-heng），與 at99 / noya / dahsing-* 等
  *   既有 theme 一致；defaultLogo 設為 dahsing（大亨 ONLINE，棕金品牌調性與 daheng 識別最搭）
- * - 注意：daheng-header.vue 內部仍渲染 ch-mascot.png（品牌頭，不受 showcase logo 切換影響）。
- *   showcase 切換的是「卡片預覽縮圖 + dialog 預覽圖」，與 theme 內部品牌頭視覺解耦
+ * - v4.5 起 daheng-header.vue 與 6 個 desktop.vue brand 區塊也接 themeStore.currentLogo.src，
+ *   使用者切 logo（透過 FAB 或 showcase logo switcher）時 daheng theme 內部 logo 跟著換，
+ *   體驗完全對齊 at99 / noya / dahsing-* 慣例
  * - 為什麼移除既有的 DAHENG_MASCOT_LOGO_SRC / DAHENG_SHARED_LOGOS 常數：
- *   不再需要獨立 logoKey，留著反而誤導未來開發者；mascot.png 仍在 daheng-shared/assets/
- *   內被 daheng-header.vue 透過 _data.ts 的 mascotLogoSrc import 使用，不需動圖檔
+ *   不再需要獨立 logoKey，留著反而誤導未來開發者；mascot.png 與 _data.ts 的 mascotLogoSrc
+ *   export 仍保留供未來「吉祥物裝飾元素」使用，但目前無消費點
  *
  * 為什麼 3 配色變體（default / noir / jade）：
  * - default 對齊原稿棕金大亨米橘暖系（在 _tokens.scss 內定義）

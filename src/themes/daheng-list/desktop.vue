@@ -8,11 +8,13 @@
  * - 視覺像「leaderboard 競賽榜」，與手機 v5 的「6 列簡潔清單」呼應但資料密度更高
  */
 import { computed } from "vue";
-import {
-  DAHENG_CATS,
-  DAHENG_GAMES,
-  mascotLogoSrc
-} from "../daheng-shared/_data";
+import { DAHENG_CATS, DAHENG_GAMES } from "../daheng-shared/_data";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+// logo 改接 themeStore.currentLogo（v4.5 起）：對齊既有 theme 慣例
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 
 // 表格列：在 mobile 6 列基礎上補附加欄（玩家數 / 賠率 / 趨勢）
 const tableRows = computed(() =>
@@ -33,7 +35,7 @@ const restRows = computed(() => tableRows.value.slice(3));
   <div class="daheng-list-pc">
     <header class="daheng-list-pc__header">
       <div class="daheng-list-pc__brand">
-        <img :src="mascotLogoSrc" alt="大亨" />
+        <img :src="logoSrc" :alt="logoLabel" />
         <span>大亨娛樂城 · 人氣榜單</span>
       </div>
       <nav class="daheng-list-pc__nav">
@@ -152,10 +154,13 @@ const restRows = computed(() => tableRows.value.slice(3));
     align-items: center;
     gap: 10px;
 
+    // logo 樣式對齊 at99 / noya 橫式 logo pattern：height 固定 + width auto + max-width contain
     img {
-      width: 44px;
       height: 44px;
+      width: auto;
+      max-width: 120px;
       object-fit: contain;
+      display: block;
     }
 
     span {

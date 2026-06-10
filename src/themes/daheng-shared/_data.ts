@@ -19,6 +19,14 @@
 
 export const heroSrc = new URL("./assets/hero.png", import.meta.url).href;
 export const trophySrc = new URL("./assets/trophy.png", import.meta.url).href;
+/**
+ * mascot 圖檔 URL（v4.5 起無消費點，保留供未來裝飾使用）
+ *
+ * 歷史：v4.4 之前 daheng-header 與 6 個 desktop.vue brand 區塊均寫死引用此圖；
+ * v4.5 起 daheng-header / desktop brand 全改接 themeStore.currentLogo.src
+ * 使其跟隨 showcase / FAB logo 切換（對齊 at99 / noya / dahsing-* 慣例）。
+ * 圖檔 ch-mascot.png 與本 export 都保留，未來若 daheng 要做「吉祥物裝飾元素」可直接消費。
+ */
 export const mascotLogoSrc = new URL("./assets/ch-mascot.png", import.meta.url)
   .href;
 

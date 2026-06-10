@@ -1,23 +1,37 @@
 <script setup lang="ts">
 /**
- * 大亨手機 header：吉祥物 logo + 註冊 / 登入 + 旗子
+ * 大亨手機 header：品牌 logo + 註冊 / 登入 + 旗子
  *
- * 為什麼 logo 不走 themeStore.currentLogo：
- * - 6 個 daheng theme 是品牌專屬版型，不適用「FAB 切 logo」的探索性功能
- * - mascotLogoSrc 寫死從 daheng-shared/assets 取 ch-mascot.png（使用者拍板替代 logo.png）
- * - 若未來要加 FAB 切 logo 支援，再導入 themeStore 即可
+ * 為什麼 logo 改接 themeStore.currentLogo（v4.5 起）：
+ * - 對齊 at99 / noya / honest-max / dahsing-* 等既有 theme 慣例，使用者切 logo（透過 FAB
+ *   或 showcase logo switcher）時，daheng 6 theme 也跟著換 logo，主頁訪客體驗一致
+ * - 既有 daheng-shared/assets/ch-mascot.png 圖檔保留作未來裝飾用（未刪），但不再被引用為
+ *   daheng-header 品牌頭；showcase logo 切換接 SHARED_LOGOS（大亨 / UMU / 隆亨）
+ *
+ * 為什麼樣式從方形 84×60 改成 height 60 + width auto + max-width 140（v4.5 起）：
+ * - SHARED_LOGOS 三張是橫式 logo（大亨 ONLINE 較寬、UMU / 隆亨較窄），固定 width 84px 會
+ *   壓扁長 logo 或留空白
+ * - 對齊 at99-mobile-top-bar / noya-mobile-top-bar 的 logo CSS pattern（height 固定 + width
+ *   auto + max-width contain），三張 logo 視覺平衡
  *
  * 為什麼旗子用 CSS 偽元素而非 SVG：
  * - 原稿 phones.js .flag 用 div + ::before（藍色 55%×55%）+ ::after（白圓 28%×28% + box-shadow）
  *   組合「日本國旗左上角樣式」抽象示意，照搬原稿 CSS 不轉換成 SVG
  * - 若改 SVG 視覺密度會跑掉（圓角、陰影、外框白邊都是 CSS 屬性）
  */
-import { mascotLogoSrc } from "../_data";
+import { computed } from "vue";
+import { useDemoThemeStore } from "@/store/demo-theme.store";
+
+const themeStore = useDemoThemeStore();
+const logoSrc = computed(() => themeStore.currentLogo.src);
+const logoLabel = computed(() => themeStore.currentLogo.label);
 </script>
 
 <template>
   <div class="daheng-header">
-    <img :src="mascotLogoSrc" alt="大亨" class="daheng-header__logo" />
+    <a class="daheng-header__brand" href="#" :aria-label="logoLabel">
+      <img :src="logoSrc" :alt="logoLabel" class="daheng-header__logo" />
+    </a>
     <div class="daheng-header__actions">
       <button type="button" class="daheng-header__btn-reg">註冊</button>
       <button type="button" class="daheng-header__btn-login">登入</button>
@@ -34,11 +48,21 @@ import { mascotLogoSrc } from "../_data";
   padding: 8px 18px 12px;
   gap: 10px;
 
-  &__logo {
-    width: 84px;
-    height: 60px;
+  &__brand {
+    display: inline-flex;
+    align-items: center;
     flex: none;
+    text-decoration: none;
+  }
+
+  // logo 樣式對齊 at99 / noya / dahsing-* 等既有 theme 的橫式 logo pattern：
+  // height 固定 + width auto + max-width contain，三張 SHARED_LOGOS 視覺平衡
+  &__logo {
+    height: 60px;
+    width: auto;
+    max-width: 140px;
     object-fit: contain;
+    display: block;
   }
 
   &__actions {
