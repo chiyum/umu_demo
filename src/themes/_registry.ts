@@ -728,31 +728,35 @@ const dahsingHorizontal: ThemeMeta = {
  *   - daheng-list PC：leaderboard 主題頁（top 3 大卡 + 表格式榜單含玩家數/賠率/趨勢）
  *   - daheng-magazine PC：雜誌封面風（大封面 banner + 編輯精選 + 4 欄 masonry）
  *
- * 共用品牌色票：棕金大亨米橘暖系
+ * 共用品牌色票（default 配色）：棕金大亨米橘暖系
  *   ink #2c2521 / brown #b06a34 / brown-soft #c98a52 / gold #d9a24b / 米橘漸層底
  *
- * 為什麼 logos 只有單一 mascot：
- * - 6 個 daheng theme 是品牌專屬版型，不適用「FAB 切 logo」探索性功能
- * - 用 ch-mascot.png（吉祥物）作 brand mark，single-logo tuple 滿足 LogoCandidate non-empty 約束
+ * 為什麼 logos 改回 SHARED_LOGOS（v4.4 修正）：
+ * - reviewer 觀察 5：showcase 主頁的 logo 切換 row 對 daheng 卡片無效，破壞「主頁訪客用同一組
+ *   logo 統一比對所有 theme」的 UX 一致性
+ * - 6 theme 改接 SHARED_LOGOS（dahsing / umu / long-heng），與 at99 / noya / dahsing-* 等
+ *   既有 theme 一致；defaultLogo 設為 dahsing（大亨 ONLINE，棕金品牌調性與 daheng 識別最搭）
+ * - 注意：daheng-header.vue 內部仍渲染 ch-mascot.png（品牌頭，不受 showcase logo 切換影響）。
+ *   showcase 切換的是「卡片預覽縮圖 + dialog 預覽圖」，與 theme 內部品牌頭視覺解耦
+ * - 為什麼移除既有的 DAHENG_MASCOT_LOGO_SRC / DAHENG_SHARED_LOGOS 常數：
+ *   不再需要獨立 logoKey，留著反而誤導未來開發者；mascot.png 仍在 daheng-shared/assets/
+ *   內被 daheng-header.vue 透過 _data.ts 的 mascotLogoSrc import 使用，不需動圖檔
+ *
+ * 為什麼 3 配色變體（default / noir / jade）：
+ * - default 對齊原稿棕金大亨米橘暖系（在 _tokens.scss 內定義）
+ * - noir 黑金奢華（黑底 + 香檳金 + 暗金漸層）— 與既有 fived 5D 暗金禮盒近但更冷峻
+ * - jade 翡翠玉璽（深綠 + 金邊 + 米色 surface）— 東方識別，與既有 vietvip 紅金路線完全不同方向
+ * - 3 色語意明確、不重複既有 theme 配色，showcase swatch 一目了然
  *
  * 為什麼 previews 暫不填截圖：
- * - 6 個新 theme 的截圖檔尚未產出，buildPreviews 找不到對應檔會回 ""，showcase 端 fallback 鏈會處理破圖
- * - QA 後續會跑 Playwright 補 6 theme × 1 logo × 2 device = 12 張預覽圖
+ * - 6 個新 theme × 3 colors × 3 logos × 2 device = 108 張截圖檔尚未產出
+ * - buildPreviews / buildColorPreviews 找不到對應檔會回 ""，showcase 端 fallback 鏈會處理破圖
+ * - QA 後續用 Playwright 補圖（至少先補 default × 3 logos × 2 device = 6 張 / theme）
  */
-const DAHENG_MASCOT_LOGO_SRC = new URL(
-  "./daheng-shared/assets/ch-mascot.png",
-  import.meta.url
-).href;
-
-const DAHENG_SHARED_LOGOS: [LogoCandidate] = [
-  {
-    key: "daheng",
-    label: "大亨吉祥物",
-    src: DAHENG_MASCOT_LOGO_SRC,
-    transparentBg: true,
-    // 棕金大亨米橘暖系主色取自 _tokens.scss --color-primary
-    mainColor: "#b06a34"
-  }
+const DAHENG_COLORS: ColorVariant[] = [
+  { key: "default", label: "棕金大亨", swatch: "#b06a34" },
+  { key: "noir", label: "黑金奢華", swatch: "#d4a574" },
+  { key: "jade", label: "翡翠玉璽", swatch: "#1e5b3a" }
 ];
 
 /**
@@ -784,10 +788,12 @@ const dahengRank: ThemeMeta = {
   desktop: () => import("./daheng-rank/desktop.vue"),
   mobile: () => import("./daheng-rank/mobile.vue"),
   defaultColor: "default",
-  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  colors: DAHENG_COLORS,
   previews: buildPreviews("daheng-rank"),
-  defaultLogo: "daheng",
-  logos: DAHENG_SHARED_LOGOS,
+  // color 變體截圖：跳過 default（沿用既有 previews 不含 color 段檔名），只列 noir / jade
+  colorPreviews: buildColorPreviews("daheng-rank", DAHENG_COLORS, "default"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
   // 米白底 + 棕金暖系
   brightness: "light",
   // 通用大廳排行榜入口
@@ -803,10 +809,11 @@ const dahengGrid: ThemeMeta = {
   desktop: () => import("./daheng-grid/desktop.vue"),
   mobile: () => import("./daheng-grid/mobile.vue"),
   defaultColor: "default",
-  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  colors: DAHENG_COLORS,
   previews: buildPreviews("daheng-grid"),
-  defaultLogo: "daheng",
-  logos: DAHENG_SHARED_LOGOS,
+  colorPreviews: buildColorPreviews("daheng-grid", DAHENG_COLORS, "default"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
   brightness: "light",
   categories: ["general"],
   releaseDate: DAHENG_RELEASE_DATES.grid
@@ -820,10 +827,11 @@ const dahengRail: ThemeMeta = {
   desktop: () => import("./daheng-rail/desktop.vue"),
   mobile: () => import("./daheng-rail/mobile.vue"),
   defaultColor: "default",
-  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  colors: DAHENG_COLORS,
   previews: buildPreviews("daheng-rail"),
-  defaultLogo: "daheng",
-  logos: DAHENG_SHARED_LOGOS,
+  colorPreviews: buildColorPreviews("daheng-rail", DAHENG_COLORS, "default"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
   brightness: "light",
   categories: ["general"],
   releaseDate: DAHENG_RELEASE_DATES.rail
@@ -837,10 +845,11 @@ const dahengCompact: ThemeMeta = {
   desktop: () => import("./daheng-compact/desktop.vue"),
   mobile: () => import("./daheng-compact/mobile.vue"),
   defaultColor: "default",
-  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  colors: DAHENG_COLORS,
   previews: buildPreviews("daheng-compact"),
-  defaultLogo: "daheng",
-  logos: DAHENG_SHARED_LOGOS,
+  colorPreviews: buildColorPreviews("daheng-compact", DAHENG_COLORS, "default"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
   brightness: "light",
   categories: ["general"],
   releaseDate: DAHENG_RELEASE_DATES.compact
@@ -854,10 +863,11 @@ const dahengList: ThemeMeta = {
   desktop: () => import("./daheng-list/desktop.vue"),
   mobile: () => import("./daheng-list/mobile.vue"),
   defaultColor: "default",
-  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  colors: DAHENG_COLORS,
   previews: buildPreviews("daheng-list"),
-  defaultLogo: "daheng",
-  logos: DAHENG_SHARED_LOGOS,
+  colorPreviews: buildColorPreviews("daheng-list", DAHENG_COLORS, "default"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
   brightness: "light",
   categories: ["general"],
   releaseDate: DAHENG_RELEASE_DATES.list
@@ -871,10 +881,15 @@ const dahengMagazine: ThemeMeta = {
   desktop: () => import("./daheng-magazine/desktop.vue"),
   mobile: () => import("./daheng-magazine/mobile.vue"),
   defaultColor: "default",
-  colors: [{ key: "default", label: "米橘暖系", swatch: "#b06a34" }],
+  colors: DAHENG_COLORS,
   previews: buildPreviews("daheng-magazine"),
-  defaultLogo: "daheng",
-  logos: DAHENG_SHARED_LOGOS,
+  colorPreviews: buildColorPreviews(
+    "daheng-magazine",
+    DAHENG_COLORS,
+    "default"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
   brightness: "light",
   categories: ["general"],
   releaseDate: DAHENG_RELEASE_DATES.magazine

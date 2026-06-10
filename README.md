@@ -784,21 +784,31 @@ showcase 預覽 dialog 新增 color swatch row，可在 dialog 內切換配色�
   - daheng-list PC：leaderboard 主題頁（top 3 大卡橫排+金牌略放大+獎牌徽章+玩家數/賠率/趨勢統計）+ 表格式榜單（6 欄含進入 CTA）
   - daheng-magazine PC：雜誌封面風（左 2/3 大封面+overlay 標題+CTA+右 1/3 編輯精選 5 筆）+ 4 欄 masonry（12 張 tall/shortc 交錯）
 
-- **配色（共用單一品牌色）**：6 theme 共用同一份米橘暖系色票（取自原稿 shared.css `:root`）：
-  - `--color-primary` `#b06a34`（brown，原稿 `--brown`）
-  - `--color-secondary` `#c98a52`（brown-soft）
-  - `--color-accent` `#d9a24b`（gold，排名數字色）
-  - `--bg-base` `#fdf4ea` / `--bg-surface` `#fcefdf`
-  - `--text-primary` `#2c2521`（ink）/ `--border` `#efddc8`
-  - `--gradient-cta` `linear-gradient(180deg, #cf8a4f, #a85d2b)`
-  - 每 theme 目前只有單一 default 色（`colors: [{key:'default', label:'米橘暖系', swatch:'#b06a34'}]`），`_variants.scss` 留空殼供未來擴充
+- **配色（3 配色變體：default / noir / jade，v4.4 起）**：
+  - `default` 棕金大亨米橘暖系（取自原稿 shared.css `:root`，定義於 `_tokens.scss`）
+    - `--color-primary` `#b06a34`（brown，原稿 `--brown`）
+    - `--color-secondary` `#c98a52`（brown-soft）
+    - `--color-accent` `#d9a24b`（gold，排名數字色）
+    - `--bg-base` `#fdf4ea` / `--bg-surface` `#fcefdf`
+    - `--text-primary` `#2c2521`（ink）/ `--border` `#efddc8`
+    - `--gradient-cta` `linear-gradient(180deg, #cf8a4f, #a85d2b)`
+  - `noir` 黑金奢華（定義於 `_variants.scss`）：黑底 `#1a1410` + 香檳金 `#d4a574` + 暗金漸層；與既有 fived 5D 暗金禮盒區隔（fived 偏紅棕、noir 走純黑）；swatch 用香檳金以避免色塊在白底像「禁用」
+  - `jade` 翡翠玉璽（定義於 `_variants.scss`）：深翠綠 `#1e5b3a` + 玉璽金 `#c8a04b` + 古米色 `#f5efd9`；東方識別，與既有 vietvip 紅金東南亞區隔
+  - 6 個 daheng 的 `_variants.scss` 各自完整覆寫 12 必要 var + `--bg-decoration`（共 13 個），即便部分 var 目前未被消費（`--bg-base` / `--bg-surface` / `--bg-overlay` / `--bg-decoration`）也照公約鐵則覆寫，防未來 atom 新增引用造成色殘留
+  - 字體 stack（`--font-display` / `--font-body`）跨變體不變，繼承自上層 `[data-theme="daheng-x"]` selector，不重複覆寫
   - 為什麼 6 theme 不抽共用 token 檔：vite buildThemeScssImports 只掃 `src/themes/<key>/_tokens.scss`，跨 theme @use 共用需多走一層，務實複製 6 份 token 內容（命名公約鐵則：12 必要 var 不可改名）
 
-- **logo**：6 theme 共用單一 `daheng` logoKey（src 用 `daheng-shared/assets/ch-mascot.png` 吉祥物），不接 SHARED_LOGOS（dahsing/umu/long-heng）三 logo 切換 — 大亨 6 版是品牌專屬，FAB 切 logo 功能不適用
+- **logo（v4.4 起改回 SHARED_LOGOS 三輪播）**：
+  - 6 theme 改接 `SHARED_LOGOS`（dahsing / umu / long-heng）；`defaultLogo` 統一設為 `"dahsing"`（大亨 ONLINE，棕金品牌調性與 daheng 識別最搭）
+  - **為什麼從獨立 `daheng` logoKey 改回 SHARED_LOGOS**：
+    - reviewer 觀察 5：showcase 主頁的 logo 切換 row 對 daheng 卡片無效（單一 logoKey 無得切），破壞「主頁訪客用同一組 logo 統一比對所有 theme」的 UX 一致性
+    - 使用者要求 showcase 體驗一致，6 theme 改為與 at99 / noya / dahsing-* 等既有 theme 一致接 SHARED_LOGOS
+    - 既有的 `DAHENG_MASCOT_LOGO_SRC` 與 `DAHENG_SHARED_LOGOS` 常數已從 `_registry.ts` 移除
+  - **daheng-header 內部仍渲染 ch-mascot**：showcase logo 切換的是「卡片預覽縮圖 + dialog 預覽圖」，與 theme 內部品牌頭視覺解耦；`daheng-shared/assets/ch-mascot.png` 仍透過 `_data.ts` 的 `mascotLogoSrc` 被 `daheng-header.vue` 使用，圖檔保留不動
 
-- **缺失資源替代**（使用者拍板）：原稿引用 `logo.png` 與 `promo_v2.png` 在素材夾不存在；本實作以 `ch-mascot.png`（吉祥物）作 logo、`trophy.png`（獎盃）作 promo 區圖。所有引用點都在 commit message 與 `daheng-shared/_data.ts` 註解標明
+- **缺失資源替代**（使用者拍板）：原稿引用 `logo.png` 與 `promo_v2.png` 在素材夾不存在；本實作以 `ch-mascot.png`（吉祥物）作 daheng-header 品牌頭、`trophy.png`（獎盃）作 promo 區圖。所有引用點都在 commit message 與 `daheng-shared/_data.ts` 註解標明
 
-- **預覽截圖**：本次實作未產出 6 theme × 1 logo × 2 device = 12 張預覽截圖。registry 透過 `buildPreviews()` helper 嘗試 `src/assets/previews/daheng-<theme>-daheng-<device>.png`，缺檔時 `getPreview` fallback 鏈會處理破圖（回 ""）。QA 後續用 Playwright 補圖，等待 root selector `.daheng-<theme>-pc`（桌面）或 `.daheng-<theme>-m`（mobile）
+- **預覽截圖**：本次實作未產出 6 theme × 3 colors × 3 logos × 2 devices = 108 張預覽截圖。registry 透過 `buildPreviews()` + `buildColorPreviews()` 嘗試對應命名檔，缺檔時 `getPreview` fallback 鏈會處理（default 色檔缺 → 回 ""；非 default 色檔缺 → fallback 回 default 截圖）。QA 後續用 Playwright 至少補 default × 3 logos × 2 devices = 6 張 / theme（命名 `daheng-<theme>-<logoKey>-<device>.png`），等待 root selector `.daheng-<theme>-pc`（桌面）或 `.daheng-<theme>-m`（mobile）
 
 #### 排程顯示機制（`releaseDate` 欄位 + `?preview=1` bypass）
 

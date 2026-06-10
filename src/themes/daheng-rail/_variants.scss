@@ -1,4 +1,88 @@
-// daheng-rail 替代配色（目前 6 個大亨 theme 僅提供單一 default 配色）
-// 未來若使用者要為此版面加深色 / 暗金等色變體，比照 dahsing-waterfall _variants.scss 模式：
-// [data-theme="daheng-rail"][data-theme-color="<colorKey>"] { ...12 var... }
-// 此檔目前刻意留空，但保留檔案讓 vite buildThemeScssImports 掃描不報錯
+// daheng-rail 替代配色：noir 黑金奢華 / jade 翡翠玉璽
+// default = 棕金大亨（_tokens.scss 內），此檔提供另外 2 套
+// 為什麼 6 個 daheng theme 共用同一份配色定義（noir / jade）：
+// - 6 theme 走同品牌不同 layout 結構，配色語意一致；複製 6 份雖有重複但 selector 各自獨立
+// - 與 dahsing-{waterfall,tabs,horizontal} 三 theme 共用相似配色但 selector 分離的設計理念一致
+// 為什麼覆寫所有相關 token：
+// - 切換 variants 時若漏寫會殘留前一色（README 警告過此問題）
+// - 即便某些 var 在 daheng 程式碼內目前沒被消費（如 --bg-base / --bg-surface / --bg-overlay /
+//   --bg-decoration），仍照 12 必要 var 公約覆寫，以防未來 atom 新增引用
+// - 字體 stack（--font-display / --font-body）跨變體不變，繼承自上層 [data-theme="daheng-rail"]
+//   selector 即可，不重複覆寫
+
+// ── noir 黑金奢華變體 ─────────────────────────────
+// 設計理念：黑底 + 香檳金 accent + 暗金漸層
+// - 主色用香檳金 #d4a574，與大亨 ONLINE logo 金字呼應
+// - 黑底 #1a1410 帶極微棕調，避免純黑死板
+// - 與既有 fived（深棕暗金禮盒）區隔：fived 偏紅棕，noir 走純黑
+// - swatch 在 _registry 用香檳金 #d4a574 而非黑底，避免色塊在白底顯示像「禁用」
+[data-theme="daheng-rail"][data-theme-color="noir"] {
+  --color-primary: #d4a574; // 香檳金（主 CTA / 品牌色）
+  --color-secondary: #b08658; // 深香檳（按鈕邊框 / 副標）
+  --color-accent: #f1c889; // 亮金（排名數字 / 強調）
+  --bg-base: #1a1410; // 極暗棕（接近黑但帶微棕暖度）
+  --bg-surface: #2a221c; // 卡片底（比 bg-base 略亮）
+  --bg-overlay: rgba(212, 165, 116, 0.1); // 香檳金 10% 透明覆蓋
+  --text-primary: #f5e9d6; // 米白主文字（深底高對比）
+  --text-muted: #b8a48a; // 米褐次要文字
+  --border: #3a2e22; // 暗棕邊框
+  --shadow: 0 10px 26px -14px rgba(0, 0, 0, 0.7);
+  --gradient-hero: linear-gradient(
+    180deg,
+    #1a1410 0%,
+    #241b14 46%,
+    #2e221a 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #d4a574 0%, #a07a48 100%);
+
+  // PC 桌面背景柔光：金色光暈 + 深棕暈
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(212, 165, 116, 0.18) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(80, 50, 20, 0.3) 0%,
+      transparent 65%
+    );
+}
+
+// ── jade 翡翠玉璽變體 ─────────────────────────────
+// 設計理念：深綠 + 金邊 + 米色 surface（東方氣勢）
+// - 深翠綠 #1e5b3a 取自玉璽古樸印象，金邊 #c8a04b 對齊大亨棕金識別
+// - 米色 surface #f5efd9 接近古紙色，與綠金搭配自帶「玉璽印章」典雅感
+// - 與既有 vietvip（深紅金葉脈）區隔：vietvip 偏紅金東南亞，jade 走純綠金東方
+[data-theme="daheng-rail"][data-theme-color="jade"] {
+  --color-primary: #1e5b3a; // 深翡翠綠
+  --color-secondary: #2c7a4f; // 中翡翠（按鈕邊框 / 副標）
+  --color-accent: #c8a04b; // 玉璽金（亮點 / 排名數字）
+  --bg-base: #f5efd9; // 古米色背景
+  --bg-surface: #fbf6e2; // 卡片底（比 bg-base 略亮）
+  --bg-overlay: rgba(30, 91, 58, 0.08); // 深綠 8% 透明覆蓋
+  --text-primary: #1a3a26; // 深綠墨色主文字
+  --text-muted: #5a6850; // 灰綠次要文字
+  --border: #d4c989; // 米金邊框
+  --shadow: 0 10px 26px -14px rgba(30, 91, 58, 0.35);
+  --gradient-hero: linear-gradient(
+    180deg,
+    #f5efd9 0%,
+    #ede5c2 46%,
+    #e2d8a8 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #c8a04b 0%, #8a6e2d 100%);
+
+  // PC 桌面背景柔光：金暈 + 綠暈
+  --bg-decoration:
+    radial-gradient(
+      ellipse 1200px 900px at 100% 0%,
+      rgba(200, 160, 75, 0.22) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 1000px 700px at 0% 100%,
+      rgba(30, 91, 58, 0.12) 0%,
+      transparent 65%
+    );
+}
