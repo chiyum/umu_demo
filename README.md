@@ -809,7 +809,49 @@ showcase 預覽 dialog 新增 color swatch row，可在 dialog 內切換配色�
 
 - **缺失資源替代**（使用者拍板）：原稿引用 `logo.png` 與 `promo_v2.png` 在素材夾不存在。`logo.png` 原本以 `ch-mascot.png` 替代，但 v4.5 起 daheng-header 已改接 `themeStore.currentLogo`，**mascot 圖檔與 `_data.ts` 的 `mascotLogoSrc` export 保留作未來「吉祥物裝飾」使用，目前無消費點**；`promo_v2.png` → `trophy.png`（獎盃延續「優惠週週送」視覺）仍在使用
 
-- **預覽截圖**：本次實作未產出 6 theme × 3 colors × 3 logos × 2 devices = 108 張預覽截圖。registry 透過 `buildPreviews()` + `buildColorPreviews()` 嘗試對應命名檔，缺檔時 `getPreview` fallback 鏈會處理（default 色檔缺 → 回 ""；非 default 色檔缺 → fallback 回 default 截圖）。QA 後續用 Playwright 至少補 default × 3 logos × 2 devices = 6 張 / theme（命名 `daheng-<theme>-<logoKey>-<device>.png`），等待 root selector `.daheng-<theme>-pc`（桌面）或 `.daheng-<theme>-m`（mobile）
+- **預覽截圖（v4.5 補齊 108 張）**：6 theme × 3 colors × 3 logos × 2 devices = 108 張預覽截圖已補齊，存於 `src/assets/previews/`，命名 `daheng-<theme>-<color>-<logo>-<device>.png`（注意 `long-heng` 帶 hyphen 不要拆字）。registry 透過 `buildPreviews()` + `buildColorPreviews()` 自動命中（與其他 theme 一致）
+  - **default 色檔命名**：buildPreviews 用 `<theme>-<logo>-<device>.png` 規約，但 v4.5 統一補的 108 張使用完整 `<theme>-<color>-<logo>-<device>.png` 規約（含 default 色段，方便未來腳本批次處理）。`getPreview` fallback 鏈會自動處理：default 色看不到 `<theme>-default-<logo>-<device>.png` 命中時退回 `<theme>-<logo>-<device>.png`（既有命名）
+  - **截圖 SOP**：見下方「截圖維護 SOP」小節
+
+#### 截圖維護 SOP
+
+新增 / 重新生成 daheng theme 預覽截圖時：
+
+```bash
+# 1. 啟動本機 dev server（首選 9527，已佔用會自動 +1 升到 9528 / 9530）
+yarn dev
+
+# 2. 確認 console 顯示的 Local URL 後，跑截圖 script
+#    預設 BASE_URL=http://localhost:9528（與 admin 專案常見的 port 衝突後升 9528 對齊）
+node scripts/capture-daheng-previews.mjs
+
+# 3. port 不同時用 env override
+BASE_URL=http://localhost:9530 node scripts/capture-daheng-previews.mjs
+
+# 4. 也可截 deployed 站
+BASE_URL=https://chiyum.github.io/umu_demo node scripts/capture-daheng-previews.mjs
+```
+
+Script 規格：
+
+| 項目 | 值 |
+|---|---|
+| 路徑 | `scripts/capture-daheng-previews.mjs` |
+| 套件依賴 | `playwright`（devDependency，chromium browser binary） |
+| 輸出 | `src/assets/previews/<theme>-<color>-<logo>-<device>.png` |
+| Mobile viewport | 390 × 844（觸發 useDevice.isMobile，渲染 mobile.vue） |
+| Desktop viewport | 1440 × 900（渲染 desktop.vue） |
+| deviceScaleFactor | 1（避免 hidpi 截圖兩倍大） |
+| 等待策略 | domcontentloaded（dev）/ networkidle（prod）+ root selector wait + 600ms sleep |
+| 平行度 | 序列跑（避免 SPA 字體 / chunk 載入排程被打亂） |
+| 預估時間 | 108 張 × 約 3 秒 ≈ 5~6 分鐘 |
+| 失敗處理 | 個別 page 失敗時 console.error + 最後一次 exit code 1 列出，可重跑（既成功的覆寫即可） |
+
+URL query 控制（依賴 `use-theme-url-sync` 的 v4.5 雙向同步）：
+
+- `?color=default` / `?color=noir` / `?color=jade` — 切配色
+- `?logoKey=dahsing` / `?logoKey=umu` / `?logoKey=long-heng` — 切 logo
+- 兩者皆雙向同步：store 改動會更新 URL，URL 改動會推進 store
 
 #### 排程顯示機制（`releaseDate` 欄位 + `?preview=1` bypass）
 

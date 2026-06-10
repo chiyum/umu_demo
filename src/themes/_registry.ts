@@ -194,8 +194,17 @@ function pickPreviewUrl(
   logoKey: string,
   device: "desktop" | "mobile"
 ): string {
-  const key = `/src/assets/previews/${themeKey}-${logoKey}-${device}.png`;
-  return PREVIEW_URL_MAP[key] ?? "";
+  // 既有規約：`<theme>-<logo>-<device>.png`（不含 color 段，13 個既有 theme 全採此命名）
+  const legacyKey = `/src/assets/previews/${themeKey}-${logoKey}-${device}.png`;
+  const legacy = PREVIEW_URL_MAP[legacyKey];
+  if (legacy) return legacy;
+
+  // 統一規約 fallback（v4.5 起，daheng 6 theme 全採此命名）：
+  // `<theme>-default-<logo>-<device>.png` — 把 default 色檔也納入色變體命名
+  // 為什麼加此 fallback：daheng 截圖 script 統一輸出含 color 段檔名（108 張完整對稱），
+  // 既有的 buildPreviews 走 legacy 路徑找不到 default 檔；加此 fallback 讓兩規約共存
+  const unifiedKey = `/src/assets/previews/${themeKey}-default-${logoKey}-${device}.png`;
+  return PREVIEW_URL_MAP[unifiedKey] ?? "";
 }
 
 /**
