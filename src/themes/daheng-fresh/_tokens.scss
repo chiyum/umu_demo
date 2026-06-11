@@ -1,0 +1,84 @@
+// daheng-fresh（a15 大亨清新活力）token 主檔
+// 來源設計稿：大亨_AWD_版型C_清新活力.html（AWD 完整響應式，淺色藍白系）
+// 主視覺特徵（取自原稿 :root）：
+//   - 藍白淺底 bg #eef4fb / 卡片純白 #ffffff
+//   - 主藍 oklch(0.60 0.17 252) / 深藍 oklch(0.45 0.16 255) / 軟藍 oklch(0.94 0.03 245)
+//   - 橘色點綴 oklch(0.72 0.16 55)（CTA 球 / hotdot / 圓點）
+//   - 柔和藍陰影 rgba(46,98,178,.10) + 18px 大圓角
+// 配色三變體（_variants.scss 切）：
+//   sky-blue 預設 — 清新藍橘（原稿基準）
+//   mint-green     — 薄荷綠（主色改清新綠，點綴改檸黃）
+//   coral-pink     — 珊瑚粉（主色改桃粉，點綴改珊瑚橘）
+// 命名公約（全 theme 共用 12 CSS var）
+
+[data-theme="daheng-fresh"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(60% 0.17 252deg); // 主藍（按鈕 / nav active）
+  --color-secondary: oklch(45% 0.16 255deg); // 深藍（標題 / logo 文字）
+  --color-accent: oklch(72% 0.16 55deg); // 橘色點綴（CTA 球 / hotdot / 圓點）
+  --bg-base: #eef4fb; // 原稿 --bg 藍白淺底
+  --bg-surface: #ffffff; // 原稿 --card 純白卡片
+  --bg-overlay: oklch(94% 0.03 245deg); // 原稿 --blue-soft 軟藍（softbtn / 圖示底）
+  --text-primary: #22324a; // 原稿 --txt
+  --text-muted: #7488a3; // 原稿 --txt-2
+  --border: oklch(90% 0.02 248deg); // 原稿 --line
+  --shadow: 0 6px 22px rgba(46, 98, 178, 0.1); // 原稿 --shadow 柔藍陰影
+  --gradient-hero: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(78% 0.13 220deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(62% 0.17 252deg), oklch(50% 0.18 268deg)); // 原稿 s-b1
+
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(68% 0.16 245deg),
+    oklch(60% 0.17 252deg)
+  ); // 主藍 CTA（原稿 btn-blue）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --blue-deep: oklch(45% 0.16 255deg); // 深藍（與 secondary 同義，語意保留）
+  --gradient-orange: linear-gradient(
+    150deg,
+    oklch(78% 0.15 65deg),
+    oklch(72% 0.16 55deg)
+  ); // 橘色 CTA（原稿 btn-orange / hotdot / 底部凸球）
+
+  --gradient-jackpot: linear-gradient(
+    120deg,
+    oklch(50% 0.16 262deg),
+    oklch(62% 0.17 248deg)
+  ); // 彩金池橫條藍漸層
+
+  --gradient-app: linear-gradient(
+    130deg,
+    oklch(55.% 0.17 258deg),
+    oklch(66% 0.16 242deg)
+  ); // App banner 藍漸層
+
+  --mini-1: linear-gradient(
+    140deg,
+    oklch(70% 0.14 160deg),
+    oklch(55.% 0.14 175deg)
+  ); // hero mini m1（青綠）
+
+  --mini-2: linear-gradient(
+    140deg,
+    oklch(66% 0.16 305deg),
+    oklch(52% 0.18 290deg)
+  ); // hero mini m2（紫）
+
+  --promo-c1: oklch(93% 0.05 245deg); // 優惠圖示底色（藍）
+  --promo-c2: oklch(94% 0.06 75deg); // 優惠圖示底色（橘）
+  --promo-c3: oklch(93% 0.05 160deg); // 優惠圖示底色（綠）
+  --cta-ink: #ffffff; // 落在藍 / 橘 CTA 上的對比文字（白）
+  --radius: 18px; // 原稿 --r
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

@@ -1,0 +1,96 @@
+// daheng-fresh 版面替代配色
+// 透過 [data-theme="daheng-fresh"][data-theme-color="xxx"] 雙重 selector
+// 切換時務必把 gradient-orange / gradient-jackpot / gradient-app / mini / promo 等
+// 對比 token 一起覆寫，避免殘色（淺色 theme 多處 inline 漸層都已 token 化）。
+
+// 薄荷綠：主色改清新綠，點綴改檸黃，hero / app 走綠系
+[data-theme="daheng-fresh"][data-theme-color="mint-green"] {
+  --color-primary: oklch(66% 0.15 165deg); // 清新綠
+  --color-secondary: oklch(50% 0.13 168deg); // 深綠
+  --color-accent: oklch(78% 0.16 95deg); // 檸黃點綴
+  --bg-base: #eef9f3;
+  --bg-surface: #ffffff;
+  --bg-overlay: oklch(94% 0.04 165deg);
+  --text-primary: #1f3a30;
+  --text-muted: #6f8a7e;
+  --border: oklch(90% 0.02 165deg);
+  --shadow: 0 6px 22px rgba(34, 150, 110, 0.12);
+  --gradient-hero: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(80% 0.13 150deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(64% 0.15 165deg), oklch(52% 0.14 178deg));
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(72% 0.15 158deg),
+    oklch(62% 0.15 168deg)
+  );
+  --blue-deep: oklch(50% 0.13 168deg);
+  --gradient-orange: linear-gradient(
+    150deg,
+    oklch(82% 0.16 100deg),
+    oklch(76% 0.16 90deg)
+  );
+  --gradient-jackpot: linear-gradient(
+    120deg,
+    oklch(50% 0.13 175deg),
+    oklch(64% 0.15 160deg)
+  );
+  --gradient-app: linear-gradient(
+    130deg,
+    oklch(56.% 0.14 172deg),
+    oklch(68% 0.15 152deg)
+  );
+  --mini-1: linear-gradient(140deg, oklch(72% 0.14 145deg), oklch(56.% 0.14 168deg));
+  --mini-2: linear-gradient(140deg, oklch(70% 0.14 200deg), oklch(54% 0.14 215deg));
+  --promo-c1: oklch(93% 0.05 165deg);
+  --promo-c2: oklch(94% 0.06 100deg);
+  --promo-c3: oklch(93% 0.05 200deg);
+}
+
+// 珊瑚粉：主色改桃粉，點綴改珊瑚橘，活潑女性向
+[data-theme="daheng-fresh"][data-theme-color="coral-pink"] {
+  --color-primary: oklch(66% 0.18 5deg); // 桃粉
+  --color-secondary: oklch(52% 0.18 8deg); // 深桃
+  --color-accent: oklch(74% 0.16 40deg); // 珊瑚橘
+  --bg-base: #fdf0f3;
+  --bg-surface: #ffffff;
+  --bg-overlay: oklch(95% 0.03 10deg);
+  --text-primary: #43222c;
+  --text-muted: #9c7480;
+  --border: oklch(91% 0.02 12deg);
+  --shadow: 0 6px 22px rgba(200, 60, 110, 0.12);
+  --gradient-hero: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(80% 0.14 35deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(66% 0.18 8deg), oklch(54% 0.18 350deg));
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(72% 0.17 12deg),
+    oklch(64% 0.18 6deg)
+  );
+  --blue-deep: oklch(52% 0.18 8deg);
+  --gradient-orange: linear-gradient(
+    150deg,
+    oklch(78% 0.15 45deg),
+    oklch(72% 0.16 38deg)
+  );
+  --gradient-jackpot: linear-gradient(
+    120deg,
+    oklch(52% 0.17 358deg),
+    oklch(64% 0.18 10deg)
+  );
+  --gradient-app: linear-gradient(
+    130deg,
+    oklch(56.% 0.18 2deg),
+    oklch(68% 0.16 24deg)
+  );
+  --mini-1: linear-gradient(140deg, oklch(74% 0.15 35deg), oklch(58.% 0.16 18deg));
+  --mini-2: linear-gradient(140deg, oklch(66% 0.18 320deg), oklch(52% 0.18 300deg));
+  --promo-c1: oklch(94% 0.04 10deg);
+  --promo-c2: oklch(94% 0.06 45deg);
+  --promo-c3: oklch(93% 0.04 320deg);
+}

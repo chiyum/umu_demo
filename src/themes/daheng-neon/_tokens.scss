@@ -1,0 +1,58 @@
+// daheng-neon（a13 大亨霓虹電競）token 主檔
+// 來源設計稿：大亨_AWD_版型A_霓虹電競.html（AWD 完整響應式）
+// 主視覺特徵（取自原稿 :root）：
+//   - 深藍底 #070b14 / 卡片 #121a2e / 副底 #0d1322
+//   - 青(cyan oklch 0.82 0.14 210) / 紫(violet oklch 0.62 0.21 295) 霓虹雙色漸層
+//   - 霓虹發光（glow-c / glow-v）用於 CTA / 排名 / active tab
+// 配色三變體（_variants.scss 切）：
+//   neon-cyan 預設 — 青紫霓虹（原稿基準）
+//   neon-magenta   — 洋紅電競（青改洋紅，紫改桃紅）
+//   neon-lime      — 螢光綠駭客（青改螢光綠，紫改電光藍）
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="daheng-neon"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(82% 0.14 210deg); // cyan（主強調 / 排名首位）
+  --color-secondary: oklch(62% 0.21 295deg); // violet（次強調 / 排名次位）
+  --color-accent: oklch(82% 0.14 210deg); // 霓虹亮點（沿用 cyan）
+  --bg-base: #070b14; // 原稿 --bg 深藍底
+  --bg-surface: #121a2e; // 原稿 --card 卡片底
+  --bg-overlay: rgba(120, 160, 255, 0.06); // 半透明藍遮罩（sidebar hover）
+  --text-primary: #e8edf8; // 原稿 --txt
+  --text-muted: #8a96b8; // 原稿 --txt-2
+  --border: rgba(120, 160, 255, 0.14); // 原稿 --line
+  --shadow: 0 0 40px rgba(64, 210, 255, 0.08); // 霓虹外發光（原稿 hero shadow）
+  --gradient-hero: radial-gradient(
+      80% 120% at 85% 20%,
+      rgba(150, 90, 255, 0.35),
+      transparent 60%
+    ),
+    radial-gradient(70% 120% at 10% 90%, rgba(64, 210, 255, 0.25), transparent 55%),
+    linear-gradient(140deg, #0d1428, #141031); // 原稿 s-v1 漸層背景
+
+  --gradient-cta: linear-gradient(
+    120deg,
+    oklch(82% 0.14 210deg),
+    oklch(62% 0.21 295deg)
+  ); // 青→紫霓虹 CTA（原稿 btn-neon）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #0d1322; // 原稿 --bg-2（notice / tabs / bottomnav 底）
+  --card-2: #18223a; // 原稿 --card-2（promo 卡漸層尾）
+  --glow-c: rgba(64, 210, 255, 0.35); // cyan 發光
+  --glow-v: rgba(150, 90, 255, 0.3); // violet 發光
+  --cta-ink: #0a0e1a; // 落在霓虹 CTA 上的深色對比文字
+  --radius: 14px; // 原稿 --r
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

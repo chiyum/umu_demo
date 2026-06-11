@@ -1,0 +1,57 @@
+// daheng-emerald 版面替代配色
+// 透過 [data-theme="daheng-emerald"][data-theme-color="xxx"] 雙重 selector
+// 切換時務必把 page-bg / bg-2 / card-2 / gold-dim / cta-ink 等對比 token 一起覆寫，避免殘色。
+
+// 翡翠玫瑰金：墨綠保留，金改成更暖的玫瑰金（女性向 / 春節暖調）
+[data-theme="daheng-emerald"][data-theme-color="jade-rose"] {
+  --color-primary: #e0a878; // 玫瑰金
+  --color-secondary: #f6cda6; // 亮玫瑰金
+  --color-accent: #e0a878;
+  --bg-base: #0c2018;
+  --bg-surface: #143228;
+  --bg-overlay: rgba(224, 168, 120, 0.07);
+  --text-primary: #f4ebde;
+  --text-muted: #a3b6a8;
+  --border: rgba(224, 168, 120, 0.24);
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.46);
+  --gradient-hero: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(224, 168, 120, 0.24),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #16382a, #0c2419);
+  --gradient-cta: linear-gradient(160deg, #f6cda6, #e0a878 60%, #b87f55);
+  --bg-2: #112a20;
+  --card-2: #1b3c2e;
+  --gold-dim: rgba(224, 168, 120, 0.36);
+  --cta-ink: #2a1808;
+  --page-bg: radial-gradient(120% 80% at 50% -10%, #18392b, transparent 60%),
+    #0c2018;
+}
+
+// 黑曜金：墨綠改近黑炭底，金更亮 = 高端黑金 VIP
+[data-theme="daheng-emerald"][data-theme-color="onyx-gold"] {
+  --color-primary: #e7c478; // 亮金
+  --color-secondary: #ffe6ab; // 香檳金高光
+  --color-accent: #e7c478;
+  --bg-base: #0d0e0c;
+  --bg-surface: #1a1b17;
+  --bg-overlay: rgba(231, 196, 120, 0.07);
+  --text-primary: #f3eedd;
+  --text-muted: #9c9a8c;
+  --border: rgba(231, 196, 120, 0.26);
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  --gradient-hero: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(231, 196, 120, 0.24),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #21221c, #0f100d);
+  --gradient-cta: linear-gradient(160deg, #ffe6ab, #e7c478 60%, #bf9842);
+  --bg-2: #141511;
+  --card-2: #22231d;
+  --gold-dim: rgba(231, 196, 120, 0.38);
+  --cta-ink: #221a06;
+  --page-bg: radial-gradient(120% 80% at 50% -10%, #23241d, transparent 60%),
+    #0d0e0c;
+}

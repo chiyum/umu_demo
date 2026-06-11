@@ -36,12 +36,13 @@ import type {
  * 為什麼 Record<ThemeCategory, string> 而非自由 Record<string, string>：
  *   - 編譯期保證 CATEGORY_LETTER_MAP 覆蓋所有 ThemeCategory 值，未來新增類別忘了補字母會被 TS 直接擋下
  *
- * 既有 19 個 theme 編號對照（與本檔下方 ThemeMeta label 完全一致）：
+ * 既有 25 個 theme 編號對照（與本檔下方 ThemeMeta label 完全一致）：
  *   a01 霓虹（at99）/ a02 藍冰大亨（tycoon）/ a03 88WIN（honest-max）/ a04 瀑布流（dahsing-waterfall）/ a05 分頁（dahsing-tabs）
  *   a06 大亨排行榜（daheng-rank）/ a07 大亨滿版宮格（daheng-grid）/ a08 大亨橫向滑軌（daheng-rail）
  *   a09 大亨三欄密集（daheng-compact）/ a10 大亨清單榜單（daheng-list）/ a11 大亨雜誌精選（daheng-magazine）
+ *   a12 富遊大亨（fuyou）/ a13 大亨霓虹電競（daheng-neon）/ a14 大亨翡翠金典（daheng-emerald）/ a15 大亨清新活力（daheng-fresh）
  *   b01 AT99（honest-at）/ b02 AT Deluxe（at-deluxe）
- *   c01 暖金（noya）/ c02 FG（honest-no6）/ c03 橫向列表（dahsing-horizontal）
+ *   c01 暖金（noya）/ c02 FG（honest-no6）/ c03 橫向列表（dahsing-horizontal）/ c04 諾亞米色（noya-beige）/ c05 諾亞藍（noya-blue）
  *   d01 體育博彩（ant-sport）
  *   e01 越南 VIP（vietvip）/ e02 5D（fived）
  */
@@ -1056,6 +1057,94 @@ const noyaBlue: ThemeMeta = {
   releaseDate: "2026-06-11"
 };
 
+/**
+ * 大亨 AWD 三版型（a13 ~ a15）
+ *
+ * 來源設計稿：/Users/georgehuang/Downloads/daheng_awd_assets 內三份 AWD 完整響應式 HTML：
+ *   - 版型A 霓虹電競 → daheng-neon（深藍 + 青/紫霓虹，dark）
+ *   - 版型B 翡翠金典 → daheng-emerald（墨綠 + 金，古典襯線，dark）
+ *   - 版型C 清新活力 → daheng-fresh（藍白淺色 + 橘點綴，light）
+ *
+ * 共同特性：
+ * - 每份原稿本身即「桌機 sidebar/置中 + 手機底部 tab」單檔響應式，忠實拆成 desktop / mobile 兩 SFC
+ * - 內容資料共用（hero / 公告跑馬燈 / quick / 遊戲大廳 tabs+grid / 優惠 promo / 即時派彩 / footer）
+ * - 原稿那顆 A/B/C/D 版型切換浮標（.vswitch）是 mockup 自己的導覽，未移植
+ * - 三 theme 各自帶 assets 目錄（hero / 8 張遊戲卡 + emerald 額外 trophy），不共用 daheng-shared
+ * - 編號接續 general 現況：fuyou 是 a12，故本批 a13 / a14 / a15
+ *
+ * logos 統一 SHARED_LOGOS（dahsing / umu / long-heng），defaultLogo = dahsing（大亨品牌調性最搭）
+ * previews 採 buildPreviews（不帶 colorPreviews，比照 noya 那批省截圖；缺檔由 getPreview fallback 不破圖）
+ * releaseDate 2026-06-11（與本批同日上架）
+ */
+const dahengNeon: ThemeMeta = {
+  key: "daheng-neon",
+  label: "a13 · 大亨霓虹電競",
+  description:
+    "大亨霓虹電競版型，深藍底 + 青/紫霓虹雙色高光；PC 左 sidebar 導覽 + 主內容（hero/快捷/遊戲大廳/優惠+即時派彩 duo）+ APP 條，手機頂欄 + 內容 + 底部 5 格 tab，預設青紫霓虹，可切換洋紅電競 / 螢光綠駭客",
+  desktop: () => import("./daheng-neon/desktop.vue"),
+  mobile: () => import("./daheng-neon/mobile.vue"),
+  defaultColor: "neon-cyan",
+  colors: [
+    { key: "neon-cyan", label: "青紫霓虹", swatch: "#40d2ff" },
+    { key: "neon-magenta", label: "洋紅電競", swatch: "#ff5ac8" },
+    { key: "neon-lime", label: "螢光綠駭客", swatch: "#3cffaa" }
+  ],
+  previews: buildPreviews("daheng-neon"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  // 深藍霓虹底色
+  brightness: "dark",
+  // 通用大廳（遊戲大廳多分類入口）
+  categories: ["general"],
+  releaseDate: "2026-06-11"
+};
+
+const dahengEmerald: ThemeMeta = {
+  key: "daheng-emerald",
+  label: "a14 · 大亨翡翠金典",
+  description:
+    "大亨翡翠金典版型，墨綠底 + 金色襯線古典風；PC 置中容器（hero framebox/遊戲大廳直式卡/中獎榜+優惠 duo/VIP 條）+ 水平 nav，手機頂欄 + 直式卡 2 欄 + 底部 5 格 tab，預設墨綠金典，可切換翡翠玫瑰金 / 黑曜金",
+  desktop: () => import("./daheng-emerald/desktop.vue"),
+  mobile: () => import("./daheng-emerald/mobile.vue"),
+  defaultColor: "emerald-gold",
+  colors: [
+    { key: "emerald-gold", label: "墨綠金典", swatch: "#d8b56c" },
+    { key: "jade-rose", label: "翡翠玫瑰金", swatch: "#e0a878" },
+    { key: "onyx-gold", label: "黑曜金", swatch: "#e7c478" }
+  ],
+  previews: buildPreviews("daheng-emerald"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  // 墨綠 + 金邊深色
+  brightness: "dark",
+  // 通用大廳（含 VIP 尊爵會員條，但主結構仍是遊戲大廳入口）
+  categories: ["general"],
+  releaseDate: "2026-06-11"
+};
+
+const dahengFresh: ThemeMeta = {
+  key: "daheng-fresh",
+  label: "a15 · 大亨清新活力",
+  description:
+    "大亨清新活力版型，藍白淺底 + 橘色點綴明快風；PC 置中容器（hero + sideStack/分類氣泡/彩金池/遊戲大廳 grid/中獎跑馬/優惠/APP banner）+ 水平 nav，手機頂欄 + 2 欄 grid + 浮動圓角底部 tab，預設清新藍橘，可切換薄荷綠 / 珊瑚粉",
+  desktop: () => import("./daheng-fresh/desktop.vue"),
+  mobile: () => import("./daheng-fresh/mobile.vue"),
+  defaultColor: "sky-blue",
+  colors: [
+    { key: "sky-blue", label: "清新藍橘", swatch: "#3f7fe0" },
+    { key: "mint-green", label: "薄荷綠", swatch: "#34c08a" },
+    { key: "coral-pink", label: "珊瑚粉", swatch: "#ec6a8e" }
+  ],
+  previews: buildPreviews("daheng-fresh"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  // 藍白淺底
+  brightness: "light",
+  // 通用大廳
+  categories: ["general"],
+  releaseDate: "2026-06-11"
+};
+
 /** 對外暴露的 theme 表，key 是 layoutKey */
 export const themes: Record<string, ThemeMeta> = {
   noya,
@@ -1079,7 +1168,10 @@ export const themes: Record<string, ThemeMeta> = {
   "daheng-magazine": dahengMagazine,
   fuyou,
   "noya-beige": noyaBeige,
-  "noya-blue": noyaBlue
+  "noya-blue": noyaBlue,
+  "daheng-neon": dahengNeon,
+  "daheng-emerald": dahengEmerald,
+  "daheng-fresh": dahengFresh
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */

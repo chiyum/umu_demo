@@ -1,0 +1,57 @@
+// daheng-emerald（a14 大亨翡翠金典）token 主檔
+// 來源設計稿：大亨_AWD_版型B_翡翠金典.html（AWD 完整響應式）
+// 主視覺特徵（取自原稿 :root）：
+//   - 墨綠底 #0b1f17 / 卡片 #143126 / 副卡 #1a3b2d
+//   - 金色（gold #d8b56c / gold-2 #f0d9a6）用於標題 / CTA / 排名 / tab active
+//   - 古典襯線標題（Noto Serif TC）+ 居中對稱 section head + 金色細描線裝飾
+// 配色三變體（_variants.scss 切）：
+//   emerald-gold 預設 — 墨綠金典（原稿基準）
+//   jade-rose         — 翡翠玫瑰金（綠保留，金改玫瑰金更暖）
+//   onyx-gold         — 黑曜金（墨綠改近黑炭，金更亮 = VIP 黑金）
+// 命名公約（全 theme 共用 12 CSS var）
+
+[data-theme="daheng-emerald"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #d8b56c; // gold（主品牌金）
+  --color-secondary: #f0d9a6; // gold-2（亮金高光）
+  --color-accent: #d8b56c; // 金色亮點
+  --bg-base: #0b1f17; // 原稿 --bg 墨綠底
+  --bg-surface: #143126; // 原稿 --card 卡片底
+  --bg-overlay: rgba(216, 181, 108, 0.06); // 半透明金遮罩
+  --text-primary: #f2ead8; // 原稿 --txt 暖米白
+  --text-muted: #9eb3a4; // 原稿 --txt-2 霧綠
+  --border: rgba(216, 181, 108, 0.22); // 原稿 --line 金邊
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45); // 原稿 hero 深陰影
+  --gradient-hero: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(216, 181, 108, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #15392b, #0b231a); // 原稿 s-g1 漸層
+
+  --gradient-cta: linear-gradient(
+    160deg,
+    #f0d9a6,
+    #d8b56c 60%,
+    #b08d46
+  ); // 金色 CTA（原稿 btn-gold）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #10291e; // 原稿 --bg2（VIP / hero 副底）
+  --card-2: #1a3b2d; // 原稿 --card-2（promo 漸層尾）
+  --gold-dim: rgba(216, 181, 108, 0.35); // 金色細描線 / 描邊
+  --cta-ink: #241a06; // 落在金色 CTA 上的深色對比文字
+  --radius: 10px; // 原稿 --r
+
+  // ── 字體 stack：古典襯線標題 + 黑體內文（對齊原稿 Noto Serif TC）
+  --font-display:
+    "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    sans-serif;
+
+  // 頁面整體背景 radial 柔光（對齊原稿 html,body）
+  --page-bg: radial-gradient(120% 80% at 50% -10%, #16382a, transparent 60%),
+    #0b1f17;
+}

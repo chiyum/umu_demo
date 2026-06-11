@@ -352,7 +352,7 @@ VUE_VITE_TS_START/                # 專案根目錄
 4. 該主類別還沒有 theme → 從 `01` 起算
 5. 編號**一旦發布後不再改動**（重編會打散 sales demo 對外展示的順序記憶）
 
-#### 現有 theme 編號對照（22 個）
+#### 現有 theme 編號對照（25 個）
 
 | label | key | 主類別 |
 |---|---|---|
@@ -368,6 +368,9 @@ VUE_VITE_TS_START/                # 專案根目錄
 | `a10 · 大亨清單榜單` | `daheng-list` | general |
 | `a11 · 大亨雜誌精選` | `daheng-magazine` | general |
 | `a12 · 富遊大亨` | `fuyou` | general |
+| `a13 · 大亨霓虹電競` | `daheng-neon` | general |
+| `a14 · 大亨翡翠金典` | `daheng-emerald` | general |
+| `a15 · 大亨清新活力` | `daheng-fresh` | general |
 | `b01 · AT99` | `honest-at` | slots |
 | `b02 · AT Deluxe` | `at-deluxe` | slots |
 | `c01 · 暖金` | `noya` | live |
@@ -437,9 +440,18 @@ src/themes/
 ├── noya-beige/              # 諾亞米色（c04，暖橘米調真人廳）；mobile 1:1 復刻原稿手機切片版，desktop 為「新做」（參考富遊桌機結構 + 米色配色）
 │   ├── _data.ts             # 5 大類 lobby + 各分類卡片 + footer 廠商 共用資料 + 切片圖 URL（logo/headright/notice/actions/nav/card-*/g1..g6/promo）
 │   └── assets/              # 諾亞米色手機切片素材（與原稿同批）
-└── noya-blue/               # 諾亞藍（c05，深海軍藍真人廳）；mobile 1:1 復刻原稿手機 inline-SVG 版，desktop 為「新做」（參考富遊桌機結構 + 深藍配色）
-    ├── _data.ts             # 5 大類 lobby + 各分類卡片（藍漸層佔位卡含水印籌碼）+ 快捷/底部 tab + footer 廠商 共用資料
-    └── assets/              # hero / card-dg / card-allbet（live 卡切片，其餘為 inline 樣式）
+├── noya-blue/               # 諾亞藍（c05，深海軍藍真人廳）；mobile 1:1 復刻原稿手機 inline-SVG 版，desktop 為「新做」（參考富遊桌機結構 + 深藍配色）
+│   ├── _data.ts             # 5 大類 lobby + 各分類卡片（藍漸層佔位卡含水印籌碼）+ 快捷/底部 tab + footer 廠商 共用資料
+│   └── assets/              # hero / card-dg / card-allbet（live 卡切片，其餘為 inline 樣式）
+├── daheng-neon/             # 大亨霓虹電競（a13，深藍 + 青/紫霓虹，dark）；對齊 AWD 版型A，desktop = 原稿 ≥960px 左 sidebar 佈局，mobile = 原稿 <960px 頂欄 + 底部 5 tab
+│   ├── _data.ts             # sideNav / quick / 遊戲大廳 tabs+grid（8 卡）/ 即時派彩 / promo / 公告 / footer 共用資料 + hero + 8 張遊戲卡圖 URL
+│   └── assets/              # hero_banner + ch_dg/ch_panda/ch_rsg/ch_qt/ch_ofa + g2/g3/g4
+├── daheng-emerald/          # 大亨翡翠金典（a14，墨綠 + 金襯線古典，dark）；對齊 AWD 版型B，desktop = 置中容器 + 水平 nav + 直式卡 + 中獎榜/優惠 duo + VIP，mobile = 直式卡 2 欄 + 固定底部 tab
+│   ├── _data.ts             # topNav / 遊戲大廳 tabs+grid / 中獎榜 6 列 / 優惠 banner / VIP / footer 共用資料 + hero + trophy + 8 張遊戲卡圖
+│   └── assets/              # hero_banner + 8 張遊戲卡 + trophy_cut（優惠 banner 裝飾）
+└── daheng-fresh/            # 大亨清新活力（a15，藍白淺色 + 橘點綴，light）；對齊 AWD 版型C，desktop = hero+sideStack/氣泡/彩金池/grid/中獎跑馬/優惠/APP banner，mobile = 2 欄 grid + 浮動圓角底部 tab
+    ├── _data.ts             # topNav / hero mini / 分類氣泡 / 中獎跑馬 / 彩金池 / 遊戲大廳 grid / 優惠 / footer 共用資料 + hero + 8 張遊戲卡圖
+    └── assets/              # hero_banner + 8 張遊戲卡
 ```
 
 > **fuyou / noya-beige / noya-blue 三 theme 的「跨裝置補做」規約**：
@@ -447,6 +459,14 @@ src/themes/
 > - fuyou 來源是桌機稿 → mobile 新做 app 式（參考兩份諾亞手機版佈局，深藍金配色 + 富遊內容）
 > - noya-beige / noya-blue 來源是手機稿 → desktop 新做（參考富遊桌機 top nav / hero / 熱門遊戲 grid / 下載 / 服務 / footer，各自米色 / 深藍配色 + 諾亞內容）
 > - 三 theme 的 header logo 都接 `useDemoThemeStore().currentLogo`，不寫死品牌，FAB / showcase logo 切換器可換 logo
+
+> **daheng-neon / daheng-emerald / daheng-fresh 三 theme 的「AWD 完整響應式」規約**：
+> - 來源稿（大亨_AWD 版型A/B/C）本身即「桌機 sidebar/置中 + 手機底部 tab」單檔響應式，**不需跨裝置補做**，忠實拆成 desktop / mobile 兩 SFC 即可
+> - desktop = 原稿 ≥960px 佈局（A 版左 sidebar + 主內容多欄 grid + duo；B/C 版置中容器 + 水平 nav）；mobile = 原稿 <960px 佈局（頂欄 + 內容 + 固定底部 5 格 tab）
+> - 兩者共用同一份 `_data.ts`（hero / 公告 / quick / 遊戲大廳 tabs+grid / 優惠 / 即時派彩或中獎榜 / footer）
+> - 原稿那顆 A/B/C/D 版型切換浮標（.vswitch）是 mockup 自己的導覽，**未移植**；版型D（紫色手遊）無來源 HTML，本批不做
+> - 三 theme 各自帶 assets（hero + 8 張遊戲卡；emerald 額外帶 trophy），不共用 daheng-shared
+> - header / sidebar logo 都接 `useDemoThemeStore().currentLogo`，不寫死 logo_cut.png
 
 ### 新增第三個版面流程
 
@@ -565,7 +585,7 @@ Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」
 - `categories: ThemeCategory[]` — 業務分類（多選），union 約束防拼錯。5 個合法值：
   - `sports`（體育）/ `live`（真人）/ `slots`（電子）/ `general`（綜合）/ `luxury`（VIP 豪華）
 
-13 個 theme 的拍板分配表：
+各 theme 的拍板分配表：
 
 | theme key | brightness | categories | 拍板理由 |
 |---|---|---|---|
@@ -585,6 +605,9 @@ Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」
 | `fuyou` | dark | `general` | 深海軍藍金賭場入口（富遊大亨）|
 | `noya-beige` | light | `live` | 近白米底暖橘真人廳（諾亞米色）|
 | `noya-blue` | dark | `live` | 深海軍藍玻璃感真人廳（諾亞藍）|
+| `daheng-neon` | dark | `general` | 深藍 + 青/紫霓虹電競大廳（大亨霓虹電競）|
+| `daheng-emerald` | dark | `general` | 墨綠 + 金襯線古典大廳（大亨翡翠金典）|
+| `daheng-fresh` | light | `general` | 藍白淺底 + 橘點綴明快大廳（大亨清新活力）|
 
 > 「dahsing-horizontal default 是紫貴族但 bg-base 是 `#faf5fd` 米白略紫」是 light 判定的關鍵。
 > 後續若有人覺得 horizontal 應該歸 dark（看 swatch 配色），改 registry 內該 theme 的 `brightness` 即可。
