@@ -30,6 +30,29 @@ import type { ThemeBrightness, ThemeCategory } from "@/themes/_types";
 export type PreviewDevice = "desktop" | "mobile";
 
 /**
+ * 排序方向
+ *
+ * - "oldest"：由舊到新（預設）
+ * - "newest"：由新到舊
+ *
+ * 為什麼用 union 而非 boolean：
+ * - 語意明確，避免「true = 由新到舊 還是 由舊到新」的歧義
+ * - UI segmented control 可直接綁這個值，與既有 BrightnessFilter 風格一致
+ */
+export type SortOrder = "oldest" | "newest";
+
+/**
+ * 沒有 releaseDate 的舊 theme 排序時視為「最早」用的哨兵字串
+ *
+ * 為什麼用 "0000-00-00"：
+ * - 排序主鍵是 releaseDate（YYYY-MM-DD 字串字典序 == 時間序）
+ * - 既有 13 個舊 theme 確實是最早建立、但沒有 releaseDate 欄位，
+ *   用一個「字典序必定小於任何真實日期」的哨兵讓它們排在最前面（oldest 升序時）
+ * - 它們彼此之間 / 與有日期者之間的穩定先後，再用 registryIndex 當 tiebreaker
+ */
+const NO_RELEASE_DATE_SENTINEL = "0000-00-00";
+
+/**
  * 亮暗篩選值
  *
  * 為什麼用 union 而非 ThemeBrightness | null：
@@ -166,6 +189,21 @@ export const useShowcaseStore = defineStore("showcase", () => {
    */
   const filterCategories = ref<ThemeCategory[]>([]);
 
+  /**
+   * 版型清單排序方向
+   *
+   * 預設 "oldest"（由舊到新）：
+   * - 這是 sales demo，最早做的版型擺前面、最新做的擺後面，
+   *   讓客戶 / 業務「依開發時間順序」掃過所有版型，符合「先看基礎款再看新款」的瀏覽直覺
+   * - 與 daheng 6 版分批上架的 releaseDate 排程語意一致：先上架的排前面
+   *
+   * 不 persist 到 LS：
+   * - 與既有 filterBrightness / filterCategories 一致，排序是 per-session 探索行為，
+   *   重新進站從預設「由舊到新」重新瀏覽更一致；避免使用者上次切過「由新到舊」後
+   *   下次進站莫名其妙看到反序而困惑
+   */
+  const sortOrder = ref<SortOrder>("oldest");
+
   /** 所有可選的 logo 候選（給 UI row 渲染用） */
   const showcaseLogoOptions = computed(() => listShowcaseLogos());
 
@@ -281,6 +319,57 @@ export const useShowcaseStore = defineStore("showcase", () => {
     });
   });
 
+  /**
+   * 排序後的版型清單（以 filteredThemes 為 base，套用 sortOrder）
+   *
+   * 排序規則：
+   * - 主鍵 = releaseDate（YYYY-MM-DD 字串字典序即時間序）；
+   *   沒有 releaseDate 的舊 theme 用 NO_RELEASE_DATE_SENTINEL（"0000-00-00"）視為「最早」
+   *   （它們確實是最早建立的 13 個 theme，只是當初沒補日期欄位）
+   * - 次鍵（tiebreaker）= registryIndex（該 theme 在 listThemes() 內的插入順序）
+   *   保證「同日期」或「同樣無日期」的 theme 之間有穩定且符合 registry 宣告順序的先後
+   *
+   * oldest（預設）：主鍵升序 → 次鍵升序（早的、registry 靠前的排前面）
+   * newest：oldest 的「精確反向」——直接把 oldest 結果 reverse，
+   *   保證任兩個 theme 的相對順序在兩個方向完全相反（含 tiebreaker），不會出現
+   *   「日期相同時兩個方向順序一樣」的不對稱
+   *
+   * 為什麼 base 用 filteredThemes 而非 releaseFilteredThemes / listThemes：
+   * - 排序要作用在「使用者最終看到的清單」上：既已排程過濾、又已使用者篩選
+   * - home.vue 把 visibleThemes 從 filteredThemes 改讀 sortedThemes，
+   *   排程 + 篩選 + 排序三層疊加都生效
+   *
+   * 為什麼用 computed 而非 watch 寫進 ref：
+   * - sortedThemes 是純派生狀態（根源 filteredThemes + sortOrder），computed 自動依賴追蹤 + cache
+   * - 切 sortOrder / 切篩選都自動重算，不需手動同步
+   *
+   * 為什麼建一份 registryIndex map 而非每次 indexOf：
+   * - listThemes() 回的順序就是 registry 插入順序（Object.values）
+   * - 用 Map 一次建好 key→index，排序比較時 O(1) 查，避免 N 次 indexOf 退化成 O(N^2)
+   */
+  const sortedThemes = computed(() => {
+    // registryIndex：listThemes() 的順序即 registry 宣告順序，作為穩定 tiebreaker
+    const registryIndex = new Map<string, number>();
+    listThemes().forEach((t, i) => registryIndex.set(t.key, i));
+
+    // 每個 theme 算一個可比較的排序鍵 tuple [releaseDate ?? 哨兵, registryIndex]
+    const sortKeyOf = (key: string, releaseDate?: string) => ({
+      date: releaseDate ?? NO_RELEASE_DATE_SENTINEL,
+      idx: registryIndex.get(key) ?? Number.MAX_SAFE_INTEGER
+    });
+
+    // 先一律以 oldest（升序）排出穩定結果，再依方向決定是否反向
+    const ascending = [...filteredThemes.value].sort((a, b) => {
+      const ka = sortKeyOf(a.key, a.releaseDate);
+      const kb = sortKeyOf(b.key, b.releaseDate);
+      if (ka.date !== kb.date) return ka.date < kb.date ? -1 : 1;
+      return ka.idx - kb.idx;
+    });
+
+    // newest = oldest 的精確反向（含 tiebreaker），保證雙向順序完全相反
+    return sortOrder.value === "newest" ? ascending.reverse() : ascending;
+  });
+
   /** 給 UI 判斷便利用 */
   const isPreviewing = computed(() => previewDialogOpen.value);
 
@@ -384,6 +473,27 @@ export const useShowcaseStore = defineStore("showcase", () => {
   }
 
   /**
+   * 設定排序方向
+   *
+   * 為什麼用 action 而非讓 UI 直接寫 sortOrder.value：
+   * - 與 setFilterBrightness 風格一致，保留未來插入 analytics / 行為記錄的接縫
+   * - UI 透過 setter 行為一致，便於 testing 觀察
+   */
+  function setSortOrder(value: SortOrder): void {
+    sortOrder.value = value;
+  }
+
+  /**
+   * 在「由舊到新 / 由新到舊」之間切換
+   *
+   * 提供給「點一下切換」型 UI（若 UI 改用單顆 toggle 按鈕而非 segmented control 時可用）；
+   * 目前 filter-bar 用 segmented control（兩態各一顆 radio），主要呼叫 setSortOrder
+   */
+  function toggleSortOrder(): void {
+    sortOrder.value = sortOrder.value === "oldest" ? "newest" : "oldest";
+  }
+
+  /**
    * 設定 `?preview=1` 旗標
    *
    * 由 home.vue 在 onMounted + watch route.query 時呼叫；store 內單向接收，
@@ -402,6 +512,7 @@ export const useShowcaseStore = defineStore("showcase", () => {
     showcaseLogoKey,
     filterBrightness,
     filterCategories,
+    sortOrder,
     previewQueryActive,
     // getters
     isPreviewing,
@@ -410,6 +521,7 @@ export const useShowcaseStore = defineStore("showcase", () => {
     recommendedThemeKeys,
     releaseFilteredThemes,
     filteredThemes,
+    sortedThemes,
     // actions
     openPreview,
     closePreview,
@@ -419,6 +531,8 @@ export const useShowcaseStore = defineStore("showcase", () => {
     setFilterBrightness,
     toggleFilterCategory,
     clearFilters,
+    setSortOrder,
+    toggleSortOrder,
     setPreviewQueryActive
   };
 });

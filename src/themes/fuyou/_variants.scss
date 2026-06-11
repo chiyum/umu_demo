@@ -1,0 +1,113 @@
+// fuyou 版面替代配色
+// 透過 [data-theme="fuyou"][data-theme-color="xxx"] 雙重 selector
+// 確保只有 fuyou 套對應配色，不被其他 theme 誤用。
+// 注意：每個 variant 都要把 _tokens.scss 內元件實際讀到的對比 token 一起覆寫，
+// 否則切換時會殘色（例：crimson 切完後 nav 底還是 navy 的藍）。
+
+// 皇家藍：更亮的電光藍主視覺，金改成銀白高光（科技感更冷冽）
+[data-theme="fuyou"][data-theme-color="royal"] {
+  --color-primary: #3aa0ff;
+  --color-secondary: #7fd4ff;
+  --color-accent: #cfe6ff; // 金改銀白
+  --bg-base: #041024;
+  --bg-surface: #0a2350;
+  --bg-overlay: rgba(58, 160, 255, 0.14);
+  --text-primary: #f0f7ff;
+  --text-muted: #a8c4ec;
+  --border: rgba(120, 190, 255, 0.55);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.46);
+  --gradient-hero: radial-gradient(
+    120% 90% at 70% 20%,
+    #e2f1ff 0%,
+    #bcdcff 45%,
+    #8fc0ff 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #8fd0ff, #2e8bff); // 銀藍 CTA
+  --navy-0: #061434;
+  --navy-1: #08204a;
+  --navy-2: #0a2a5e;
+  --navy-3: #103a70;
+  --nav-line: #3aa0ff;
+  --cyan: #aee0ff;
+  --txt-dim: #a8c4ec;
+  --nav-bg: linear-gradient(180deg, #103a78 0%, #08204a 100%);
+  --ticker-bg: linear-gradient(180deg, #0a2350, #061434);
+  --popular-bg:
+    radial-gradient(80% 60% at 50% -5%, rgba(58, 160, 255, 0.3), transparent 60%),
+    linear-gradient(180deg, #08204a 0%, #061434 100%);
+  --download-bg: linear-gradient(180deg, #061434, #0a2350);
+  --services-bg:
+    radial-gradient(70% 50% at 50% 0%, rgba(58, 160, 255, 0.24), transparent 60%),
+    linear-gradient(180deg, #0a2350, #061434);
+  --footer-bg: #04102a;
+  --card-edge: rgba(120, 190, 255, 0.55);
+  --game-card-bg: linear-gradient(
+    160deg,
+    rgba(58, 120, 210, 0.55),
+    rgba(10, 30, 80, 0.85)
+  );
+  --svc-card-bg: linear-gradient(
+    165deg,
+    rgba(50, 110, 200, 0.44),
+    rgba(8, 28, 70, 0.9)
+  );
+  --svc-ic-bg: radial-gradient(circle at 38% 30%, #aee0ff, #2e8bff 70%);
+  --rg-red: linear-gradient(180deg, #ff7a7a, #e23b3b);
+  --badge-bg: linear-gradient(180deg, #5ab0ff, #2767c4);
+  --text-on-cta: #06142e;
+  --head-glow: 0 0 18px rgba(120, 190, 255, 0.7), 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+// 暗夜紅金：navy 改暗紅，保留金色亮點（節慶 / VIP 感）
+[data-theme="fuyou"][data-theme-color="crimson"] {
+  --color-primary: #e23b5a;
+  --color-secondary: #ff7a8f;
+  --color-accent: #ffd24a; // 保留金
+  --bg-base: #18060c;
+  --bg-surface: #3a0e1c;
+  --bg-overlay: rgba(226, 59, 90, 0.12);
+  --text-primary: #ffeef2;
+  --text-muted: #d8a6b2;
+  --border: rgba(255, 122, 143, 0.45);
+  --shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
+  --gradient-hero: radial-gradient(
+    120% 90% at 70% 20%,
+    #f8d8df 0%,
+    #e6a6b4 45%,
+    #c66a7e 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #ffe07a, #ffb31f); // 金 CTA 保留
+  --navy-0: #20070e;
+  --navy-1: #2c0a14;
+  --navy-2: #3a0e1c;
+  --navy-3: #4d1426;
+  --nav-line: #e23b5a;
+  --cyan: #ffb0bf;
+  --txt-dim: #d8a6b2;
+  --nav-bg: linear-gradient(180deg, #4d1426 0%, #2c0a14 100%);
+  --ticker-bg: linear-gradient(180deg, #2c0a14, #20070e);
+  --popular-bg:
+    radial-gradient(80% 60% at 50% -5%, rgba(226, 59, 90, 0.26), transparent 60%),
+    linear-gradient(180deg, #2c0a14 0%, #20070e 100%);
+  --download-bg: linear-gradient(180deg, #20070e, #2c0a14);
+  --services-bg:
+    radial-gradient(70% 50% at 50% 0%, rgba(226, 59, 90, 0.22), transparent 60%),
+    linear-gradient(180deg, #2c0a14, #20070e);
+  --footer-bg: #160509;
+  --card-edge: rgba(255, 122, 143, 0.45);
+  --game-card-bg: linear-gradient(
+    160deg,
+    rgba(180, 46, 78, 0.55),
+    rgba(72, 14, 30, 0.85)
+  );
+  --svc-card-bg: linear-gradient(
+    165deg,
+    rgba(178, 40, 70, 0.42),
+    rgba(70, 12, 26, 0.9)
+  );
+  --svc-ic-bg: radial-gradient(circle at 38% 30%, #ff9caf, #c41f43 70%);
+  --rg-red: linear-gradient(180deg, #ffd24a, #ffb22e); // 紅底改用金 RG
+  --badge-bg: linear-gradient(180deg, #ffb22e, #e8851d);
+  --text-on-cta: #1a1305;
+  --head-glow: 0 0 18px rgba(255, 122, 143, 0.6), 0 2px 0 rgba(0, 0, 0, 0.4);
+}

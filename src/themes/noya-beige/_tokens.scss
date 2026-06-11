@@ -1,0 +1,74 @@
+// noya-beige（諾亞米色）token 主檔
+// 來源設計稿：諾亞_版型探索_米色_自包含.html（純手機版，米色暖調、圖片切片排版）
+// 主視覺特徵（取自原稿 :root / body）：
+//   - 近白米底 #fdfcfb
+//   - 暖橘金 accent #c66a3c / #e88a5e / #bd5c34（分類 active pill）
+//   - active tab 淺橘漸層 #fdeee7 → #f8ddcd
+//   - 遊戲卡柔和米色陰影
+// 配色三變體：
+//   beige  預設 — 米色暖調（原稿基準）
+//   rose   玫瑰粉 — accent 改玫瑰粉（與既有 noya rose-gold 區隔，更粉嫩）
+//   olive  橄欖綠 — accent 改暖橄欖綠（自然米調）
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-beige"] {
+  // ─────── 12 公約變數（預設 beige）───────
+  --color-primary: #c66a3c; // 主暖橘（active / 強調）
+  --color-secondary: #e88a5e; // 亮橘
+  --color-accent: #f0a479; // 淺橘亮點
+  --bg-base: #fdfcfb; // 近白米底
+  --bg-surface: #ffffff; // 卡片白底
+  --bg-overlay: rgba(198, 106, 60, 0.08); // 半透明暖橘遮罩
+  --text-primary: #6b4a38; // 主文字（暖咖啡）
+  --text-muted: #9b8678; // 次要文字（霧米）
+  --border: rgba(212, 146, 104, 0.26); // 暖橘邊框
+  --shadow: 0 10px 24px rgba(170, 150, 140, 0.18); // 柔米陰影
+  --gradient-hero: linear-gradient(135deg, #fff8f3 0%, #f8ddcd 100%); // hero 暖米漸層
+  --gradient-cta: linear-gradient(135deg, #e88a5e 0%, #c66a3c 100%); // CTA 暖橘漸層
+
+  // ─────── 結構 / 對比 token（元件走 var()）───────
+  // active tab pill 漸層 + 陰影（對齊原稿 .tab.on）
+  --tab-active-bg: linear-gradient(135deg, #fdeee7 0%, #f8ddcd 100%);
+  --tab-active-shadow:
+    0 5px 14px rgba(212, 146, 104, 0.26),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 0 0 1px rgba(255, 222, 203, 0.7);
+  --tab-icon: #bdb2a9; // 未 active icon 色
+  --tab-icon-active: #bd5c34; // active icon 色
+  --tab-text: #b4a99f; // 未 active 文字
+  --tab-text-active: #b65c38; // active 文字
+
+  // 在線人數數字色
+  --online-num: #c66a3c;
+
+  // placeholder 卡片底（無素材分類用）
+  --phcard-bg: linear-gradient(110deg, #ffffff 40%, #fbeee4 100%);
+  --phcard-label: #e88a5e;
+  --phcard-label-bar: #f0a479;
+  --phcard-sub: #d9b49c;
+
+  // 卡片陰影（含素材的真實 banner 卡）
+  --gcard-shadow:
+    0 12px 26px rgba(176, 104, 60, 0.3), 0 4px 10px rgba(176, 104, 60, 0.18);
+
+  // hero / tabbar drop-shadow
+  --hero-shadow: 0 8px 24px rgba(208, 140, 96, 0.18);
+  --tabbar-shadow: drop-shadow(0 -6px 18px rgba(208, 140, 96, 0.14));
+
+  // 落在 CTA 暖橘上的對比文字
+  --text-on-primary: #ffffff;
+
+  // desktop 補做用：頂部 nav 底 / footer 底 / hero 區大底
+  --nav-bg: linear-gradient(180deg, #ffffff 0%, #fdf3ec 100%);
+  --footer-bg: #fdf3ec;
+  --desktop-hero-bg: linear-gradient(135deg, #fff3ea 0%, #f8ddcd 100%);
+  --section-soft: #fdf6f0; // 區塊交錯淺底
+
+  // 字體（對齊原稿 Noto Sans TC）
+  --font-body: "Noto Sans TC", "PingFang TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", "PingFang TC", system-ui, sans-serif;
+}

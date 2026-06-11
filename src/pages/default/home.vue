@@ -82,13 +82,14 @@ onMounted(() => {
 });
 
 /**
- * 篩選後的可見版型清單（由 store 計算，套用 brightness + categories）
+ * 最終可見版型清單（由 store 計算，套用 排程 → brightness/categories 篩選 → 排序 三層）
  *
- * 為什麼從 listThemes() 改為 showcaseStore.filteredThemes：
- * - 篩選邏輯集中在 store，UI 只負責渲染派生 state
- * - 與 recommendedThemeKeys 都來自 store，兩者協作（推薦 ∩ 篩選）自動 reactive
+ * 為什麼從 filteredThemes 改為 showcaseStore.sortedThemes：
+ * - sortedThemes 以 filteredThemes 為 base 再套 sortOrder（預設由舊到新），
+ *   排程 + 使用者篩選 + 排序疊加都生效，UI 只負責渲染派生 state
+ * - 與 recommendedThemeKeys 都來自 store，協作（推薦 ∩ 篩選 ∩ 排序）自動 reactive
  */
-const visibleThemes = computed(() => showcaseStore.filteredThemes);
+const visibleThemes = computed(() => showcaseStore.sortedThemes);
 
 /** 是否為「篩到 0 結果」狀態（給 0 結果提示用） */
 const isEmptyResult = computed(() => visibleThemes.value.length === 0);

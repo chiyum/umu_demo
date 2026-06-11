@@ -2,7 +2,8 @@
 import { computed } from "vue";
 import {
   useShowcaseStore,
-  type BrightnessFilter
+  type BrightnessFilter,
+  type SortOrder
 } from "@/store/showcase.store";
 import type { ThemeCategory } from "@/themes/_types";
 
@@ -37,6 +38,20 @@ const brightnessOptions: { key: BrightnessFilter; label: string }[] = [
   { key: "dark", label: "暗色" }
 ];
 
+/**
+ * 排序兩選一選項（順序：由舊到新 / 由新到舊）
+ *
+ * 預設 oldest 放第一個，與 store 預設值對齊，視覺上也呼應「先看舊款再看新款」的瀏覽動線
+ */
+const sortOptions: { key: SortOrder; label: string }[] = [
+  { key: "oldest", label: "由舊到新" },
+  { key: "newest", label: "由新到舊" }
+];
+
+function pickSort(value: SortOrder): void {
+  showcaseStore.setSortOrder(value);
+}
+
 /** 是否有任何篩選條件正在生效（給「清除」按鈕的顯示開關） */
 const hasActiveFilter = computed(
   () =>
@@ -64,7 +79,7 @@ function handleClear(): void {
 <template>
   <section class="filter-bar" aria-label="版型篩選">
     <div class="filter-bar__inner">
-      <!-- 第一列：亮暗 segmented + 右側 LOGO 推薦提示 -->
+      <!-- 第一列：明暗 segmented + 排序 segmented + 右側 LOGO 推薦提示 -->
       <div class="filter-bar__row filter-bar__row--top">
         <div class="filter-bar__group">
           <span class="filter-bar__label" id="brightness-label">明暗</span>
@@ -85,6 +100,33 @@ function handleClear(): void {
               }"
               :aria-checked="showcaseStore.filterBrightness === opt.key"
               @click="pickBrightness(opt.key)"
+            >
+              {{ opt.label }}
+            </button>
+          </div>
+
+          <!--
+            排序切換：與明暗 segmented 同風格（暖金 active 漸層 + role=radiogroup）
+            預設「由舊到新」，使用者可切「由新到舊」
+          -->
+          <span class="filter-bar__label" id="sort-label">排序</span>
+          <div
+            class="filter-bar__segmented"
+            role="radiogroup"
+            aria-labelledby="sort-label"
+          >
+            <button
+              v-for="opt in sortOptions"
+              :key="opt.key"
+              type="button"
+              role="radio"
+              class="filter-bar__segment"
+              :class="{
+                'filter-bar__segment--active':
+                  showcaseStore.sortOrder === opt.key
+              }"
+              :aria-checked="showcaseStore.sortOrder === opt.key"
+              @click="pickSort(opt.key)"
             >
               {{ opt.label }}
             </button>

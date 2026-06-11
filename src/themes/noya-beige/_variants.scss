@@ -1,0 +1,81 @@
+// noya-beige 版面替代配色
+// [data-theme="noya-beige"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 都要覆寫元件實際讀到的對比 token，避免切換殘色。
+
+// 玫瑰粉：accent 改玫瑰粉，比 beige 更柔嫩（與既有 noya rose-gold 暖金區隔）
+[data-theme="noya-beige"][data-theme-color="rose"] {
+  --color-primary: #d76a86;
+  --color-secondary: #e88aa0;
+  --color-accent: #f4b0c2;
+  --bg-base: #fffafb;
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(215, 106, 134, 0.08);
+  --text-primary: #6b3a48;
+  --text-muted: #a3818c;
+  --border: rgba(215, 106, 134, 0.26);
+  --shadow: 0 10px 24px rgba(180, 140, 150, 0.18);
+  --gradient-hero: linear-gradient(135deg, #fff5f7 0%, #fbd9e2 100%);
+  --gradient-cta: linear-gradient(135deg, #e88aa0 0%, #d76a86 100%);
+  --tab-active-bg: linear-gradient(135deg, #ffeef2 0%, #fbd9e2 100%);
+  --tab-active-shadow:
+    0 5px 14px rgba(215, 146, 168, 0.26),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 0 0 1px rgba(255, 222, 230, 0.7);
+  --tab-icon: #c9b2b8;
+  --tab-icon-active: #cf4f72;
+  --tab-text: #b49fa6;
+  --tab-text-active: #c4567c;
+  --online-num: #d76a86;
+  --phcard-bg: linear-gradient(110deg, #ffffff 40%, #fbe4ec 100%);
+  --phcard-label: #e88aa0;
+  --phcard-label-bar: #f4b0c2;
+  --phcard-sub: #d9aebb;
+  --gcard-shadow:
+    0 12px 26px rgba(200, 104, 130, 0.3), 0 4px 10px rgba(200, 104, 130, 0.18);
+  --hero-shadow: 0 8px 24px rgba(220, 140, 165, 0.18);
+  --tabbar-shadow: drop-shadow(0 -6px 18px rgba(220, 140, 165, 0.14));
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #ffffff 0%, #fdeef2 100%);
+  --footer-bg: #fdeef2;
+  --desktop-hero-bg: linear-gradient(135deg, #fff0f4 0%, #fbd9e2 100%);
+  --section-soft: #fdf0f4;
+}
+
+// 橄欖綠：accent 改暖橄欖綠，自然米調（清新但仍 light）
+[data-theme="noya-beige"][data-theme-color="olive"] {
+  --color-primary: #7a8b3c;
+  --color-secondary: #9aac56;
+  --color-accent: #c4d089;
+  --bg-base: #fcfdf8;
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(122, 139, 60, 0.08);
+  --text-primary: #4a4a30;
+  --text-muted: #8a8b76;
+  --border: rgba(122, 139, 60, 0.26);
+  --shadow: 0 10px 24px rgba(150, 155, 130, 0.18);
+  --gradient-hero: linear-gradient(135deg, #f8fbef 0%, #e2ecc8 100%);
+  --gradient-cta: linear-gradient(135deg, #9aac56 0%, #7a8b3c 100%);
+  --tab-active-bg: linear-gradient(135deg, #f1f7df 0%, #e2ecc8 100%);
+  --tab-active-shadow:
+    0 5px 14px rgba(150, 168, 100, 0.26),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 0 0 1px rgba(226, 236, 200, 0.7);
+  --tab-icon: #b5b8a2;
+  --tab-icon-active: #5f7028;
+  --tab-text: #a3a692;
+  --tab-text-active: #647a2c;
+  --online-num: #7a8b3c;
+  --phcard-bg: linear-gradient(110deg, #ffffff 40%, #eef3df 100%);
+  --phcard-label: #9aac56;
+  --phcard-label-bar: #c4d089;
+  --phcard-sub: #bcc49c;
+  --gcard-shadow:
+    0 12px 26px rgba(130, 150, 80, 0.3), 0 4px 10px rgba(130, 150, 80, 0.18);
+  --hero-shadow: 0 8px 24px rgba(150, 168, 100, 0.18);
+  --tabbar-shadow: drop-shadow(0 -6px 18px rgba(150, 168, 100, 0.14));
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #ffffff 0%, #f3f7e8 100%);
+  --footer-bg: #f3f7e8;
+  --desktop-hero-bg: linear-gradient(135deg, #f4f8e8 0%, #e2ecc8 100%);
+  --section-soft: #f6f9ee;
+}

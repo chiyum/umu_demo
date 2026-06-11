@@ -352,7 +352,7 @@ VUE_VITE_TS_START/                # 專案根目錄
 4. 該主類別還沒有 theme → 從 `01` 起算
 5. 編號**一旦發布後不再改動**（重編會打散 sales demo 對外展示的順序記憶）
 
-#### 13 個現有 theme 編號對照
+#### 現有 theme 編號對照（22 個）
 
 | label | key | 主類別 |
 |---|---|---|
@@ -367,11 +367,14 @@ VUE_VITE_TS_START/                # 專案根目錄
 | `a09 · 大亨三欄密集` | `daheng-compact` | general |
 | `a10 · 大亨清單榜單` | `daheng-list` | general |
 | `a11 · 大亨雜誌精選` | `daheng-magazine` | general |
+| `a12 · 富遊大亨` | `fuyou` | general |
 | `b01 · AT99` | `honest-at` | slots |
 | `b02 · AT Deluxe` | `at-deluxe` | slots |
 | `c01 · 暖金` | `noya` | live |
 | `c02 · FG` | `honest-no6` | live |
 | `c03 · 橫向列表` | `dahsing-horizontal` | live |
+| `c04 · 諾亞米色` | `noya-beige` | live |
+| `c05 · 諾亞藍` | `noya-blue` | live |
 | `d01 · 體育博彩` | `ant-sport` | sports |
 | `e01 · 越南 VIP` | `vietvip` | luxury |
 | `e02 · 5D` | `fived` | luxury |
@@ -427,8 +430,23 @@ src/themes/
 ├── daheng-rail/             # 大亨橫向滑軌（a08，v3 對齊）；PC：carousel hero（左大圖+右縮圖列）+ 三段大型分欄
 ├── daheng-compact/          # 大亨三欄密集（a09，v4 對齊）；PC：dashboard 風格（左 menu + 中央 6 欄密集 grid + 右 panel）
 ├── daheng-list/             # 大亨清單榜單（a10，v5 對齊）；PC：leaderboard 主題頁（top 3 大卡 + 表格式榜單含玩家數/賠率/趨勢）
-└── daheng-magazine/         # 大亨雜誌精選（a11，v6 對齊）；PC：雜誌封面風（大封面 banner + 編輯精選 + 4 欄 masonry）
+├── daheng-magazine/         # 大亨雜誌精選（a11，v6 對齊）；PC：雜誌封面風（大封面 banner + 編輯精選 + 4 欄 masonry）
+├── fuyou/                   # 富遊大亨（a12，深藍金賭場入口）；desktop 1:1 對齊富遊原稿桌機 6 段，mobile 為「新做」app 式佈局
+│   ├── _data.ts             # nav/tabs/遊戲卡/服務卡/footer 廠商/跑馬燈 共用資料 + hero/hotgame/app 三張圖 URL
+│   └── assets/              # hero / hotgame / app / card_dg / card_allbet
+├── noya-beige/              # 諾亞米色（c04，暖橘米調真人廳）；mobile 1:1 復刻原稿手機切片版，desktop 為「新做」（參考富遊桌機結構 + 米色配色）
+│   ├── _data.ts             # 5 大類 lobby + 各分類卡片 + footer 廠商 共用資料 + 切片圖 URL（logo/headright/notice/actions/nav/card-*/g1..g6/promo）
+│   └── assets/              # 諾亞米色手機切片素材（與原稿同批）
+└── noya-blue/               # 諾亞藍（c05，深海軍藍真人廳）；mobile 1:1 復刻原稿手機 inline-SVG 版，desktop 為「新做」（參考富遊桌機結構 + 深藍配色）
+    ├── _data.ts             # 5 大類 lobby + 各分類卡片（藍漸層佔位卡含水印籌碼）+ 快捷/底部 tab + footer 廠商 共用資料
+    └── assets/              # hero / card-dg / card-allbet（live 卡切片，其餘為 inline 樣式）
 ```
+
+> **fuyou / noya-beige / noya-blue 三 theme 的「跨裝置補做」規約**：
+> - 來源稿只有單一裝置 → 另一裝置「新做」並參考對向設計稿的版面結構，但配色與內容沿用該稿自己的調性
+> - fuyou 來源是桌機稿 → mobile 新做 app 式（參考兩份諾亞手機版佈局，深藍金配色 + 富遊內容）
+> - noya-beige / noya-blue 來源是手機稿 → desktop 新做（參考富遊桌機 top nav / hero / 熱門遊戲 grid / 下載 / 服務 / footer，各自米色 / 深藍配色 + 諾亞內容）
+> - 三 theme 的 header logo 都接 `useDemoThemeStore().currentLogo`，不寫死品牌，FAB / showcase logo 切換器可換 logo
 
 ### 新增第三個版面流程
 
@@ -564,6 +582,9 @@ Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」
 | `dahsing-waterfall` | light | `general` / `slots` | 米橘瀑布流多遊戲縮圖 |
 | `dahsing-tabs` | light | `general` / `sports` | 金奧華 subtabs 含體育子分頁 |
 | `dahsing-horizontal` | light | `live` / `general` | 米白略紫底 + Netflix 橫滾含真人列 |
+| `fuyou` | dark | `general` | 深海軍藍金賭場入口（富遊大亨）|
+| `noya-beige` | light | `live` | 近白米底暖橘真人廳（諾亞米色）|
+| `noya-blue` | dark | `live` | 深海軍藍玻璃感真人廳（諾亞藍）|
 
 > 「dahsing-horizontal default 是紫貴族但 bg-base 是 `#faf5fd` 米白略紫」是 light 判定的關鍵。
 > 後續若有人覺得 horizontal 應該歸 dark（看 swatch 配色），改 registry 內該 theme 的 `brightness` 即可。
@@ -573,12 +594,25 @@ Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」
 `src/components/showcase/showcase-filter-bar.vue` 位於 logo 切換器與卡片 grid 之間：
 
 - **明暗 segmented control**：全部 / 亮色 / 暗色 三選一，預設「全部」
+- **排序 segmented control**：由舊到新 / 由新到舊 兩選一，**預設「由舊到新」**
 - **類別 chip multi-select**：5 個 chip 可任意組合，OR 邏輯（任一交集即命中），預設全不選等同不篩選
 - **右上推薦提示**：說明「卡片帶徽章 = 依當前 LOGO 主色推薦的最佳搭配」
 - **清除篩選按鈕**：有任何條件生效時才顯示
 - **0 結果提示**：篩選結果為空時顯示「目前條件沒有版型」卡 + 清除篩選 CTA，避免使用者卡住
 
-篩選狀態（`filterBrightness` / `filterCategories`）存在 `useShowcaseStore`，**不 persist 到 LS**：篩選是 per-session 探索行為，重新進站重新自由瀏覽更合適。
+篩選與排序狀態（`filterBrightness` / `filterCategories` / `sortOrder`）存在 `useShowcaseStore`，**不 persist 到 LS**：屬 per-session 探索行為，重新進站重新自由瀏覽更合適。
+
+#### 排序機制（v4.6）
+
+主頁版型清單可切換排序方向，**預設「由舊到新」**（sales demo 依開發時間順序掃過所有版型，先看基礎款再看新款）。
+
+- **state**：`useShowcaseStore.sortOrder`（`"oldest" | "newest"`，預設 `"oldest"`），action `setSortOrder(v)` / `toggleSortOrder()`
+- **computed**：`sortedThemes` 以 `filteredThemes` 為 base（已過排程 + 使用者篩選）做穩定排序
+  - 排序鍵 tuple = `[releaseDate ?? "0000-00-00", registryIndex]`
+  - 沒有 `releaseDate` 的舊 theme 視為「最早」（哨兵 `"0000-00-00"`，它們確實最早建立），彼此 / 與有日期者之間用 `registryIndex`（`listThemes()` 插入順序）當穩定 tiebreaker
+  - oldest = 升序；newest = oldest 結果的「精確反向」（`reverse()`，含 tiebreaker），保證雙向順序完全相反
+- **UI**：`showcase-filter-bar.vue` 的排序 segmented control（與明暗同風格，`role="radiogroup"` + `aria-checked`）
+- `home.vue` 的 `visibleThemes` 從 `filteredThemes` 改讀 `sortedThemes`，排程 + 篩選 + 排序三層疊加都生效
 
 #### Logo 推薦演算法
 

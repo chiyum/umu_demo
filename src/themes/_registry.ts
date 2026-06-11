@@ -945,6 +945,117 @@ const fived: ThemeMeta = {
   categories: ["luxury", "general"]
 };
 
+/**
+ * fuyou 版面（富遊大亨 / 深藍金賭場入口）
+ *
+ * 來源設計稿：大亨_富遊_clone_自包含.html（桌機優先完整響應式）
+ * - desktop：1:1 對齊原稿 6 段（sticky nav / hero stage / ticker / popular 8 卡 /
+ *   download QR / services 3 卡 / footer 24 廠商牆）
+ * - mobile：來源稿是桌機設計，依規約「電腦版 → 參考兩份諾亞手機版補做 app 式 mobile」，
+ *   用富遊深藍金配色 + 富遊內容（熱門遊戲 / RG APP / 頂尖服務）
+ * - 配色三變體：navy-gold 預設深藍金 / royal 皇家銀藍 / crimson 暗夜紅金
+ * - defaultLogo：dahsing（大亨 ONLINE，與富遊「大亨」品牌調性對齊）
+ *
+ * 編號：general 類現有最大 a11（daheng-magazine），故 a12
+ */
+const fuyou: ThemeMeta = {
+  key: "fuyou",
+  label: "a12 · 富遊大亨",
+  description:
+    "富遊大亨深藍金賭場入口，sticky nav + 藍色 radial hero + 8 張藍邊遊戲卡 + RG APP 下載 + 頂尖服務三卡，預設深藍金 / 皇家銀藍 / 暗夜紅金三種配色",
+  desktop: () => import("./fuyou/desktop.vue"),
+  mobile: () => import("./fuyou/mobile.vue"),
+  defaultColor: "navy-gold",
+  colors: [
+    { key: "navy-gold", label: "深藍金", swatch: "#2e8bff" },
+    { key: "royal", label: "皇家銀藍", swatch: "#3aa0ff" },
+    { key: "crimson", label: "暗夜紅金", swatch: "#e23b5a" }
+  ],
+  previews: buildPreviews("fuyou"),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  // 深海軍藍底
+  brightness: "dark",
+  // 賭場大廳通用入口（熱門 / 體育 / 真人 / 電子 / 彩票 / 棋牌 / 捕魚）
+  categories: ["general"],
+  releaseDate: "2026-06-11"
+};
+
+/**
+ * noya-beige 版面（諾亞米色 / 暖橘米調真人廳）
+ *
+ * 來源設計稿：諾亞_版型探索_米色_自包含.html（純手機版，米色暖調、圖片切片排版）
+ * - mobile：1:1 忠實復刻原稿 app 結構（header / hero / 公告切片 / 在線人數 + actions /
+ *   左 5 分類 tab + 右卡片列含 DG/歐博真人切片 + 佔位卡 / 底部 nav 切片）
+ * - desktop：來源稿只有手機版，依規約「手機版 → 參考富遊桌機區塊結構補做 desktop」，
+ *   用諾亞米色暖橘配色 + 諾亞內容（hero / 公告 / 在線人數 / 大廳分類 + 卡片）
+ * - 配色三變體：beige 預設米色暖調 / rose 玫瑰粉 / olive 橄欖綠
+ * - defaultLogo：umu（與 noya 同走 UMU 品牌調性）
+ *
+ * 編號：live 類現有最大 c03（dahsing-horizontal），故 c04
+ */
+const noyaBeige: ThemeMeta = {
+  key: "noya-beige",
+  label: "c04 · 諾亞米色",
+  description:
+    "諾亞米色暖橘米調真人廳，近白米底 + 暖橘 active pill + 左分類 5 大類 + 真人卡片切片，預設米色暖調 / 玫瑰粉 / 橄欖綠三種配色",
+  desktop: () => import("./noya-beige/desktop.vue"),
+  mobile: () => import("./noya-beige/mobile.vue"),
+  defaultColor: "beige",
+  colors: [
+    { key: "beige", label: "米色暖調", swatch: "#c66a3c" },
+    { key: "rose", label: "玫瑰粉", swatch: "#d76a86" },
+    { key: "olive", label: "橄欖綠", swatch: "#7a8b3c" }
+  ],
+  previews: buildPreviews("noya-beige"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 近白米底，整體偏淺
+  brightness: "light",
+  // 真人視訊大廳為主視覺
+  categories: ["live"],
+  releaseDate: "2026-06-11"
+};
+
+/**
+ * noya-blue 版面（諾亞藍 / 深海軍藍真人廳）
+ *
+ * 來源設計稿：諾亞_版型探索_藍_自包含.html（純手機版，藍色調、大量 inline SVG/HTML）
+ * - mobile：1:1 忠實復刻原稿 app 結構（header brand + 登入/註冊 pill / hero /
+ *   公告跑馬燈 / 在線人數 + 存款取款消息快捷 / 左 5 分類 tab + 右卡片含藍漸層佔位卡
+ *   水印 + 籌碼裝飾 / 底部 tabbar 中間首頁凸出球）
+ * - desktop：來源稿只有手機版，依規約「手機版 → 參考富遊桌機區塊結構補做 desktop」，
+ *   用諾亞藍深海軍藍配色 + 諾亞藍內容
+ * - 配色三變體：blue 預設深海藍 / teal 青碧藍 / indigo 靛紫藍
+ * - defaultLogo：umu（與 noya / noya-beige 同走 UMU 品牌調性）
+ *
+ * 為什麼 brightness=dark：app 底色為深海軍藍（#06142a / #0d2a52），bg-base 深色系
+ *
+ * 編號：live 類現有最大 c04（本批 noya-beige 剛佔），故 c05
+ */
+const noyaBlue: ThemeMeta = {
+  key: "noya-blue",
+  label: "c05 · 諾亞藍",
+  description:
+    "諾亞藍深海軍藍真人廳，玻璃感藍卡 + 籌碼裝飾 + 左分類 5 大類 + 真人卡片切片 + 底部凸出首頁球，預設深海藍 / 青碧藍 / 靛紫藍三種配色",
+  desktop: () => import("./noya-blue/desktop.vue"),
+  mobile: () => import("./noya-blue/mobile.vue"),
+  defaultColor: "blue",
+  colors: [
+    { key: "blue", label: "深海藍", swatch: "#4aa3ff" },
+    { key: "teal", label: "青碧藍", swatch: "#2fd6d0" },
+    { key: "indigo", label: "靛紫藍", swatch: "#8c7cff" }
+  ],
+  previews: buildPreviews("noya-blue"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 深海軍藍底，bg-base 深色系
+  brightness: "dark",
+  // 真人視訊大廳為主視覺
+  categories: ["live"],
+  releaseDate: "2026-06-11"
+};
+
 /** 對外暴露的 theme 表，key 是 layoutKey */
 export const themes: Record<string, ThemeMeta> = {
   noya,
@@ -965,7 +1076,10 @@ export const themes: Record<string, ThemeMeta> = {
   "daheng-rail": dahengRail,
   "daheng-compact": dahengCompact,
   "daheng-list": dahengList,
-  "daheng-magazine": dahengMagazine
+  "daheng-magazine": dahengMagazine,
+  fuyou,
+  "noya-beige": noyaBeige,
+  "noya-blue": noyaBlue
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */

@@ -1,0 +1,109 @@
+// fuyou（富遊大亨）token 主檔
+// 來源設計稿：大亨_富遊_clone_自包含.html（深藍金色賭場入口、桌機優先響應式）
+// 主視覺特徵（取自原稿 :root）：
+//   - 深海軍藍底（#070f24 / navy 系列 #0a1430 → #16315f）
+//   - 科技格線背景（grid-bg：藍色細格 46px）
+//   - hero 藍色 radial 大圖區
+//   - 金色強調（#ffd24a / #ffb22e）用於 CTA / 直播 tab
+//   - 遊戲卡藍邊發光、RG 紅字（#ff5b5b → #d61f1f）
+// 配色三變體：
+//   navy-gold 預設 — 深藍金（原稿基準）
+//   royal     — 皇家藍（更亮的電光藍，金改銀白）
+//   crimson   — 暗夜紅金（navy 改暗紅，保留金）
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="fuyou"] {
+  // ─────── 12 公約變數（預設 navy-gold）───────
+  --color-primary: #2e8bff; // 主品牌藍（nav hover / tab active 底）
+  --color-secondary: #54b6ff; // 亮藍高光
+  --color-accent: #ffd24a; // 金色亮點（直播 tab / CTA）
+  --bg-base: #070f24; // 頁面最底深海軍藍
+  --bg-surface: #0e2044; // 卡片 / panel 藍底
+  --bg-overlay: rgba(46, 139, 255, 0.12); // 半透明藍遮罩
+  --text-primary: #eaf2ff; // 主要文字（淺藍白）
+  --text-muted: #9fb6d8; // 次要文字（霧藍）
+  --border: rgba(96, 170, 255, 0.45); // 藍邊框
+  --shadow: 0 8px 22px rgba(0, 0, 0, 0.4); // 通用深色陰影
+  --gradient-hero: radial-gradient(
+    120% 90% at 70% 20%,
+    #cfe6fb 0%,
+    #a8cdf0 45%,
+    #7fb0e6 100%
+  ); // hero 藍色 radial（對齊原稿）
+
+  --gradient-cta: linear-gradient(
+    180deg,
+    #ffe07a,
+    #ffb31f
+  ); // 金色 CTA（直播按鈕 / 主 CTA）
+
+  // ─────── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --navy-0: #0a1430;
+  --navy-1: #0c1a3c;
+  --navy-2: #102450;
+  --navy-3: #16315f;
+  --nav-line: #2a6fff; // nav 頂部 3px 亮線
+  --cyan: #7fd4ff; // 客服圈 / 英文副標描邊
+  --txt-dim: #9fb6d8;
+
+  // nav 底色漸層（sticky top bar）
+  --nav-bg: linear-gradient(180deg, #163063 0%, #0d1c40 100%);
+
+  // ticker 跑馬燈底
+  --ticker-bg: linear-gradient(180deg, #0e1e44, #0a1733);
+
+  // popular 區塊底（radial 藍光 + navy）
+  --popular-bg:
+    radial-gradient(80% 60% at 50% -5%, rgba(40, 110, 230, 0.28), transparent 60%),
+    linear-gradient(180deg, #0a1734 0%, #0a1430 100%);
+
+  // download / services 區塊底
+  --download-bg: linear-gradient(180deg, #0a1430, #0a1838);
+  --services-bg:
+    radial-gradient(70% 50% at 50% 0%, rgba(40, 110, 230, 0.22), transparent 60%),
+    linear-gradient(180deg, #0a1838, #0a1330);
+  --footer-bg: #070d22;
+
+  // 遊戲卡（藍邊發光）
+  --card-edge: rgba(96, 170, 255, 0.45);
+  --game-card-bg: linear-gradient(
+    160deg,
+    rgba(46, 98, 180, 0.55),
+    rgba(14, 32, 72, 0.85)
+  );
+
+  // 服務卡
+  --svc-card-bg: linear-gradient(
+    165deg,
+    rgba(40, 92, 178, 0.42),
+    rgba(12, 30, 70, 0.9)
+  );
+
+  // 服務 icon 圓球
+  --svc-ic-bg: radial-gradient(circle at 38% 30%, #6fc0ff, #1f63d6 70%);
+
+  // RG 紅字（logo / 卡片）
+  --rg-red: linear-gradient(180deg, #ff5b5b, #d61f1f);
+
+  // game badge 橘紅角標
+  --badge-bg: linear-gradient(180deg, #ff7a3d, #e8431d);
+
+  // 落在金色 CTA 上的對比文字色
+  --text-on-cta: #1a1305;
+
+  // 標題科幻藍發光
+  --head-glow: 0 0 18px rgba(80, 160, 255, 0.6), 0 2px 0 rgba(0, 0, 0, 0.4);
+
+  // 科技格線背景（grid-bg helper）
+  --tech-grid:
+    linear-gradient(rgba(60, 130, 230, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(60, 130, 230, 0.05) 1px, transparent 1px);
+
+  // 字體：對齊原稿 Noto Sans TC + Saira（西文斜體標題）
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-display: saira, "Noto Sans TC", sans-serif;
+}
