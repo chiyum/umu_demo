@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useDemoThemeStore } from "@/store/demo-theme.store";
+import { useHeroCarousel } from "@/utils/use-hero-carousel";
 import {
   heroSrc,
+  HERO_SLIDES,
   trophySrc,
   GAME_CATS,
   CAT_TAG,
@@ -41,6 +43,12 @@ const visibleGames = computed(() =>
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 const seq = (i: number) => (i + 1 < 10 ? `0${i + 1}` : `${i + 1}`);
+
+/** Hero 輪播（3 slide 自動播 5 秒，與桌機一致） */
+const { activeIdx: heroIdx, select: selectHero } = useHeroCarousel(
+  HERO_SLIDES.length,
+  5000
+);
 </script>
 
 <template>
@@ -56,16 +64,58 @@ const seq = (i: number) => (i + 1 < 10 ? `0${i + 1}` : `${i + 1}`);
     </header>
 
     <div class="emer-m-wrap">
-      <!-- Hero -->
+      <!-- Hero framebox（對齊原稿 3 slide：1 張圖 + 2 漸層文案，自動播 + dot 可點） -->
       <section class="emer-m-hero">
         <div class="emer-m-hero__framebox">
-          <div class="emer-m-hero__slide">
-            <img :src="heroSrc" alt="首存1000送1000" />
+          <div
+            class="emer-m-hero__slides"
+            :style="{ transform: `translateX(-${heroIdx * 100}%)` }"
+          >
+            <div
+              v-for="(slide, i) in HERO_SLIDES"
+              :key="i"
+              class="emer-m-hero__slide"
+              :class="
+                slide.kind === 'grad'
+                  ? [
+                      'emer-m-hero__slide--grad',
+                      `emer-m-hero__slide--${slide.variant}`
+                    ]
+                  : []
+              "
+            >
+              <img
+                v-if="slide.kind === 'image'"
+                :src="heroSrc"
+                alt="首存1000送1000"
+              />
+              <template v-else>
+                <span class="emer-m-hero__kicker">{{ slide.kicker }}</span>
+                <h2 class="emer-m-hero__title">
+                  <template v-for="(line, li) in slide.titleLines" :key="li">
+                    {{ line }}<br v-if="li < slide.titleLines.length - 1" />
+                  </template>
+                </h2>
+                <span
+                  v-if="slide.descStyle === 'rule'"
+                  class="emer-m-hero__rule"
+                >
+                  {{ slide.desc }}
+                </span>
+                <p v-else class="emer-m-hero__desc">{{ slide.desc }}</p>
+              </template>
+            </div>
           </div>
           <div class="emer-m-hero__dots">
-            <span class="emer-m-hero__dot emer-m-hero__dot--on"></span>
-            <span class="emer-m-hero__dot"></span>
-            <span class="emer-m-hero__dot"></span>
+            <button
+              v-for="(slide, i) in HERO_SLIDES"
+              :key="i"
+              type="button"
+              class="emer-m-hero__dot"
+              :class="{ 'emer-m-hero__dot--on': heroIdx === i }"
+              :aria-label="`切換到第 ${i + 1} 張`"
+              @click="selectHero(i)"
+            ></button>
           </div>
         </div>
       </section>
@@ -294,13 +344,81 @@ const seq = (i: number) => (i + 1 < 10 ? `0${i + 1}` : `${i + 1}`);
       var(--shadow);
   }
 
+  &__slides {
+    display: flex;
+    transition: transform 0.55s cubic-bezier(0.22, 0.8, 0.3, 1);
+  }
+
   &__slide {
+    flex: 0 0 100%;
+    min-width: 0;
     aspect-ratio: 1065 / 438;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    // 漸層文案 slide（對齊原稿 .s-grad，置中對齊）
+    &--grad {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      padding: 0 8%;
+    }
+
+    &--g1 {
+      background: var(--hero-slide-g1);
+    }
+
+    &--g2 {
+      background: var(--hero-slide-g2);
+    }
+  }
+
+  &__kicker {
+    font-size: clamp(0.68rem, 3vw, 0.85rem);
+    letter-spacing: 0.42em;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 6vw, 1.9rem);
+    line-height: 1.25;
+    font-weight: 900;
+    color: var(--color-secondary);
+  }
+
+  &__desc {
+    font-size: clamp(0.75rem, 3.2vw, 0.95rem);
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  &__rule {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-primary);
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+
+    &::before,
+    &::after {
+      content: "";
+      height: 1px;
+      width: 40px;
+      background: linear-gradient(90deg, transparent, var(--color-primary));
+    }
+
+    &::after {
+      transform: scaleX(-1);
     }
   }
 
@@ -320,6 +438,7 @@ const seq = (i: number) => (i + 1 < 10 ? `0${i + 1}` : `${i + 1}`);
     border-radius: 50%;
     border: 1px solid var(--gold-dim);
     background: transparent;
+    cursor: pointer;
 
     &--on {
       background: var(--color-primary);

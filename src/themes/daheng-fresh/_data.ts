@@ -11,6 +11,44 @@
 export const heroSrc = new URL("./assets/hero_banner.png", import.meta.url)
   .href;
 
+/**
+ * Hero 輪播 slide（對齊原稿 3 個 slide：1 張圖 + 2 個漸層文案 s-b1 / s-b2）
+ *
+ * - kind "image"：原稿首張 banner 圖
+ * - kind "grad"：原稿 .s-grad.s-b1 / .s-b2（白字疊在藍/橘漸層上）
+ *   variant 對應 _tokens.scss 的 --hero-slide-b1 / b2 漸層背景
+ *
+ * 為什麼抽到 _data：desktop / mobile 共用同一組輪播，避免重複字面量。
+ */
+export interface HeroSlideImage {
+  kind: "image";
+}
+export interface HeroSlideGrad {
+  kind: "grad";
+  variant: "b1" | "b2";
+  kicker: string;
+  titleLines: string[];
+  desc: string;
+}
+export type HeroSlide = HeroSlideImage | HeroSlideGrad;
+export const HERO_SLIDES: HeroSlide[] = [
+  { kind: "image" },
+  {
+    kind: "grad",
+    variant: "b1",
+    kicker: "DAILY MISSION",
+    titleLines: ["每日任務 簽到拿好禮"],
+    desc: "連續簽到 7 天，最高領 777 點"
+  },
+  {
+    kind: "grad",
+    variant: "b2",
+    kicker: "EURO 2026",
+    titleLines: ["歐國盃專區 開賽啦！"],
+    desc: "首存加碼 20%・串關加倍送"
+  }
+];
+
 const chDg = new URL("./assets/ch_dg.png", import.meta.url).href;
 const chPanda = new URL("./assets/ch_panda.png", import.meta.url).href;
 const chRsg = new URL("./assets/ch_rsg.png", import.meta.url).href;

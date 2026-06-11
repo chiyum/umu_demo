@@ -52,14 +52,14 @@
 
   --gradient-app: linear-gradient(
     130deg,
-    oklch(55.% 0.17 258deg),
+    oklch(55% 0.17 258deg),
     oklch(66% 0.16 242deg)
   ); // App banner 藍漸層
 
   --mini-1: linear-gradient(
     140deg,
     oklch(70% 0.14 160deg),
-    oklch(55.% 0.14 175deg)
+    oklch(55% 0.14 175deg)
   ); // hero mini m1（青綠）
 
   --mini-2: linear-gradient(
@@ -73,6 +73,20 @@
   --promo-c3: oklch(93% 0.05 160deg); // 優惠圖示底色（綠）
   --cta-ink: #ffffff; // 落在藍 / 橘 CTA 上的對比文字（白）
   --radius: 18px; // 原稿 --r
+
+  // hero 文字 slide 漸層背景（對齊原稿 .s-b1 / .s-b2，L59-64；白字疊上）
+  --hero-slide-b1: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(78% 0.13 220deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(62% 0.17 252deg), oklch(50% 0.18 268deg));
+  --hero-slide-b2: radial-gradient(
+      80% 140% at 10% 110%,
+      oklch(80% 0.14 75deg / 0.75),
+      transparent 55%
+    ),
+    linear-gradient(220deg, oklch(72% 0.16 55deg), oklch(62% 0.18 35deg));
 
   // ── 字體 stack（與其他 daheng theme 一致）
   --font-display:

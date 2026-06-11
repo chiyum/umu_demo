@@ -48,6 +48,22 @@
   --cta-ink: #0a0e1a; // 落在霓虹 CTA 上的深色對比文字
   --radius: 14px; // 原稿 --r
 
+  // hero 文字 slide 漸層背景（對齊原稿 .s-v1 / .s-v2，L62-69）
+  --hero-slide-v1: radial-gradient(
+      80% 120% at 85% 20%,
+      rgba(150, 90, 255, 0.35),
+      transparent 60%
+    ),
+    radial-gradient(70% 120% at 10% 90%, rgba(64, 210, 255, 0.25), transparent 55%),
+    linear-gradient(140deg, #0d1428, #141031);
+  --hero-slide-v2: radial-gradient(
+      70% 110% at 15% 15%,
+      rgba(64, 210, 255, 0.3),
+      transparent 55%
+    ),
+    radial-gradient(80% 130% at 90% 85%, rgba(150, 90, 255, 0.3), transparent 60%),
+    linear-gradient(220deg, #101a30, #1a0f2e);
+
   // ── 字體 stack（與其他 daheng theme 一致）
   --font-display:
     "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",

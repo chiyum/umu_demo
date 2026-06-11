@@ -43,6 +43,20 @@
   --cta-ink: #241a06; // 落在金色 CTA 上的深色對比文字
   --radius: 10px; // 原稿 --r
 
+  // hero 文字 slide 漸層背景（對齊原稿 .s-g1 / .s-g2，L64-69）
+  --hero-slide-g1: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(216, 181, 108, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #15392b, #0b231a);
+  --hero-slide-g2: radial-gradient(
+      70% 120% at 50% -15%,
+      rgba(216, 181, 108, 0.18),
+      transparent 55%
+    ),
+    linear-gradient(190deg, #123226, #0a1f17);
+
   // ── 字體 stack：古典襯線標題 + 黑體內文（對齊原稿 Noto Serif TC）
   --font-display:
     "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",

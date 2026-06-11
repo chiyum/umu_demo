@@ -33,6 +33,20 @@
   --glow-c: rgba(255, 90, 200, 0.35);
   --glow-v: rgba(220, 60, 255, 0.3);
   --cta-ink: #1a0814;
+  --hero-slide-v1: radial-gradient(
+      80% 120% at 85% 20%,
+      rgba(255, 90, 170, 0.35),
+      transparent 60%
+    ),
+    radial-gradient(70% 120% at 10% 90%, rgba(220, 60, 255, 0.25), transparent 55%),
+    linear-gradient(140deg, #1c0d22, #2a0f24);
+  --hero-slide-v2: radial-gradient(
+      70% 110% at 15% 15%,
+      rgba(220, 60, 255, 0.3),
+      transparent 55%
+    ),
+    radial-gradient(80% 130% at 90% 85%, rgba(255, 90, 170, 0.3), transparent 60%),
+    linear-gradient(220deg, #241024, #2a0f1e);
 }
 
 // 螢光綠駭客：青改螢光綠、紫改電光藍，cyberpunk 綠藍
@@ -64,4 +78,18 @@
   --glow-c: rgba(60, 255, 170, 0.35);
   --glow-v: rgba(60, 200, 255, 0.3);
   --cta-ink: #04140d;
+  --hero-slide-v1: radial-gradient(
+      80% 120% at 85% 20%,
+      rgba(60, 200, 255, 0.32),
+      transparent 60%
+    ),
+    radial-gradient(70% 120% at 10% 90%, rgba(60, 255, 160, 0.26), transparent 55%),
+    linear-gradient(140deg, #0a1f18, #08221f);
+  --hero-slide-v2: radial-gradient(
+      70% 110% at 15% 15%,
+      rgba(60, 255, 160, 0.3),
+      transparent 55%
+    ),
+    radial-gradient(80% 130% at 90% 85%, rgba(60, 200, 255, 0.3), transparent 60%),
+    linear-gradient(220deg, #0a2220, #08231c);
 }

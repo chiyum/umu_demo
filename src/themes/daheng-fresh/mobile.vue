@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useDemoThemeStore } from "@/store/demo-theme.store";
+import { useHeroCarousel } from "@/utils/use-hero-carousel";
 import {
   heroSrc,
+  HERO_SLIDES,
   CAT_BUBBLES,
   CAT_TITLE,
   CAT_TAG,
@@ -43,6 +45,12 @@ const gridTitle = computed(() => CAT_TITLE[activeCat.value] ?? "熱門推薦");
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 const winnerLoop = computed(() => [...WINNERS, ...WINNERS]);
+
+/** Hero 輪播（3 slide 自動播 4.5 秒，與桌機一致） */
+const { activeIdx: heroIdx, select: selectHero } = useHeroCarousel(
+  HERO_SLIDES.length,
+  4500
+);
 </script>
 
 <template>
@@ -58,15 +66,51 @@ const winnerLoop = computed(() => [...WINNERS, ...WINNERS]);
     </header>
 
     <div class="fresh-m-wrap">
-      <!-- Hero（單欄，sideStack 在手機隱藏） -->
+      <!-- Hero（單欄，sideStack 在手機隱藏；3 slide 自動播 + dot 可點） -->
       <section class="fresh-m-hero">
-        <div class="fresh-m-hero__slide">
-          <img :src="heroSrc" alt="首存1000送1000" />
+        <div
+          class="fresh-m-hero__slides"
+          :style="{ transform: `translateX(-${heroIdx * 100}%)` }"
+        >
+          <div
+            v-for="(slide, i) in HERO_SLIDES"
+            :key="i"
+            class="fresh-m-hero__slide"
+            :class="
+              slide.kind === 'grad'
+                ? [
+                    'fresh-m-hero__slide--grad',
+                    `fresh-m-hero__slide--${slide.variant}`
+                  ]
+                : []
+            "
+          >
+            <img
+              v-if="slide.kind === 'image'"
+              :src="heroSrc"
+              alt="首存1000送1000"
+            />
+            <template v-else>
+              <span class="fresh-m-hero__kicker">{{ slide.kicker }}</span>
+              <h2 class="fresh-m-hero__title">
+                <template v-for="(line, li) in slide.titleLines" :key="li">
+                  {{ line }}<br v-if="li < slide.titleLines.length - 1" />
+                </template>
+              </h2>
+              <p class="fresh-m-hero__desc">{{ slide.desc }}</p>
+            </template>
+          </div>
         </div>
         <div class="fresh-m-hero__dots">
-          <span class="fresh-m-hero__dot fresh-m-hero__dot--on"></span>
-          <span class="fresh-m-hero__dot"></span>
-          <span class="fresh-m-hero__dot"></span>
+          <button
+            v-for="(slide, i) in HERO_SLIDES"
+            :key="i"
+            type="button"
+            class="fresh-m-hero__dot"
+            :class="{ 'fresh-m-hero__dot--on': heroIdx === i }"
+            :aria-label="`切換到第 ${i + 1} 張`"
+            @click="selectHero(i)"
+          ></button>
         </div>
       </section>
 
@@ -328,7 +372,14 @@ const winnerLoop = computed(() => [...WINNERS, ...WINNERS]);
   overflow: hidden;
   box-shadow: var(--shadow);
 
+  &__slides {
+    display: flex;
+    transition: transform 0.55s cubic-bezier(0.22, 0.8, 0.3, 1);
+  }
+
   &__slide {
+    flex: 0 0 100%;
+    min-width: 0;
     aspect-ratio: 1065 / 438;
 
     img {
@@ -336,6 +387,42 @@ const winnerLoop = computed(() => [...WINNERS, ...WINNERS]);
       height: 100%;
       object-fit: cover;
     }
+
+    // 漸層文案 slide（對齊原稿 .s-grad，白字疊在藍/橘漸層上）
+    &--grad {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 7%;
+      color: #ffffff;
+    }
+
+    &--b1 {
+      background: var(--hero-slide-b1);
+    }
+
+    &--b2 {
+      background: var(--hero-slide-b2);
+    }
+  }
+
+  &__kicker {
+    font-size: clamp(0.72rem, 3vw, 0.9rem);
+    letter-spacing: 0.22em;
+    font-weight: 800;
+    opacity: 0.85;
+  }
+
+  &__title {
+    font-size: clamp(1.2rem, 6vw, 1.8rem);
+    line-height: 1.25;
+    font-weight: 900;
+  }
+
+  &__desc {
+    font-size: clamp(0.75rem, 3.2vw, 0.95rem);
+    opacity: 0.85;
   }
 
   &__dots {
@@ -351,8 +438,10 @@ const winnerLoop = computed(() => [...WINNERS, ...WINNERS]);
   &__dot {
     width: 8px;
     height: 8px;
+    border: none;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
 
     &--on {
       width: 22px;

@@ -15,6 +15,46 @@
 export const heroSrc = new URL("./assets/hero_banner.png", import.meta.url)
   .href;
 
+/**
+ * Hero 輪播 slide（對齊原稿 3 個 slide：1 張圖 + 2 個漸層文案）
+ *
+ * - kind "image"：原稿首張 banner 圖
+ * - kind "grad"：原稿 .s-grad.s-v1 / .s-v2 兩張漸層文字 slide
+ *   variant 對應 _tokens.scss 的 --hero-slide-v1 / v2 漸層背景（CSS class 切）
+ *
+ * 為什麼抽到 _data：desktop / mobile 共用同一組輪播內容，避免兩處重複字面量。
+ * heroSrc 仍單獨 export 供其他用途（例如 mobile 首屏），這裡 image slide 也引用它。
+ */
+export interface HeroSlideImage {
+  kind: "image";
+}
+export interface HeroSlideGrad {
+  kind: "grad";
+  variant: "v1" | "v2";
+  kicker: string;
+  /** 標題（可含換行，用陣列每行一段） */
+  titleLines: string[];
+  desc: string;
+}
+export type HeroSlide = HeroSlideImage | HeroSlideGrad;
+export const HERO_SLIDES: HeroSlide[] = [
+  { kind: "image" },
+  {
+    kind: "grad",
+    variant: "v1",
+    kicker: "WEEKLY CASHBACK",
+    titleLines: ["每週流水回饋 1.2%", "無上限・自動派發"],
+    desc: "真人、電子、體育全場館計入，週一中午前入帳"
+  },
+  {
+    kind: "grad",
+    variant: "v2",
+    kicker: "VIP PROGRAM",
+    titleLines: ["晉級禮金最高 88,888"],
+    desc: "專屬客服・生日禮金・極速出款通道"
+  }
+];
+
 /** 遊戲卡圖片（原稿 GAMES 8 張） */
 const chDg = new URL("./assets/ch_dg.png", import.meta.url).href;
 const chPanda = new URL("./assets/ch_panda.png", import.meta.url).href;

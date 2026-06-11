@@ -39,14 +39,26 @@
   );
   --gradient-app: linear-gradient(
     130deg,
-    oklch(56.% 0.14 172deg),
+    oklch(56% 0.14 172deg),
     oklch(68% 0.15 152deg)
   );
-  --mini-1: linear-gradient(140deg, oklch(72% 0.14 145deg), oklch(56.% 0.14 168deg));
+  --mini-1: linear-gradient(140deg, oklch(72% 0.14 145deg), oklch(56% 0.14 168deg));
   --mini-2: linear-gradient(140deg, oklch(70% 0.14 200deg), oklch(54% 0.14 215deg));
   --promo-c1: oklch(93% 0.05 165deg);
   --promo-c2: oklch(94% 0.06 100deg);
   --promo-c3: oklch(93% 0.05 200deg);
+  --hero-slide-b1: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(80% 0.13 150deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(64% 0.15 165deg), oklch(52% 0.14 178deg));
+  --hero-slide-b2: radial-gradient(
+      80% 140% at 10% 110%,
+      oklch(84% 0.16 100deg / 0.75),
+      transparent 55%
+    ),
+    linear-gradient(220deg, oklch(76% 0.16 100deg), oklch(66% 0.16 120deg));
 }
 
 // 珊瑚粉：主色改桃粉，點綴改珊瑚橘，活潑女性向
@@ -85,12 +97,24 @@
   );
   --gradient-app: linear-gradient(
     130deg,
-    oklch(56.% 0.18 2deg),
+    oklch(56% 0.18 2deg),
     oklch(68% 0.16 24deg)
   );
-  --mini-1: linear-gradient(140deg, oklch(74% 0.15 35deg), oklch(58.% 0.16 18deg));
+  --mini-1: linear-gradient(140deg, oklch(74% 0.15 35deg), oklch(58% 0.16 18deg));
   --mini-2: linear-gradient(140deg, oklch(66% 0.18 320deg), oklch(52% 0.18 300deg));
   --promo-c1: oklch(94% 0.04 10deg);
   --promo-c2: oklch(94% 0.06 45deg);
   --promo-c3: oklch(93% 0.04 320deg);
+  --hero-slide-b1: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(80% 0.14 35deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(66% 0.18 8deg), oklch(54% 0.18 350deg));
+  --hero-slide-b2: radial-gradient(
+      80% 140% at 10% 110%,
+      oklch(82% 0.15 45deg / 0.75),
+      transparent 55%
+    ),
+    linear-gradient(220deg, oklch(74% 0.16 45deg), oklch(64% 0.17 28deg));
 }

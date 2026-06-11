@@ -27,6 +27,18 @@
   --cta-ink: #2a1808;
   --page-bg: radial-gradient(120% 80% at 50% -10%, #18392b, transparent 60%),
     #0c2018;
+  --hero-slide-g1: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(224, 168, 120, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #163a2c, #0c241a);
+  --hero-slide-g2: radial-gradient(
+      70% 120% at 50% -15%,
+      rgba(224, 168, 120, 0.18),
+      transparent 55%
+    ),
+    linear-gradient(190deg, #133327, #0b2018);
 }
 
 // 黑曜金：墨綠改近黑炭底，金更亮 = 高端黑金 VIP
@@ -54,4 +66,16 @@
   --cta-ink: #221a06;
   --page-bg: radial-gradient(120% 80% at 50% -10%, #23241d, transparent 60%),
     #0d0e0c;
+  --hero-slide-g1: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(231, 196, 120, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #21221c, #0f100d);
+  --hero-slide-g2: radial-gradient(
+      70% 120% at 50% -15%,
+      rgba(231, 196, 120, 0.18),
+      transparent 55%
+    ),
+    linear-gradient(190deg, #1d1e18, #0e0f0c);
 }

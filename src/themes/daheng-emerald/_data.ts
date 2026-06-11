@@ -14,6 +14,48 @@ export const heroSrc = new URL("./assets/hero_banner.png", import.meta.url)
 export const trophySrc = new URL("./assets/trophy_cut.png", import.meta.url)
   .href;
 
+/**
+ * Hero 輪播 slide（對齊原稿 3 個 slide：1 張圖 + 2 個漸層文案 s-g1 / s-g2）
+ *
+ * - kind "image"：原稿首張 banner 圖
+ * - kind "grad"：原稿 .s-grad.s-g1 / .s-g2（置中對齊，金色襯線標題）
+ *   variant 對應 _tokens.scss 的 --hero-slide-g1 / g2 漸層背景
+ *   descStyle "rule"：原稿 s-g1 的「每 15 分鐘開出」是金色細線裝飾文字（.rule），非一般段落
+ *
+ * 為什麼抽到 _data：desktop / mobile 共用同一組輪播，避免重複字面量。
+ */
+export interface HeroSlideImage {
+  kind: "image";
+}
+export interface HeroSlideGrad {
+  kind: "grad";
+  variant: "g1" | "g2";
+  kicker: string;
+  titleLines: string[];
+  desc: string;
+  /** "rule" = 金色細線裝飾文字（對齊原稿 .rule）；省略 = 一般段落 */
+  descStyle?: "rule";
+}
+export type HeroSlide = HeroSlideImage | HeroSlideGrad;
+export const HERO_SLIDES: HeroSlide[] = [
+  { kind: "image" },
+  {
+    kind: "grad",
+    variant: "g1",
+    kicker: "GRAND JACKPOT",
+    titleLines: ["累積彩金池", "NT$ 36,184,920"],
+    desc: "每 15 分鐘開出",
+    descStyle: "rule"
+  },
+  {
+    kind: "grad",
+    variant: "g2",
+    kicker: "VIP SALON",
+    titleLines: ["翡翠廳・尊爵體驗"],
+    desc: "晉級禮金最高 88,888・專屬出款通道"
+  }
+];
+
 const chDg = new URL("./assets/ch_dg.png", import.meta.url).href;
 const chPanda = new URL("./assets/ch_panda.png", import.meta.url).href;
 const chRsg = new URL("./assets/ch_rsg.png", import.meta.url).href;

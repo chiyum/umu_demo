@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useDemoThemeStore } from "@/store/demo-theme.store";
+import { useHeroCarousel } from "@/utils/use-hero-carousel";
 import {
   heroSrc,
+  HERO_SLIDES,
   QUICK_ACTIONS,
   GAME_CATS,
   CAT_TAG,
@@ -40,6 +42,12 @@ const visibleGames = computed(() =>
 );
 
 const fmt = (n: number) => n.toLocaleString("en-US");
+
+/** Hero 輪播（3 slide 自動播 4.5 秒，與桌機一致） */
+const { activeIdx: heroIdx, select: selectHero } = useHeroCarousel(
+  HERO_SLIDES.length,
+  4500
+);
 </script>
 
 <template>
@@ -56,15 +64,51 @@ const fmt = (n: number) => n.toLocaleString("en-US");
     </header>
 
     <div class="neon-m-wrap">
-      <!-- Hero -->
+      <!-- Hero 輪播（對齊原稿 3 slide：1 張圖 + 2 漸層文案，自動播 + dot 可點） -->
       <section class="neon-m-hero">
-        <div class="neon-m-hero__slide">
-          <img :src="heroSrc" alt="首存1000送1000" />
+        <div
+          class="neon-m-hero__slides"
+          :style="{ transform: `translateX(-${heroIdx * 100}%)` }"
+        >
+          <div
+            v-for="(slide, i) in HERO_SLIDES"
+            :key="i"
+            class="neon-m-hero__slide"
+            :class="
+              slide.kind === 'grad'
+                ? [
+                    'neon-m-hero__slide--grad',
+                    `neon-m-hero__slide--${slide.variant}`
+                  ]
+                : []
+            "
+          >
+            <img
+              v-if="slide.kind === 'image'"
+              :src="heroSrc"
+              alt="首存1000送1000"
+            />
+            <template v-else>
+              <span class="neon-m-hero__kicker">{{ slide.kicker }}</span>
+              <h2 class="neon-m-hero__title">
+                <template v-for="(line, li) in slide.titleLines" :key="li">
+                  {{ line }}<br v-if="li < slide.titleLines.length - 1" />
+                </template>
+              </h2>
+              <p class="neon-m-hero__desc">{{ slide.desc }}</p>
+            </template>
+          </div>
         </div>
         <div class="neon-m-hero__dots">
-          <span class="neon-m-hero__dot neon-m-hero__dot--on"></span>
-          <span class="neon-m-hero__dot"></span>
-          <span class="neon-m-hero__dot"></span>
+          <button
+            v-for="(slide, i) in HERO_SLIDES"
+            :key="i"
+            type="button"
+            class="neon-m-hero__dot"
+            :class="{ 'neon-m-hero__dot--on': heroIdx === i }"
+            :aria-label="`切換到第 ${i + 1} 張`"
+            @click="selectHero(i)"
+          ></button>
         </div>
       </section>
 
@@ -304,7 +348,14 @@ const fmt = (n: number) => n.toLocaleString("en-US");
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
 
+  &__slides {
+    display: flex;
+    transition: transform 0.55s cubic-bezier(0.22, 0.8, 0.3, 1);
+  }
+
   &__slide {
+    flex: 0 0 100%;
+    min-width: 0;
     aspect-ratio: 1065 / 438;
 
     img {
@@ -312,6 +363,41 @@ const fmt = (n: number) => n.toLocaleString("en-US");
       height: 100%;
       object-fit: cover;
     }
+
+    // 漸層文案 slide（對齊原稿 .s-grad）
+    &--grad {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 7%;
+    }
+
+    &--v1 {
+      background: var(--hero-slide-v1);
+    }
+
+    &--v2 {
+      background: var(--hero-slide-v2);
+    }
+  }
+
+  &__kicker {
+    font-size: clamp(0.75rem, 3.4vw, 0.9rem);
+    letter-spacing: 0.3em;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  &__title {
+    font-size: clamp(1.2rem, 6vw, 1.8rem);
+    line-height: 1.2;
+    font-weight: 800;
+  }
+
+  &__desc {
+    font-size: clamp(0.75rem, 3.2vw, 0.95rem);
+    color: var(--text-muted);
   }
 
   &__dots {
@@ -327,8 +413,10 @@ const fmt = (n: number) => n.toLocaleString("en-US");
   &__dot {
     width: 22px;
     height: 4px;
+    border: none;
     border-radius: 2px;
     background: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
 
     &--on {
       background: var(--color-primary);
