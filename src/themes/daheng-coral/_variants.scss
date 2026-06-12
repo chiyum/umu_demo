@@ -1,0 +1,52 @@
+// daheng-coral 版面替代配色
+// 透過 [data-theme="daheng-coral"][data-theme-color="xxx"] 雙重 selector
+// 確保只有 daheng-coral 套對應配色，不被其他 theme 誤用。
+// 三變體都維持奶油淺底（bg / surface / text 不變），只換暖色 accent 系。
+// 注意：每個 variant 都要把 _tokens.scss 內元件實際讀到的對比 token
+// （gradient-cta / glow / color-accent）一起覆寫，否則切換時殘色。
+
+// 預設 cream-coral（奶油珊瑚 #e07a52）已寫在 _tokens.scss，這裡再顯式宣告一份，
+// 確保 [data-theme-color="cream-coral"] 命中時與預設一致（雙重 selector 對齊其他 theme 寫法）。
+[data-theme="daheng-coral"][data-theme-color="cream-coral"] {
+  --color-primary: oklch(68% 0.16 35deg); // coral 珊瑚
+  --color-secondary: oklch(58% 0.17 35deg); // coral-deep 深珊瑚
+  --color-accent: oklch(85% 0.08 70deg); // apricot 杏色
+  --gradient-cta: linear-gradient(
+    135deg,
+    oklch(68% 0.16 35deg),
+    oklch(58% 0.17 35deg)
+  );
+  --glow: oklch(68% 0.16 35deg / 0.35);
+  --soft-bg: #fdf1e7;
+  --soft-hover: #fbe6d4;
+}
+
+// 芒果橘：accent 改暖橘（#eaa64e 系），奶油底配明亮芒果橙
+[data-theme="daheng-coral"][data-theme-color="mango"] {
+  --color-primary: oklch(76% 0.14 70deg); // 芒果橘
+  --color-secondary: oklch(66% 0.16 60deg); // 深芒果
+  --color-accent: oklch(88% 0.07 90deg); // 淡金杏
+  --gradient-cta: linear-gradient(
+    135deg,
+    oklch(76% 0.14 70deg),
+    oklch(66% 0.16 60deg)
+  );
+  --glow: oklch(76% 0.14 70deg / 0.35);
+  --soft-bg: #fcefdc;
+  --soft-hover: #f8e2c2;
+}
+
+// 莓果粉：accent 改莓果粉（#e06a86 系），奶油底配甜美粉紅
+[data-theme="daheng-coral"][data-theme-color="berry"] {
+  --color-primary: oklch(68% 0.15 0deg); // 莓果粉
+  --color-secondary: oklch(58% 0.17 5deg); // 深莓紅
+  --color-accent: oklch(86% 0.07 20deg); // 淡珊瑚粉
+  --gradient-cta: linear-gradient(
+    135deg,
+    oklch(68% 0.15 0deg),
+    oklch(58% 0.17 5deg)
+  );
+  --glow: oklch(68% 0.15 0deg / 0.35);
+  --soft-bg: #fdeaf0;
+  --soft-hover: #fbd9e4;
+}

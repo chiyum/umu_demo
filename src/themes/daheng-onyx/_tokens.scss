@@ -1,0 +1,51 @@
+// daheng-onyx（a17 大亨曜黑燙金）token 主檔
+// 來源設計稿：大亨_AWD_版型E_曜黑燙金.html（AWD 完整響應式單檔）
+// 主視覺特徵（取自原稿 :root）：
+//   - 近黑底 #0c0b09 / 卡片 #1a1712 / 副底 #14120e
+//   - 燙金主色 gold #d4af5f、亮金 gold2 #f0d490、深金 gold-deep #9a7b35
+//   - 金色細線框 line rgba(212,175,95,.22) / line2 rgba(212,175,95,.45)
+//   - 八角徽章 / 拱門卡 / 優惠列皆以金邊 + 暗卡片漸層呈現
+// 配色三變體（_variants.scss 切，皆維持近黑底、只換金屬色調）：
+//   onyx-gold  預設 — 曜黑燙金（原稿基準，#d4af5f）
+//   rose-gold       — 玫瑰燙金（金改暖玫瑰金，#e6b98f）
+//   champagne       — 香檳冷金（金改偏冷香檳金，#cdbf9a）
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="daheng-onyx"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #d4af5f; // 原稿 --gold（燙金主色 / nav active / 標題）
+  --color-secondary: #f0d490; // 原稿 --gold2（亮金 / CTA 上緣 / 高光）
+  --color-accent: #9a7b35; // 原稿 --gold-deep（深金 / CTA 下緣 / 漸層尾）
+  --bg-base: #0c0b09; // 原稿 --bg 近黑底
+  --bg-surface: #1a1712; // 原稿 --card 卡片底
+  --bg-overlay: rgba(212, 175, 95, 0.1); // 金色半透明遮罩（ghost btn hover）
+  --text-primary: #efe9dc; // 原稿 --txt
+  --text-muted: #9a8f78; // 原稿 --txt2
+  --border: rgba(212, 175, 95, 0.22); // 原稿 --line 金色細框
+  --shadow: 0 10px 24px rgba(212, 175, 95, 0.18); // 金色懸浮陰影（medal/arch hover）
+  // hero 本身無漸層底圖（純放 banner 圖），此處備一組金光暗底漸層供需漸層底的區塊使用
+  --gradient-hero: linear-gradient(160deg, #211d15, #14120e);
+
+  // 燙金 CTA：亮金 → 深金（對齊原稿 .btn-gold linear-gradient(180deg,gold2,gold-deep)）
+  --gradient-cta: linear-gradient(180deg, #f0d490, #9a7b35);
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #14120e; // 原稿 --bg2（notice / arch meta 底）
+  --card-2: #211d15; // 原稿 --card2（八角徽章 / 優惠卡漸層尾）
+  --line-2: rgba(212, 175, 95, 0.45); // 原稿 --line2（hover 強化金框 / ghost 邊）
+  --cta-ink: #1c150a; // 落在燙金 CTA 上的深色對比文字（原稿 #1c150a）
+  --radius: 6px; // 原稿 hero border-radius 主圓角
+  --inner-line: rgba(212, 175, 95, 0.35); // hero / 八角內框金線（原稿 .hero::after / .oct::before）
+
+  // ── 字體 stack（與其他 daheng theme 一致，serif 用於品牌字 / 標題）
+  --font-display:
+    "Noto Serif TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

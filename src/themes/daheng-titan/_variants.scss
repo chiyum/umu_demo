@@ -1,0 +1,55 @@
+// daheng-titan 版面替代配色
+// 透過 [data-theme="daheng-titan"][data-theme-color="xxx"] 雙重 selector
+// 確保只有 daheng-titan 套對應配色，不被其他 theme 誤用。
+// 設計原則：維持鈦灰深底（bg / surface / card 系統不動），只替換金屬高光色
+// （primary / secondary / accent / border / overlay / glow / cta / gradient / cta-ink）。
+// 注意：每個 variant 都要把 _tokens.scss 內元件實際讀到的對比 token（border / line-n /
+// glow / cta-ink / bg-overlay）一起覆寫，否則切換時殘色。
+
+// ── 預設色：鈦灰琥珀（與 _tokens.scss 一致，明確標出讓 FAB swatch 有對應 selector）
+[data-theme="daheng-titan"][data-theme-color="titan-amber"] {
+  --color-primary: oklch(78% 0.13 70deg);
+  --color-secondary: oklch(66% 0.13 65deg);
+  --color-accent: oklch(78% 0.13 70deg);
+  --bg-overlay: rgba(232, 170, 80, 0.08);
+  --border: rgba(232, 170, 80, 0.16);
+  --glow: oklch(78% 0.13 70deg / 0.35);
+  --cta-ink: #221806;
+  --gradient-cta: linear-gradient(
+    160deg,
+    oklch(78% 0.13 70deg),
+    oklch(66% 0.13 65deg)
+  );
+}
+
+// ── 鈦灰青：金屬青高光（gunmetal cyan），冷調金屬感
+[data-theme="daheng-titan"][data-theme-color="gunmetal-cyan"] {
+  --color-primary: oklch(75% 0.1 200deg); // 金屬青
+  --color-secondary: oklch(63% 0.1 205deg); // 深金屬青
+  --color-accent: oklch(75% 0.1 200deg);
+  --bg-overlay: rgba(79, 198, 208, 0.08);
+  --border: rgba(79, 198, 208, 0.16);
+  --glow: oklch(75% 0.1 200deg / 0.35);
+  --cta-ink: #04181a; // 落在青色 CTA 上的深色對比文字
+  --gradient-cta: linear-gradient(
+    160deg,
+    oklch(75% 0.1 200deg),
+    oklch(63% 0.1 205deg)
+  );
+}
+
+// ── 石墨玫瑰：玫瑰金高光（graphite rose），暖粉金屬感
+[data-theme="daheng-titan"][data-theme-color="graphite-rose"] {
+  --color-primary: oklch(75% 0.11 5deg); // 玫瑰金
+  --color-secondary: oklch(64% 0.12 8deg); // 深玫瑰金
+  --color-accent: oklch(75% 0.11 5deg);
+  --bg-overlay: rgba(230, 138, 160, 0.08);
+  --border: rgba(230, 138, 160, 0.16);
+  --glow: oklch(75% 0.11 5deg / 0.35);
+  --cta-ink: #24080e; // 落在玫瑰金 CTA 上的深色對比文字
+  --gradient-cta: linear-gradient(
+    160deg,
+    oklch(75% 0.11 5deg),
+    oklch(64% 0.12 8deg)
+  );
+}

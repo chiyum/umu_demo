@@ -1,0 +1,69 @@
+// daheng-crimson（a19 大亨赤焰紅金）token 主檔
+// 來源設計稿：大亨_AWD_版型G_赤焰紅金.html（AWD 完整響應式單檔）
+// 主視覺特徵（取自原稿 :root）：
+//   - 深紅底 #5e0f12 / 副底 #6f1417 / 卡片 #7c191c / 卡片2 #8e2120
+//   - 金色三階：gold #ffd271 / gold2 #ffe7b0 / gold-deep #c98e2f
+//   - body 深紅雙 radial 漸層底（上方亮紅 #8e2120、下方暗紅 #430a0c）
+//   - 金邊 + 金漸層 CTA + 燈籠拱形卡 + 錢幣圓形入口
+// 配色三變體（_variants.scss 切）：
+//   crimson-gold 預設 — 赤焰紅金（原稿基準，gold #ffd271）
+//   imperial         — 帝王紫金（底改紫紅，gold #ffcf6a）
+//   vermillion       — 朱焰亮紅（強調改橘紅 #ff8a3d）
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="daheng-crimson"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #ffd271; // 原稿 --gold（主金，CTA / 標題 / 角標）
+  --color-secondary: #ffe7b0; // 原稿 --gold2（亮金，漸層高光）
+  --color-accent: #c98e2f; // 原稿 --gold-deep（深金，邊框 / 漸層收尾）
+  --bg-base: #5e0f12; // 原稿 --bg 深紅底
+  --bg-surface: #7c191c; // 原稿 --card 卡片底
+  --bg-overlay: rgba(255, 210, 130, 0.12); // 半透明金遮罩（hover / 高光）
+  --text-primary: #fff3e0; // 原稿 --txt
+  --text-muted: #e8b9a0; // 原稿 --txt2
+  --border: rgba(255, 210, 130, 0.25); // 原稿 --line
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4); // 原稿 hero / 卡片陰影
+  // body 深紅雙 radial 漸層底（忠實重現原稿 html,body background）
+  --gradient-hero: radial-gradient(
+      120% 60% at 50% -10%,
+      #8e2120,
+      transparent 60%
+    ),
+    radial-gradient(100% 50% at 50% 110%, #430a0c, transparent 60%), var(--bg-base);
+
+  // 金漸層 CTA（對齊原稿 .btn-gold：gold2 → gold → gold-deep）
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--color-secondary),
+    var(--color-primary) 55%,
+    var(--color-accent)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #6f1417; // 原稿 --bg2（副底）
+  --card-2: #8e2120; // 原稿 --card2（卡片底色2 / packet 漸層起點）
+  --line-2: rgba(255, 210, 130, 0.55); // 原稿 --line2（較亮金邊 / btn-line）
+  --cta-ink: #5b1108; // 落在金色 CTA / 角標上的深紅對比文字
+  --topbar-bg: rgba(80, 12, 14, 0.92); // 原稿 .topbar 半透明深紅
+  --dock-bg: rgba(70, 10, 12, 0.96); // 原稿 .dock 半透明深紅
+  --ink-shadow: #4a0a0c; // 金色字 text-shadow 深紅描邊
+  --radius: 14px; // 原稿 .hero border-radius
+
+  // 錢幣圓形入口底（對齊原稿 .coin .c 的 radial 漸層）
+  --coin-face: radial-gradient(circle at 32% 28%, #a32b26, #7c191c 70%);
+
+  // packet 紅包卡漸層（對齊原稿 .packet：card2 → bg2）
+  --packet-bg: linear-gradient(135deg, #8e2120, #6f1417);
+
+  // ── 字體 stack（與其他 daheng theme 一致；serif 用於品牌字 / 標題）
+  --font-display:
+    "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

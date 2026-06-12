@@ -1,0 +1,77 @@
+// daheng-night 版面替代配色
+// 透過 [data-theme="daheng-night"][data-theme-color="xxx"] 雙重 selector
+// 確保只有 daheng-night 套對應配色，不被其他 theme 誤用。
+// 注意：每個 variant 都要把 _tokens.scss 內元件實際讀到的對比 token
+// （gold / gold-hi / purple / purple-deep / board-bg / cta-shadow 等）一起覆寫，
+// 否則切換時殘色（例：aurora 切完分類圓鈕邊框仍是紫色）。
+// 預設 night-purple（夜空紫金）不另寫 selector，直接吃 _tokens.scss base。
+
+// 極光綠紫：主強調紫改極光綠 #5ad1a0，金保留，整體偏冷的極光夜空
+[data-theme="daheng-night"][data-theme-color="aurora"] {
+  --color-primary: oklch(78% 0.13 165deg); // 極光綠
+  --color-secondary: oklch(85% 0.15 90deg); // 金（保留）
+  --color-accent: #d6fff0; // 極光高光（偏青白）
+  --bg-base: #0c2e2a; // 深極光綠夜底
+  --bg-surface: #0f3a34; // 卡片極光底
+  --bg-overlay: rgba(0, 0, 0, 0.5);
+  --text-primary: #ffffff;
+  --text-muted: #a7e6d2; // 副文字偏極光綠
+  --border: rgba(160, 255, 220, 0.16);
+  --shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
+  --gradient-hero: linear-gradient(180deg, #15524a, #0c2e2a 70%);
+  --gradient-cta: linear-gradient(
+    180deg,
+    oklch(82% 0.15 165deg),
+    oklch(64% 0.15 168deg) 50%,
+    oklch(50% 0.13 170deg)
+  );
+  --bg-top: #15524a;
+  --bg-bot: #0c2e2a;
+  --gold: oklch(85% 0.15 90deg);
+  --gold-hi: #fff3c0;
+  --gold-lo: oklch(66% 0.14 78deg);
+  --purple: oklch(78% 0.13 165deg); // 圓鈕邊框改極光綠
+  --purple-deep: oklch(58% 0.13 168deg); // 燈板邊框改深極光綠
+  --hud-bg: linear-gradient(
+    180deg,
+    rgba(8, 38, 34, 0.96),
+    rgba(15, 58, 52, 0.88)
+  );
+  --board-bg: linear-gradient(170deg, #0f3a34, #082420);
+  --cta-shadow: oklch(38% 0.1 170deg);
+}
+
+// 賽博藍紫：主強調紫改賽博藍 #5aa8ff，金保留，整體偏冷的賽博藍夜空
+[data-theme="daheng-night"][data-theme-color="cyber-blue"] {
+  --color-primary: oklch(70% 0.16 250deg); // 賽博藍
+  --color-secondary: oklch(85% 0.15 90deg); // 金（保留）
+  --color-accent: #cfe6ff; // 賽博高光（偏藍白）
+  --bg-base: #0d1648; // 深賽博藍夜底
+  --bg-surface: #14215e; // 卡片賽博底
+  --bg-overlay: rgba(0, 0, 0, 0.5);
+  --text-primary: #ffffff;
+  --text-muted: #a9bdee; // 副文字偏賽博藍
+  --border: rgba(140, 180, 255, 0.16);
+  --shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
+  --gradient-hero: linear-gradient(180deg, #1c3088, #0d1648 70%);
+  --gradient-cta: linear-gradient(
+    180deg,
+    oklch(78% 0.16 250deg),
+    oklch(60% 0.18 255deg) 50%,
+    oklch(48% 0.16 258deg)
+  );
+  --bg-top: #1c3088;
+  --bg-bot: #0d1648;
+  --gold: oklch(85% 0.15 90deg);
+  --gold-hi: #fff3c0;
+  --gold-lo: oklch(66% 0.14 78deg);
+  --purple: oklch(70% 0.16 250deg); // 圓鈕邊框改賽博藍
+  --purple-deep: oklch(52% 0.16 255deg); // 燈板邊框改深賽博藍
+  --hud-bg: linear-gradient(
+    180deg,
+    rgba(10, 16, 60, 0.96),
+    rgba(20, 33, 94, 0.88)
+  );
+  --board-bg: linear-gradient(170deg, #14215e, #0a1240);
+  --cta-shadow: oklch(36% 0.13 258deg);
+}

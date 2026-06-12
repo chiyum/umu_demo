@@ -1,0 +1,61 @@
+// daheng-coral（a18 大亨奶油珊瑚）token 主檔
+// 來源設計稿：大亨_AWD_版型F_奶油珊瑚.html（AWD 完整響應式）
+// 主視覺特徵（取自原稿 :root）：
+//   - 奶油近白底 #faf6f0 / 卡片純白 #fff / 副底奶油 #fdf1e7
+//   - 珊瑚暖橙 coral oklch(0.68 0.16 35) → coral-deep oklch(0.58 0.17 35)
+//   - 杏色 apricot oklch(0.85 0.08 70) 作為柔和點綴
+//   - 暖棕文字 #3a2e26 / 副文字 #9b8a7c，整體溫潤奶油調 light 風
+// 配色三變體（_variants.scss 切）：
+//   cream-coral 預設 — 奶油珊瑚（原稿基準，#e07a52）
+//   mango           — 芒果橘（accent 改暖橘 #eaa64e）
+//   berry           — 莓果粉（accent 改莓果粉 #e06a86）
+//   三變體都維持奶油淺底，只換暖色 accent。
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="daheng-coral"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(68% 0.16 35deg); // coral 珊瑚（主強調 / CTA / active）
+  --color-secondary: oklch(58% 0.17 35deg); // coral-deep 深珊瑚（漸層尾 / 標題）
+  --color-accent: oklch(85% 0.08 70deg); // apricot 杏色（柔和點綴）
+  --bg-base: #faf6f0; // 原稿 --bg 奶油近白底
+  --bg-surface: #ffffff; // 原稿 --card 純白卡片
+  --bg-overlay: #fdf1e7; // 原稿 --card2 奶油副底（chip hover / 軟按鈕底）
+  --text-primary: #3a2e26; // 原稿 --txt 暖棕
+  --text-muted: #9b8a7c; // 原稿 --txt2 副文字
+  --border: rgba(60, 40, 30, 0.08); // 原稿 --line
+  --shadow: 0 6px 22px rgba(150, 90, 50, 0.1); // 原稿 --shadow 暖色柔影
+
+  // hero / app 區漸層暖背（杏 → 白，呼應 .daily 漸層底）
+  --gradient-hero: linear-gradient(150deg, #fdf1e7, #ffffff);
+
+  // 珊瑚 CTA（原稿 .btn-coral / .side a.on / .play 漸層）
+  --gradient-cta: linear-gradient(
+    135deg,
+    oklch(68% 0.16 35deg),
+    oklch(58% 0.17 35deg)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --cta-ink: #ffffff; // 落在珊瑚 CTA 上的對比文字（奶油底配白字）
+  --glow: oklch(68% 0.16 35deg / 0.35); // 珊瑚柔光（CTA / play 球陰影）
+  --soft-bg: #fdf1e7; // 軟按鈕 / chip 底（原稿 --card2）
+  --soft-hover: #fbe6d4; // 軟按鈕 hover（原稿 .btn-soft:hover）
+  --hot-bg: rgba(255, 255, 255, 0.85); // HOT 角標底（原稿 .gcard .hot）
+  --dock-bg: rgba(255, 255, 255, 0.92); // dock 半透明白底（原稿 .dock）
+  --dock-shadow: 0 10px 30px rgba(80, 50, 30, 0.18); // dock 陰影（原稿）
+  --topbar-bg: rgba(250, 246, 240, 0.9); // topbar 半透明奶油底（原稿）
+  --radius: 22px; // hero / daily / pcard 圓角（原稿 22px）
+  --radius-card: 26px; // squircle 遊戲大卡圓角（原稿 .gcard 26px）
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

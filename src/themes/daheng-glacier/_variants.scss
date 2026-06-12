@@ -1,0 +1,69 @@
+// daheng-glacier 版面替代配色
+// 透過 [data-theme="daheng-glacier"][data-theme-color="xxx"] 雙重 selector
+// 確保只有 daheng-glacier 套對應配色，不被其他 theme 誤用。
+// ──
+// 設計原則：維持冰川淺底（bg / card / 文字不動），只換冷色 accent。
+// 注意：每個 variant 都要把 _tokens.scss 內元件實際讀到的對比 token
+// （gradient-cta / gradient-hero / cta-shadow / rail-on-shadow / pin-ring / accent）
+// 一起覆寫，否則切換時殘色（例：mint 切完按鈕陰影仍是藍色）。
+
+// ── 預設：冰川晨藍（原稿基準色 #3f8fe0 ≈ oklch(62% 0.13 245deg)）─────
+// 列出 default 讓三色在 _variants 一處對照，行為與 _tokens 預設一致
+[data-theme="daheng-glacier"][data-theme-color="glacier-blue"] {
+  --color-primary: oklch(62% 0.13 245deg);
+  --color-secondary: oklch(52% 0.13 250deg);
+  --color-accent: oklch(90% 0.04 235deg);
+  --gradient-hero: linear-gradient(
+    150deg,
+    oklch(62% 0.13 245deg),
+    oklch(52% 0.13 250deg)
+  );
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(62% 0.13 245deg),
+    oklch(52% 0.13 250deg)
+  );
+  --cta-shadow: 0 4px 14px oklch(62% 0.13 245deg / 0.35);
+  --rail-on-shadow: 0 6px 16px oklch(62% 0.13 245deg / 0.4);
+  --pin-ring: oklch(62% 0.13 245deg / 0.15);
+}
+
+// ── 薄荷冰：accent 改青綠 #34b8c0（≈ oklch(72% 0.1 200deg)）──────
+[data-theme="daheng-glacier"][data-theme-color="mint-ice"] {
+  --color-primary: oklch(72% 0.1 200deg);
+  --color-secondary: oklch(60% 0.1 205deg);
+  --color-accent: oklch(92% 0.04 195deg);
+  --gradient-hero: linear-gradient(
+    150deg,
+    oklch(72% 0.1 200deg),
+    oklch(60% 0.1 205deg)
+  );
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(72% 0.1 200deg),
+    oklch(60% 0.1 205deg)
+  );
+  --cta-shadow: 0 4px 14px oklch(72% 0.1 200deg / 0.35);
+  --rail-on-shadow: 0 6px 16px oklch(72% 0.1 200deg / 0.4);
+  --pin-ring: oklch(72% 0.1 200deg / 0.15);
+}
+
+// ── 薰衣草霜：accent 改冷紫 #8c9cf0（≈ oklch(70% 0.11 275deg)）─────
+[data-theme="daheng-glacier"][data-theme-color="lavender-frost"] {
+  --color-primary: oklch(70% 0.11 275deg);
+  --color-secondary: oklch(58% 0.13 280deg);
+  --color-accent: oklch(92% 0.04 280deg);
+  --gradient-hero: linear-gradient(
+    150deg,
+    oklch(70% 0.11 275deg),
+    oklch(58% 0.13 280deg)
+  );
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(70% 0.11 275deg),
+    oklch(58% 0.13 280deg)
+  );
+  --cta-shadow: 0 4px 14px oklch(70% 0.11 275deg / 0.35);
+  --rail-on-shadow: 0 6px 16px oklch(70% 0.11 275deg / 0.4);
+  --pin-ring: oklch(70% 0.11 275deg / 0.15);
+}

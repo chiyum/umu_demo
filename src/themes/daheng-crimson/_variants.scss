@@ -1,0 +1,77 @@
+// daheng-crimson 版面替代配色
+// 透過 [data-theme="daheng-crimson"][data-theme-color="xxx"] 雙重 selector
+// 確保只有 daheng-crimson 套對應配色，不被其他 theme 誤用。
+// 注意：每個 variant 都要把 _tokens.scss 內元件實際讀到的對比 token
+// （cta-ink / bg-2 / card-2 / line-2 / topbar-bg / dock-bg / ink-shadow /
+//   coin-face / packet-bg / gradient-hero / gradient-cta）一起覆寫，
+// 否則切換時殘色（例：imperial 切完錢幣底 / 紅包底仍是赤紅）。
+
+// 帝王紫金：深紅底改紫紅、金略偏暖（gold #ffcf6a），整體沉穩的帝王紫金
+[data-theme="daheng-crimson"][data-theme-color="imperial"] {
+  --color-primary: #ffcf6a; // 帝王金
+  --color-secondary: #ffe6a8; // 亮金高光
+  --color-accent: #b8822c; // 深金
+  --bg-base: #3d1142; // 紫紅底
+  --bg-surface: #54184f; // 卡片底
+  --bg-overlay: rgba(255, 207, 106, 0.12);
+  --text-primary: #f8ecdc;
+  --text-muted: #d8b0c4;
+  --border: rgba(255, 207, 106, 0.25);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --gradient-hero: radial-gradient(
+      120% 60% at 50% -10%,
+      #6e2266,
+      transparent 60%
+    ),
+    radial-gradient(100% 50% at 50% 110%, #2a0a31, transparent 60%), var(--bg-base);
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--color-secondary),
+    var(--color-primary) 55%,
+    var(--color-accent)
+  );
+  --bg-2: #4a1549; // 副底
+  --card-2: #62205c; // 卡片底2 / packet 漸層起點
+  --line-2: rgba(255, 207, 106, 0.55);
+  --cta-ink: #3a0a36; // 落在金 CTA 上的深紫對比文字
+  --topbar-bg: rgba(48, 12, 52, 0.92);
+  --dock-bg: rgba(42, 10, 47, 0.96);
+  --ink-shadow: #2a0830;
+  --coin-face: radial-gradient(circle at 32% 28%, #7a2a72, #54184f 70%);
+  --packet-bg: linear-gradient(135deg, #62205c, #4a1549);
+}
+
+// 朱焰亮紅：強調改橘紅（gold→#ff8a3d），底維持赤紅但更亮，整體火焰感
+[data-theme="daheng-crimson"][data-theme-color="vermillion"] {
+  --color-primary: #ff8a3d; // 朱焰橘紅
+  --color-secondary: #ffc07a; // 暖橘高光
+  --color-accent: #d35a1e; // 深橘紅
+  --bg-base: #6b0f0d; // 亮赤底
+  --bg-surface: #8a1c16; // 卡片底
+  --bg-overlay: rgba(255, 138, 61, 0.14);
+  --text-primary: #fff0e2;
+  --text-muted: #f0b59a;
+  --border: rgba(255, 138, 61, 0.28);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.42);
+  --gradient-hero: radial-gradient(
+      120% 60% at 50% -10%,
+      #b8331f,
+      transparent 60%
+    ),
+    radial-gradient(100% 50% at 50% 110%, #4d0a06, transparent 60%), var(--bg-base);
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--color-secondary),
+    var(--color-primary) 55%,
+    var(--color-accent)
+  );
+  --bg-2: #7d1410; // 副底
+  --card-2: #a02218; // 卡片底2 / packet 漸層起點
+  --line-2: rgba(255, 138, 61, 0.55);
+  --cta-ink: #5a1006; // 落在橘 CTA 上的深紅對比文字
+  --topbar-bg: rgba(92, 14, 10, 0.92);
+  --dock-bg: rgba(80, 12, 8, 0.96);
+  --ink-shadow: #4d0a06;
+  --coin-face: radial-gradient(circle at 32% 28%, #c43a22, #8a1c16 70%);
+  --packet-bg: linear-gradient(135deg, #a02218, #7d1410);
+}

@@ -352,7 +352,7 @@ VUE_VITE_TS_START/                # 專案根目錄
 4. 該主類別還沒有 theme → 從 `01` 起算
 5. 編號**一旦發布後不再改動**（重編會打散 sales demo 對外展示的順序記憶）
 
-#### 現有 theme 編號對照（25 個）
+#### 現有 theme 編號對照（31 個）
 
 | label | key | 主類別 |
 |---|---|---|
@@ -371,6 +371,12 @@ VUE_VITE_TS_START/                # 專案根目錄
 | `a13 · 大亨霓虹電競` | `daheng-neon` | general |
 | `a14 · 大亨翡翠金典` | `daheng-emerald` | general |
 | `a15 · 大亨清新活力` | `daheng-fresh` | general |
+| `a16 · 大亨夜空樂園` | `daheng-night` | general |
+| `a17 · 大亨曜黑燙金` | `daheng-onyx` | general |
+| `a18 · 大亨奶油珊瑚` | `daheng-coral` | general |
+| `a19 · 大亨赤焰紅金` | `daheng-crimson` | general |
+| `a20 · 大亨鈦灰琥珀` | `daheng-titan` | general |
+| `a21 · 大亨冰川晨藍` | `daheng-glacier` | general |
 | `b01 · AT99` | `honest-at` | slots |
 | `b02 · AT Deluxe` | `at-deluxe` | slots |
 | `c01 · 暖金` | `noya` | live |
@@ -449,9 +455,26 @@ src/themes/
 ├── daheng-emerald/          # 大亨翡翠金典（a14，墨綠 + 金襯線古典，dark）；對齊 AWD 版型B，desktop = 置中容器 + 水平 nav + 直式卡 + 中獎榜/優惠 duo + VIP，mobile = 直式卡 2 欄 + 固定底部 tab
 │   ├── _data.ts             # topNav / 遊戲大廳 tabs+grid / 中獎榜 6 列 / 優惠 banner / VIP / footer 共用資料 + hero + trophy + 8 張遊戲卡圖
 │   └── assets/              # hero_banner + 8 張遊戲卡 + trophy_cut（優惠 banner 裝飾）
-└── daheng-fresh/            # 大亨清新活力（a15，藍白淺色 + 橘點綴，light）；對齊 AWD 版型C，desktop = hero+sideStack/氣泡/彩金池/grid/中獎跑馬/優惠/APP banner，mobile = 2 欄 grid + 浮動圓角底部 tab
-    ├── _data.ts             # topNav / hero mini / 分類氣泡 / 中獎跑馬 / 彩金池 / 遊戲大廳 grid / 優惠 / footer 共用資料 + hero + 8 張遊戲卡圖
-    └── assets/              # hero_banner + 8 張遊戲卡
+├── daheng-fresh/            # 大亨清新活力（a15，藍白淺色 + 橘點綴，light）；對齊 AWD 版型C，desktop = hero+sideStack/氣泡/彩金池/grid/中獎跑馬/優惠/APP banner，mobile = 2 欄 grid + 浮動圓角底部 tab
+│   ├── _data.ts             # topNav / hero mini / 分類氣泡 / 中獎跑馬 / 彩金池 / 遊戲大廳 grid / 優惠 / footer 共用資料 + hero + 8 張遊戲卡圖
+│   └── assets/              # hero_banner + 8 張遊戲卡
+├── daheng-night/            # 大亨夜空樂園（a16，深紫夜空 + 金/紫高光 social-casino 手遊，dark）；對齊 AWD 版型D，JS 驅動 SVG 場景，desktop = HUD 頂欄 + canvas 星空 + GRAND JACKPOT + SVG 遊戲卡，mobile = 底部 5 tab（中間 jackpot 凸出金球）；全 inline SVG 無 PNG，無 assets/
+│   └── _data.ts             # nav / GRAND JACKPOT / SVG 場景遊戲卡（feat 大卡 + HOT/NEW ribbon）/ 促銷輪播 / 中獎跑馬 共用資料
+├── daheng-onyx/             # 大亨曜黑燙金（a17，近黑 + 燙金細框古典，dark）；對齊 AWD 版型E，desktop = 水平 nav + hero 金雙框 + 八角徽章 8 入口 + 拱門卡 6 + 尊榮禮遇 3，mobile = 八角徽章排最前 + 拱門卡 2 欄 + 底部 dock
+│   ├── _data.ts             # topNav / 八角徽章 8 入口 / hero / 拱門卡熱門館別 6 / 尊榮禮遇優惠 3 / footer 共用資料
+│   └── assets/              # hero_banner + 館別 / 優惠切片素材
+├── daheng-coral/            # 大亨奶油珊瑚（a18，奶油近白 + 珊瑚暖橙，light）；對齊 AWD 版型F，desktop = 左 220px 側欄 + 主欄（hero/簽到卡/squircle 大卡 3 欄/橫向優惠），mobile = 膠囊分類列 + 卡 2 欄 + 底部 dock 膠囊
+│   ├── _data.ts             # sideNav / hero / 每日簽到 / squircle 圓角大卡遊戲 / 橫向優惠卡 / footer 共用資料
+│   └── assets/              # hero_banner + 遊戲卡 / 優惠切片素材
+├── daheng-crimson/          # 大亨赤焰紅金（a19，深紅 radial + 三階金喜慶，dark）；對齊 AWD 版型G，desktop = 頂欄 nav + 錢幣圓形 8 入口 + hero 金邊 ribbon + 燈籠拱形卡 6 + 紅包優惠 3，mobile = 錢幣入口排最前 + 燈籠卡 2 欄 + 底部 dock
+│   ├── _data.ts             # topNav / 錢幣圓形 8 入口 / hero ribbon / 燈籠拱形卡熱門館別 6 / 紅包優惠 3 / footer 共用資料
+│   └── assets/              # hero_banner + 燈籠 / 錢幣 / 紅包切片素材
+├── daheng-titan/            # 大亨鈦灰琥珀（a20，鈦灰深底 + 琥珀金屬雙描邊，dark）；對齊 AWD 版型H，desktop = 左側類別 rail 橫展 170px sticky + 內容（熱門館別斜切卡 3~4 欄/壓縮 banner/3 數據條），mobile = 窄 64px 圖示 rail + 卡 2 欄 + 底部 dock；熱門館別排在 hero 之前
+│   ├── _data.ts             # 類別 rail / 熱門館別圓角斜切卡 / 壓縮 banner / 3 數據條 / footer 共用資料
+│   └── assets/              # banner + 館別切片素材
+└── daheng-glacier/          # 大亨冰川晨藍（a21，純白卡片 + 淺藍漸層底清爽，light）；對齊 AWD 版型I，desktop = 內容欄 + 右側類別 rail 78px sticky（人氣館別圓頂雪窗卡 3~4 欄/壓縮 banner/橫向優惠），mobile = 右側窄 rail + 卡 2 欄 + 底部 dock 膠囊；熱門館別排在 hero 之前
+    ├── _data.ts             # 類別 rail / 本週人氣館別圓頂雪窗卡 / 壓縮 banner / 橫向優惠 / footer 共用資料
+    └── assets/              # banner + 館別切片素材
 ```
 
 > **fuyou / noya-beige / noya-blue 三 theme 的「跨裝置補做」規約**：
@@ -467,6 +490,17 @@ src/themes/
 > - 原稿那顆 A/B/C/D 版型切換浮標（.vswitch）是 mockup 自己的導覽，**未移植**；版型D（紫色手遊）無來源 HTML，本批不做
 > - 三 theme 各自帶 assets（hero + 8 張遊戲卡；emerald 額外帶 trophy），不共用 daheng-shared
 > - header / sidebar logo 都接 `useDemoThemeStore().currentLogo`，不寫死 logo_cut.png
+
+> **大亨 AWD 第二批 a16~a21 六 theme 規約（版型 D~I）**：
+> - 來源稿：`/Users/georgehuang/Downloads/daheng_awd_assets` 內版型 D~I 六份 AWD 完整響應式 HTML，續第一批（A/B/C → a13~a15）
+>   - D 紫色手遊（夜空樂園，JS 驅動 social-casino）→ `daheng-night`（a16）
+>   - E 曜黑燙金 → `daheng-onyx`（a17）／ F 奶油珊瑚 → `daheng-coral`（a18）
+>   - G 赤焰紅金 → `daheng-crimson`（a19）／ H 鈦灰琥珀 → `daheng-titan`（a20）／ I 冰川晨藍 → `daheng-glacier`（a21）
+> - 全部 general 類，logos 統一 `SHARED_LOGOS`、`defaultLogo = dahsing`，previews 採 `buildPreviews`（不帶 colorPreviews，缺截圖由 `getPreview` fallback 不破圖）
+> - **排程分批上架**（每天 2 版，起始日 6/12）：6/12 `daheng-night` + `daheng-onyx`；6/13 `daheng-coral` + `daheng-crimson`；6/14 `daheng-titan` + `daheng-glacier`（`releaseDate` 控主頁顯示，`/demo/<key>` 直連與 `?bypass` query 不擋）
+> - 原稿 A/B/C/D 版型切換浮標（.vswitch）**未移植**
+> - `daheng-night`（版型 D）為 **JS 驅動 SVG 場景**：canvas 星空粒子背景 + 全 inline SVG 遊戲卡，無 PNG 素材，無 `assets/` 目錄；其餘 5 theme 各自帶 `assets/`
+> - 每個 theme 各自帶 `assets`，不共用 daheng-shared；header / sidebar / rail logo 都接 `useDemoThemeStore().currentLogo`
 
 ### 新增第三個版面流程
 
@@ -608,6 +642,12 @@ Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」
 | `daheng-neon` | dark | `general` | 深藍 + 青/紫霓虹電競大廳（大亨霓虹電競）|
 | `daheng-emerald` | dark | `general` | 墨綠 + 金襯線古典大廳（大亨翡翠金典）|
 | `daheng-fresh` | light | `general` | 藍白淺底 + 橘點綴明快大廳（大亨清新活力）|
+| `daheng-night` | dark | `general` | 深紫夜空 + 金/紫高光 social-casino 手遊（大亨夜空樂園）|
+| `daheng-onyx` | dark | `general` | 近黑 + 燙金細框古典大廳（大亨曜黑燙金）|
+| `daheng-coral` | light | `general` | 奶油近白 + 珊瑚暖橙側欄大廳（大亨奶油珊瑚）|
+| `daheng-crimson` | dark | `general` | 深紅 radial + 三階金喜慶大廳（大亨赤焰紅金）|
+| `daheng-titan` | dark | `general` | 鈦灰深底 + 琥珀金屬左 rail 大廳（大亨鈦灰琥珀）|
+| `daheng-glacier` | light | `general` | 純白卡片 + 淺藍漸層右 rail 大廳（大亨冰川晨藍）|
 
 > 「dahsing-horizontal default 是紫貴族但 bg-base 是 `#faf5fd` 米白略紫」是 light 判定的關鍵。
 > 後續若有人覺得 horizontal 應該歸 dark（看 swatch 配色），改 registry 內該 theme 的 `brightness` 即可。

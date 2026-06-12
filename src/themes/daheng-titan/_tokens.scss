@@ -1,0 +1,53 @@
+// daheng-titan（a20 大亨鈦灰琥珀）token 主檔
+// 來源設計稿：大亨_AWD_版型H_鈦灰琥珀.html（AWD 單檔響應式）
+// 主視覺特徵（取自原稿 :root）：
+//   - 鈦灰深底 #141619 / 副底 #1a1d22 / 卡片 #20242b / 卡片2 #272c35
+//   - 琥珀金屬高光（amber oklch 0.78 0.13 70 → amber-deep oklch 0.66 0.13 65）線性漸層
+//   - 暖金描邊 line rgba(232,170,80,.16) + 中性白描邊 line-n rgba(255,255,255,.07) 雙描邊系統
+// 配色三變體（_variants.scss 切，維持鈦灰深底只換金屬高光色）：
+//   titan-amber  預設 — 鈦灰琥珀（原稿基準，琥珀金 #d9a24b）
+//   gunmetal-cyan    — 鈦灰青（高光改金屬青 #4fc6d0）
+//   graphite-rose    — 石墨玫瑰（高光改玫瑰金 #e68aa0）
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="daheng-titan"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(78% 0.13 70deg); // amber 琥珀金（主強調 / 角標 / 數據）
+  --color-secondary: oklch(66% 0.13 65deg); // amber-deep 深琥珀（漸層尾 / 次強調）
+  --color-accent: oklch(78% 0.13 70deg); // 琥珀亮點（沿用 amber）
+  --bg-base: #141619; // 原稿 --bg 鈦灰深底
+  --bg-surface: #20242b; // 原稿 --card 卡片底
+  --bg-overlay: rgba(232, 170, 80, 0.08); // 半透明琥珀遮罩（rail hover）
+  --text-primary: #edeae3; // 原稿 --txt 暖白
+  --text-muted: #8d8a82; // 原稿 --txt-2 灰褐
+  --border: rgba(232, 170, 80, 0.16); // 原稿 --line 暖金描邊
+  --shadow: 0 12px 26px rgba(0, 0, 0, 0.45); // 原稿 .gcard:hover 投影
+  --gradient-hero: linear-gradient(160deg, #20242b, #1a1d22); // hero 容器底（壓縮 banner 外框）
+  --gradient-cta: linear-gradient(
+    160deg,
+    oklch(78% 0.13 70deg),
+    oklch(66% 0.13 65deg)
+  ); // 琥珀金屬 CTA（原稿 .btn-amber）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #1a1d22; // 原稿 --bg2（notice / rail 圖示底 / 數據條底）
+  --card-2: #272c35; // 原稿 --card2（卡片漸層尾 / 進階對比）
+  --line-n: rgba(255, 255, 255, 0.07); // 原稿 --line-n 中性白描邊
+  --glow: oklch(78% 0.13 70deg / 0.35); // 琥珀外發光（原稿 rail.on / btn-amber 陰影）
+  --cta-ink: #221806; // 落在琥珀 CTA 上的深色對比文字（原稿 #221806）
+  --radius: 14px; // 原稿 hero / 通用圓角
+  --radius-card: 22px 22px 22px 60px; // 原稿 .gcard 圓角斜切（左下大圓角）
+  --rail-on-ink: #221806; // rail 選中態深色文字
+
+  // ── 字體 stack（與其他 daheng theme 一致，原稿用 Noto Sans TC）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

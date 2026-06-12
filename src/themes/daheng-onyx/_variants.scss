@@ -1,0 +1,49 @@
+// daheng-onyx 版面替代配色
+// 透過 [data-theme="daheng-onyx"][data-theme-color="xxx"] 雙重 selector
+// 確保只有 daheng-onyx 套對應配色，不被其他 theme 誤用。
+// 注意：每個 variant 都要把 _tokens.scss 內元件實際讀到的對比 token
+// （gradient-cta / cta-ink / bg-2 / card-2 / line-2 / inner-line / shadow / overlay）
+// 一起覆寫，否則切換時殘色（例：rose-gold 切完八角內框金線仍是原金色）。
+// 三色皆維持近黑底，只換金屬色調。
+
+// 玫瑰燙金：主金改暖玫瑰金、亮金偏粉、深金偏赭，整體偏暖
+[data-theme="daheng-onyx"][data-theme-color="rose-gold"] {
+  --color-primary: #e6b98f; // 玫瑰金主色
+  --color-secondary: #f6d5b4; // 亮玫瑰金高光
+  --color-accent: #a87650; // 深赭金
+  --bg-base: #0d0a08;
+  --bg-surface: #1c1611;
+  --bg-overlay: rgba(230, 185, 143, 0.1);
+  --text-primary: #f1e6db;
+  --text-muted: #a8927e;
+  --border: rgba(230, 185, 143, 0.22);
+  --shadow: 0 10px 24px rgba(230, 185, 143, 0.18);
+  --gradient-hero: linear-gradient(160deg, #241a13, #16100c);
+  --gradient-cta: linear-gradient(180deg, #f6d5b4, #a87650);
+  --bg-2: #16100c;
+  --card-2: #241a13;
+  --line-2: rgba(230, 185, 143, 0.45);
+  --cta-ink: #1f1308;
+  --inner-line: rgba(230, 185, 143, 0.35);
+}
+
+// 香檳冷金：主金改偏冷香檳金、亮金偏米白、深金偏灰金，整體偏冷雅
+[data-theme="daheng-onyx"][data-theme-color="champagne"] {
+  --color-primary: #cdbf9a; // 香檳冷金主色
+  --color-secondary: #e8dec1; // 米白香檳高光
+  --color-accent: #8f8460; // 灰金
+  --bg-base: #0b0b0a;
+  --bg-surface: #181712;
+  --bg-overlay: rgba(205, 191, 154, 0.1);
+  --text-primary: #ece8dd;
+  --text-muted: #948e7c;
+  --border: rgba(205, 191, 154, 0.22);
+  --shadow: 0 10px 24px rgba(205, 191, 154, 0.18);
+  --gradient-hero: linear-gradient(160deg, #1f1d15, #141310);
+  --gradient-cta: linear-gradient(180deg, #e8dec1, #8f8460);
+  --bg-2: #141310;
+  --card-2: #1f1d15;
+  --line-2: rgba(205, 191, 154, 0.45);
+  --cta-ink: #18160d;
+  --inner-line: rgba(205, 191, 154, 0.35);
+}
