@@ -291,6 +291,13 @@ function buildColorPreviews(
   return map;
 }
 
+/** noya 配色（抽常數讓 colors 與 buildColorPreviews 共用同一份來源） */
+const NOYA_COLORS: ColorVariant[] = [
+  { key: "rose-gold", label: "玫瑰金", swatch: "#d4a574" },
+  { key: "sunset", label: "日落橘", swatch: "#ff7e47" },
+  { key: "lime", label: "青檸綠", swatch: "#9fd356" }
+];
+
 /** noya 版面（玫瑰金 / 暖色系） */
 const noya: ThemeMeta = {
   key: "noya",
@@ -300,12 +307,10 @@ const noya: ThemeMeta = {
   desktop: () => import("./noya/desktop.vue"),
   mobile: () => import("./noya/mobile.vue"),
   defaultColor: "rose-gold",
-  colors: [
-    { key: "rose-gold", label: "玫瑰金", swatch: "#d4a574" },
-    { key: "sunset", label: "日落橘", swatch: "#ff7e47" },
-    { key: "lime", label: "青檸綠", swatch: "#9fd356" }
-  ],
+  colors: NOYA_COLORS,
   previews: buildPreviews("noya"),
+  // 色變體截圖：跳過 default（rose-gold），只列 sunset / lime
+  colorPreviews: buildColorPreviews("noya", NOYA_COLORS, "rose-gold"),
   // noya 主視覺對應 UMU 品牌，預設帶 UMU
   defaultLogo: "umu",
   logos: SHARED_LOGOS,
@@ -315,6 +320,13 @@ const noya: ThemeMeta = {
   categories: ["live", "luxury"]
 };
 
+/** at99 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const AT99_COLORS: ColorVariant[] = [
+  { key: "neon-blue", label: "霓虹藍", swatch: "#2dd4ff" },
+  { key: "neon-purple", label: "霓虹紫", swatch: "#a855f7" },
+  { key: "neon-green", label: "霓虹綠", swatch: "#22d3a4" }
+];
+
 /** at99 版面（深藍霓虹 / 賭場風） */
 const at99: ThemeMeta = {
   key: "at99",
@@ -323,12 +335,10 @@ const at99: ThemeMeta = {
   desktop: () => import("./at99/desktop.vue"),
   mobile: () => import("./at99/mobile.vue"),
   defaultColor: "neon-blue",
-  colors: [
-    { key: "neon-blue", label: "霓虹藍", swatch: "#2dd4ff" },
-    { key: "neon-purple", label: "霓虹紫", swatch: "#a855f7" },
-    { key: "neon-green", label: "霓虹綠", swatch: "#22d3a4" }
-  ],
+  colors: AT99_COLORS,
   previews: buildPreviews("at99"),
+  // 色變體截圖：跳過 default（neon-blue），只列 neon-purple / neon-green
+  colorPreviews: buildColorPreviews("at99", AT99_COLORS, "neon-blue"),
   // at99 主視覺對應大亨 ONLINE，預設帶 dahsing
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
@@ -350,6 +360,13 @@ const at99: ThemeMeta = {
  * - 三 theme 統一三 logo 後，隆亨 ONLINE 剛好無歸屬 theme，視覺也搭得起來
  * - 與 at99（大亨）/ noya（UMU）的「品牌-版面」一對一映射對齊
  */
+/** ant-sport 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const ANT_SPORT_COLORS: ColorVariant[] = [
+  { key: "blue", label: "螞蟻藍", swatch: "#3c70fd" },
+  { key: "midnight", label: "夜間藍", swatch: "#0d152b" },
+  { key: "red", label: "節慶紅", swatch: "#e63946" }
+];
+
 const antSport: ThemeMeta = {
   key: "ant-sport",
   label: "d01 · 體育博彩",
@@ -360,12 +377,10 @@ const antSport: ThemeMeta = {
   desktop: () => import("./ant-sport/desktop.vue"),
   mobile: () => import("./ant-sport/mobile.vue"),
   defaultColor: "blue",
-  colors: [
-    { key: "blue", label: "螞蟻藍", swatch: "#3c70fd" },
-    { key: "midnight", label: "夜間藍", swatch: "#0d152b" },
-    { key: "red", label: "節慶紅", swatch: "#e63946" }
-  ],
+  colors: ANT_SPORT_COLORS,
   previews: buildPreviews("ant-sport"),
+  // 色變體截圖：跳過 default（blue），只列 midnight / red
+  colorPreviews: buildColorPreviews("ant-sport", ANT_SPORT_COLORS, "blue"),
   defaultLogo: "long-heng",
   logos: SHARED_LOGOS,
   // 白底為主，僅 hero banner 帶藍底
@@ -388,6 +403,13 @@ const antSport: ThemeMeta = {
  * - 三 theme 統一三 logo 後可自由配對，這裡與品牌精神 1:1 對齊
  * - 與 at99（大亨霓虹版）形成「同品牌但不同視覺解讀」對照，showcase 主頁切 logo 時更有趣
  */
+/** tycoon 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const TYCOON_COLORS: ColorVariant[] = [
+  { key: "ice", label: "冰藍", swatch: "#1f7ff0" },
+  { key: "deep", label: "深海藍", swatch: "#0a52c4" },
+  { key: "gold", label: "金邊冰", swatch: "#d4a574" }
+];
+
 const tycoon: ThemeMeta = {
   key: "tycoon",
   label: "a02 · 藍冰大亨",
@@ -396,12 +418,10 @@ const tycoon: ThemeMeta = {
   desktop: () => import("./tycoon/desktop.vue"),
   mobile: () => import("./tycoon/mobile.vue"),
   defaultColor: "ice",
-  colors: [
-    { key: "ice", label: "冰藍", swatch: "#1f7ff0" },
-    { key: "deep", label: "深海藍", swatch: "#0a52c4" },
-    { key: "gold", label: "金邊冰", swatch: "#d4a574" }
-  ],
+  colors: TYCOON_COLORS,
   previews: buildPreviews("tycoon"),
+  // 色變體截圖：跳過 default（ice），只列 deep / gold
+  colorPreviews: buildColorPreviews("tycoon", TYCOON_COLORS, "ice"),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   // 藍冰冷光金屬，整體深色
@@ -427,6 +447,13 @@ const tycoon: ThemeMeta = {
  * - 大亨（at99/tycoon）/ UMU（noya）已分別有歸屬，隆亨原本在 ant-sport 借走，
  *   vietvip 沿用同一張仍能保留「隆亨 = 金色品牌符號」的一致性
  */
+/** vietvip 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const VIETVIP_COLORS: ColorVariant[] = [
+  { key: "ruby", label: "寶石紅", swatch: "#82122a" },
+  { key: "midnight", label: "午夜紅", swatch: "#3a0613" },
+  { key: "gold", label: "純金禮盒", swatch: "#c79a45" }
+];
+
 const vietvip: ThemeMeta = {
   key: "vietvip",
   label: "e01 · 越南 VIP",
@@ -435,12 +462,10 @@ const vietvip: ThemeMeta = {
   desktop: () => import("./vietvip/desktop.vue"),
   mobile: () => import("./vietvip/mobile.vue"),
   defaultColor: "ruby",
-  colors: [
-    { key: "ruby", label: "寶石紅", swatch: "#82122a" },
-    { key: "midnight", label: "午夜紅", swatch: "#3a0613" },
-    { key: "gold", label: "純金禮盒", swatch: "#c79a45" }
-  ],
+  colors: VIETVIP_COLORS,
   previews: buildPreviews("vietvip"),
+  // 色變體截圖：跳過 default（ruby），只列 midnight / gold
+  colorPreviews: buildColorPreviews("vietvip", VIETVIP_COLORS, "ruby"),
   defaultLogo: "long-heng",
   logos: SHARED_LOGOS,
   // 深紅金邊葉脈大底圖
@@ -459,6 +484,13 @@ const vietvip: ThemeMeta = {
  * - 配色：HSL 三軸（neon-blue 預設 / neon-purple / neon-cyan），主視覺青藍霓虹科幻感
  * - defaultLogo：dahsing 大亨 ONLINE（與 AT99 賭場霓虹品牌調性對齊）
  */
+/** honest-at 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const HONEST_AT_COLORS: ColorVariant[] = [
+  { key: "neon-blue", label: "霓虹藍", swatch: "#2dd4ff" },
+  { key: "neon-purple", label: "紫色霓虹", swatch: "#c879ff" },
+  { key: "neon-cyan", label: "螢光青", swatch: "#3dd7d3" }
+];
+
 const honestAt: ThemeMeta = {
   key: "honest-at",
   label: "b01 · AT99",
@@ -467,12 +499,10 @@ const honestAt: ThemeMeta = {
   desktop: () => import("./honest-at/desktop.vue"),
   mobile: () => import("./honest-at/mobile.vue"),
   defaultColor: "neon-blue",
-  colors: [
-    { key: "neon-blue", label: "霓虹藍", swatch: "#2dd4ff" },
-    { key: "neon-purple", label: "紫色霓虹", swatch: "#c879ff" },
-    { key: "neon-cyan", label: "螢光青", swatch: "#3dd7d3" }
-  ],
+  colors: HONEST_AT_COLORS,
   previews: buildPreviews("honest-at"),
+  // 色變體截圖：跳過 default（neon-blue），只列 neon-purple / neon-cyan
+  colorPreviews: buildColorPreviews("honest-at", HONEST_AT_COLORS, "neon-blue"),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   // 深藍底 + 青藍霓虹高光
@@ -492,6 +522,13 @@ const honestAt: ThemeMeta = {
  * - 配色：HSL 三軸（pink 預設桃粉 / azure 藍主 / sunset 橘黃），活潑、亮色簡潔感
  * - defaultLogo：umu（亮色 brand 配色與 UMU 風格最搭，與 noya 區隔）
  */
+/** honest-max 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const HONEST_MAX_COLORS: ColorVariant[] = [
+  { key: "pink", label: "桃粉", swatch: "#e75bff" },
+  { key: "azure", label: "藍主", swatch: "#3ec1f5" },
+  { key: "sunset", label: "夕陽橘", swatch: "#ff8a4c" }
+];
+
 const honestMax: ThemeMeta = {
   key: "honest-max",
   label: "a03 · 88WIN",
@@ -500,12 +537,10 @@ const honestMax: ThemeMeta = {
   desktop: () => import("./honest-max/desktop.vue"),
   mobile: () => import("./honest-max/mobile.vue"),
   defaultColor: "pink",
-  colors: [
-    { key: "pink", label: "桃粉", swatch: "#e75bff" },
-    { key: "azure", label: "藍主", swatch: "#3ec1f5" },
-    { key: "sunset", label: "夕陽橘", swatch: "#ff8a4c" }
-  ],
+  colors: HONEST_MAX_COLORS,
   previews: buildPreviews("honest-max"),
+  // 色變體截圖：跳過 default（pink），只列 azure / sunset
+  colorPreviews: buildColorPreviews("honest-max", HONEST_MAX_COLORS, "pink"),
   defaultLogo: "umu",
   logos: SHARED_LOGOS,
   // 淡灰白底 + 彩色 hot 卡
@@ -526,6 +561,13 @@ const honestMax: ThemeMeta = {
  * - 配色：HSL 三軸（purple 預設紫主 / midnight 夜紫 / crimson 紫紅倒轉）
  * - defaultLogo：long-heng（金筆畫與 no6 的金色 hero 文字 + 紫黑底搭配最融洽）
  */
+/** honest-no6 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const HONEST_NO6_COLORS: ColorVariant[] = [
+  { key: "purple", label: "紫主", swatch: "#d44ee0" },
+  { key: "midnight", label: "夜紫", swatch: "#5b3da1" },
+  { key: "crimson", label: "紫紅", swatch: "#d63d5e" }
+];
+
 const honestNo6: ThemeMeta = {
   key: "honest-no6",
   label: "c02 · FG",
@@ -534,12 +576,10 @@ const honestNo6: ThemeMeta = {
   desktop: () => import("./honest-no6/desktop.vue"),
   mobile: () => import("./honest-no6/mobile.vue"),
   defaultColor: "purple",
-  colors: [
-    { key: "purple", label: "紫主", swatch: "#d44ee0" },
-    { key: "midnight", label: "夜紫", swatch: "#5b3da1" },
-    { key: "crimson", label: "紫紅", swatch: "#d63d5e" }
-  ],
+  colors: HONEST_NO6_COLORS,
   previews: buildPreviews("honest-no6"),
+  // 色變體截圖：跳過 default（purple），只列 midnight / crimson
+  colorPreviews: buildColorPreviews("honest-no6", HONEST_NO6_COLORS, "purple"),
   defaultLogo: "long-heng",
   logos: SHARED_LOGOS,
   // 紫黑神秘底色
@@ -565,6 +605,13 @@ const honestNo6: ThemeMeta = {
  * - at-deluxe 是「深藍 radial + JACKPOT 七段數字 + 漸層膠囊 sidebar + 雙列遊戲」
  *   多層次賭場大廳結構，視覺密度高且帶 hot 紅角徽 / 金球凸出 CTA
  */
+/** at-deluxe 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const AT_DELUXE_COLORS: ColorVariant[] = [
+  { key: "cyan-neon", label: "霓虹青", swatch: "#69ffff" },
+  { key: "rose-neon", label: "霓虹玫紅", swatch: "#f24a82" },
+  { key: "gold-deluxe", label: "賭場金", swatch: "#ffd86b" }
+];
+
 const atDeluxe: ThemeMeta = {
   key: "at-deluxe",
   label: "b02 · AT Deluxe",
@@ -573,12 +620,10 @@ const atDeluxe: ThemeMeta = {
   desktop: () => import("./at-deluxe/desktop.vue"),
   mobile: () => import("./at-deluxe/mobile.vue"),
   defaultColor: "cyan-neon",
-  colors: [
-    { key: "cyan-neon", label: "霓虹青", swatch: "#69ffff" },
-    { key: "rose-neon", label: "霓虹玫紅", swatch: "#f24a82" },
-    { key: "gold-deluxe", label: "賭場金", swatch: "#ffd86b" }
-  ],
+  colors: AT_DELUXE_COLORS,
   previews: buildPreviews("at-deluxe"),
+  // 色變體截圖：跳過 default（cyan-neon），只列 rose-neon / gold-deluxe
+  colorPreviews: buildColorPreviews("at-deluxe", AT_DELUXE_COLORS, "cyan-neon"),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   // 深藍 radial + JACKPOT 數字賭場大廳奢華風
@@ -926,6 +971,13 @@ const dahengMagazine: ThemeMeta = {
  * - 與 noya（暖玫瑰金）/ vietvip（酒紅金）色域接近，但「裝飾線條更乾淨、
  *   字體 Noto Sans 顯示體 + 雙欄 grid 結構 + tag 多色標籤」是獨有
  */
+/** fived 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const FIVED_COLORS: ColorVariant[] = [
+  { key: "gold-deep", label: "暗金", swatch: "#e2bd87" },
+  { key: "royal-blue", label: "皇家藍", swatch: "#6fa8ff" },
+  { key: "crimson-rose", label: "酒紅玫瑰", swatch: "#d63d5e" }
+];
+
 const fived: ThemeMeta = {
   key: "fived",
   label: "e02 · 5D",
@@ -934,12 +986,10 @@ const fived: ThemeMeta = {
   desktop: () => import("./fived/desktop.vue"),
   mobile: () => import("./fived/mobile.vue"),
   defaultColor: "gold-deep",
-  colors: [
-    { key: "gold-deep", label: "暗金", swatch: "#e2bd87" },
-    { key: "royal-blue", label: "皇家藍", swatch: "#6fa8ff" },
-    { key: "crimson-rose", label: "酒紅玫瑰", swatch: "#d63d5e" }
-  ],
+  colors: FIVED_COLORS,
   previews: buildPreviews("fived"),
+  // 色變體截圖：跳過 default（gold-deep），只列 royal-blue / crimson-rose
+  colorPreviews: buildColorPreviews("fived", FIVED_COLORS, "gold-deep"),
   defaultLogo: "long-heng",
   logos: SHARED_LOGOS,
   // 深棕底 + 金漸層邊框
@@ -961,6 +1011,13 @@ const fived: ThemeMeta = {
  *
  * 編號：general 類現有最大 a11（daheng-magazine），故 a12
  */
+/** fuyou 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const FUYOU_COLORS: ColorVariant[] = [
+  { key: "navy-gold", label: "深藍金", swatch: "#2e8bff" },
+  { key: "royal", label: "皇家銀藍", swatch: "#3aa0ff" },
+  { key: "crimson", label: "暗夜紅金", swatch: "#e23b5a" }
+];
+
 const fuyou: ThemeMeta = {
   key: "fuyou",
   label: "a12 · 富遊大亨",
@@ -969,12 +1026,10 @@ const fuyou: ThemeMeta = {
   desktop: () => import("./fuyou/desktop.vue"),
   mobile: () => import("./fuyou/mobile.vue"),
   defaultColor: "navy-gold",
-  colors: [
-    { key: "navy-gold", label: "深藍金", swatch: "#2e8bff" },
-    { key: "royal", label: "皇家銀藍", swatch: "#3aa0ff" },
-    { key: "crimson", label: "暗夜紅金", swatch: "#e23b5a" }
-  ],
+  colors: FUYOU_COLORS,
   previews: buildPreviews("fuyou"),
+  // 色變體截圖：跳過 default（navy-gold），只列 royal / crimson
+  colorPreviews: buildColorPreviews("fuyou", FUYOU_COLORS, "navy-gold"),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   // 深海軍藍底
@@ -997,6 +1052,13 @@ const fuyou: ThemeMeta = {
  *
  * 編號：live 類現有最大 c03（dahsing-horizontal），故 c04
  */
+/** noya-beige 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_BEIGE_COLORS: ColorVariant[] = [
+  { key: "beige", label: "米色暖調", swatch: "#c66a3c" },
+  { key: "rose", label: "玫瑰粉", swatch: "#d76a86" },
+  { key: "olive", label: "橄欖綠", swatch: "#7a8b3c" }
+];
+
 const noyaBeige: ThemeMeta = {
   key: "noya-beige",
   label: "c04 · 諾亞米色",
@@ -1005,12 +1067,10 @@ const noyaBeige: ThemeMeta = {
   desktop: () => import("./noya-beige/desktop.vue"),
   mobile: () => import("./noya-beige/mobile.vue"),
   defaultColor: "beige",
-  colors: [
-    { key: "beige", label: "米色暖調", swatch: "#c66a3c" },
-    { key: "rose", label: "玫瑰粉", swatch: "#d76a86" },
-    { key: "olive", label: "橄欖綠", swatch: "#7a8b3c" }
-  ],
+  colors: NOYA_BEIGE_COLORS,
   previews: buildPreviews("noya-beige"),
+  // 色變體截圖：跳過 default（beige），只列 rose / olive
+  colorPreviews: buildColorPreviews("noya-beige", NOYA_BEIGE_COLORS, "beige"),
   defaultLogo: "umu",
   logos: SHARED_LOGOS,
   // 近白米底，整體偏淺
@@ -1036,6 +1096,13 @@ const noyaBeige: ThemeMeta = {
  *
  * 編號：live 類現有最大 c04（本批 noya-beige 剛佔），故 c05
  */
+/** noya-blue 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_BLUE_COLORS: ColorVariant[] = [
+  { key: "blue", label: "深海藍", swatch: "#4aa3ff" },
+  { key: "teal", label: "青碧藍", swatch: "#2fd6d0" },
+  { key: "indigo", label: "靛紫藍", swatch: "#8c7cff" }
+];
+
 const noyaBlue: ThemeMeta = {
   key: "noya-blue",
   label: "c05 · 諾亞藍",
@@ -1044,12 +1111,10 @@ const noyaBlue: ThemeMeta = {
   desktop: () => import("./noya-blue/desktop.vue"),
   mobile: () => import("./noya-blue/mobile.vue"),
   defaultColor: "blue",
-  colors: [
-    { key: "blue", label: "深海藍", swatch: "#4aa3ff" },
-    { key: "teal", label: "青碧藍", swatch: "#2fd6d0" },
-    { key: "indigo", label: "靛紫藍", swatch: "#8c7cff" }
-  ],
+  colors: NOYA_BLUE_COLORS,
   previews: buildPreviews("noya-blue"),
+  // 色變體截圖：跳過 default（blue），只列 teal / indigo
+  colorPreviews: buildColorPreviews("noya-blue", NOYA_BLUE_COLORS, "blue"),
   defaultLogo: "umu",
   logos: SHARED_LOGOS,
   // 深海軍藍底，bg-base 深色系
@@ -1078,6 +1143,13 @@ const noyaBlue: ThemeMeta = {
  * previews 採 buildPreviews（不帶 colorPreviews，比照 noya 那批省截圖；缺檔由 getPreview fallback 不破圖）
  * releaseDate 2026-06-11（與本批同日上架）
  */
+/** daheng-neon 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const DAHENG_NEON_COLORS: ColorVariant[] = [
+  { key: "neon-cyan", label: "青紫霓虹", swatch: "#40d2ff" },
+  { key: "neon-magenta", label: "洋紅電競", swatch: "#ff5ac8" },
+  { key: "neon-lime", label: "螢光綠駭客", swatch: "#3cffaa" }
+];
+
 const dahengNeon: ThemeMeta = {
   key: "daheng-neon",
   label: "a13 · 大亨霓虹電競",
@@ -1086,12 +1158,14 @@ const dahengNeon: ThemeMeta = {
   desktop: () => import("./daheng-neon/desktop.vue"),
   mobile: () => import("./daheng-neon/mobile.vue"),
   defaultColor: "neon-cyan",
-  colors: [
-    { key: "neon-cyan", label: "青紫霓虹", swatch: "#40d2ff" },
-    { key: "neon-magenta", label: "洋紅電競", swatch: "#ff5ac8" },
-    { key: "neon-lime", label: "螢光綠駭客", swatch: "#3cffaa" }
-  ],
+  colors: DAHENG_NEON_COLORS,
   previews: buildPreviews("daheng-neon"),
+  // 色變體截圖：跳過 default（neon-cyan），只列 neon-magenta / neon-lime
+  colorPreviews: buildColorPreviews(
+    "daheng-neon",
+    DAHENG_NEON_COLORS,
+    "neon-cyan"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   // 深藍霓虹底色
@@ -1101,6 +1175,13 @@ const dahengNeon: ThemeMeta = {
   releaseDate: "2026-06-11"
 };
 
+/** daheng-emerald 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const DAHENG_EMERALD_COLORS: ColorVariant[] = [
+  { key: "emerald-gold", label: "墨綠金典", swatch: "#d8b56c" },
+  { key: "jade-rose", label: "翡翠玫瑰金", swatch: "#e0a878" },
+  { key: "onyx-gold", label: "黑曜金", swatch: "#e7c478" }
+];
+
 const dahengEmerald: ThemeMeta = {
   key: "daheng-emerald",
   label: "a14 · 大亨翡翠金典",
@@ -1109,12 +1190,14 @@ const dahengEmerald: ThemeMeta = {
   desktop: () => import("./daheng-emerald/desktop.vue"),
   mobile: () => import("./daheng-emerald/mobile.vue"),
   defaultColor: "emerald-gold",
-  colors: [
-    { key: "emerald-gold", label: "墨綠金典", swatch: "#d8b56c" },
-    { key: "jade-rose", label: "翡翠玫瑰金", swatch: "#e0a878" },
-    { key: "onyx-gold", label: "黑曜金", swatch: "#e7c478" }
-  ],
+  colors: DAHENG_EMERALD_COLORS,
   previews: buildPreviews("daheng-emerald"),
+  // 色變體截圖：跳過 default（emerald-gold），只列 jade-rose / onyx-gold
+  colorPreviews: buildColorPreviews(
+    "daheng-emerald",
+    DAHENG_EMERALD_COLORS,
+    "emerald-gold"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   // 墨綠 + 金邊深色
@@ -1124,6 +1207,13 @@ const dahengEmerald: ThemeMeta = {
   releaseDate: "2026-06-11"
 };
 
+/** daheng-fresh 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const DAHENG_FRESH_COLORS: ColorVariant[] = [
+  { key: "sky-blue", label: "清新藍橘", swatch: "#3f7fe0" },
+  { key: "mint-green", label: "薄荷綠", swatch: "#34c08a" },
+  { key: "coral-pink", label: "珊瑚粉", swatch: "#ec6a8e" }
+];
+
 const dahengFresh: ThemeMeta = {
   key: "daheng-fresh",
   label: "a15 · 大亨清新活力",
@@ -1132,12 +1222,14 @@ const dahengFresh: ThemeMeta = {
   desktop: () => import("./daheng-fresh/desktop.vue"),
   mobile: () => import("./daheng-fresh/mobile.vue"),
   defaultColor: "sky-blue",
-  colors: [
-    { key: "sky-blue", label: "清新藍橘", swatch: "#3f7fe0" },
-    { key: "mint-green", label: "薄荷綠", swatch: "#34c08a" },
-    { key: "coral-pink", label: "珊瑚粉", swatch: "#ec6a8e" }
-  ],
+  colors: DAHENG_FRESH_COLORS,
   previews: buildPreviews("daheng-fresh"),
+  // 色變體截圖：跳過 default（sky-blue），只列 mint-green / coral-pink
+  colorPreviews: buildColorPreviews(
+    "daheng-fresh",
+    DAHENG_FRESH_COLORS,
+    "sky-blue"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   // 藍白淺底
@@ -1173,6 +1265,13 @@ const DAHENG_AWD2_RELEASE_DATES = {
   glacier: "2026-06-14"
 } as const;
 
+/** daheng-night 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const DAHENG_NIGHT_COLORS: ColorVariant[] = [
+  { key: "night-purple", label: "夜空紫金", swatch: "#8a5cf0" },
+  { key: "aurora", label: "極光綠紫", swatch: "#5ad1a0" },
+  { key: "cyber-blue", label: "賽博藍紫", swatch: "#5aa8ff" }
+];
+
 const dahengNight: ThemeMeta = {
   key: "daheng-night",
   label: "a16 · 大亨夜空樂園",
@@ -1181,18 +1280,27 @@ const dahengNight: ThemeMeta = {
   desktop: () => import("./daheng-night/desktop.vue"),
   mobile: () => import("./daheng-night/mobile.vue"),
   defaultColor: "night-purple",
-  colors: [
-    { key: "night-purple", label: "夜空紫金", swatch: "#8a5cf0" },
-    { key: "aurora", label: "極光綠紫", swatch: "#5ad1a0" },
-    { key: "cyber-blue", label: "賽博藍紫", swatch: "#5aa8ff" }
-  ],
+  colors: DAHENG_NIGHT_COLORS,
   previews: buildPreviews("daheng-night"),
+  // 色變體截圖：跳過 default（night-purple），只列 aurora / cyber-blue
+  colorPreviews: buildColorPreviews(
+    "daheng-night",
+    DAHENG_NIGHT_COLORS,
+    "night-purple"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   brightness: "dark",
   categories: ["general"],
   releaseDate: DAHENG_AWD2_RELEASE_DATES.night
 };
+
+/** daheng-onyx 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const DAHENG_ONYX_COLORS: ColorVariant[] = [
+  { key: "onyx-gold", label: "曜黑燙金", swatch: "#d4af5f" },
+  { key: "rose-gold", label: "玫瑰燙金", swatch: "#e6b98f" },
+  { key: "champagne", label: "香檳冷金", swatch: "#cdbf9a" }
+];
 
 const dahengOnyx: ThemeMeta = {
   key: "daheng-onyx",
@@ -1202,18 +1310,27 @@ const dahengOnyx: ThemeMeta = {
   desktop: () => import("./daheng-onyx/desktop.vue"),
   mobile: () => import("./daheng-onyx/mobile.vue"),
   defaultColor: "onyx-gold",
-  colors: [
-    { key: "onyx-gold", label: "曜黑燙金", swatch: "#d4af5f" },
-    { key: "rose-gold", label: "玫瑰燙金", swatch: "#e6b98f" },
-    { key: "champagne", label: "香檳冷金", swatch: "#cdbf9a" }
-  ],
+  colors: DAHENG_ONYX_COLORS,
   previews: buildPreviews("daheng-onyx"),
+  // 色變體截圖：跳過 default（onyx-gold），只列 rose-gold / champagne
+  colorPreviews: buildColorPreviews(
+    "daheng-onyx",
+    DAHENG_ONYX_COLORS,
+    "onyx-gold"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   brightness: "dark",
   categories: ["general"],
   releaseDate: DAHENG_AWD2_RELEASE_DATES.onyx
 };
+
+/** daheng-coral 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const DAHENG_CORAL_COLORS: ColorVariant[] = [
+  { key: "cream-coral", label: "奶油珊瑚", swatch: "#e07a52" },
+  { key: "mango", label: "芒果橘", swatch: "#eaa64e" },
+  { key: "berry", label: "莓果粉", swatch: "#e06a86" }
+];
 
 const dahengCoral: ThemeMeta = {
   key: "daheng-coral",
@@ -1223,18 +1340,27 @@ const dahengCoral: ThemeMeta = {
   desktop: () => import("./daheng-coral/desktop.vue"),
   mobile: () => import("./daheng-coral/mobile.vue"),
   defaultColor: "cream-coral",
-  colors: [
-    { key: "cream-coral", label: "奶油珊瑚", swatch: "#e07a52" },
-    { key: "mango", label: "芒果橘", swatch: "#eaa64e" },
-    { key: "berry", label: "莓果粉", swatch: "#e06a86" }
-  ],
+  colors: DAHENG_CORAL_COLORS,
   previews: buildPreviews("daheng-coral"),
+  // 色變體截圖：跳過 default（cream-coral），只列 mango / berry
+  colorPreviews: buildColorPreviews(
+    "daheng-coral",
+    DAHENG_CORAL_COLORS,
+    "cream-coral"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   brightness: "light",
   categories: ["general"],
   releaseDate: DAHENG_AWD2_RELEASE_DATES.coral
 };
+
+/** daheng-crimson 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const DAHENG_CRIMSON_COLORS: ColorVariant[] = [
+  { key: "crimson-gold", label: "赤焰紅金", swatch: "#ffd271" },
+  { key: "imperial", label: "帝王紫金", swatch: "#ffcf6a" },
+  { key: "vermillion", label: "朱焰亮紅", swatch: "#ff8a3d" }
+];
 
 const dahengCrimson: ThemeMeta = {
   key: "daheng-crimson",
@@ -1244,18 +1370,27 @@ const dahengCrimson: ThemeMeta = {
   desktop: () => import("./daheng-crimson/desktop.vue"),
   mobile: () => import("./daheng-crimson/mobile.vue"),
   defaultColor: "crimson-gold",
-  colors: [
-    { key: "crimson-gold", label: "赤焰紅金", swatch: "#ffd271" },
-    { key: "imperial", label: "帝王紫金", swatch: "#ffcf6a" },
-    { key: "vermillion", label: "朱焰亮紅", swatch: "#ff8a3d" }
-  ],
+  colors: DAHENG_CRIMSON_COLORS,
   previews: buildPreviews("daheng-crimson"),
+  // 色變體截圖：跳過 default（crimson-gold），只列 imperial / vermillion
+  colorPreviews: buildColorPreviews(
+    "daheng-crimson",
+    DAHENG_CRIMSON_COLORS,
+    "crimson-gold"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   brightness: "dark",
   categories: ["general"],
   releaseDate: DAHENG_AWD2_RELEASE_DATES.crimson
 };
+
+/** daheng-titan 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const DAHENG_TITAN_COLORS: ColorVariant[] = [
+  { key: "titan-amber", label: "鈦灰琥珀", swatch: "#d9a24b" },
+  { key: "gunmetal-cyan", label: "鈦灰青", swatch: "#4fc6d0" },
+  { key: "graphite-rose", label: "石墨玫瑰", swatch: "#e68aa0" }
+];
 
 const dahengTitan: ThemeMeta = {
   key: "daheng-titan",
@@ -1265,18 +1400,27 @@ const dahengTitan: ThemeMeta = {
   desktop: () => import("./daheng-titan/desktop.vue"),
   mobile: () => import("./daheng-titan/mobile.vue"),
   defaultColor: "titan-amber",
-  colors: [
-    { key: "titan-amber", label: "鈦灰琥珀", swatch: "#d9a24b" },
-    { key: "gunmetal-cyan", label: "鈦灰青", swatch: "#4fc6d0" },
-    { key: "graphite-rose", label: "石墨玫瑰", swatch: "#e68aa0" }
-  ],
+  colors: DAHENG_TITAN_COLORS,
   previews: buildPreviews("daheng-titan"),
+  // 色變體截圖：跳過 default（titan-amber），只列 gunmetal-cyan / graphite-rose
+  colorPreviews: buildColorPreviews(
+    "daheng-titan",
+    DAHENG_TITAN_COLORS,
+    "titan-amber"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   brightness: "dark",
   categories: ["general"],
   releaseDate: DAHENG_AWD2_RELEASE_DATES.titan
 };
+
+/** daheng-glacier 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const DAHENG_GLACIER_COLORS: ColorVariant[] = [
+  { key: "glacier-blue", label: "冰川晨藍", swatch: "#3f8fe0" },
+  { key: "mint-ice", label: "薄荷冰", swatch: "#34b8c0" },
+  { key: "lavender-frost", label: "薰衣草霜", swatch: "#8c9cf0" }
+];
 
 const dahengGlacier: ThemeMeta = {
   key: "daheng-glacier",
@@ -1286,12 +1430,14 @@ const dahengGlacier: ThemeMeta = {
   desktop: () => import("./daheng-glacier/desktop.vue"),
   mobile: () => import("./daheng-glacier/mobile.vue"),
   defaultColor: "glacier-blue",
-  colors: [
-    { key: "glacier-blue", label: "冰川晨藍", swatch: "#3f8fe0" },
-    { key: "mint-ice", label: "薄荷冰", swatch: "#34b8c0" },
-    { key: "lavender-frost", label: "薰衣草霜", swatch: "#8c9cf0" }
-  ],
+  colors: DAHENG_GLACIER_COLORS,
   previews: buildPreviews("daheng-glacier"),
+  // 色變體截圖：跳過 default（glacier-blue），只列 mint-ice / lavender-frost
+  colorPreviews: buildColorPreviews(
+    "daheng-glacier",
+    DAHENG_GLACIER_COLORS,
+    "glacier-blue"
+  ),
   defaultLogo: "dahsing",
   logos: SHARED_LOGOS,
   brightness: "light",
