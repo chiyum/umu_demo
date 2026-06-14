@@ -3,9 +3,13 @@
 /**
  * 諾亞真人 live 第二批（noya-jade ~ noya-mint，c06~c15）預覽截圖腳本
  *
+ * 本專案預覽圖統一 WebP：桌面 1080w / 手機原寸 / quality 82
+ * （與 scripts/compress-previews.mjs 的轉檔策略一致；其他歷史 capture-*.mjs 仍輸出 PNG，
+ *   若要再產圖請改用本腳本，或產完後跑 compress-previews.mjs 補轉，避免目錄混進 PNG）
+ *
  * 產出 10 themes × 3 logos × 2 devices = 60 張，命名規約：
- *   <themeKey>-<logoKey>-<device>.png（不含 color 段，對齊 registry buildPreviews 的 legacy 命名）
- *   例：noya-jade-dahsing-desktop.png、noya-mint-umu-mobile.png
+ *   <themeKey>-<logoKey>-<device>.webp（不含 color 段，對齊 registry buildPreviews 的 legacy 命名）
+ *   例：noya-jade-dahsing-desktop.webp、noya-mint-umu-mobile.webp
  *
  * 為什麼沿用 capture-new-themes-previews.mjs 的做法而非合進去：
  * - 與三新 theme 同屬「不含 color 段」18→60 張命名 + 各自 root selector（-d / -m）
@@ -25,9 +29,14 @@
  */
 
 import { chromium } from "playwright";
+import sharp from "sharp";
 import { mkdir } from "node:fs/promises";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+
+// 桌面預覽縮圖目標寬度（與 dialog 面板 max-width 對齊，再大顯示也看不出差異）
+const DESKTOP_TARGET_WIDTH = 1080;
+const WEBP_QUALITY = 82;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
@@ -73,7 +82,7 @@ async function waitForReady(page, theme, device) {
 }
 
 async function captureOne(context, theme, logoKey, device) {
-  const fname = `${theme}-${logoKey}-${device.key}.png`;
+  const fname = `${theme}-${logoKey}-${device.key}.webp`;
   const outPath = resolve(OUT_DIR, fname);
   const url = `${BASE_URL}/demo/${theme}?logoKey=${logoKey}`;
 
@@ -82,7 +91,16 @@ async function captureOne(context, theme, logoKey, device) {
   try {
     await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
     await waitForReady(page, theme, device.key);
-    await page.screenshot({ path: outPath, fullPage: true, type: "png" });
+
+    // 先以 PNG buffer 截圖，再交給 sharp 轉 WebP：
+    // 桌面圖縮到 1080 寬（手機原寸），統一 quality 82，與 compress-previews.mjs 一致
+    const pngBuffer = await page.screenshot({ fullPage: true, type: "png" });
+    const pipeline = sharp(pngBuffer);
+    if (device.key === "desktop") {
+      pipeline.resize({ width: DESKTOP_TARGET_WIDTH, withoutEnlargement: true });
+    }
+    await pipeline.webp({ quality: WEBP_QUALITY }).toFile(outPath);
+
     return { ok: true, fname };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);

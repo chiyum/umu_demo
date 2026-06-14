@@ -763,12 +763,14 @@ Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」
 搭配可選的 `ThemeMeta.colorPreviews`（`Record<colorKey, Record<logoKey, { desktop, mobile }>>`）
 用於支援 showcase 預覽 dialog 內的「色切換」能力。
 
+> **格式統一為 WebP**：預覽圖一律 WebP（桌面 1080w、手機原寸、quality 82），由 `scripts/compress-previews.mjs` 一次性把全量 PNG 轉檔（528MB → ~49MB），registry 的 `import.meta.glob` 掃 `@/assets/previews/*.webp`。後續產圖請用已改 WebP 輸出的 `scripts/capture-noya-live-v2-previews.mjs`，或產完 PNG 後跑 `compress-previews.mjs` 補轉，避免目錄混進 PNG。
+
 命名規約（雙規約並存）：
 
-- **default color**：`<themeKey>-<logoKey>-<device>.png`（既有，不動）
-  - 例：`at99-dahsing-desktop.png`、`noya-umu-mobile.png`、`ant-sport-long-heng-desktop.png`、`dahsing-tabs-dahsing-desktop.png`
-- **色變體**：`<themeKey>-<colorKey>-<logoKey>-<device>.png`（新增於 v4.1）
-  - 例：`dahsing-tabs-copper-dahsing-desktop.png`、`dahsing-waterfall-purple-umu-mobile.png`、`dahsing-horizontal-gold-long-heng-desktop.png`
+- **default color**：`<themeKey>-<logoKey>-<device>.webp`（既有，不動）
+  - 例：`at99-dahsing-desktop.webp`、`noya-umu-mobile.webp`、`ant-sport-long-heng-desktop.webp`、`dahsing-tabs-dahsing-desktop.webp`
+- **色變體**：`<themeKey>-<colorKey>-<logoKey>-<device>.webp`（新增於 v4.1）
+  - 例：`dahsing-tabs-copper-dahsing-desktop.webp`、`dahsing-waterfall-purple-umu-mobile.webp`、`dahsing-horizontal-gold-long-heng-desktop.webp`
   - 僅 dahsing 三 theme 需要色變體截圖（4 colors × 3 logos × 2 devices = 24 張 / theme，但 default 那組沿用既有檔名，所以實際新增 3 colors × 3 logos × 2 devices = 18 張 / theme）
   - 其他 theme 不需色變體截圖（colorPreviews 欄位未設定，getPreview 自動 fallback 到 default 截圖）
 
@@ -805,7 +807,7 @@ Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」
    - 等字體 ready + 所有 `<img>` load + 滾到底再回頂部觸發 lazy section
    - `page.screenshot({ fullPage: true })`
 3. 桌面 viewport 1440×900，手機 viewport 390×844
-4. 命名 `<themeKey>-<logoKey>-<device>.png` 存到 `src/assets/previews/`
+4. 命名 `<themeKey>-<logoKey>-<device>.webp` 存到 `src/assets/previews/`（桌面截 PNG buffer 後 sharp resize 1080 + webp q82；手機原寸轉 webp）
 
 注意：chrome --dump-dom / chrome headless 之前踩過 mount-race 坑（SPA 還沒 mount 就截、profile 路徑卡 race），務必用 Playwright。
 networkidle 在 dev server 下可能因 HMR client polling 永不達成，用 domcontentloaded + 顯式 selector wait 較穩。

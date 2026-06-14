@@ -163,15 +163,16 @@ const SHARED_LOGOS: [LogoCandidate, LogoCandidate, LogoCandidate] = [
  *   完全符合「動態 key 查 URL」的需求
  * - eager:true 讓所有 glob 結果直接 inline 進當前 chunk（registry 本來就是 metadata 不會切 chunk）
  *
- * 命名規約：<themeKey>-<logoKey>-<device>.png
- * 例：at99-dahsing-desktop.png、noya-umu-mobile.png、ant-sport-long-heng-desktop.png
+ * 命名規約：<themeKey>-<logoKey>-<device>.webp
+ * 例：at99-dahsing-desktop.webp、noya-umu-mobile.webp、ant-sport-long-heng-desktop.webp
+ * （預覽圖統一 WebP：桌面 1080w、手機原寸、q82，由 scripts/compress-previews.mjs 產出）
  *
  * glob 結果型別：Record<相對路徑, URL string>
- * 例：{ "@/assets/previews/at99-dahsing-desktop.png": "/assets/at99-dahsing-desktop-HASH.png" }
+ * 例：{ "@/assets/previews/at99-dahsing-desktop.webp": "/assets/at99-dahsing-desktop-HASH.webp" }
  * - import:'default' 讓 value 直接是 URL string（而非 ESM module 物件）
- * - query:'?url' 強制走 vite 的 asset URL 解析（避免被 imagetools 等 plugin 攔截轉 webp）
+ * - query:'?url' 強制走 vite 的 asset URL 解析（webp 已是成品，不需再被 imagetools 轉檔）
  */
-const PREVIEW_URL_MAP = import.meta.glob<string>("@/assets/previews/*.png", {
+const PREVIEW_URL_MAP = import.meta.glob<string>("@/assets/previews/*.webp", {
   eager: true,
   import: "default",
   query: "?url"
@@ -182,7 +183,7 @@ const PREVIEW_URL_MAP = import.meta.glob<string>("@/assets/previews/*.png", {
  *
  * 為什麼 glob 的 key 用 `/src/assets/previews/...` 而非 `@/assets/...`：
  * - vite 的 import.meta.glob 路徑解析後 key 永遠是「relative to project root 的絕對路徑」
- *   實測在本專案會是 `/src/assets/previews/<file>.png`
+ *   實測在本專案會是 `/src/assets/previews/<file>.webp`
  * - alias `@` 在 glob key 不會被保留，所以查表時要用 `/src/assets/...` 拼接
  *
  * 為什麼回 string（而非 undefined）：
@@ -199,24 +200,24 @@ function pickPreviewUrl(
   logoKey: string,
   device: "desktop" | "mobile"
 ): string {
-  // 既有規約：`<theme>-<logo>-<device>.png`（不含 color 段，13 個既有 theme 全採此命名）
-  const legacyKey = `/src/assets/previews/${themeKey}-${logoKey}-${device}.png`;
+  // 既有規約：`<theme>-<logo>-<device>.webp`（不含 color 段，13 個既有 theme 全採此命名）
+  const legacyKey = `/src/assets/previews/${themeKey}-${logoKey}-${device}.webp`;
   const legacy = PREVIEW_URL_MAP[legacyKey];
   if (legacy) return legacy;
 
   // 統一規約 fallback（v4.5 起，daheng 6 theme 全採此命名）：
-  // `<theme>-default-<logo>-<device>.png` — 把 default 色檔也納入色變體命名
+  // `<theme>-default-<logo>-<device>.webp` — 把 default 色檔也納入色變體命名
   // 為什麼加此 fallback：daheng 截圖 script 統一輸出含 color 段檔名（108 張完整對稱），
   // 既有的 buildPreviews 走 legacy 路徑找不到 default 檔；加此 fallback 讓兩規約共存
-  const unifiedKey = `/src/assets/previews/${themeKey}-default-${logoKey}-${device}.png`;
+  const unifiedKey = `/src/assets/previews/${themeKey}-default-${logoKey}-${device}.webp`;
   return PREVIEW_URL_MAP[unifiedKey] ?? "";
 }
 
 /**
  * 從 PREVIEW_URL_MAP 查指定 (theme, color, logo, device) 對應的 URL
  *
- * 新色變體命名規約：`<themeKey>-<colorKey>-<logoKey>-<device>.png`
- * 例：`dahsing-tabs-copper-dahsing-desktop.png`、`dahsing-waterfall-purple-umu-mobile.png`
+ * 新色變體命名規約：`<themeKey>-<colorKey>-<logoKey>-<device>.webp`
+ * 例：`dahsing-tabs-copper-dahsing-desktop.webp`、`dahsing-waterfall-purple-umu-mobile.webp`
  *
  * 為什麼與 pickPreviewUrl 拆兩支：
  * - 雙規約並存（含 color 段 / 不含 color 段）若塞同一支函式內 if/else 反而難讀
@@ -230,7 +231,7 @@ function pickColorPreviewUrl(
   logoKey: string,
   device: "desktop" | "mobile"
 ): string {
-  const key = `/src/assets/previews/${themeKey}-${colorKey}-${logoKey}-${device}.png`;
+  const key = `/src/assets/previews/${themeKey}-${colorKey}-${logoKey}-${device}.webp`;
   return PREVIEW_URL_MAP[key] ?? "";
 }
 

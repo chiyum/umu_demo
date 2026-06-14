@@ -144,7 +144,7 @@ export type PreviewByColorLogo = Record<string, PreviewByLogo>;
  * - description：showcase 卡片下方顯示的一句話說明
  * - previews：showcase 卡片縮圖與 lightbox 預覽用的截圖矩陣
  *   ─ 為什麼用 string（URL）而非 import 整張圖：
- *     用 `new URL('@/assets/previews/xxx.png', import.meta.url).href` 在 registry 動態算 URL，
+ *     用 `new URL('@/assets/previews/xxx.webp', import.meta.url).href` 在 registry 動態算 URL，
  *     vite 會幫我們處理 base path（含 GitHub Pages 子路徑 /umu_demo/）+ hash 指紋，
  *     圖片不會塞進首頁 JS bundle，純靠 <img src> 帶 URL 即可
  *   ─ 為什麼不再用 previewDesktop / previewMobile 兩個欄位：
