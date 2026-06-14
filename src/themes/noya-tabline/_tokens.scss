@@ -1,0 +1,105 @@
+// noya-tabline（諾亞極簡側線/頂分頁）token 主檔
+// 移植自設計稿 ly10：極簡純文字標籤 + 側線指示（手機）/ 頂部分頁（桌面）
+// 色調：米色（beige）定錨，最克制的設計風格
+// brightness：light（米色底）
+// 配色三變體：beige（預設）/ gold / rose
+// 12 公約 var + 設計稿語意 token（--acc/--acc2/--soft/--page/--line/--mut/--chip/--ink）
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-tabline"] {
+  // ─────── 12 公約變數（預設 beige）───────
+  --color-primary: #c66a3c; // 暖橘（對齊設計稿 beige --acc）
+  --color-secondary: #e88a5e; // 高光橘（--acc2）
+  --color-accent: #fbeede; // 柔和米橘淺底（--soft）
+  --bg-base: #fffdfb; // 米白底（--page）
+  --bg-surface: #fff3e9; // 卡片底（--chip）
+  --bg-overlay: rgba(198, 106, 60, 0.08); // 極淺橘玻璃
+  --text-primary: #6a5747; // 主文字（--ink）
+  --text-muted: #b6a594; // 次要文字（--mut）
+  --border: #f1e7dd; // 分隔線（--line）
+  --shadow: 0 4px 12px -4px rgba(120, 80, 50, 0.2); // 扁平卡陰影（比 squircle 更輕）
+  --gradient-hero: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f6f0e8 0%,
+    #ece2d6 60%,
+    #e6dccf 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #e88a5e, #c66a3c);
+
+  // ─────── 設計稿語意 token ───────
+  --acc: #c66a3c;
+  --acc2: #e88a5e;
+  --soft: #fbeede;
+  --page: #fffdfb;
+  --line: #f1e7dd;
+  --mut: #b6a594;
+  --chip: #fff3e9;
+  --ink: #6a5747;
+
+  // ─────── 結構 / 元件 token ───────
+  --app-bg: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f6f0e8 0%,
+    #ece2d6 60%,
+    #e6dccf 100%
+  );
+  --page-bg: #efe7dd;
+
+  // ly10 側線指示條顏色
+  --indicator: var(--acc);
+
+  // ly10 選中按鈕底（淡漸層）
+  --cat-on-bg: linear-gradient(90deg, var(--soft), transparent);
+
+  // ly10 扁平描邊卡：box-shadow:none; border:1px solid var(--line)
+  // 扁平卡無陰影，只有邊框
+  --gcard-bg: radial-gradient(
+    120% 140% at 88% 30%,
+    var(--soft) 0%,
+    color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+    var(--page) 100%
+  );
+
+  // 公告條底
+  --notice-bg: rgba(255, 248, 242, 0.9);
+  --notice-line: rgba(198, 106, 60, 0.18);
+
+  // 快捷 icon 球底
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(232, 138, 94, 0.18),
+    rgba(198, 106, 60, 0.12)
+  );
+  --qa-ico-line: rgba(198, 106, 60, 0.2);
+
+  // 在線人數數字色
+  --online-num: #c66a3c;
+
+  // tabbar 底
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 253, 251, 0.88),
+    rgba(255, 248, 242, 0.97)
+  );
+  --tabbar-line: rgba(198, 106, 60, 0.12);
+
+  // tabbar 中央凸出球
+  --tabbar-center-bg: linear-gradient(160deg, #e88a5e, #c66a3c);
+
+  // CTA 對比文字
+  --text-on-primary: #ffffff;
+
+  // desktop nav 底
+  --nav-bg: rgba(255, 253, 251, 0.96);
+  --nav-line: rgba(198, 106, 60, 0.12);
+  --footer-bg: #f0e6da;
+  --section-soft: #fdf6f0;
+
+  // 字體
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

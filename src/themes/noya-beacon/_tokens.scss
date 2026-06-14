@@ -1,0 +1,81 @@
+// noya-beacon（諾亞燈塔）token 主檔
+// 來源設計稿：諾亞_遊戲區塊_10款版型.html ly6（窄條側燈，霧藍色世界）
+// 主視覺特徵（取自設計稿 THEME.slate）：
+//   --acc:#5a6f9d（霧藍）/ --acc2:#869ac8（亮霧藍）
+//   --soft:#e8edf6（淡藍底）/ --page:#fbfcff（近白頁底）
+//   --ink:#46506a（深藍灰文字）/ --mut:#9aa4bd（霧藍次要）
+//   --line:#e4e9f3 / --chip:#eef1f9
+// brightness 判定：light（近白頁底）
+// 配色三變體：slate（預設）/ emerald / plum
+
+[data-theme="noya-beacon"] {
+  // ─────── 12 公約變數（預設 slate 霧藍）───────
+  --color-primary: #5a6f9d; // 霧藍主色
+  --color-secondary: #869ac8; // 亮霧藍
+  --color-accent: #c0cce8; // 淺藍亮點
+  --bg-base: #f4f6fc; // 頁面最底淡藍白
+  --bg-surface: #ffffff; // 卡片白底
+  --bg-overlay: rgba(90, 111, 157, 0.1); // 淡藍玻璃
+  --text-primary: #2e3650; // 主文字深藍灰
+  --text-muted: #6a7a9a; // 次要文字霧藍
+  --border: rgba(90, 111, 157, 0.2); // 霧藍邊線
+  --shadow: 0 8px 20px rgba(40, 55, 90, 0.12); // 霧藍陰影
+  --gradient-hero: linear-gradient(120deg, #e8edf6 0%, #d8e2f2 100%);
+  --gradient-cta: linear-gradient(135deg, #869ac8, #5a6f9d); // CTA 霧藍漸層
+
+  // ─────── 設計稿語意 token（ly6 slate 色世界）───────
+  --acc: #5a6f9d;
+  --acc2: #869ac8;
+  --soft: #e8edf6;
+  --page: #fbfcff;
+  --ink: #46506a;
+  --mut: #9aa4bd;
+  --line: #e4e9f3;
+  --chip: #eef1f9;
+
+  // ─────── 結構 token ───────
+  --app-bg: linear-gradient(160deg, #f6f8fd 0%, #edf1fa 50%, #f2f5fc 100%);
+  --ink-soft: #6a7a9a;
+  --ink-mute: #9aa4bd;
+  --glass: rgba(90, 111, 157, 0.07);
+  --glass-line: rgba(90, 111, 157, 0.18);
+
+  // 側燈發光效果（選中 ::before 漸層發光條用）
+  --glow: rgba(134, 154, 200, 0.45);
+  --brand-mark-bg: linear-gradient(150deg, #869ac8, #5a6f9d);
+  --pill-solid-bg: linear-gradient(135deg, #869ac8, #5a6f9d);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(215, 226, 248, 0.9),
+    rgba(200, 216, 244, 0.9)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(134, 154, 200, 0.2),
+    rgba(90, 111, 157, 0.14)
+  );
+
+  // 選中 tab 底（淡霧藍）
+  --tab-active-bg: #e8edf6;
+
+  // 遊戲卡底（淡霧藍漸層）
+  --gcard-bg: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #e8edf6 55%,
+    rgba(134, 154, 200, 0.35) 100%
+  );
+  --card-label-bar: #5a6f9d;
+  --card-sub: #869ac8;
+  --online-num: #5a6f9d;
+  --tabbar-bg: rgba(246, 248, 253, 0.96);
+  --tabbar-center-bg: linear-gradient(160deg, #869ac8, #5a6f9d);
+  --text-on-primary: #ffffff;
+  --nav-bg: rgba(246, 248, 253, 0.97);
+  --footer-bg: #e8edf6;
+  --section-soft: #f2f5fb;
+
+  // 字體
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

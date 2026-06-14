@@ -1,0 +1,108 @@
+// noya-rhombus（諾亞斜切菱形）token 主檔
+// 移植設計稿 ly4 斜切平行四邊形版型：梅紫色世界（plum）、亮色系（brightness=light）
+// 主視覺特徵：
+//   - 亮白紫底（--page #fffbfe）
+//   - 梅紫 accent（--acc #9d4f86 / --acc2 #c074aa）
+//   - 平行四邊形按鈕（transform: skewX(-11deg)，文字 skewX(11deg) 回正）
+//   - clip-path 右緣斜切遊戲卡（polygon(0 0, 100% 0, 100% 100%, 26px 100%)）
+//   - 電競速度感、動感紫調
+// 配色三變體：
+//   plum（預設）/ slate / rose
+// 命名公約（全 theme 共用 12 CSS var）：
+//   --color-primary / --color-secondary / --color-accent
+//   --bg-base / --bg-surface / --bg-overlay
+//   --text-primary / --text-muted / --border / --shadow
+//   --gradient-hero / --gradient-cta
+// 設計稿語意 token（讓移植 CSS 直接可用）：
+//   --acc / --acc2 / --soft / --page / --line / --mut / --chip / --ink
+
+[data-theme="noya-rhombus"] {
+  // ─────── 12 公約變數（預設 plum）───────
+  --color-primary: #9d4f86; // 梅紫 accent
+  --color-secondary: #c074aa; // 梅紫高光
+  --color-accent: #d4a0c5; // 淺梅紫亮點
+  --bg-base: #fffbfe; // 頁面亮白紫底
+  --bg-surface: #f7ebf3; // 卡片柔梅紫底
+  --bg-overlay: rgba(157, 79, 134, 0.08); // 梅紫半透明
+  --text-primary: #5a4654; // 主文字（暖紫褐）
+  --text-muted: #b297aa; // 次要文字
+  --border: rgba(157, 79, 134, 0.18); // 梅紫描邊
+  --shadow: 0 10px 26px rgba(157, 79, 134, 0.2); // 梅紫陰影
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #f4e7f0 0%,
+    rgba(244, 231, 240, 0) 60%
+  );
+  --gradient-cta: linear-gradient(120deg, #9d4f86, #c074aa); // 梅紫 CTA
+
+  // ─────── 設計稿語意 token（移植 ly4 用）───────
+  --acc: #9d4f86;
+  --acc2: #c074aa;
+  --soft: #f4e7f0;
+  --page: #fffbfe;
+  --line: #efe1ec;
+  --mut: #b297aa;
+  --chip: #f7ebf3;
+  --ink: #5a4654;
+
+  // ─────── 結構 / 對比 token（元件走 var()）───────
+  // app 整體白梅紫漸層底
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #f4e7f0 0%, rgba(244, 231, 240, 0) 60%),
+    linear-gradient(180deg, #fffbfe 0%, #fdf5fa 100%);
+  --ink-soft: #b297aa; // 次要文字（等於 --mut）
+  --ink-mute: #c8afc0; // 三級 / label
+
+  // 梅紫卡底漸層（三層合成 g-bg，移植 ly4 .g-bg）
+  --gcard-bg: linear-gradient(110deg, #ffffff, var(--soft) 60%, color-mix(in oklab, var(--acc), #ffffff 55%));
+
+  // 在線人數數字色
+  --online-num: #9d4f86;
+
+  // 快捷 icon 球底（梅紫柔光）
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(192, 116, 170, 0.18),
+    rgba(157, 79, 134, 0.12)
+  );
+
+  // 分類按鈕 active 底（平行四邊形 on 狀態用漸層）
+  --tab-active-bg: linear-gradient(120deg, var(--acc), var(--acc2));
+
+  // 公告條底
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(244, 231, 240, 0.7),
+    rgba(239, 225, 236, 0.7)
+  );
+
+  // tabbar 底
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 251, 254, 0.92),
+    rgba(253, 245, 250, 0.98)
+  );
+
+  // tabbar 中央凸出球
+  --tabbar-center-bg: linear-gradient(160deg, #c074aa, #9d4f86);
+
+  // 登入按鈕
+  --pill-solid-bg: linear-gradient(120deg, #9d4f86, #c074aa);
+
+  // 落在梅紫 CTA 上的對比文字
+  --text-on-primary: #ffffff;
+
+  // glass 效果（亮色系改為白底半透明）
+  --glass: rgba(255, 255, 255, 0.65);
+  --glass-line: rgba(157, 79, 134, 0.18);
+  --glow: rgba(157, 79, 134, 0.32);
+
+  // desktop 補做用
+  --nav-bg: linear-gradient(180deg, #fffbfe 0%, #fdf5fa 100%);
+  --footer-bg: #f7ebf3;
+  --section-soft: #fdf5fa;
+
+  // 字體（對齊設計稿 Noto Sans TC）
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

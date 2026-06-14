@@ -1,0 +1,141 @@
+// noya-bookmark 版面替代配色
+// [data-theme="noya-bookmark"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫所有對比 token，切換無殘色
+
+// 翡翠綠：對齊設計稿 THEME.emerald
+[data-theme="noya-bookmark"][data-theme-color="emerald"] {
+  --acc: #3f8a6e;
+  --acc2: #5fab8b;
+  --soft: #e4f1ea;
+  --page: #fbfefc;
+  --line: #e2ede7;
+  --mut: #9bb6a8;
+  --chip: #ecf6f0;
+  --ink: #44574e;
+  --color-primary: #3f8a6e;
+  --color-secondary: #5fab8b;
+  --color-accent: #8fcab4;
+  --bg-base: #eaf4ee;
+  --bg-surface: #fbfefc;
+  --bg-overlay: rgba(63, 138, 110, 0.12);
+  --text-primary: #44574e;
+  --text-muted: #9bb6a8;
+  --border: rgba(63, 138, 110, 0.25);
+  --shadow: 0 10px 26px rgba(30, 90, 60, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #d6ede5 0%,
+    rgba(214, 237, 229, 0) 60%
+  );
+  --gradient-cta: linear-gradient(120deg, #5fab8b, #3f8a6e);
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #d6ede5 0%, rgba(214, 237, 229, 0) 60%),
+    linear-gradient(180deg, #fbfefc 0%, #f5fcf8 48%, #eef8f3 100%);
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 88% 30%,
+      var(--soft) 0%,
+      color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+      var(--page) 100%
+    );
+  --online-num: #3f8a6e;
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(228, 241, 234, 0.7),
+    rgba(220, 235, 228, 0.7)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(63, 138, 110, 0.18),
+    rgba(48, 110, 88, 0.12)
+  );
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(251, 254, 252, 0.88),
+    rgba(242, 252, 247, 0.97)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #5fab8b, #3f8a6e);
+  --text-on-primary: #ffffff;
+  --card-label-bar: #3f8a6e;
+  --card-sub: #5fab8b;
+  --nav-bg: linear-gradient(180deg, #fbfefc 0%, #eef8f3 100%);
+  --footer-bg: #eaf4ee;
+  --section-soft: #f3faf6;
+  --glass: rgba(63, 138, 110, 0.1);
+  --glass-line: rgba(63, 138, 110, 0.2);
+  --glow: rgba(63, 138, 110, 0.4);
+  --bookmark-bg: #ffffff;
+  --bookmark-border: inset 0 0 0 1px var(--line);
+  --bookmark-on-bg: linear-gradient(120deg, #5fab8b, #3f8a6e);
+  --bookmark-on-shadow: 0 9px 17px -7px rgba(63, 138, 110, 0.6);
+  --g-card-radius: 15px;
+}
+
+// 梅紫：對齊設計稿 THEME.plum
+[data-theme="noya-bookmark"][data-theme-color="plum"] {
+  --acc: #9d4f86;
+  --acc2: #c074aa;
+  --soft: #f4e7f0;
+  --page: #fffbfe;
+  --line: #efe1ec;
+  --mut: #b297aa;
+  --chip: #f7ebf3;
+  --ink: #5a4654;
+  --color-primary: #9d4f86;
+  --color-secondary: #c074aa;
+  --color-accent: #d4a0c0;
+  --bg-base: #f0e8ee;
+  --bg-surface: #fffbfe;
+  --bg-overlay: rgba(157, 79, 134, 0.12);
+  --text-primary: #5a4654;
+  --text-muted: #b297aa;
+  --border: rgba(157, 79, 134, 0.25);
+  --shadow: 0 10px 26px rgba(100, 40, 80, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #f0dce8 0%,
+    rgba(240, 220, 232, 0) 60%
+  );
+  --gradient-cta: linear-gradient(120deg, #c074aa, #9d4f86);
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #f0dce8 0%, rgba(240, 220, 232, 0) 60%),
+    linear-gradient(180deg, #fffbfe 0%, #fdf5fa 48%, #fbf0f7 100%);
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 88% 30%,
+      var(--soft) 0%,
+      color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+      var(--page) 100%
+    );
+  --online-num: #9d4f86;
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(244, 231, 240, 0.7),
+    rgba(238, 225, 234, 0.7)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(157, 79, 134, 0.18),
+    rgba(130, 60, 110, 0.12)
+  );
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 251, 254, 0.88),
+    rgba(255, 247, 252, 0.97)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #c074aa, #9d4f86);
+  --text-on-primary: #ffffff;
+  --card-label-bar: #9d4f86;
+  --card-sub: #c074aa;
+  --nav-bg: linear-gradient(180deg, #fffbfe 0%, #fbf0f7 100%);
+  --footer-bg: #f0e8ee;
+  --section-soft: #fdf3f9;
+  --glass: rgba(157, 79, 134, 0.1);
+  --glass-line: rgba(157, 79, 134, 0.2);
+  --glow: rgba(157, 79, 134, 0.4);
+  --bookmark-bg: #ffffff;
+  --bookmark-border: inset 0 0 0 1px var(--line);
+  --bookmark-on-bg: linear-gradient(120deg, #c074aa, #9d4f86);
+  --bookmark-on-shadow: 0 9px 17px -7px rgba(157, 79, 134, 0.6);
+  --g-card-radius: 15px;
+}

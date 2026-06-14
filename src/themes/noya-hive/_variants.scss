@@ -1,0 +1,119 @@
+// noya-hive 版面替代配色
+// [data-theme="noya-hive"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫元件實際讀到的對比 token
+
+// 霧石板藍：slate 冷靜霧藍調
+[data-theme="noya-hive"][data-theme-color="slate"] {
+  --color-primary: #5a6f9d;
+  --color-secondary: #869ac8;
+  --color-accent: #c0cce8;
+  --bg-base: #f2f4fa;
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(90, 111, 157, 0.1);
+  --text-primary: #2e3650;
+  --text-muted: #6a7a9a;
+  --border: rgba(90, 111, 157, 0.22);
+  --shadow: 0 8px 20px rgba(40, 55, 90, 0.14);
+  --gradient-hero: linear-gradient(120deg, #e8edf6 0%, #d8e2f2 100%);
+  --gradient-cta: linear-gradient(135deg, #869ac8, #5a6f9d);
+  --acc: #5a6f9d;
+  --acc2: #869ac8;
+  --soft: #e8edf6;
+  --page: #fbfcff;
+  --ink: #46506a;
+  --mut: #9aa4bd;
+  --line: #e4e9f3;
+  --chip: #eef1f9;
+  --app-bg: linear-gradient(160deg, #f4f6fc 0%, #ecf0f9 50%, #f0f3fa 100%);
+  --ink-soft: #6a7a9a;
+  --ink-mute: #9aa4bd;
+  --glass: rgba(90, 111, 157, 0.08);
+  --glass-line: rgba(90, 111, 157, 0.2);
+  --glow: rgba(90, 111, 157, 0.36);
+  --brand-mark-bg: linear-gradient(150deg, #869ac8, #5a6f9d);
+  --pill-solid-bg: linear-gradient(135deg, #869ac8, #5a6f9d);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(215, 226, 248, 0.9),
+    rgba(200, 214, 240, 0.9)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(134, 154, 200, 0.22),
+    rgba(90, 111, 157, 0.18)
+  );
+  --tab-active-bg: linear-gradient(150deg, #869ac8, #5a6f9d);
+  --gcard-bg: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #e8edf6 55%,
+    rgba(134, 154, 200, 0.35) 100%
+  );
+  --card-label-bar: #5a6f9d;
+  --card-sub: #869ac8;
+  --online-num: #5a6f9d;
+  --tabbar-bg: rgba(244, 246, 252, 0.95);
+  --tabbar-center-bg: linear-gradient(160deg, #869ac8, #5a6f9d);
+  --text-on-primary: #ffffff;
+  --nav-bg: rgba(244, 246, 252, 0.97);
+  --footer-bg: #e8edf6;
+  --section-soft: #f2f4fa;
+}
+
+// 暗金：gold 沉穩古銅金調
+[data-theme="noya-hive"][data-theme-color="gold"] {
+  --color-primary: #9a7d3a;
+  --color-secondary: #c2a45f;
+  --color-accent: #dfc98a;
+  --bg-base: #faf8f2;
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(154, 125, 58, 0.1);
+  --text-primary: #3d3020;
+  --text-muted: #8a7252;
+  --border: rgba(154, 125, 58, 0.22);
+  --shadow: 0 8px 20px rgba(80, 60, 20, 0.14);
+  --gradient-hero: linear-gradient(120deg, #f4ecd6 0%, #ede0c0 100%);
+  --gradient-cta: linear-gradient(135deg, #c2a45f, #9a7d3a);
+  --acc: #9a7d3a;
+  --acc2: #c2a45f;
+  --soft: #f4ecd6;
+  --page: #fffef8;
+  --ink: #5e5238;
+  --mut: #bcab8c;
+  --line: #efe6d0;
+  --chip: #f7efda;
+  --app-bg: linear-gradient(160deg, #faf8f2 0%, #f7f2e8 50%, #f9f6ef 100%);
+  --ink-soft: #8a7252;
+  --ink-mute: #bcab8c;
+  --glass: rgba(154, 125, 58, 0.08);
+  --glass-line: rgba(154, 125, 58, 0.2);
+  --glow: rgba(154, 125, 58, 0.36);
+  --brand-mark-bg: linear-gradient(150deg, #c2a45f, #9a7d3a);
+  --pill-solid-bg: linear-gradient(135deg, #c2a45f, #9a7d3a);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(244, 236, 214, 0.9),
+    rgba(236, 224, 196, 0.9)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(194, 164, 95, 0.22),
+    rgba(154, 125, 58, 0.18)
+  );
+  --tab-active-bg: linear-gradient(150deg, #c2a45f, #9a7d3a);
+  --gcard-bg: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #f4ecd6 55%,
+    rgba(194, 164, 95, 0.35) 100%
+  );
+  --card-label-bar: #9a7d3a;
+  --card-sub: #c2a45f;
+  --online-num: #9a7d3a;
+  --tabbar-bg: rgba(250, 248, 242, 0.95);
+  --tabbar-center-bg: linear-gradient(160deg, #c2a45f, #9a7d3a);
+  --text-on-primary: #ffffff;
+  --nav-bg: rgba(250, 248, 242, 0.97);
+  --footer-bg: #f0e8d0;
+  --section-soft: #faf6ec;
+}

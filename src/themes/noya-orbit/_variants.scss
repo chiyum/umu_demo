@@ -1,0 +1,135 @@
+// noya-orbit 版面替代配色
+// [data-theme="noya-orbit"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫元件實際讀到的對比 token，避免切換殘色。
+
+// 霧藍：accent 改霧藍（THEME.slate）
+[data-theme="noya-orbit"][data-theme-color="slate"] {
+  --color-primary: #5a6f9d;
+  --color-secondary: #869ac8;
+  --color-accent: #e8edf6;
+  --bg-base: #fbfcff;
+  --bg-surface: #f0f3f9;
+  --bg-overlay: rgba(90, 111, 157, 0.08);
+  --text-primary: #2c3346;
+  --text-muted: #9aa4bd;
+  --border: #e4e9f3;
+  --shadow: 0 10px 26px rgba(60, 80, 120, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #d8e2f4 0%,
+    rgba(216, 226, 244, 0) 60%
+  );
+  --gradient-cta: linear-gradient(180deg, #869ac8, #5a6f9d);
+  --acc: #5a6f9d;
+  --acc2: #869ac8;
+  --soft: #e8edf6;
+  --page: #fbfcff;
+  --line: #e4e9f3;
+  --mut: #9aa4bd;
+  --chip: #eef1f9;
+  --ink: #46506a;
+  --app-bg: radial-gradient(
+    1200px 600px at 50% -10%,
+    #e8eef8 0%,
+    #d6dfee 60%,
+    #ccd4e6 100%
+  );
+  --ink-soft: #5a6678;
+  --ink-mute: #9aa4bd;
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-line: rgba(130, 160, 210, 0.3);
+  --glow: rgba(90, 111, 157, 0.35);
+  --brand-mark-bg: linear-gradient(150deg, #869ac8, #5a6f9d);
+  --pill-solid-bg: linear-gradient(180deg, #869ac8, #5a6f9d);
+  --notice-bg: rgba(242, 246, 255, 0.75);
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(210, 222, 244, 0.8),
+    rgba(188, 204, 234, 0.7)
+  );
+  --orbit-on-bg: radial-gradient(circle at 35% 30%, #ffffff, #e8edf6);
+  --orbit-on-shadow: 0 8px 18px -6px rgba(90, 111, 157, 0.6),
+    inset 0 0 0 2px #869ac8;
+  --orbit-off-shadow: 0 5px 12px -4px rgba(90, 111, 157, 0.35),
+    inset 0 0 0 1.5px #e4e9f3;
+  --gcard-bg: radial-gradient(
+    120% 140% at 88% 30%,
+    #e8edf6 0%,
+    color-mix(in oklab, #e8edf6, #ffffff 30%) 45%,
+    #fbfcff 100%
+  );
+  --fig-fade: linear-gradient(180deg, transparent 28%, #e8edf6 94%);
+  --online-num: #5a6f9d;
+  --tabbar-bg: rgba(248, 250, 255, 0.96);
+  --tabbar-center-bg: linear-gradient(160deg, #869ac8, #5a6f9d);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #fbfcff 0%, #edf0f8 100%);
+  --footer-bg: #e0e6f2;
+  --section-soft: #f4f6fc;
+}
+
+// 暗金：accent 改暗金（THEME.gold）
+[data-theme="noya-orbit"][data-theme-color="gold"] {
+  --color-primary: #9a7d3a;
+  --color-secondary: #c2a45f;
+  --color-accent: #f4ecd6;
+  --bg-base: #fffef8;
+  --bg-surface: #faf5e6;
+  --bg-overlay: rgba(154, 125, 58, 0.08);
+  --text-primary: #3e3220;
+  --text-muted: #bcab8c;
+  --border: #efe6d0;
+  --shadow: 0 10px 26px rgba(100, 80, 30, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #f4e8c0 0%,
+    rgba(244, 232, 192, 0) 60%
+  );
+  --gradient-cta: linear-gradient(180deg, #c2a45f, #9a7d3a);
+  --acc: #9a7d3a;
+  --acc2: #c2a45f;
+  --soft: #f4ecd6;
+  --page: #fffef8;
+  --line: #efe6d0;
+  --mut: #bcab8c;
+  --chip: #f7efda;
+  --ink: #5e5238;
+  --app-bg: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f4ecce 0%,
+    #e8e0bc 60%,
+    #dcd4ae 100%
+  );
+  --ink-soft: #6e5e3a;
+  --ink-mute: #bcab8c;
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-line: rgba(180, 158, 100, 0.3);
+  --glow: rgba(154, 125, 58, 0.35);
+  --brand-mark-bg: linear-gradient(150deg, #c2a45f, #9a7d3a);
+  --pill-solid-bg: linear-gradient(180deg, #c2a45f, #9a7d3a);
+  --notice-bg: rgba(255, 252, 236, 0.75);
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(244, 232, 192, 0.8),
+    rgba(228, 210, 160, 0.7)
+  );
+  --orbit-on-bg: radial-gradient(circle at 35% 30%, #ffffff, #f4ecd6);
+  --orbit-on-shadow: 0 8px 18px -6px rgba(154, 125, 58, 0.6),
+    inset 0 0 0 2px #c2a45f;
+  --orbit-off-shadow: 0 5px 12px -4px rgba(154, 125, 58, 0.35),
+    inset 0 0 0 1.5px #efe6d0;
+  --gcard-bg: radial-gradient(
+    120% 140% at 88% 30%,
+    #f4ecd6 0%,
+    color-mix(in oklab, #f4ecd6, #ffffff 30%) 45%,
+    #fffef8 100%
+  );
+  --fig-fade: linear-gradient(180deg, transparent 28%, #f4ecd6 94%);
+  --online-num: #9a7d3a;
+  --tabbar-bg: rgba(255, 254, 248, 0.96);
+  --tabbar-center-bg: linear-gradient(160deg, #c2a45f, #9a7d3a);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #fffef8 0%, #f5ecda 100%);
+  --footer-bg: #e8dfc0;
+  --section-soft: #faf6e8;
+}

@@ -1,0 +1,117 @@
+// noya-pill（經典直欄膠囊）token 主檔
+// 來源設計稿：諾亞_遊戲區塊_10款版型.html ly1（beige 色世界）
+// 主視覺特徵（取自設計稿 THEME.beige）：
+//   --acc:#c66a3c / --acc2:#e88a5e / --soft:#fbeede
+//   --ink:#6a5747 / --mut:#b6a594 / --page:#fffdfb
+//   --line:#f1e7dd / --chip:#fff3e9
+// 因 app 底色為米色系 → brightness 判定為 light
+// 配色三變體：beige（預設）/ rose / emerald
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-pill"] {
+  // ─────── 12 公約變數（預設 beige）───────
+  --color-primary: #c66a3c; // 磚橘 accent
+  --color-secondary: #e88a5e; // 淺橘 accent2
+  --color-accent: #fbeede; // 柔軟杏色調
+  --bg-base: #fffdfb; // 頁面最底（米白）
+  --bg-surface: #fff7f0; // 卡片底
+  --bg-overlay: rgba(198, 106, 60, 0.08); // 半透明橘調
+  --text-primary: #4a3a2d; // 主文字深棕
+  --text-muted: #b6a594; // 次要文字暖灰
+  --border: #f1e7dd; // 邊線米黃
+  --shadow: 0 10px 26px rgba(120, 80, 50, 0.18); // 暖棕陰影
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #f6ead8 0%,
+    rgba(246, 234, 216, 0) 60%
+  ); // 頂部柔光
+
+  --gradient-cta: linear-gradient(180deg, #e88a5e, #c66a3c); // 橘 CTA
+
+  // ─────── 設計稿語意 token（供移植 CSS 直接使用）───────
+  // 對齊設計稿 THEME.beige：--acc / --acc2 / --soft / --page / --line / --mut / --chip / --ink
+  --acc: #c66a3c;
+  --acc2: #e88a5e;
+  --soft: #fbeede;
+  --page: #fffdfb;
+  --line: #f1e7dd;
+  --mut: #b6a594;
+  --chip: #fff3e9;
+  --ink: #6a5747;
+
+  // ─────── 結構 / 元件 token ───────
+  // app 整體漸層底（米色徑向）
+  --app-bg: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f6f0e8 0%,
+    #ece2d6 60%,
+    #e6dccf 100%
+  );
+
+  // 次要文字與三級 label
+  --ink-soft: #8a7060;
+  --ink-mute: #b6a594;
+
+  // 卡片玻璃調（米色半透明）
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-line: rgba(180, 150, 120, 0.3);
+  --glow: rgba(198, 106, 60, 0.35);
+
+  // 品牌 mark 方塊漸層
+  --brand-mark-bg: linear-gradient(150deg, #e88a5e, #c66a3c);
+
+  // 登入 pill solid
+  --pill-solid-bg: linear-gradient(180deg, #e88a5e, #c66a3c);
+
+  // 公告條底
+  --notice-bg: rgba(255, 248, 240, 0.75);
+
+  // 快捷 icon 球底
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(255, 235, 210, 0.8),
+    rgba(240, 215, 185, 0.7)
+  );
+
+  // active tab 底（選中膠囊）
+  --tab-active-bg: linear-gradient(160deg, #ffffff, #fbeede);
+  --tab-active-shadow: 0 6px 14px -6px rgba(198, 106, 60, 0.5),
+    inset 0 0 0 1px rgba(232, 160, 120, 0.55);
+
+  // 遊戲卡背景（設計稿 g-bg radial）
+  --gcard-bg: radial-gradient(
+    120% 140% at 88% 30%,
+    #fbeede 0%,
+    color-mix(in oklab, #fbeede, #ffffff 30%) 45%,
+    #fffdfb 100%
+  );
+
+  // 在線人數數字色
+  --online-num: #c66a3c;
+
+  // tabbar 底
+  --tabbar-bg: rgba(255, 252, 247, 0.96);
+
+  // tabbar 中央凸出球
+  --tabbar-center-bg: linear-gradient(160deg, #e88a5e, #c66a3c);
+
+  // 落在 CTA 上的對比文字
+  --text-on-primary: #ffffff;
+
+  // desktop nav 底
+  --nav-bg: linear-gradient(180deg, #fffdfb 0%, #f7efe5 100%);
+
+  // footer 底
+  --footer-bg: #f0e8de;
+
+  // section 深色交錯底
+  --section-soft: #faf4ed;
+
+  // 字體（對齊原稿）
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

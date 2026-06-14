@@ -1,0 +1,100 @@
+// noya-rhombus 版面替代配色
+// [data-theme="noya-rhombus"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫元件實際讀到的對比 token，避免切換殘色。
+// 對應設計稿六色世界：plum（預設）/ slate（霧藍）/ rose（玫瑰）
+
+// 霧藍變體：accent 改霧藍
+[data-theme="noya-rhombus"][data-theme-color="slate"] {
+  --color-primary: #5a6f9d;
+  --color-secondary: #869ac8;
+  --color-accent: #b0bedd;
+  --bg-base: #fbfcff;
+  --bg-surface: #eef1f9;
+  --bg-overlay: rgba(90, 111, 157, 0.08);
+  --text-primary: #46506a;
+  --text-muted: #9aa4bd;
+  --border: rgba(90, 111, 157, 0.18);
+  --shadow: 0 10px 26px rgba(90, 111, 157, 0.2);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #e8edf6 0%,
+    rgba(232, 237, 246, 0) 60%
+  );
+  --gradient-cta: linear-gradient(120deg, #5a6f9d, #869ac8);
+  --acc: #5a6f9d;
+  --acc2: #869ac8;
+  --soft: #e8edf6;
+  --page: #fbfcff;
+  --line: #e4e9f3;
+  --mut: #9aa4bd;
+  --chip: #eef1f9;
+  --ink: #46506a;
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #e8edf6 0%, rgba(232, 237, 246, 0) 60%),
+    linear-gradient(180deg, #fbfcff 0%, #f5f7fd 100%);
+  --ink-soft: #9aa4bd;
+  --ink-mute: #b8c2d5;
+  --gcard-bg: linear-gradient(110deg, #ffffff, #e8edf6 60%, color-mix(in oklab, #5a6f9d, #ffffff 55%));
+  --online-num: #5a6f9d;
+  --qa-ico-bg: linear-gradient(180deg, rgba(134, 154, 200, 0.18), rgba(90, 111, 157, 0.12));
+  --tab-active-bg: linear-gradient(120deg, #5a6f9d, #869ac8);
+  --notice-bg: linear-gradient(180deg, rgba(232, 237, 246, 0.7), rgba(228, 233, 243, 0.7));
+  --tabbar-bg: linear-gradient(180deg, rgba(251, 252, 255, 0.92), rgba(245, 247, 253, 0.98));
+  --tabbar-center-bg: linear-gradient(160deg, #869ac8, #5a6f9d);
+  --pill-solid-bg: linear-gradient(120deg, #5a6f9d, #869ac8);
+  --text-on-primary: #ffffff;
+  --glass: rgba(255, 255, 255, 0.65);
+  --glass-line: rgba(90, 111, 157, 0.18);
+  --glow: rgba(90, 111, 157, 0.32);
+  --nav-bg: linear-gradient(180deg, #fbfcff 0%, #f5f7fd 100%);
+  --footer-bg: #eef1f9;
+  --section-soft: #f5f7fd;
+}
+
+// 玫瑰變體：accent 改玫瑰珊瑚
+[data-theme="noya-rhombus"][data-theme-color="rose"] {
+  --color-primary: #c75f5a;
+  --color-secondary: #df8480;
+  --color-accent: #e9a0a0;
+  --bg-base: #fffcfb;
+  --bg-surface: #fdf1ef;
+  --bg-overlay: rgba(199, 95, 90, 0.08);
+  --text-primary: #6a4946;
+  --text-muted: #bd9c98;
+  --border: rgba(199, 95, 90, 0.18);
+  --shadow: 0 10px 26px rgba(199, 95, 90, 0.2);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #fbe7e5 0%,
+    rgba(251, 231, 229, 0) 60%
+  );
+  --gradient-cta: linear-gradient(120deg, #c75f5a, #df8480);
+  --acc: #c75f5a;
+  --acc2: #df8480;
+  --soft: #fbe7e5;
+  --page: #fffcfb;
+  --line: #f3e2e0;
+  --mut: #bd9c98;
+  --chip: #fdeceb;
+  --ink: #6a4946;
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #fbe7e5 0%, rgba(251, 231, 229, 0) 60%),
+    linear-gradient(180deg, #fffcfb 0%, #fff8f7 100%);
+  --ink-soft: #bd9c98;
+  --ink-mute: #cbb4b2;
+  --gcard-bg: linear-gradient(110deg, #ffffff, #fbe7e5 60%, color-mix(in oklab, #c75f5a, #ffffff 55%));
+  --online-num: #c75f5a;
+  --qa-ico-bg: linear-gradient(180deg, rgba(223, 132, 128, 0.18), rgba(199, 95, 90, 0.12));
+  --tab-active-bg: linear-gradient(120deg, #c75f5a, #df8480);
+  --notice-bg: linear-gradient(180deg, rgba(251, 231, 229, 0.7), rgba(243, 226, 224, 0.7));
+  --tabbar-bg: linear-gradient(180deg, rgba(255, 252, 251, 0.92), rgba(255, 248, 247, 0.98));
+  --tabbar-center-bg: linear-gradient(160deg, #df8480, #c75f5a);
+  --pill-solid-bg: linear-gradient(120deg, #c75f5a, #df8480);
+  --text-on-primary: #ffffff;
+  --glass: rgba(255, 255, 255, 0.65);
+  --glass-line: rgba(199, 95, 90, 0.18);
+  --glow: rgba(199, 95, 90, 0.32);
+  --nav-bg: linear-gradient(180deg, #fffcfb 0%, #fff8f7 100%);
+  --footer-bg: #fdf1ef;
+  --section-soft: #fff8f7;
+}

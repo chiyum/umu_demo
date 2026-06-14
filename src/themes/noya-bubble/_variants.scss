@@ -1,0 +1,143 @@
+// noya-bubble 版面替代配色
+// [data-theme="noya-bubble"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫所有對比 token，切換時無殘色
+
+// 玫瑰粉紅：對齊設計稿 THEME.rose（玫瑰珊瑚）
+[data-theme="noya-bubble"][data-theme-color="rose"] {
+  --acc: #c75f5a;
+  --acc2: #df8480;
+  --soft: #fbe7e5;
+  --page: #fffcfb;
+  --line: #f3e2e0;
+  --mut: #bd9c98;
+  --chip: #fdeceb;
+  --ink: #6a4946;
+  --color-primary: #c75f5a;
+  --color-secondary: #df8480;
+  --color-accent: #eda8a5;
+  --bg-base: #f5eeee;
+  --bg-surface: #fffcfb;
+  --bg-overlay: rgba(199, 95, 90, 0.12);
+  --text-primary: #6a4946;
+  --text-muted: #bd9c98;
+  --border: rgba(199, 95, 90, 0.22);
+  --shadow: 0 10px 26px rgba(140, 60, 58, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #fbeae8 0%,
+    rgba(251, 234, 232, 0) 60%
+  );
+  --gradient-cta: linear-gradient(120deg, #df8480, #c75f5a);
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #fbeae8 0%, rgba(251, 234, 232, 0) 60%),
+    linear-gradient(180deg, #fffcfb 0%, #fdf5f4 48%, #fcf0ee 100%);
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 88% 30%,
+      var(--soft) 0%,
+      color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+      var(--page) 100%
+    );
+  --online-num: #c75f5a;
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(251, 231, 229, 0.7),
+    rgba(245, 225, 223, 0.7)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(199, 95, 90, 0.18),
+    rgba(180, 80, 76, 0.12)
+  );
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 252, 251, 0.88),
+    rgba(255, 248, 247, 0.97)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #df8480, #c75f5a);
+  --text-on-primary: #ffffff;
+  --card-label-bar: #c75f5a;
+  --card-sub: #df8480;
+  --nav-bg: linear-gradient(180deg, #fffcfb 0%, #fcf0ee 100%);
+  --footer-bg: #f5eeee;
+  --section-soft: #fef2f1;
+  --glass: rgba(199, 95, 90, 0.1);
+  --glass-line: rgba(199, 95, 90, 0.2);
+  --glow: rgba(199, 95, 90, 0.35);
+  --pill-btn-bg: #ffffff;
+  --pill-btn-shadow: 0 7px 15px -6px rgba(160, 80, 76, 0.42);
+  --pill-btn-border: 1px solid var(--line);
+  --pill-btn-on-bg: linear-gradient(120deg, #df8480, #c75f5a);
+  --pill-btn-on-shadow: 0 12px 20px -7px rgba(199, 95, 90, 0.6);
+  --g-card-radius: 24px;
+}
+
+// 暗金：對齊設計稿 THEME.gold（暗金色世界）
+[data-theme="noya-bubble"][data-theme-color="gold"] {
+  --acc: #9a7d3a;
+  --acc2: #c2a45f;
+  --soft: #f4ecd6;
+  --page: #fffef8;
+  --line: #efe6d0;
+  --mut: #bcab8c;
+  --chip: #f7efda;
+  --ink: #5e5238;
+  --color-primary: #9a7d3a;
+  --color-secondary: #c2a45f;
+  --color-accent: #d4bb84;
+  --bg-base: #f4ede0;
+  --bg-surface: #fffef8;
+  --bg-overlay: rgba(154, 125, 58, 0.12);
+  --text-primary: #5e5238;
+  --text-muted: #bcab8c;
+  --border: rgba(154, 125, 58, 0.22);
+  --shadow: 0 10px 26px rgba(100, 80, 30, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #f4edd6 0%,
+    rgba(244, 237, 214, 0) 60%
+  );
+  --gradient-cta: linear-gradient(120deg, #c2a45f, #9a7d3a);
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #f4edd6 0%, rgba(244, 237, 214, 0) 60%),
+    linear-gradient(180deg, #fffef8 0%, #fdfaf0 48%, #fbf7e8 100%);
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 88% 30%,
+      var(--soft) 0%,
+      color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+      var(--page) 100%
+    );
+  --online-num: #9a7d3a;
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(244, 236, 214, 0.7),
+    rgba(238, 230, 208, 0.7)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(154, 125, 58, 0.18),
+    rgba(130, 105, 40, 0.12)
+  );
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 254, 248, 0.88),
+    rgba(255, 252, 240, 0.97)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #c2a45f, #9a7d3a);
+  --text-on-primary: #ffffff;
+  --card-label-bar: #9a7d3a;
+  --card-sub: #c2a45f;
+  --nav-bg: linear-gradient(180deg, #fffef8 0%, #fbf7e8 100%);
+  --footer-bg: #f4ede0;
+  --section-soft: #fdf9ef;
+  --glass: rgba(154, 125, 58, 0.1);
+  --glass-line: rgba(154, 125, 58, 0.2);
+  --glow: rgba(154, 125, 58, 0.35);
+  --pill-btn-bg: #ffffff;
+  --pill-btn-shadow: 0 7px 15px -6px rgba(120, 90, 20, 0.42);
+  --pill-btn-border: 1px solid var(--line);
+  --pill-btn-on-bg: linear-gradient(120deg, #c2a45f, #9a7d3a);
+  --pill-btn-on-shadow: 0 12px 20px -7px rgba(154, 125, 58, 0.6);
+  --g-card-radius: 24px;
+}

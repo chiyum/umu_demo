@@ -1,0 +1,129 @@
+// noya-pill 版面替代配色
+// [data-theme="noya-pill"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫元件實際讀到的對比 token，避免切換殘色。
+
+// 玫瑰珊瑚：accent 改玫瑰珊瑚（THEME.rose）
+[data-theme="noya-pill"][data-theme-color="rose"] {
+  --color-primary: #c75f5a;
+  --color-secondary: #df8480;
+  --color-accent: #fbe7e5;
+  --bg-base: #fffcfb;
+  --bg-surface: #fff5f4;
+  --bg-overlay: rgba(199, 95, 90, 0.08);
+  --text-primary: #4a2d2d;
+  --text-muted: #bd9c98;
+  --border: #f3e2e0;
+  --shadow: 0 10px 26px rgba(120, 60, 58, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #fae4e2 0%,
+    rgba(250, 228, 226, 0) 60%
+  );
+  --gradient-cta: linear-gradient(180deg, #df8480, #c75f5a);
+  --acc: #c75f5a;
+  --acc2: #df8480;
+  --soft: #fbe7e5;
+  --page: #fffcfb;
+  --line: #f3e2e0;
+  --mut: #bd9c98;
+  --chip: #fdeceb;
+  --ink: #6a4946;
+  --app-bg: radial-gradient(
+    1200px 600px at 50% -10%,
+    #faeae8 0%,
+    #eedcda 60%,
+    #e8d4d2 100%
+  );
+  --ink-soft: #7a5250;
+  --ink-mute: #bd9c98;
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-line: rgba(190, 140, 138, 0.3);
+  --glow: rgba(199, 95, 90, 0.35);
+  --brand-mark-bg: linear-gradient(150deg, #df8480, #c75f5a);
+  --pill-solid-bg: linear-gradient(180deg, #df8480, #c75f5a);
+  --notice-bg: rgba(255, 246, 245, 0.75);
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(255, 228, 226, 0.8),
+    rgba(240, 200, 198, 0.7)
+  );
+  --tab-active-bg: linear-gradient(160deg, #ffffff, #fbe7e5);
+  --tab-active-shadow: 0 6px 14px -6px rgba(199, 95, 90, 0.5),
+    inset 0 0 0 1px rgba(220, 150, 148, 0.55);
+  --gcard-bg: radial-gradient(
+    120% 140% at 88% 30%,
+    #fbe7e5 0%,
+    color-mix(in oklab, #fbe7e5, #ffffff 30%) 45%,
+    #fffcfb 100%
+  );
+  --online-num: #c75f5a;
+  --tabbar-bg: rgba(255, 252, 251, 0.96);
+  --tabbar-center-bg: linear-gradient(160deg, #df8480, #c75f5a);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #fffcfb 0%, #f7ecec 100%);
+  --footer-bg: #f0e4e2;
+  --section-soft: #faf0ef;
+}
+
+// 翡翠綠：accent 改翡翠（THEME.emerald）
+[data-theme="noya-pill"][data-theme-color="emerald"] {
+  --color-primary: #3f8a6e;
+  --color-secondary: #5fab8b;
+  --color-accent: #e4f1ea;
+  --bg-base: #fbfefc;
+  --bg-surface: #f0f8f3;
+  --bg-overlay: rgba(63, 138, 110, 0.08);
+  --text-primary: #2a3e34;
+  --text-muted: #9bb6a8;
+  --border: #e2ede7;
+  --shadow: 0 10px 26px rgba(40, 100, 78, 0.18);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #d6eedf 0%,
+    rgba(214, 238, 223, 0) 60%
+  );
+  --gradient-cta: linear-gradient(180deg, #5fab8b, #3f8a6e);
+  --acc: #3f8a6e;
+  --acc2: #5fab8b;
+  --soft: #e4f1ea;
+  --page: #fbfefc;
+  --line: #e2ede7;
+  --mut: #9bb6a8;
+  --chip: #ecf6f0;
+  --ink: #44574e;
+  --app-bg: radial-gradient(
+    1200px 600px at 50% -10%,
+    #e8f4ec 0%,
+    #d8eadf 60%,
+    #cce4d4 100%
+  );
+  --ink-soft: #4e6b5e;
+  --ink-mute: #9bb6a8;
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-line: rgba(100, 170, 140, 0.3);
+  --glow: rgba(63, 138, 110, 0.35);
+  --brand-mark-bg: linear-gradient(150deg, #5fab8b, #3f8a6e);
+  --pill-solid-bg: linear-gradient(180deg, #5fab8b, #3f8a6e);
+  --notice-bg: rgba(240, 250, 244, 0.75);
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(210, 240, 222, 0.8),
+    rgba(180, 220, 198, 0.7)
+  );
+  --tab-active-bg: linear-gradient(160deg, #ffffff, #e4f1ea);
+  --tab-active-shadow: 0 6px 14px -6px rgba(63, 138, 110, 0.5),
+    inset 0 0 0 1px rgba(100, 180, 150, 0.55);
+  --gcard-bg: radial-gradient(
+    120% 140% at 88% 30%,
+    #e4f1ea 0%,
+    color-mix(in oklab, #e4f1ea, #ffffff 30%) 45%,
+    #fbfefc 100%
+  );
+  --online-num: #3f8a6e;
+  --tabbar-bg: rgba(248, 254, 250, 0.96);
+  --tabbar-center-bg: linear-gradient(160deg, #5fab8b, #3f8a6e);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #fbfefc 0%, #edf7f1 100%);
+  --footer-bg: #e0efea;
+  --section-soft: #f2faf5;
+}

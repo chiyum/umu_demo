@@ -1,0 +1,120 @@
+// noya-bookmark（書籤摺角標籤）token 主檔
+// 移植自設計稿 ly8：書籤箭頭摺角標籤，暗金色調
+// 設計特徵：
+//   - 暗金色世界（gold）+ accent #9a7d3a / #c2a45f
+//   - 左側按鈕：書籤箭頭 clip-path 指向卡片，預設 margin-right:10px
+//   - 選中：margin-right:0 外推貼齊 + 暗金漸層白字 + 外發光
+//   - 右卡片：border-radius:15px，g-tag 貼右上角 border-radius:0 0 0 11px
+// brightness: light
+// 配色三變體：gold（預設）/ emerald / plum
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-bookmark"] {
+  // ─────── 設計稿語意 token（ly8 gold 色世界）───────
+  // 對齊設計稿 THEME.gold：--acc:#9a7d3a; --acc2:#c2a45f; --soft:#f4ecd6; --ink:#5e5238; --mut:#bcab8c; --page:#fffef8; --line:#efe6d0; --chip:#f7efda
+  --acc: #9a7d3a; // 暗金主 accent
+  --acc2: #c2a45f; // 淡金次 accent（漸層）
+  --soft: #f4ecd6; // 柔金底（卡片背景漸層）
+  --page: #fffef8; // 頁面底色（米白偏黃）
+  --line: #efe6d0; // 分隔線 / 邊框
+  --mut: #bcab8c; // 次要文字 / 未選中
+  --chip: #f7efda; // 小徽章底色
+  --ink: #5e5238; // 主文字（深棕金）
+
+  // ─────── 12 公約變數（預設 gold）───────
+  --color-primary: #9a7d3a;
+  --color-secondary: #c2a45f;
+  --color-accent: #d4bb84;
+  --bg-base: #f4ede0;
+  --bg-surface: #fffef8;
+  --bg-overlay: rgba(154, 125, 58, 0.12);
+  --text-primary: #5e5238;
+  --text-muted: #bcab8c;
+  --border: rgba(154, 125, 58, 0.25);
+  --shadow: 0 10px 26px rgba(100, 80, 30, 0.2);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #f4edd6 0%,
+    rgba(244, 237, 214, 0) 60%
+  );
+  --gradient-cta: linear-gradient(120deg, #c2a45f, #9a7d3a);
+
+  // ─────── 結構 / 對比 token ───────
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #f4edd6 0%, rgba(244, 237, 214, 0) 60%),
+    linear-gradient(180deg, #fffef8 0%, #fdfaf0 48%, #fbf7e8 100%);
+
+  // 卡片 lobby 背景底（ly8 大圓角 15px 卡）
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 88% 30%,
+      var(--soft) 0%,
+      color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+      var(--page) 100%
+    );
+
+  // 在線人數數字色
+  --online-num: #9a7d3a;
+
+  // 公告條底
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(244, 236, 214, 0.7),
+    rgba(238, 230, 208, 0.7)
+  );
+
+  // 快捷 icon 球底
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(154, 125, 58, 0.18),
+    rgba(130, 105, 40, 0.12)
+  );
+
+  // tabbar 底（米黃玻璃）
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 254, 248, 0.88),
+    rgba(255, 252, 235, 0.97)
+  );
+
+  // tabbar 中央凸出球（暗金漸層）
+  --tabbar-center-bg: linear-gradient(160deg, #c2a45f, #9a7d3a);
+
+  // 落在 CTA 上的對比文字
+  --text-on-primary: #ffffff;
+
+  // 卡片左側標題 accent bar
+  --card-label-bar: #9a7d3a;
+  --card-sub: #c2a45f;
+
+  // desktop 補做用
+  --nav-bg: linear-gradient(180deg, #fffef8 0%, #fbf7e8 100%);
+  --footer-bg: #f4ede0;
+  --section-soft: #fdf9ef;
+  --glass: rgba(154, 125, 58, 0.1);
+  --glass-line: rgba(154, 125, 58, 0.2);
+  --glow: rgba(154, 125, 58, 0.4);
+
+  // ─────── ly8 特有：書籤按鈕 token ───────
+  // 書籤箭頭 clip-path（指向右側卡片區）
+  --bookmark-clip: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
+
+  // 書籤底色（未選中）
+  --bookmark-bg: #ffffff;
+  --bookmark-border: inset 0 0 0 1px var(--line);
+
+  // 書籤選中：暗金漸層 + 外推貼齊 + 發光
+  --bookmark-on-bg: linear-gradient(120deg, var(--acc2), var(--acc));
+  --bookmark-on-shadow: 0 9px 17px -7px rgba(154, 125, 58, 0.6);
+
+  // ─────── g 卡片：ly8 較小圓角 ───────
+  --g-card-radius: 15px;
+
+  // 字體
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

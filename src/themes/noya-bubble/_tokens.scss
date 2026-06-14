@@ -1,0 +1,118 @@
+// noya-bubble（浮動藥丸交錯）token 主檔
+// 移植自設計稿 ly7：浮動藥丸交錯，米色調系
+// 設計特徵：
+//   - 米色底（beige）+ 橘棕 accent（#c66a3c）
+//   - 左側按鈕：全圓藥丸、交錯浮動，選中填米橘漸層白字浮起
+//   - 右卡片：大圓角 border-radius:24px
+//   - 色世界：beige（預設）/ rose / gold
+// brightness: light
+// 配色三變體：beige（預設）/ rose / gold
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-bubble"] {
+  // ─────── 設計稿語意 token（ly7 beige 色世界）───────
+  // 對齊設計稿 THEME.beige：--acc:#c66a3c; --acc2:#e88a5e; --soft:#fbeede; --ink:#6a5747; --mut:#b6a594; --page:#fffdfb; --line:#f1e7dd; --chip:#fff3e9
+  --acc: #c66a3c; // 橘棕主 accent
+  --acc2: #e88a5e; // 淡橘次 accent（漸層起點）
+  --soft: #fbeede; // 柔光暖底（卡片背景漸層）
+  --page: #fffdfb; // 頁面底色（米白近白）
+  --line: #f1e7dd; // 分隔線 / 卡片邊
+  --mut: #b6a594; // 次要文字 / 未選中按鈕
+  --chip: #fff3e9; // 小徽章底色
+  --ink: #6a5747; // 主文字色（暗棕）
+
+  // ─────── 12 公約變數（預設 beige）───────
+  --color-primary: #c66a3c;
+  --color-secondary: #e88a5e;
+  --color-accent: #f5b992;
+  --bg-base: #f4ede4; // 頁面最底米色
+  --bg-surface: #fffdfb; // 卡片底
+  --bg-overlay: rgba(198, 106, 60, 0.12); // 半透明暖橘
+  --text-primary: #6a5747; // 主文字
+  --text-muted: #b6a594; // 次要文字
+  --border: rgba(198, 106, 60, 0.22); // 邊框淡橘
+  --shadow: 0 10px 26px rgba(120, 70, 30, 0.18); // 暖棕陰影
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #f6eede 0%,
+    rgba(246, 238, 222, 0) 60%
+  );
+  --gradient-cta: linear-gradient(120deg, #e88a5e, #c66a3c);
+
+  // ─────── 結構 / 對比 token（元件走 var()）───────
+  // app 整體底色漸層
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #f6f0e8 0%, rgba(246, 240, 232, 0) 60%),
+    linear-gradient(180deg, #fffdfb 0%, #fef9f4 48%, #fdf5ee 100%);
+
+  // 卡片 lobby 背景底（beige 調 ly7 大圓角卡）
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 88% 30%,
+      var(--soft) 0%,
+      color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+      var(--page) 100%
+    );
+
+  // 在線人數數字色
+  --online-num: #c66a3c;
+
+  // 公告條底
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(251, 238, 222, 0.7),
+    rgba(245, 233, 215, 0.7)
+  );
+
+  // 快捷 icon 球底
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(198, 106, 60, 0.18),
+    rgba(180, 90, 50, 0.12)
+  );
+
+  // tabbar 底（米白玻璃）
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 253, 251, 0.88),
+    rgba(255, 248, 240, 0.97)
+  );
+
+  // tabbar 中央凸出球（橘棕漸層）
+  --tabbar-center-bg: linear-gradient(160deg, #e88a5e, #c66a3c);
+
+  // 落在 CTA 上的對比文字
+  --text-on-primary: #ffffff;
+
+  // 卡片左側標題 accent bar
+  --card-label-bar: #c66a3c;
+  --card-sub: #e09060;
+
+  // desktop 補做用
+  --nav-bg: linear-gradient(180deg, #fffdfb 0%, #fdf5ee 100%);
+  --footer-bg: #f4ede4;
+  --section-soft: #fef5eb;
+
+  // 藥丸按鈕 icon 球底（快捷區）
+  --glass: rgba(198, 106, 60, 0.1);
+  --glass-line: rgba(198, 106, 60, 0.2);
+  --glow: rgba(198, 106, 60, 0.35);
+
+  // ─────── ly7 特有：藥丸按鈕 token ───────
+  --pill-btn-bg: #ffffff; // 未選中藥丸底色
+  --pill-btn-shadow: 0 7px 15px -6px rgba(160, 110, 70, 0.42); // 藥丸浮起陰影
+  --pill-btn-border: 1px solid var(--line); // 藥丸邊框
+  --pill-btn-on-bg: linear-gradient(120deg, var(--acc2), var(--acc)); // 選中漸層
+  --pill-btn-on-shadow: 0 12px 20px -7px rgba(198, 106, 60, 0.6); // 選中發光陰影
+
+  // ─────── g 卡片：大圓角（ly7 特有 24px）───────
+  --g-card-radius: 24px;
+
+  // 字體（對齊原稿 Noto Sans TC）
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

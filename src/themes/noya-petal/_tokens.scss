@@ -1,0 +1,111 @@
+// noya-petal（諾亞玫瑰花瓣）token 主檔
+// 移植設計稿 ly3 葉片曲線標籤版型：玫瑰色世界（rose）、亮色系（brightness=light）
+// 主視覺特徵：
+//   - 亮白乳白底（--page #fffcfb）
+//   - 玫瑰珊瑚 accent（--acc #c75f5a / --acc2 #df8480）
+//   - 柔和斜切漸層卡片
+//   - 葉片/水滴不對稱圓角按鈕（border-radius: 6px 22px 6px 22px）
+//   - 文字三階 --ink / --mut / #fff
+// 配色三變體：
+//   rose（預設）/ plum / beige
+// 命名公約（全 theme 共用 12 CSS var）：
+//   --color-primary / --color-secondary / --color-accent
+//   --bg-base / --bg-surface / --bg-overlay
+//   --text-primary / --text-muted / --border / --shadow
+//   --gradient-hero / --gradient-cta
+// 設計稿語意 token（讓移植 CSS 直接可用）：
+//   --acc / --acc2 / --soft / --page / --line / --mut / --chip / --ink
+
+[data-theme="noya-petal"] {
+  // ─────── 12 公約變數（預設 rose）───────
+  --color-primary: #c75f5a; // 玫瑰珊瑚 accent
+  --color-secondary: #df8480; // 玫瑰高光
+  --color-accent: #e9a0a0; // 淺玫瑰亮點
+  --bg-base: #fffcfb; // 頁面亮白底
+  --bg-surface: #fdf1ef; // 卡片柔玫瑰底
+  --bg-overlay: rgba(199, 95, 90, 0.08); // 玫瑰半透明
+  --text-primary: #6a4946; // 主文字（暖褐）
+  --text-muted: #bd9c98; // 次要文字
+  --border: rgba(199, 95, 90, 0.18); // 玫瑰描邊
+  --shadow: 0 10px 26px rgba(199, 95, 90, 0.18); // 玫瑰陰影
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #fbe0de 0%,
+    rgba(251, 224, 222, 0) 60%
+  );
+  --gradient-cta: linear-gradient(135deg, #c75f5a, #df8480); // 玫瑰 CTA
+
+  // ─────── 設計稿語意 token（移植 ly3 用）───────
+  --acc: #c75f5a;
+  --acc2: #df8480;
+  --soft: #fbe7e5;
+  --page: #fffcfb;
+  --line: #f3e2e0;
+  --mut: #bd9c98;
+  --chip: #fdeceb;
+  --ink: #6a4946;
+
+  // ─────── 結構 / 對比 token（元件走 var()）───────
+  // app 整體白玫瑰漸層底
+  --app-bg:
+    radial-gradient(120% 60% at 50% -8%, #fbe0de 0%, rgba(251, 224, 222, 0) 60%),
+    linear-gradient(180deg, #fffcfb 0%, #fdf5f4 100%);
+  --ink-soft: #bd9c98; // 次要文字（等於 --mut）
+  --ink-mute: #cbb4b2; // 三級 / label
+
+  // 玫瑰卡底漸層（三層合成 g-bg）
+  --gcard-bg: linear-gradient(115deg, #ffffff 0%, var(--soft) 52%, color-mix(in oklab, var(--acc), #ffffff 62%) 100%);
+
+  // 卡片右側人物圖遮罩（g-fig::after）
+  --gfig-overlay: linear-gradient(108deg, var(--soft) 0%, transparent 48%);
+
+  // 在線人數數字色
+  --online-num: #c75f5a;
+
+  // 快捷 icon 球底（玫瑰柔光）
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(223, 132, 128, 0.18),
+    rgba(199, 95, 90, 0.12)
+  );
+
+  // 分類按鈕 active 底（葉片按鈕 on 狀態用漸層）
+  --tab-active-bg: linear-gradient(135deg, var(--acc), var(--acc2));
+
+  // 公告條底
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(251, 231, 229, 0.7),
+    rgba(243, 226, 224, 0.7)
+  );
+
+  // tabbar 底
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 252, 251, 0.92),
+    rgba(255, 248, 247, 0.98)
+  );
+
+  // tabbar 中央凸出球
+  --tabbar-center-bg: linear-gradient(160deg, #df8480, #c75f5a);
+
+  // 登入按鈕
+  --pill-solid-bg: linear-gradient(135deg, #c75f5a, #df8480);
+
+  // 落在玫瑰 CTA 上的對比文字
+  --text-on-primary: #ffffff;
+
+  // glass 效果（亮色系改為白底半透明）
+  --glass: rgba(255, 255, 255, 0.65);
+  --glass-line: rgba(199, 95, 90, 0.18);
+  --glow: rgba(199, 95, 90, 0.32);
+
+  // desktop 補做用
+  --nav-bg: linear-gradient(180deg, #fffcfb 0%, #fff8f7 100%);
+  --footer-bg: #fdf1ef;
+  --section-soft: #fdf5f4;
+
+  // 字體（對齊設計稿 Noto Sans TC）
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

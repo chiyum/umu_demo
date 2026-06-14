@@ -1,0 +1,105 @@
+// noya-hive（諾亞蜂巢）token 主檔
+// 來源設計稿：諾亞_遊戲區塊_10款版型.html ly5（六角蜂巢，翡翠色世界）
+// 主視覺特徵（取自設計稿 THEME.emerald）：
+//   --acc:#3f8a6e（翡翠綠）/ --acc2:#5fab8b（亮翡翠）
+//   --soft:#e4f1ea（淡翡翠底）/ --page:#fbfefc（近白頁底）
+//   --ink:#44574e（深墨綠文字）/ --mut:#9bb6a8（暗翡翠次要）
+//   --line:#e2ede7 / --chip:#ecf6f0
+// brightness 判定：light（近白頁底）
+// 配色三變體：emerald（預設）/ slate / gold
+
+[data-theme="noya-hive"] {
+  // ─────── 12 公約變數（預設 emerald）───────
+  --color-primary: #3f8a6e; // 翡翠綠主色
+  --color-secondary: #5fab8b; // 亮翡翠
+  --color-accent: #9fd6be; // 淺翡翠亮點
+  --bg-base: #f0f7f3; // 頁面最底淡翡翠白
+  --bg-surface: #ffffff; // 卡片白底
+  --bg-overlay: rgba(63, 138, 110, 0.12); // 淡翡翠玻璃
+  --text-primary: #2a3d36; // 主文字深墨綠
+  --text-muted: #6a8c7e; // 次要文字暗翡翠
+  --border: rgba(63, 138, 110, 0.22); // 翡翠邊線
+  --shadow: 0 8px 20px rgba(30, 70, 55, 0.14); // 翡翠陰影
+  --gradient-hero: linear-gradient(120deg, #e4f1ea 0%, #d0e8dc 100%); // hero 側邊
+  --gradient-cta: linear-gradient(135deg, #5fab8b, #3f8a6e); // CTA 翡翠漸層
+
+  // ─────── 設計稿語意 token（ly5 emerald 色世界）───────
+  // 直接對齊設計稿 THEME.emerald 命名
+  --acc: #3f8a6e;
+  --acc2: #5fab8b;
+  --soft: #e4f1ea;
+  --page: #fbfefc;
+  --ink: #44574e;
+  --mut: #9bb6a8;
+  --line: #e2ede7;
+  --chip: #ecf6f0;
+
+  // ─────── 結構 token（元件走 var()）───────
+  // app 整體底色（淡翡翠米白）
+  --app-bg: linear-gradient(160deg, #f4faf7 0%, #edf7f2 50%, #f0f8f5 100%);
+
+  // 次要文字
+  --ink-soft: #6a8c7e;
+  --ink-mute: #9bb6a8;
+
+  // 玻璃卡
+  --glass: rgba(63, 138, 110, 0.08);
+  --glass-line: rgba(63, 138, 110, 0.2);
+  --glow: rgba(63, 138, 110, 0.38); // active 翡翠光
+
+  // logo mark 背景
+  --brand-mark-bg: linear-gradient(150deg, #5fab8b, #3f8a6e);
+
+  // 登入 pill solid
+  --pill-solid-bg: linear-gradient(135deg, #5fab8b, #3f8a6e);
+
+  // 公告條底
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(220, 240, 232, 0.9),
+    rgba(200, 230, 218, 0.9)
+  );
+
+  // 快捷 icon 球底
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(95, 171, 139, 0.22),
+    rgba(63, 138, 110, 0.18)
+  );
+
+  // active tab 底（六角蜂巢選中翡翠漸層）
+  --tab-active-bg: linear-gradient(150deg, #5fab8b, #3f8a6e);
+
+  // 遊戲卡底（寬六角輪廓，淡翡翠漸層底）
+  --gcard-bg: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #e4f1ea 55%,
+    rgba(95, 171, 139, 0.35) 100%
+  );
+
+  // 卡片標題 accent
+  --card-label-bar: #3f8a6e;
+  --card-sub: #5fab8b;
+
+  // 在線人數數字色
+  --online-num: #3f8a6e;
+
+  // tabbar 底
+  --tabbar-bg: rgba(244, 250, 247, 0.95);
+
+  // tabbar 中央凸出球
+  --tabbar-center-bg: linear-gradient(160deg, #5fab8b, #3f8a6e);
+
+  // CTA 上的對比文字
+  --text-on-primary: #ffffff;
+
+  // desktop 用
+  --nav-bg: rgba(244, 250, 247, 0.97);
+  --footer-bg: #e8f4ee;
+  --section-soft: #f2faf6;
+
+  // 字體（對齊設計稿 Noto Sans TC）
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

@@ -352,7 +352,7 @@ VUE_VITE_TS_START/                # 專案根目錄
 4. 該主類別還沒有 theme → 從 `01` 起算
 5. 編號**一旦發布後不再改動**（重編會打散 sales demo 對外展示的順序記憶）
 
-#### 現有 theme 編號對照（41 個）
+#### 現有 theme 編號對照（51 個）
 
 | label | key | 主類別 |
 |---|---|---|
@@ -394,6 +394,16 @@ VUE_VITE_TS_START/                # 專案根目錄
 | `c13 · 諾亞珊瑚` | `noya-reef` | live |
 | `c14 · 諾亞星夜` | `noya-starlit` | live |
 | `c15 · 諾亞薄荷` | `noya-mint` | live |
+| `c16 · 諾亞膠囊` | `noya-pill` | live |
+| `c17 · 諾亞圓標` | `noya-orbit` | live |
+| `c18 · 諾亞葉瓣` | `noya-petal` | live |
+| `c19 · 諾亞稜形` | `noya-rhombus` | live |
+| `c20 · 諾亞蜂巢` | `noya-hive` | live |
+| `c21 · 諾亞側燈` | `noya-beacon` | live |
+| `c22 · 諾亞浮丸` | `noya-bubble` | live |
+| `c23 · 諾亞書籤` | `noya-bookmark` | live |
+| `c24 · 諾亞方磚` | `noya-squircle` | live |
+| `c25 · 諾亞分線` | `noya-tabline` | live |
 | `d01 · 體育博彩` | `ant-sport` | sports |
 | `e01 · 越南 VIP` | `vietvip` | luxury |
 | `e02 · 5D` | `fived` | luxury |
@@ -494,7 +504,17 @@ src/themes/
 ├── noya-steel/              # 諾亞鈦銀（c12，鈦灰金屬深底 + 琥珀雙描邊，dark）
 ├── noya-reef/               # 諾亞珊瑚（c13，奶油淺底 + 珊瑚橙圓潤按鈕欄，light）
 ├── noya-starlit/            # 諾亞星夜（c14，深紫星空底 + 星點描邊 + 夢幻紫光卡，dark）
-└── noya-mint/               # 諾亞薄荷（c15，清爽白底 + 薄荷綠圓角按鈕欄，light）
+├── noya-mint/               # 諾亞薄荷（c15，清爽白底 + 薄荷綠圓角按鈕欄，light）
+├── noya-pill/               # 諾亞膠囊（c16，米色暖底 + 直欄膠囊按鈕欄，ly1，light）
+├── noya-orbit/              # 諾亞圓標（c17，米色暖底 + 正圓圖標導航 + 圖在上雙欄卡，ly2，light）
+├── noya-petal/              # 諾亞葉瓣（c18，乳白底 + 葉片不對稱圓角按鈕欄 + 斜切漸層卡，ly3，light）
+├── noya-rhombus/            # 諾亞稜形（c19，亮白紫底 + 平行四邊形斜切按鈕欄 + 斜切卡，ly4，light）
+├── noya-hive/               # 諾亞蜂巢（c20，近白翡翠底 + 六角蜂巢按鈕欄，ly5，light）
+├── noya-beacon/             # 諾亞側燈（c21，近白霧藍底 + 窄條側燈指示按鈕欄，ly6，light）
+├── noya-bubble/             # 諾亞浮丸（c22，米色暖底 + 全圓藥丸交錯按鈕欄 + 大圓角卡，ly7，light）
+├── noya-bookmark/           # 諾亞書籤（c23，暗金底 + 書籤箭頭摺角按鈕欄 + 角標卡，ly8，light）
+├── noya-squircle/           # 諾亞方磚（c24，亮白米底 + Squircle 大圓角方磚按鈕欄 + 玻璃高光卡，ly9，light）
+└── noya-tabline/            # 諾亞分線（c25，米色極簡底 + 純文字側線/頂分頁 + 留白卡，ly10，light）
 ```
 
 > **fuyou / noya-beige / noya-blue 三 theme 的「跨裝置補做」規約**：
@@ -530,6 +550,18 @@ src/themes/
 > - 全部 live 類，logos 統一 `SHARED_LOGOS`、`defaultLogo = umu`（諾亞品牌調性），previews 採 `buildPreviews`（不帶實際色變體截圖，缺檔由 `getPreview` fallback 不破圖）
 > - 每款各帶三色票（default + 兩變體），color machine key 已與各自 `_tokens` 預設區塊、`_variants` 的 `[data-theme-color="xxx"]` 逐一核對一致
 > - **排程分批上架**（每天 2 版，起始日 6/15）：6/15 `noya-jade` + `noya-dawn`；6/16 `noya-lux` + `noya-sakura`；6/17 `noya-aurora` + `noya-ink`；6/18 `noya-steel` + `noya-reef`；6/19 `noya-starlit` + `noya-mint`（`releaseDate` 控主頁顯示，`/demo/<key>` 直連與 `?preview=1` query 不擋）
+
+> **諾亞真人視訊第三批 c16~c25 十 theme 規約（live 類）**：
+> - 來源稿：設計稿「諾亞_遊戲區塊_10款版型.html」ly1 ~ ly10，每款以不同的「左分類按鈕造形 + 右遊戲卡片頁面」詮釋同一套真人廳結構
+>   - `c16 noya-pill` 膠囊（ly1，直欄膠囊按鈕欄）/ `c17 noya-orbit` 圓標（ly2，正圓圖標導航 + 圖在上雙欄卡）
+>   - `c18 noya-petal` 葉瓣（ly3，葉片不對稱圓角按鈕 + 斜切漸層卡）/ `c19 noya-rhombus` 稜形（ly4，平行四邊形斜切按鈕 + 斜切 clip-path 卡）
+>   - `c20 noya-hive` 蜂巢（ly5，六角蜂巢按鈕欄）/ `c21 noya-beacon` 側燈（ly6，窄條側燈指示按鈕欄）
+>   - `c22 noya-bubble` 浮丸（ly7，全圓藥丸交錯按鈕 + 大圓角卡）/ `c23 noya-bookmark` 書籤（ly8，書籤箭頭摺角按鈕 + 角標卡）
+>   - `c24 noya-squircle` 方磚（ly9，Squircle 大圓角方磚按鈕 + 玻璃高光卡）/ `c25 noya-tabline` 分線（ly10，純文字側線/頂分頁 + 留白卡）
+> - 每個 theme 完全自包含（desktop.vue / mobile.vue / _tokens.scss / _variants.scss / _data.ts / index.ts / assets），不共用 shared 目錄
+> - 全部 live 類、全 10 款皆 `brightness=light`，logos 統一 `SHARED_LOGOS`、`defaultLogo = umu`（諾亞品牌調性），previews 採 `buildPreviews`（不帶實際色變體截圖，缺檔由 `getPreview` fallback 不破圖）
+> - 每款各帶三色票（default + 兩變體，色源共用 米橘 #c66a3c / 玫瑰 #c75f5a / 翡翠 #3f8a6e / 霧藍 #5a6f9d / 梅紫 #9d4f86 / 暗金 #9a7d3a 六色），color machine key 已與各自 `_tokens` 預設區塊、`_variants` 的 `[data-theme-color="xxx"]` 逐一核對一致（本批 10 款全對齊無修正）
+> - **排程分批上架**（每天 2 版，起始日 6/20）：6/20 `noya-pill` + `noya-orbit`；6/21 `noya-petal` + `noya-rhombus`；6/22 `noya-hive` + `noya-beacon`；6/23 `noya-bubble` + `noya-bookmark`；6/24 `noya-squircle` + `noya-tabline`（`releaseDate` 控主頁顯示，`/demo/<key>` 直連與 `?preview=1` query 不擋）
 
 ### 新增第三個版面流程
 
@@ -616,6 +648,19 @@ dahsing-waterfall / tabs / horizontal 共用 sidebar / hot-bar / 卡片 fire tag
 - `/demo/noya-reef` — c13 諾亞珊瑚（珊瑚橙，light）
 - `/demo/noya-starlit` — c14 諾亞星夜（星夜紫，dark）
 - `/demo/noya-mint` — c15 諾亞薄荷（薄荷綠，light）
+
+諾亞真人視訊第三批（c16~c25，移植自設計稿「諾亞_遊戲區塊_10款版型」ly1~ly10，依排程上架；上架前可帶 `?preview=1` 直連預覽）：
+
+- `/demo/noya-pill` — c16 諾亞膠囊（米橘暖調，light，ly1）
+- `/demo/noya-orbit` — c17 諾亞圓標（米橘暖調，light，ly2）
+- `/demo/noya-petal` — c18 諾亞葉瓣（玫瑰珊瑚，light，ly3）
+- `/demo/noya-rhombus` — c19 諾亞稜形（梅紫，light，ly4）
+- `/demo/noya-hive` — c20 諾亞蜂巢（翡翠綠，light，ly5）
+- `/demo/noya-beacon` — c21 諾亞側燈（霧石板藍，light，ly6）
+- `/demo/noya-bubble` — c22 諾亞浮丸（米橘暖調，light，ly7）
+- `/demo/noya-bookmark` — c23 諾亞書籤（暗金，light，ly8）
+- `/demo/noya-squircle` — c24 諾亞方磚（米橘暖調，light，ly9）
+- `/demo/noya-tabline` — c25 諾亞分線（米橘暖調，light，ly10）
 
 ### Logo 候選與切換（v4：三 theme 統一三 logo）
 

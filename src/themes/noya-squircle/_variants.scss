@@ -1,0 +1,159 @@
+// noya-squircle 版面替代配色
+// [data-theme="noya-squircle"][data-theme-color="xxx"] 雙重 selector
+// 3 個配色：beige（預設，token 主檔定義）/ plum / slate
+
+// 梅紫：accent 改梅紫（對齊設計稿 THEME.plum）
+[data-theme="noya-squircle"][data-theme-color="plum"] {
+  --color-primary: #9d4f86;
+  --color-secondary: #c074aa;
+  --color-accent: #f4e7f0;
+  --bg-base: #fffbfe;
+  --bg-surface: #f7ebf3;
+  --bg-overlay: rgba(157, 79, 134, 0.12);
+  --text-primary: #5a4654;
+  --text-muted: #b297aa;
+  --border: #efe1ec;
+  --shadow: 0 10px 22px -10px rgba(120, 60, 110, 0.3);
+  --gradient-hero: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f8f0f6 0%,
+    #f0e2ec 60%,
+    #ead6e6 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #c074aa, #9d4f86);
+  --acc: #9d4f86;
+  --acc2: #c074aa;
+  --soft: #f4e7f0;
+  --page: #fffbfe;
+  --line: #efe1ec;
+  --mut: #b297aa;
+  --chip: #f7ebf3;
+  --ink: #5a4654;
+  --app-bg: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f8f0f6 0%,
+    #f0e2ec 60%,
+    #ead6e6 100%
+  );
+  --page-bg: #eddce9;
+  --cat-bg: linear-gradient(160deg, #ffffff, var(--soft));
+  --cat-shadow:
+    0 5px 13px -5px rgba(157, 79, 134, 0.32),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  --cat-on-bg: linear-gradient(160deg, var(--acc2), var(--acc));
+  --cat-on-shadow: 0 11px 19px -6px rgba(157, 79, 134, 0.6);
+  --glass-highlight: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.42),
+    transparent
+  );
+  --gcard-bg: radial-gradient(
+    120% 140% at 88% 30%,
+    var(--soft) 0%,
+    color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+    var(--page) 100%
+  );
+  --notice-bg: rgba(255, 248, 254, 0.9);
+  --notice-line: rgba(157, 79, 134, 0.2);
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(192, 116, 170, 0.2),
+    rgba(157, 79, 134, 0.15)
+  );
+  --qa-ico-line: rgba(157, 79, 134, 0.25);
+  --online-num: #9d4f86;
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 251, 254, 0.85),
+    rgba(255, 248, 254, 0.96)
+  );
+  --tabbar-line: rgba(157, 79, 134, 0.15);
+  --tabbar-center-bg: linear-gradient(160deg, #c074aa, #9d4f86);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(
+    180deg,
+    rgba(255, 251, 254, 0.96),
+    rgba(255, 248, 254, 0.98)
+  );
+  --nav-line: rgba(157, 79, 134, 0.15);
+  --footer-bg: #f0e0ec;
+  --section-soft: #fdf5fb;
+}
+
+// 霧藍：accent 改霧藍（對齊設計稿 THEME.slate）
+[data-theme="noya-squircle"][data-theme-color="slate"] {
+  --color-primary: #5a6f9d;
+  --color-secondary: #869ac8;
+  --color-accent: #e8edf6;
+  --bg-base: #fbfcff;
+  --bg-surface: #eef1f9;
+  --bg-overlay: rgba(90, 111, 157, 0.12);
+  --text-primary: #46506a;
+  --text-muted: #9aa4bd;
+  --border: #e4e9f3;
+  --shadow: 0 10px 22px -10px rgba(60, 80, 120, 0.3);
+  --gradient-hero: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f0f3fa 0%,
+    #e2e8f6 60%,
+    #d6dff0 100%
+  );
+  --gradient-cta: linear-gradient(180deg, #869ac8, #5a6f9d);
+  --acc: #5a6f9d;
+  --acc2: #869ac8;
+  --soft: #e8edf6;
+  --page: #fbfcff;
+  --line: #e4e9f3;
+  --mut: #9aa4bd;
+  --chip: #eef1f9;
+  --ink: #46506a;
+  --app-bg: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f0f3fa 0%,
+    #e2e8f6 60%,
+    #d6dff0 100%
+  );
+  --page-bg: #d8e0ef;
+  --cat-bg: linear-gradient(160deg, #ffffff, var(--soft));
+  --cat-shadow:
+    0 5px 13px -5px rgba(90, 111, 157, 0.32),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  --cat-on-bg: linear-gradient(160deg, var(--acc2), var(--acc));
+  --cat-on-shadow: 0 11px 19px -6px rgba(90, 111, 157, 0.6);
+  --glass-highlight: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.42),
+    transparent
+  );
+  --gcard-bg: radial-gradient(
+    120% 140% at 88% 30%,
+    var(--soft) 0%,
+    color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+    var(--page) 100%
+  );
+  --notice-bg: rgba(248, 250, 255, 0.9);
+  --notice-line: rgba(90, 111, 157, 0.2);
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(134, 154, 200, 0.2),
+    rgba(90, 111, 157, 0.15)
+  );
+  --qa-ico-line: rgba(90, 111, 157, 0.25);
+  --online-num: #5a6f9d;
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(251, 252, 255, 0.85),
+    rgba(248, 250, 255, 0.96)
+  );
+  --tabbar-line: rgba(90, 111, 157, 0.15);
+  --tabbar-center-bg: linear-gradient(160deg, #869ac8, #5a6f9d);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(
+    180deg,
+    rgba(251, 252, 255, 0.96),
+    rgba(248, 250, 255, 0.98)
+  );
+  --nav-line: rgba(90, 111, 157, 0.15);
+  --footer-bg: #e2e8f5;
+  --section-soft: #f5f7fc;
+}

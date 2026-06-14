@@ -1,0 +1,125 @@
+// noya-squircle（諾亞 Squircle 漸層磚）token 主檔
+// 移植自設計稿 ly9：Squircle 大圓角方磚 + 玻璃高光卡
+// 色調：米色（beige）定錨，暖橘 accent，亮白底面
+// brightness：light（米色底）
+// 配色三變體：beige（預設）/ plum / slate
+// 12 公約 var + 設計稿語意 token（--acc/--acc2/--soft/--page/--line/--mut/--chip/--ink）
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-squircle"] {
+  // ─────── 12 公約變數（預設 beige）───────
+  --color-primary: #c66a3c; // 暖橘 accent（對齊設計稿 beige --acc）
+  --color-secondary: #e88a5e; // 高光橘（--acc2）
+  --color-accent: #fbeede; // 柔和米橘淺底（--soft）
+  --bg-base: #fffdfb; // 最亮米白底（--page）
+  --bg-surface: #fff3e9; // 卡片底（--chip）
+  --bg-overlay: rgba(198, 106, 60, 0.12); // 半透明橘玻璃
+  --text-primary: #6a5747; // 主文字（--ink）
+  --text-muted: #b6a594; // 次要文字（--mut）
+  --border: #f1e7dd; // 分隔線（--line）
+  --shadow: 0 10px 22px -10px rgba(120, 80, 50, 0.35); // 卡片陰影
+  --gradient-hero: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f6f0e8 0%,
+    #ece2d6 60%,
+    #e6dccf 100%
+  ); // 頁面背景漸層
+
+  --gradient-cta: linear-gradient(180deg, #e88a5e, #c66a3c); // 橘 CTA
+
+  // ─────── 設計稿語意 token ───────
+  // 對齊設計稿 THEME.beige 的所有 token
+  --acc: #c66a3c;
+  --acc2: #e88a5e;
+  --soft: #fbeede;
+  --page: #fffdfb;
+  --line: #f1e7dd;
+  --mut: #b6a594;
+  --chip: #fff3e9;
+  --ink: #6a5747;
+
+  // ─────── 結構 / 元件 token ───────
+  // app 整體米色漸層底
+  --app-bg: radial-gradient(
+    1200px 600px at 50% -10%,
+    #f6f0e8 0%,
+    #ece2d6 60%,
+    #e6dccf 100%
+  );
+
+  // 頁面底色（比 page 略帶米感）
+  --page-bg: #efe7dd;
+
+  // Squircle 按鈕常駐漸層底（未選中）
+  --cat-bg: linear-gradient(160deg, #ffffff, var(--soft));
+  --cat-shadow:
+    0 5px 13px -5px rgba(160, 110, 70, 0.32),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+
+  // Squircle 按鈕選中狀態（加深米橘漸層發光）
+  --cat-on-bg: linear-gradient(160deg, var(--acc2), var(--acc));
+  --cat-on-shadow:
+    0 11px 19px -6px rgba(198, 106, 60, 0.6);
+
+  // 玻璃高光：卡片頂部半透明白光
+  --glass-highlight: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.42),
+    transparent
+  );
+
+  // 遊戲卡背景（對齊設計稿 .g-bg）
+  --gcard-bg: radial-gradient(
+    120% 140% at 88% 30%,
+    var(--soft) 0%,
+    color-mix(in oklab, var(--soft), #ffffff 30%) 45%,
+    var(--page) 100%
+  );
+
+  // 公告條底
+  --notice-bg: rgba(255, 248, 242, 0.9);
+  --notice-line: rgba(198, 106, 60, 0.2);
+
+  // 快捷 icon 球底
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(232, 138, 94, 0.2),
+    rgba(198, 106, 60, 0.15)
+  );
+  --qa-ico-line: rgba(198, 106, 60, 0.25);
+
+  // 在線人數數字色
+  --online-num: #c66a3c;
+
+  // tabbar 底（亮色底加毛玻璃）
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 253, 251, 0.85),
+    rgba(255, 248, 242, 0.96)
+  );
+  --tabbar-line: rgba(198, 106, 60, 0.15);
+
+  // tabbar 中央凸出球
+  --tabbar-center-bg: linear-gradient(160deg, #e88a5e, #c66a3c);
+
+  // CTA 按鈕文字（對比白字）
+  --text-on-primary: #ffffff;
+
+  // desktop nav 底
+  --nav-bg: linear-gradient(
+    180deg,
+    rgba(255, 253, 251, 0.96),
+    rgba(255, 248, 242, 0.98)
+  );
+  --nav-line: rgba(198, 106, 60, 0.15);
+  --footer-bg: #f0e6da;
+  --section-soft: #fdf6f0;
+
+  // 字體（對齊原稿）
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

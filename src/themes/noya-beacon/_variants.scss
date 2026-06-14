@@ -1,0 +1,118 @@
+// noya-beacon 版面替代配色
+// [data-theme="noya-beacon"][data-theme-color="xxx"] 雙重 selector
+
+// 翡翠綠：emerald 清新翡翠調
+[data-theme="noya-beacon"][data-theme-color="emerald"] {
+  --color-primary: #3f8a6e;
+  --color-secondary: #5fab8b;
+  --color-accent: #9fd6be;
+  --bg-base: #f0f7f3;
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(63, 138, 110, 0.1);
+  --text-primary: #2a3d36;
+  --text-muted: #6a8c7e;
+  --border: rgba(63, 138, 110, 0.2);
+  --shadow: 0 8px 20px rgba(30, 70, 55, 0.12);
+  --gradient-hero: linear-gradient(120deg, #e4f1ea 0%, #d0e8dc 100%);
+  --gradient-cta: linear-gradient(135deg, #5fab8b, #3f8a6e);
+  --acc: #3f8a6e;
+  --acc2: #5fab8b;
+  --soft: #e4f1ea;
+  --page: #fbfefc;
+  --ink: #44574e;
+  --mut: #9bb6a8;
+  --line: #e2ede7;
+  --chip: #ecf6f0;
+  --app-bg: linear-gradient(160deg, #f4faf7 0%, #edf7f2 50%, #f0f8f5 100%);
+  --ink-soft: #6a8c7e;
+  --ink-mute: #9bb6a8;
+  --glass: rgba(63, 138, 110, 0.07);
+  --glass-line: rgba(63, 138, 110, 0.18);
+  --glow: rgba(95, 171, 139, 0.45);
+  --brand-mark-bg: linear-gradient(150deg, #5fab8b, #3f8a6e);
+  --pill-solid-bg: linear-gradient(135deg, #5fab8b, #3f8a6e);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(218, 240, 232, 0.9),
+    rgba(200, 230, 218, 0.9)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(95, 171, 139, 0.2),
+    rgba(63, 138, 110, 0.14)
+  );
+  --tab-active-bg: #e4f1ea;
+  --gcard-bg: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #e4f1ea 55%,
+    rgba(95, 171, 139, 0.35) 100%
+  );
+  --card-label-bar: #3f8a6e;
+  --card-sub: #5fab8b;
+  --online-num: #3f8a6e;
+  --tabbar-bg: rgba(244, 250, 247, 0.96);
+  --tabbar-center-bg: linear-gradient(160deg, #5fab8b, #3f8a6e);
+  --text-on-primary: #ffffff;
+  --nav-bg: rgba(244, 250, 247, 0.97);
+  --footer-bg: #e4f1ea;
+  --section-soft: #f2faf6;
+}
+
+// 梅紫：plum 優雅梅紫調
+[data-theme="noya-beacon"][data-theme-color="plum"] {
+  --color-primary: #9d4f86;
+  --color-secondary: #c074aa;
+  --color-accent: #ddb0ce;
+  --bg-base: #faf4f8;
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(157, 79, 134, 0.1);
+  --text-primary: #3d2a38;
+  --text-muted: #8a6280;
+  --border: rgba(157, 79, 134, 0.2);
+  --shadow: 0 8px 20px rgba(80, 30, 70, 0.12);
+  --gradient-hero: linear-gradient(120deg, #f4e7f0 0%, #ead4e6 100%);
+  --gradient-cta: linear-gradient(135deg, #c074aa, #9d4f86);
+  --acc: #9d4f86;
+  --acc2: #c074aa;
+  --soft: #f4e7f0;
+  --page: #fffbfe;
+  --ink: #5a4654;
+  --mut: #b297aa;
+  --line: #efe1ec;
+  --chip: #f7ebf3;
+  --app-bg: linear-gradient(160deg, #fdf5fb 0%, #f7ecf4 50%, #faf2f8 100%);
+  --ink-soft: #8a6280;
+  --ink-mute: #b297aa;
+  --glass: rgba(157, 79, 134, 0.07);
+  --glass-line: rgba(157, 79, 134, 0.18);
+  --glow: rgba(192, 116, 170, 0.45);
+  --brand-mark-bg: linear-gradient(150deg, #c074aa, #9d4f86);
+  --pill-solid-bg: linear-gradient(135deg, #c074aa, #9d4f86);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(244, 230, 240, 0.9),
+    rgba(234, 214, 230, 0.9)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(192, 116, 170, 0.2),
+    rgba(157, 79, 134, 0.14)
+  );
+  --tab-active-bg: #f4e7f0;
+  --gcard-bg: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #f4e7f0 55%,
+    rgba(192, 116, 170, 0.35) 100%
+  );
+  --card-label-bar: #9d4f86;
+  --card-sub: #c074aa;
+  --online-num: #9d4f86;
+  --tabbar-bg: rgba(253, 245, 251, 0.96);
+  --tabbar-center-bg: linear-gradient(160deg, #c074aa, #9d4f86);
+  --text-on-primary: #ffffff;
+  --nav-bg: rgba(253, 245, 251, 0.97);
+  --footer-bg: #f4e7f0;
+  --section-soft: #fdf5fb;
+}
