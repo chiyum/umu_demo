@@ -31,6 +31,11 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    # theme 數量成長到 41 套 + 大量預覽 PNG 後，vite/rollup + sass 編譯峰值記憶體
+    # 會超過 runner 預設 ~4GB Node heap 而 OOM（exit 134）。ubuntu runner 有 16GB RAM，
+    # 把 old space 拉到 8GB 給 build 與 install 用，避免 JavaScript heap out of memory。
+    env:
+      NODE_OPTIONS: --max-old-space-size=8192
     steps:
       # 取出原始碼
       - name: Checkout
