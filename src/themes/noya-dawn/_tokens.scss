@@ -1,0 +1,116 @@
+// noya-dawn（蜜桃晨曦）token 主檔
+// 主視覺特徵：近白米暖底（light theme），蜜桃晨曦 accent
+//   - 近白米底 #fdf6f0 / app radial #fff8f4 → #fdf4ed → #faeee4
+//   - 亮蜜桃 accent #ef8a5c / #f5a07a
+//   - 淡暖橘玻璃卡片 rgba(240,130,88,.12) + 桃邊 rgba(240,130,88,.22)
+//   - 文字三階 #2a1810 / #7c4a30 / #c08060
+//   - 遊戲卡暖漸層 + 水印大字
+// 因 app 底色為淺米白 → brightness 判定為 light
+// 配色三變體：
+//   peach  預設 — 蜜桃晨曦（原始基準）
+//   rose   玫瑰晨光 — accent 改玫瑰紅
+//   sand   沙金 — accent 改沙金色
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-dawn"] {
+  // ─────── 12 公約變數（預設 peach）───────
+  --color-primary: #ef8a5c; // 蜜桃主色
+  --color-secondary: #f5a07a; // 高光蜜桃
+  --color-accent: #fac4a4; // 淺蜜桃點
+  --bg-base: #fdf6f0; // 頁面最底（近白米）
+  --bg-surface: #fff8f4; // 卡片白
+  --bg-overlay: rgba(240, 130, 88, 0.1); // 玻璃感半透明暖橘
+  --text-primary: #2a1810; // 主文字（深棕）
+  --text-muted: #7c4a30; // 次要文字（中棕）
+  --border: rgba(240, 130, 88, 0.22); // 桃邊
+  --shadow: 0 6px 20px rgba(100, 40, 20, 0.1); // 暖橘陰影
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    rgba(255, 200, 160, 0.5) 0%,
+    rgba(255, 200, 160, 0) 60%
+  ); // app 頂部柔光
+
+  --gradient-cta: linear-gradient(180deg, #ef8a5c, #d96a3a); // 蜜桃 CTA
+
+  // ─────── 結構 / 對比 token（元件走 var()）───────
+  // app 整體近白米暖漸層底
+  --app-bg:
+    radial-gradient(
+      120% 50% at 50% -4%,
+      rgba(255, 200, 160, 0.38) 0%,
+      rgba(255, 200, 160, 0) 60%
+    ),
+    linear-gradient(180deg, #fff8f4 0%, #fdf4ed 48%, #faeee4 100%);
+  --ink-soft: #7c4a30; // 次要文字
+  --ink-mute: #c08060; // 三級 / label
+
+  // 玻璃卡（淡暖橘）
+  --glass: rgba(240, 130, 88, 0.08);
+  --glass-line: rgba(240, 130, 88, 0.22);
+  --glow: rgba(240, 130, 88, 0.3); // active 暖光
+
+  // 品牌 mark 方塊漸層
+  --brand-mark-bg: linear-gradient(150deg, #ef8a5c, #c85e32);
+
+  // 登入 pill solid
+  --pill-solid-bg: linear-gradient(180deg, #ef8a5c, #d96a3a);
+
+  // 公告條底
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(255, 220, 196, 0.5),
+    rgba(250, 200, 170, 0.5)
+  );
+
+  // 快捷 icon 球底
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(240, 130, 88, 0.18),
+    rgba(220, 100, 60, 0.12)
+  );
+
+  // active tab 底（淡蜜桃 tint）
+  --tab-active-bg: rgba(239, 138, 92, 0.14);
+
+  // 佔位遊戲卡暖漸層底
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 92% 40%,
+      rgba(240, 160, 100, 0.25) 0%,
+      rgba(250, 220, 190, 0) 58%
+    ),
+    linear-gradient(120deg, #fdf0e4 0%, #faeae0 45%, #f8e4d6 100%);
+
+  // 卡片左側標題 accent bar
+  --card-label-bar: #ef8a5c;
+  --card-sub: #c08060;
+
+  // 在線人數數字色
+  --online-num: #ef8a5c;
+
+  // tabbar 底（淺白帶暖橘頂邊）
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 248, 244, 0.94),
+    rgba(250, 240, 232, 0.98)
+  );
+
+  // tabbar 中央凸出球（蜜桃漸層）
+  --tabbar-center-bg: linear-gradient(160deg, #ef8a5c, #c85e32);
+
+  // 落在蜜桃 CTA 上的對比文字
+  --text-on-primary: #ffffff;
+
+  // desktop 補做用
+  --nav-bg: linear-gradient(180deg, #fff8f4 0%, #fdf6f0 100%);
+  --footer-bg: #f8ede2;
+  --section-soft: #fdf0e6;
+
+  // 字體
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

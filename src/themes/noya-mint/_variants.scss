@@ -1,0 +1,85 @@
+// noya-mint 版面替代配色
+// [data-theme="noya-mint"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫元件實際讀到的對比 token，避免切換殘色。
+
+// 晴空藍：accent 改晴空藍，清新科技感
+[data-theme="noya-mint"][data-theme-color="sky"] {
+  --color-primary: #3f9fe0; // 晴空藍
+  --color-secondary: #2d8bcc; // 深一階晴空
+  --color-accent: #8ecff4; // 淺藍亮點
+  --bg-base: #f4faff; // 極淺晴空底
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(63, 159, 224, 0.08);
+  --text-primary: #1a2a3e;
+  --text-muted: #4a6e88;
+  --border: rgba(63, 159, 224, 0.2);
+  --shadow: 0 4px 16px rgba(30, 80, 130, 0.08);
+  --gradient-hero: linear-gradient(
+    135deg,
+    rgba(63, 159, 224, 0.12) 0%,
+    rgba(63, 159, 224, 0) 60%
+  );
+  --gradient-cta: linear-gradient(135deg, #3f9fe0, #2070b8);
+  --app-bg: linear-gradient(180deg, #eef7ff 0%, #f4faff 100%);
+  --ink-soft: #4a6e88;
+  --ink-mute: #7aa0b8;
+  --glass: rgba(255, 255, 255, 0.9);
+  --glass-line: rgba(63, 159, 224, 0.18);
+  --glow: rgba(63, 159, 224, 0.3);
+  --brand-mark-bg: linear-gradient(135deg, #3f9fe0, #2070b8);
+  --pill-solid-bg: linear-gradient(135deg, #3f9fe0, #2070b8);
+  --notice-bg: rgba(63, 159, 224, 0.07);
+  --qa-ico-bg: rgba(63, 159, 224, 0.1);
+  --tab-active-bg: rgba(63, 159, 224, 0.06);
+  --gcard-bg: linear-gradient(135deg, #f0f8ff 0%, #e4f2fc 100%);
+  --card-label-bar: #3f9fe0;
+  --card-sub: #2d8bcc;
+  --online-num: #3f9fe0;
+  --tabbar-bg: rgba(255, 255, 255, 0.96);
+  --tabbar-center-bg: linear-gradient(135deg, #3f9fe0, #2070b8);
+  --text-on-primary: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.97);
+  --footer-bg: #f0f6fc;
+  --section-soft: #f4faff;
+}
+
+// 檸檬黃：accent 改暖檸檬黃，活力愉快感
+[data-theme="noya-mint"][data-theme-color="lemon"] {
+  --color-primary: #e0b84e; // 檸檬黃
+  --color-secondary: #c9a238; // 深一階琥珀黃
+  --color-accent: #f0d488; // 淺黃亮點
+  --bg-base: #fffdf4; // 極淺暖白底
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(224, 184, 78, 0.08);
+  --text-primary: #2e2010;
+  --text-muted: #6e5a30;
+  --border: rgba(224, 184, 78, 0.25);
+  --shadow: 0 4px 16px rgba(160, 120, 20, 0.1);
+  --gradient-hero: linear-gradient(
+    135deg,
+    rgba(224, 184, 78, 0.14) 0%,
+    rgba(224, 184, 78, 0) 60%
+  );
+  --gradient-cta: linear-gradient(135deg, #e0b84e, #c08828);
+  --app-bg: linear-gradient(180deg, #fffde8 0%, #fffdf4 100%);
+  --ink-soft: #6e5a30;
+  --ink-mute: #a09060;
+  --glass: rgba(255, 255, 255, 0.9);
+  --glass-line: rgba(224, 184, 78, 0.22);
+  --glow: rgba(224, 184, 78, 0.35);
+  --brand-mark-bg: linear-gradient(135deg, #e0b84e, #c08828);
+  --pill-solid-bg: linear-gradient(135deg, #e0b84e, #c08828);
+  --notice-bg: rgba(224, 184, 78, 0.08);
+  --qa-ico-bg: rgba(224, 184, 78, 0.12);
+  --tab-active-bg: rgba(224, 184, 78, 0.07);
+  --gcard-bg: linear-gradient(135deg, #fffde4 0%, #fff8d0 100%);
+  --card-label-bar: #e0b84e;
+  --card-sub: #c9a238;
+  --online-num: #c9a238;
+  --tabbar-bg: rgba(255, 255, 255, 0.97);
+  --tabbar-center-bg: linear-gradient(135deg, #e0b84e, #c08828);
+  --text-on-primary: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.97);
+  --footer-bg: #fffef0;
+  --section-soft: #fffdf4;
+}

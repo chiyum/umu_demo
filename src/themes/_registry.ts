@@ -45,6 +45,8 @@ import type {
  *   a19 大亨赤焰紅金（daheng-crimson）/ a20 大亨鈦灰琥珀（daheng-titan）/ a21 大亨冰川晨藍（daheng-glacier）
  *   b01 AT99（honest-at）/ b02 AT Deluxe（at-deluxe）
  *   c01 暖金（noya）/ c02 FG（honest-no6）/ c03 橫向列表（dahsing-horizontal）/ c04 諾亞米色（noya-beige）/ c05 諾亞藍（noya-blue）
+ *   c06 諾亞翡翠（noya-jade）/ c07 諾亞晨曦（noya-dawn）/ c08 諾亞琉金（noya-lux）/ c09 諾亞櫻（noya-sakura）/ c10 諾亞極光（noya-aurora）
+ *   c11 諾亞墨竹（noya-ink）/ c12 諾亞鈦銀（noya-steel）/ c13 諾亞珊瑚（noya-reef）/ c14 諾亞星夜（noya-starlit）/ c15 諾亞薄荷（noya-mint）
  *   d01 體育博彩（ant-sport）
  *   e01 越南 VIP（vietvip）/ e02 5D（fived）
  */
@@ -1445,6 +1447,330 @@ const dahengGlacier: ThemeMeta = {
   releaseDate: DAHENG_AWD2_RELEASE_DATES.glacier
 };
 
+/**
+ * 諾亞真人視訊第二批 10 版型（c06 ~ c15）
+ *
+ * 設計主軸：參考既有 c03（橫向列表）/ c04（諾亞米色）/ c05（諾亞藍）的
+ * 「左分類按鈕欄 + 右卡片頁面」雙欄真人廳結構，做 10 個獨立配色 / 質感變體
+ *   - 5 dark：c06 翡翠 / c08 琉金 / c10 極光 / c12 鈦銀 / c14 星夜
+ *   - 5 light：c07 晨曦 / c09 櫻 / c11 墨竹 / c13 珊瑚 / c15 薄荷
+ *
+ * 共同特性：
+ * - 每個 theme 完全自包含（desktop.vue / mobile.vue / _tokens.scss / _variants.scss /
+ *   _data.ts / index.ts / assets），不共用 shared 目錄
+ * - 每款各自帶三色票（default + 兩變體），color machine key 已與各自 _tokens 預設區塊、
+ *   _variants 的 `[data-theme-color="xxx"]` 逐一核對一致
+ * - logos 統一 SHARED_LOGOS（dahsing / umu / long-heng），defaultLogo = umu（諾亞品牌調性）
+ * - previews 採 buildPreviews（不帶實際色變體截圖；缺檔由 getPreview fallback 鏈處理不破圖）
+ *
+ * 排程上架（依規約：每天 2 版，起始日 6/15）：
+ *   6/15：jade（c06 翡翠）+ dawn（c07 晨曦）
+ *   6/16：lux（c08 琉金）+ sakura（c09 櫻）
+ *   6/17：aurora（c10 極光）+ ink（c11 墨竹）
+ *   6/18：steel（c12 鈦銀）+ reef（c13 珊瑚）
+ *   6/19：starlit（c14 星夜）+ mint（c15 薄荷）
+ *
+ * 為什麼集中宣告排程常數表（同 daheng 批做法）：
+ * - 10 個日期集中一處方便日後微調批次
+ * - 與 theme 本體分離後，未來要把欄位從 registry 改抽到 cms 也容易
+ */
+const NOYA_LIVE_V2_RELEASE_DATES = {
+  jade: "2026-06-15",
+  dawn: "2026-06-15",
+  lux: "2026-06-16",
+  sakura: "2026-06-16",
+  aurora: "2026-06-17",
+  ink: "2026-06-17",
+  steel: "2026-06-18",
+  reef: "2026-06-18",
+  starlit: "2026-06-19",
+  mint: "2026-06-19"
+} as const;
+
+/** noya-jade 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_JADE_COLORS: ColorVariant[] = [
+  { key: "jade", label: "翡翠綠金", swatch: "#1f9d6b" },
+  { key: "forest", label: "森林墨綠", swatch: "#0f7a52" },
+  { key: "aqua", label: "碧金青", swatch: "#14b3a6" }
+];
+
+const noyaJade: ThemeMeta = {
+  key: "noya-jade",
+  label: "c06 · 諾亞翡翠",
+  description:
+    "諾亞翡翠真人廳，深綠玻璃底 + 翡翠綠金描邊左分類按鈕欄 + 右真人卡片頁面，預設翡翠綠金 / 森林墨綠 / 碧金青三種配色",
+  desktop: () => import("./noya-jade/desktop.vue"),
+  mobile: () => import("./noya-jade/mobile.vue"),
+  defaultColor: "jade",
+  colors: NOYA_JADE_COLORS,
+  previews: buildPreviews("noya-jade"),
+  // 色變體截圖：跳過 default（jade），只列 forest / aqua
+  colorPreviews: buildColorPreviews("noya-jade", NOYA_JADE_COLORS, "jade"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 深綠玻璃底
+  brightness: "dark",
+  // 真人視訊大廳為主視覺
+  categories: ["live"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.jade
+};
+
+/** noya-dawn 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_DAWN_COLORS: ColorVariant[] = [
+  { key: "peach", label: "蜜桃晨曦", swatch: "#ef8a5c" },
+  { key: "rose", label: "玫瑰晨光", swatch: "#e87a8e" },
+  { key: "sand", label: "沙金", swatch: "#d9a45c" }
+];
+
+const noyaDawn: ThemeMeta = {
+  key: "noya-dawn",
+  label: "c07 · 諾亞晨曦",
+  description:
+    "諾亞晨曦真人廳，蜜桃暖光淺底 + 圓潤左分類按鈕欄 + 右柔光真人卡片頁面，預設蜜桃晨曦 / 玫瑰晨光 / 沙金三種配色",
+  desktop: () => import("./noya-dawn/desktop.vue"),
+  mobile: () => import("./noya-dawn/mobile.vue"),
+  defaultColor: "peach",
+  colors: NOYA_DAWN_COLORS,
+  previews: buildPreviews("noya-dawn"),
+  // 色變體截圖：跳過 default（peach），只列 rose / sand
+  colorPreviews: buildColorPreviews("noya-dawn", NOYA_DAWN_COLORS, "peach"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 蜜桃暖光淺底
+  brightness: "light",
+  categories: ["live"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.dawn
+};
+
+/** noya-lux 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_LUX_COLORS: ColorVariant[] = [
+  { key: "champagne", label: "香檳燙金", swatch: "#d9b86a" },
+  { key: "rosegold", label: "玫瑰燙金", swatch: "#e0a880" },
+  { key: "platinum", label: "鉑金白", swatch: "#c9ccd2" }
+];
+
+const noyaLux: ThemeMeta = {
+  key: "noya-lux",
+  label: "c08 · 諾亞琉金",
+  description:
+    "諾亞琉金真人廳，曜黑底 + 香檳燙金細邊左分類按鈕欄 + 右金框奢華真人卡片頁面，預設香檳燙金 / 玫瑰燙金 / 鉑金白三種配色",
+  desktop: () => import("./noya-lux/desktop.vue"),
+  mobile: () => import("./noya-lux/mobile.vue"),
+  defaultColor: "champagne",
+  colors: NOYA_LUX_COLORS,
+  previews: buildPreviews("noya-lux"),
+  // 色變體截圖：跳過 default（champagne），只列 rosegold / platinum
+  colorPreviews: buildColorPreviews("noya-lux", NOYA_LUX_COLORS, "champagne"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 曜黑燙金底
+  brightness: "dark",
+  // 燙金奢華真人廳 → live + luxury 兩個面向
+  categories: ["live", "luxury"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.lux
+};
+
+/** noya-sakura 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_SAKURA_COLORS: ColorVariant[] = [
+  { key: "sakura", label: "櫻粉", swatch: "#e86b9e" },
+  { key: "peony", label: "牡丹紅", swatch: "#d8455f" },
+  { key: "lilac", label: "薰衣草紫", swatch: "#a07cd6" }
+];
+
+const noyaSakura: ThemeMeta = {
+  key: "noya-sakura",
+  label: "c09 · 諾亞櫻",
+  description:
+    "諾亞櫻真人廳，櫻粉柔美淺底 + 花瓣感左分類按鈕欄 + 右粉嫩真人卡片頁面，預設櫻粉 / 牡丹紅 / 薰衣草紫三種配色",
+  desktop: () => import("./noya-sakura/desktop.vue"),
+  mobile: () => import("./noya-sakura/mobile.vue"),
+  defaultColor: "sakura",
+  colors: NOYA_SAKURA_COLORS,
+  previews: buildPreviews("noya-sakura"),
+  // 色變體截圖：跳過 default（sakura），只列 peony / lilac
+  colorPreviews: buildColorPreviews(
+    "noya-sakura",
+    NOYA_SAKURA_COLORS,
+    "sakura"
+  ),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 櫻粉柔美淺底
+  brightness: "light",
+  categories: ["live"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.sakura
+};
+
+/** noya-aurora 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_AURORA_COLORS: ColorVariant[] = [
+  { key: "aurora", label: "極光青紫", swatch: "#34e0d0" },
+  { key: "magenta", label: "洋紅電光", swatch: "#ff5ac8" },
+  { key: "violet", label: "紫電", swatch: "#8c7cff" }
+];
+
+const noyaAurora: ThemeMeta = {
+  key: "noya-aurora",
+  label: "c10 · 諾亞極光",
+  description:
+    "諾亞極光真人廳，深空底 + 霓虹描邊左分類按鈕欄 + 右青紫高光真人卡片頁面，預設極光青紫 / 洋紅電光 / 紫電三種配色",
+  desktop: () => import("./noya-aurora/desktop.vue"),
+  mobile: () => import("./noya-aurora/mobile.vue"),
+  defaultColor: "aurora",
+  colors: NOYA_AURORA_COLORS,
+  previews: buildPreviews("noya-aurora"),
+  // 色變體截圖：跳過 default（aurora），只列 magenta / violet
+  colorPreviews: buildColorPreviews(
+    "noya-aurora",
+    NOYA_AURORA_COLORS,
+    "aurora"
+  ),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 深空霓虹底
+  brightness: "dark",
+  categories: ["live"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.aurora
+};
+
+/** noya-ink 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_INK_COLORS: ColorVariant[] = [
+  { key: "jade", label: "墨竹翠", swatch: "#2f7d5e" },
+  { key: "vermillion", label: "硃砂紅", swatch: "#c8432e" },
+  { key: "indigo", label: "靛墨藍", swatch: "#2f4a7d" }
+];
+
+const noyaInk: ThemeMeta = {
+  key: "noya-ink",
+  label: "c11 · 諾亞墨竹",
+  description:
+    "諾亞墨竹真人廳，宣紙米白底 + 墨竹翠水墨左分類按鈕欄 + 右東方留白真人卡片頁面，預設墨竹翠 / 硃砂紅 / 靛墨藍三種配色",
+  desktop: () => import("./noya-ink/desktop.vue"),
+  mobile: () => import("./noya-ink/mobile.vue"),
+  defaultColor: "jade",
+  colors: NOYA_INK_COLORS,
+  previews: buildPreviews("noya-ink"),
+  // 色變體截圖：跳過 default（jade），只列 vermillion / indigo
+  colorPreviews: buildColorPreviews("noya-ink", NOYA_INK_COLORS, "jade"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 宣紙米白底
+  brightness: "light",
+  categories: ["live"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.ink
+};
+
+/** noya-steel 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_STEEL_COLORS: ColorVariant[] = [
+  { key: "amber", label: "鈦銀琥珀", swatch: "#d9a24b" },
+  { key: "cyan", label: "鈦青", swatch: "#4fc6d0" },
+  { key: "crimson", label: "鈦緋", swatch: "#e0566e" }
+];
+
+const noyaSteel: ThemeMeta = {
+  key: "noya-steel",
+  label: "c12 · 諾亞鈦銀",
+  description:
+    "諾亞鈦銀真人廳，鈦灰金屬深底 + 琥珀雙描邊左分類按鈕欄 + 右金屬質感真人卡片頁面，預設鈦銀琥珀 / 鈦青 / 鈦緋三種配色",
+  desktop: () => import("./noya-steel/desktop.vue"),
+  mobile: () => import("./noya-steel/mobile.vue"),
+  defaultColor: "amber",
+  colors: NOYA_STEEL_COLORS,
+  previews: buildPreviews("noya-steel"),
+  // 色變體截圖：跳過 default（amber），只列 cyan / crimson
+  colorPreviews: buildColorPreviews("noya-steel", NOYA_STEEL_COLORS, "amber"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 鈦灰金屬深底
+  brightness: "dark",
+  categories: ["live"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.steel
+};
+
+/** noya-reef 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_REEF_COLORS: ColorVariant[] = [
+  { key: "coral", label: "珊瑚橙", swatch: "#f0744e" },
+  { key: "mango", label: "芒果黃", swatch: "#eaa64e" },
+  { key: "berry", label: "莓果粉", swatch: "#e0668a" }
+];
+
+const noyaReef: ThemeMeta = {
+  key: "noya-reef",
+  label: "c13 · 諾亞珊瑚",
+  description:
+    "諾亞珊瑚真人廳，奶油淺底 + 珊瑚橙圓潤左分類按鈕欄 + 右明快活潑真人卡片頁面，預設珊瑚橙 / 芒果黃 / 莓果粉三種配色",
+  desktop: () => import("./noya-reef/desktop.vue"),
+  mobile: () => import("./noya-reef/mobile.vue"),
+  defaultColor: "coral",
+  colors: NOYA_REEF_COLORS,
+  previews: buildPreviews("noya-reef"),
+  // 色變體截圖：跳過 default（coral），只列 mango / berry
+  colorPreviews: buildColorPreviews("noya-reef", NOYA_REEF_COLORS, "coral"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 奶油淺底
+  brightness: "light",
+  categories: ["live"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.reef
+};
+
+/** noya-starlit 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_STARLIT_COLORS: ColorVariant[] = [
+  { key: "purple", label: "星夜紫", swatch: "#8a5cf0" },
+  { key: "nebula", label: "星雲粉", swatch: "#e06ab0" },
+  { key: "cosmos", label: "宇宙藍", swatch: "#5aa8ff" }
+];
+
+const noyaStarlit: ThemeMeta = {
+  key: "noya-starlit",
+  label: "c14 · 諾亞星夜",
+  description:
+    "諾亞星夜真人廳，深紫星空底 + 星點描邊左分類按鈕欄 + 右夢幻紫光真人卡片頁面，預設星夜紫 / 星雲粉 / 宇宙藍三種配色",
+  desktop: () => import("./noya-starlit/desktop.vue"),
+  mobile: () => import("./noya-starlit/mobile.vue"),
+  defaultColor: "purple",
+  colors: NOYA_STARLIT_COLORS,
+  previews: buildPreviews("noya-starlit"),
+  // 色變體截圖：跳過 default（purple），只列 nebula / cosmos
+  colorPreviews: buildColorPreviews(
+    "noya-starlit",
+    NOYA_STARLIT_COLORS,
+    "purple"
+  ),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 深紫星空底
+  brightness: "dark",
+  categories: ["live"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.starlit
+};
+
+/** noya-mint 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
+const NOYA_MINT_COLORS: ColorVariant[] = [
+  { key: "mint", label: "薄荷綠", swatch: "#2fb98a" },
+  { key: "sky", label: "晴空藍", swatch: "#3f9fe0" },
+  { key: "lemon", label: "檸檬黃", swatch: "#e0b84e" }
+];
+
+const noyaMint: ThemeMeta = {
+  key: "noya-mint",
+  label: "c15 · 諾亞薄荷",
+  description:
+    "諾亞薄荷真人廳，清爽白底 + 薄荷綠圓角左分類按鈕欄 + 右清新通透真人卡片頁面，預設薄荷綠 / 晴空藍 / 檸檬黃三種配色",
+  desktop: () => import("./noya-mint/desktop.vue"),
+  mobile: () => import("./noya-mint/mobile.vue"),
+  defaultColor: "mint",
+  colors: NOYA_MINT_COLORS,
+  previews: buildPreviews("noya-mint"),
+  // 色變體截圖：跳過 default（mint），只列 sky / lemon
+  colorPreviews: buildColorPreviews("noya-mint", NOYA_MINT_COLORS, "mint"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 清爽白底
+  brightness: "light",
+  categories: ["live"],
+  releaseDate: NOYA_LIVE_V2_RELEASE_DATES.mint
+};
+
 /** 對外暴露的 theme 表，key 是 layoutKey */
 export const themes: Record<string, ThemeMeta> = {
   noya,
@@ -1477,7 +1803,17 @@ export const themes: Record<string, ThemeMeta> = {
   "daheng-coral": dahengCoral,
   "daheng-crimson": dahengCrimson,
   "daheng-titan": dahengTitan,
-  "daheng-glacier": dahengGlacier
+  "daheng-glacier": dahengGlacier,
+  "noya-jade": noyaJade,
+  "noya-dawn": noyaDawn,
+  "noya-lux": noyaLux,
+  "noya-sakura": noyaSakura,
+  "noya-aurora": noyaAurora,
+  "noya-ink": noyaInk,
+  "noya-steel": noyaSteel,
+  "noya-reef": noyaReef,
+  "noya-starlit": noyaStarlit,
+  "noya-mint": noyaMint
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */

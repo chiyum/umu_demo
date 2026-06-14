@@ -352,7 +352,7 @@ VUE_VITE_TS_START/                # 專案根目錄
 4. 該主類別還沒有 theme → 從 `01` 起算
 5. 編號**一旦發布後不再改動**（重編會打散 sales demo 對外展示的順序記憶）
 
-#### 現有 theme 編號對照（31 個）
+#### 現有 theme 編號對照（41 個）
 
 | label | key | 主類別 |
 |---|---|---|
@@ -384,6 +384,16 @@ VUE_VITE_TS_START/                # 專案根目錄
 | `c03 · 橫向列表` | `dahsing-horizontal` | live |
 | `c04 · 諾亞米色` | `noya-beige` | live |
 | `c05 · 諾亞藍` | `noya-blue` | live |
+| `c06 · 諾亞翡翠` | `noya-jade` | live |
+| `c07 · 諾亞晨曦` | `noya-dawn` | live |
+| `c08 · 諾亞琉金` | `noya-lux` | live |
+| `c09 · 諾亞櫻` | `noya-sakura` | live |
+| `c10 · 諾亞極光` | `noya-aurora` | live |
+| `c11 · 諾亞墨竹` | `noya-ink` | live |
+| `c12 · 諾亞鈦銀` | `noya-steel` | live |
+| `c13 · 諾亞珊瑚` | `noya-reef` | live |
+| `c14 · 諾亞星夜` | `noya-starlit` | live |
+| `c15 · 諾亞薄荷` | `noya-mint` | live |
 | `d01 · 體育博彩` | `ant-sport` | sports |
 | `e01 · 越南 VIP` | `vietvip` | luxury |
 | `e02 · 5D` | `fived` | luxury |
@@ -472,9 +482,19 @@ src/themes/
 ├── daheng-titan/            # 大亨鈦灰琥珀（a20，鈦灰深底 + 琥珀金屬雙描邊，dark）；對齊 AWD 版型H，desktop = 左側類別 rail 橫展 170px sticky + 內容（熱門館別斜切卡 3~4 欄/壓縮 banner/3 數據條），mobile = 窄 64px 圖示 rail + 卡 2 欄 + 底部 dock；熱門館別排在 hero 之前
 │   ├── _data.ts             # 類別 rail / 熱門館別圓角斜切卡 / 壓縮 banner / 3 數據條 / footer 共用資料
 │   └── assets/              # banner + 館別切片素材
-└── daheng-glacier/          # 大亨冰川晨藍（a21，純白卡片 + 淺藍漸層底清爽，light）；對齊 AWD 版型I，desktop = 內容欄 + 右側類別 rail 78px sticky（人氣館別圓頂雪窗卡 3~4 欄/壓縮 banner/橫向優惠），mobile = 右側窄 rail + 卡 2 欄 + 底部 dock 膠囊；熱門館別排在 hero 之前
-    ├── _data.ts             # 類別 rail / 本週人氣館別圓頂雪窗卡 / 壓縮 banner / 橫向優惠 / footer 共用資料
-    └── assets/              # banner + 館別切片素材
+├── daheng-glacier/          # 大亨冰川晨藍（a21，純白卡片 + 淺藍漸層底清爽，light）；對齊 AWD 版型I，desktop = 內容欄 + 右側類別 rail 78px sticky（人氣館別圓頂雪窗卡 3~4 欄/壓縮 banner/橫向優惠），mobile = 右側窄 rail + 卡 2 欄 + 底部 dock 膠囊；熱門館別排在 hero 之前
+│   ├── _data.ts             # 類別 rail / 本週人氣館別圓頂雪窗卡 / 壓縮 banner / 橫向優惠 / footer 共用資料
+│   └── assets/              # banner + 館別切片素材
+├── noya-jade/               # 諾亞翡翠（c06，深綠玻璃底 + 翡翠綠金描邊，dark）；參考 c03/c04/c05「左分類按鈕欄 + 右卡片頁面」雙欄真人廳變體
+├── noya-dawn/               # 諾亞晨曦（c07，蜜桃暖光淺底 + 圓潤按鈕欄，light）
+├── noya-lux/                # 諾亞琉金（c08，曜黑底 + 香檳燙金細邊 + 金框真人卡，dark）
+├── noya-sakura/             # 諾亞櫻（c09，櫻粉柔美淺底 + 花瓣感按鈕欄，light）
+├── noya-aurora/             # 諾亞極光（c10，深空底 + 霓虹描邊 + 青紫高光卡，dark）
+├── noya-ink/                # 諾亞墨竹（c11，宣紙米白底 + 墨竹翠水墨按鈕欄 + 東方留白卡，light）
+├── noya-steel/              # 諾亞鈦銀（c12，鈦灰金屬深底 + 琥珀雙描邊，dark）
+├── noya-reef/               # 諾亞珊瑚（c13，奶油淺底 + 珊瑚橙圓潤按鈕欄，light）
+├── noya-starlit/            # 諾亞星夜（c14，深紫星空底 + 星點描邊 + 夢幻紫光卡，dark）
+└── noya-mint/               # 諾亞薄荷（c15，清爽白底 + 薄荷綠圓角按鈕欄，light）
 ```
 
 > **fuyou / noya-beige / noya-blue 三 theme 的「跨裝置補做」規約**：
@@ -501,6 +521,15 @@ src/themes/
 > - 原稿 A/B/C/D 版型切換浮標（.vswitch）**未移植**
 > - `daheng-night`（版型 D）為 **JS 驅動 SVG 場景**：canvas 星空粒子背景 + 全 inline SVG 遊戲卡，無 PNG 素材，無 `assets/` 目錄；其餘 5 theme 各自帶 `assets/`
 > - 每個 theme 各自帶 `assets`，不共用 daheng-shared；header / sidebar / rail logo 都接 `useDemoThemeStore().currentLogo`
+
+> **諾亞真人視訊第二批 c06~c15 十 theme 規約（live 類）**：
+> - 設計主軸：參考既有 `c03`（橫向列表）/ `c04`（諾亞米色）/ `c05`（諾亞藍）的「左分類按鈕欄 + 右卡片頁面」雙欄真人廳結構，做 10 個精緻配色 / 質感變體
+>   - 5 dark：`c06 noya-jade` 翡翠 / `c08 noya-lux` 琉金 / `c10 noya-aurora` 極光 / `c12 noya-steel` 鈦銀 / `c14 noya-starlit` 星夜
+>   - 5 light：`c07 noya-dawn` 晨曦 / `c09 noya-sakura` 櫻 / `c11 noya-ink` 墨竹 / `c13 noya-reef` 珊瑚 / `c15 noya-mint` 薄荷
+> - 每個 theme 完全自包含（desktop.vue / mobile.vue / _tokens.scss / _variants.scss / _data.ts / index.ts / assets），不共用 shared 目錄
+> - 全部 live 類，logos 統一 `SHARED_LOGOS`、`defaultLogo = umu`（諾亞品牌調性），previews 採 `buildPreviews`（不帶實際色變體截圖，缺檔由 `getPreview` fallback 不破圖）
+> - 每款各帶三色票（default + 兩變體），color machine key 已與各自 `_tokens` 預設區塊、`_variants` 的 `[data-theme-color="xxx"]` 逐一核對一致
+> - **排程分批上架**（每天 2 版，起始日 6/15）：6/15 `noya-jade` + `noya-dawn`；6/16 `noya-lux` + `noya-sakura`；6/17 `noya-aurora` + `noya-ink`；6/18 `noya-steel` + `noya-reef`；6/19 `noya-starlit` + `noya-mint`（`releaseDate` 控主頁顯示，`/demo/<key>` 直連與 `?preview=1` query 不擋）
 
 ### 新增第三個版面流程
 
@@ -574,6 +603,19 @@ dahsing-waterfall / tabs / horizontal 共用 sidebar / hot-bar / 卡片 fire tag
 - `/demo/dahsing-waterfall?color=copper` — 大亨瀑布流（copper 經典）
 - `/demo/dahsing-tabs` — 大亨分頁切換
 - `/demo/dahsing-horizontal` — 大亨橫向列表
+
+諾亞真人視訊第二批（c06~c15，依排程上架；上架前可帶 `?preview=1` 直連預覽）：
+
+- `/demo/noya-jade` — c06 諾亞翡翠（翡翠綠金，dark）
+- `/demo/noya-dawn` — c07 諾亞晨曦（蜜桃晨曦，light）
+- `/demo/noya-lux` — c08 諾亞琉金（香檳燙金，dark）
+- `/demo/noya-sakura` — c09 諾亞櫻（櫻粉，light）
+- `/demo/noya-aurora` — c10 諾亞極光（極光青紫，dark）
+- `/demo/noya-ink` — c11 諾亞墨竹（墨竹翠，light）
+- `/demo/noya-steel` — c12 諾亞鈦銀（鈦銀琥珀，dark）
+- `/demo/noya-reef` — c13 諾亞珊瑚（珊瑚橙，light）
+- `/demo/noya-starlit` — c14 諾亞星夜（星夜紫，dark）
+- `/demo/noya-mint` — c15 諾亞薄荷（薄荷綠，light）
 
 ### Logo 候選與切換（v4：三 theme 統一三 logo）
 

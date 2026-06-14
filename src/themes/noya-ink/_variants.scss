@@ -1,0 +1,137 @@
+// noya-ink 版面替代配色
+// [data-theme="noya-ink"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫元件實際讀到的對比 token，避免切換殘色。
+
+// vermillion：硃砂紅 — 主色改為硃砂紅（更熱烈的東方印章感）
+[data-theme="noya-ink"][data-theme-color="vermillion"] {
+  --color-primary: #c8432e; // 硃砂紅
+  --color-secondary: #e05a42; // 亮硃砂
+  --color-accent: #9e2a1c; // 深硃砂
+  --bg-base: #f5ece8; // 淡桃紙底
+  --bg-surface: #ede0d8; // 卡片桃色米底
+  --bg-overlay: rgba(200, 67, 46, 0.08);
+  --text-primary: #1a0c08;
+  --text-muted: #5a3428;
+  --border: rgba(200, 67, 46, 0.4);
+  --shadow: 0 8px 24px rgba(40, 10, 6, 0.14);
+  --gradient-hero: radial-gradient(
+    100% 50% at 50% -5%,
+    rgba(200, 67, 46, 0.1) 0%,
+    rgba(245, 236, 232, 0) 70%
+  );
+  --gradient-cta: linear-gradient(135deg, #c8432e, #9e2a1c);
+  --app-bg:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(200, 140, 120, 0.12) 0%,
+      rgba(245, 236, 232, 0) 55%
+    ),
+    radial-gradient(
+      circle at 75% 80%,
+      rgba(180, 120, 100, 0.08) 0%,
+      rgba(245, 236, 232, 0) 50%
+    ),
+    #f5ece8;
+  --ink-soft: #6b3e34;
+  --ink-mute: #9e7060;
+  --glass: rgba(255, 248, 244, 0.7);
+  --glass-line: rgba(200, 67, 46, 0.2);
+  --glow: rgba(200, 67, 46, 0.25);
+  --brand-mark-bg: linear-gradient(150deg, #c8432e, #9e2a1c);
+  --pill-solid-bg: linear-gradient(135deg, #c8432e, #9e2a1c);
+  --notice-bg: rgba(237, 224, 216, 0.8);
+  --qa-ico-bg: rgba(237, 224, 216, 0.9);
+  --tab-active-bg: #c8432e;
+  --gcard-bg:
+    radial-gradient(
+      circle at 85% 30%,
+      rgba(200, 67, 46, 0.07) 0%,
+      rgba(237, 224, 216, 0) 55%
+    ),
+    linear-gradient(160deg, #e8d4cc 0%, #ede0d8 55%, #e0ccbf 100%);
+  --card-label-bar: #c8432e;
+  --card-sub: #9e6050;
+  --online-num: #c8432e;
+  --tabbar-bg: rgba(245, 236, 232, 0.96);
+  --tabbar-center-bg: linear-gradient(160deg, #c8432e, #9e2a1c);
+  --text-on-primary: #f5ece8;
+  --nav-bg: rgba(245, 236, 232, 0.97);
+  --footer-bg: #e8d4cc;
+  --section-soft: #ede0d8;
+
+  // noya-ink 專有 token（vermillion 色）
+  --ink-stamp-border: 2px solid #1a0c08;
+  --ink-stamp-active-bg: #c8432e;
+  --ink-stamp-active-color: #f5ece8;
+  --ink-stamp-active-border: 2px solid #9e2a1c;
+  --ink-divider: #c8432e;
+  --ink-frame-outer: rgba(200, 67, 46, 0.5);
+  --ink-frame-inner: rgba(200, 67, 46, 0.2);
+}
+
+// indigo：靛墨藍 — 主色改為靛墨藍（文人雅士清冷藍調）
+[data-theme="noya-ink"][data-theme-color="indigo"] {
+  --color-primary: #2f4a7d; // 靛墨藍
+  --color-secondary: #3d5e9e; // 亮靛
+  --color-accent: #1a2e52; // 深靛
+  --bg-base: #eef0f5; // 淡青灰宣紙
+  --bg-surface: #e4e8f0; // 卡片青灰米
+  --bg-overlay: rgba(47, 74, 125, 0.08);
+  --text-primary: #080c1a;
+  --text-muted: #343e58;
+  --border: rgba(47, 74, 125, 0.4);
+  --shadow: 0 8px 24px rgba(10, 14, 40, 0.14);
+  --gradient-hero: radial-gradient(
+    100% 50% at 50% -5%,
+    rgba(47, 74, 125, 0.1) 0%,
+    rgba(238, 240, 245, 0) 70%
+  );
+  --gradient-cta: linear-gradient(135deg, #2f4a7d, #1a2e52);
+  --app-bg:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(140, 160, 200, 0.12) 0%,
+      rgba(238, 240, 245, 0) 55%
+    ),
+    radial-gradient(
+      circle at 75% 80%,
+      rgba(120, 140, 180, 0.08) 0%,
+      rgba(238, 240, 245, 0) 50%
+    ),
+    #eef0f5;
+  --ink-soft: #3e4e6e;
+  --ink-mute: #6e7e9e;
+  --glass: rgba(244, 246, 252, 0.7);
+  --glass-line: rgba(47, 74, 125, 0.2);
+  --glow: rgba(47, 74, 125, 0.2);
+  --brand-mark-bg: linear-gradient(150deg, #2f4a7d, #1a2e52);
+  --pill-solid-bg: linear-gradient(135deg, #c8432e, #9e2a1c); // 登入仍用硃砂紅印章感
+  --notice-bg: rgba(228, 232, 240, 0.8);
+  --qa-ico-bg: rgba(228, 232, 240, 0.9);
+  --tab-active-bg: #2f4a7d; // active 用靛墨藍
+  --gcard-bg:
+    radial-gradient(
+      circle at 85% 30%,
+      rgba(47, 74, 125, 0.07) 0%,
+      rgba(228, 232, 240, 0) 55%
+    ),
+    linear-gradient(160deg, #d8dcec 0%, #e4e8f0 55%, #d0d8e8 100%);
+  --card-label-bar: #2f4a7d;
+  --card-sub: #5a70a0;
+  --online-num: #2f4a7d;
+  --tabbar-bg: rgba(238, 240, 245, 0.96);
+  --tabbar-center-bg: linear-gradient(160deg, #2f4a7d, #1a2e52);
+  --text-on-primary: #eef0f5;
+  --nav-bg: rgba(238, 240, 245, 0.97);
+  --footer-bg: #d8dce8;
+  --section-soft: #e4e8f0;
+
+  // noya-ink 專有 token（indigo 色）
+  --ink-stamp-border: 2px solid #080c1a;
+  --ink-stamp-active-bg: #2f4a7d;
+  --ink-stamp-active-color: #eef0f5;
+  --ink-stamp-active-border: 2px solid #1a2e52;
+  --ink-divider: #2f4a7d;
+  --ink-frame-outer: rgba(47, 74, 125, 0.5);
+  --ink-frame-inner: rgba(47, 74, 125, 0.2);
+}

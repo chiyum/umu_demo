@@ -1,0 +1,133 @@
+// noya-dawn 版面替代配色
+// [data-theme="noya-dawn"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫元件實際讀到的對比 token，避免切換殘色。
+
+// 玫瑰晨光：accent 改玫瑰紅（浪漫輕奢感）
+[data-theme="noya-dawn"][data-theme-color="rose"] {
+  --color-primary: #e87a8e;
+  --color-secondary: #f09aaa;
+  --color-accent: #f8c8d2;
+  --bg-base: #fdf5f6;
+  --bg-surface: #fff8f9;
+  --bg-overlay: rgba(232, 122, 142, 0.1);
+  --text-primary: #2a1018;
+  --text-muted: #7c3048;
+  --border: rgba(232, 122, 142, 0.22);
+  --shadow: 0 6px 20px rgba(120, 40, 60, 0.1);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    rgba(255, 180, 195, 0.5) 0%,
+    rgba(255, 180, 195, 0) 60%
+  );
+  --gradient-cta: linear-gradient(180deg, #e87a8e, #c4547a);
+  --app-bg:
+    radial-gradient(
+      120% 50% at 50% -4%,
+      rgba(255, 180, 195, 0.38) 0%,
+      rgba(255, 180, 195, 0) 60%
+    ),
+    linear-gradient(180deg, #fff8f9 0%, #fdf4f6 48%, #fbeef0 100%);
+  --ink-soft: #7c3048;
+  --ink-mute: #c07088;
+  --glass: rgba(232, 122, 142, 0.08);
+  --glass-line: rgba(232, 122, 142, 0.22);
+  --glow: rgba(232, 122, 142, 0.3);
+  --brand-mark-bg: linear-gradient(150deg, #e87a8e, #b84468);
+  --pill-solid-bg: linear-gradient(180deg, #e87a8e, #c4547a);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(255, 200, 210, 0.5),
+    rgba(248, 180, 195, 0.5)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(232, 122, 142, 0.18),
+    rgba(200, 90, 110, 0.12)
+  );
+  --tab-active-bg: rgba(232, 122, 142, 0.14);
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 92% 40%,
+      rgba(240, 140, 160, 0.25) 0%,
+      rgba(250, 210, 218, 0) 58%
+    ),
+    linear-gradient(120deg, #fdf0f2 0%, #fceaed 45%, #fae4e8 100%);
+  --card-label-bar: #e87a8e;
+  --card-sub: #c07088;
+  --online-num: #e87a8e;
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 248, 249, 0.94),
+    rgba(250, 240, 243, 0.98)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #e87a8e, #b84468);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #fff8f9 0%, #fdf5f6 100%);
+  --footer-bg: #f8eaed;
+  --section-soft: #fdf0f3;
+}
+
+// 沙金：accent 改沙金色（溫潤奢華感）
+[data-theme="noya-dawn"][data-theme-color="sand"] {
+  --color-primary: #d9a45c;
+  --color-secondary: #e8bc7a;
+  --color-accent: #f4d8a8;
+  --bg-base: #fdf8f0;
+  --bg-surface: #fffcf6;
+  --bg-overlay: rgba(217, 164, 92, 0.1);
+  --text-primary: #281c08;
+  --text-muted: #7c5420;
+  --border: rgba(217, 164, 92, 0.25);
+  --shadow: 0 6px 20px rgba(100, 60, 10, 0.1);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    rgba(255, 220, 160, 0.5) 0%,
+    rgba(255, 220, 160, 0) 60%
+  );
+  --gradient-cta: linear-gradient(180deg, #d9a45c, #b87e30);
+  --app-bg:
+    radial-gradient(
+      120% 50% at 50% -4%,
+      rgba(255, 220, 160, 0.38) 0%,
+      rgba(255, 220, 160, 0) 60%
+    ),
+    linear-gradient(180deg, #fffcf6 0%, #fdf8ee 48%, #faf2e2 100%);
+  --ink-soft: #7c5420;
+  --ink-mute: #c09050;
+  --glass: rgba(217, 164, 92, 0.08);
+  --glass-line: rgba(217, 164, 92, 0.25);
+  --glow: rgba(217, 164, 92, 0.3);
+  --brand-mark-bg: linear-gradient(150deg, #d9a45c, #a07028);
+  --pill-solid-bg: linear-gradient(180deg, #d9a45c, #b87e30);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(255, 228, 180, 0.5),
+    rgba(248, 212, 155, 0.5)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(217, 164, 92, 0.18),
+    rgba(185, 130, 60, 0.12)
+  );
+  --tab-active-bg: rgba(217, 164, 92, 0.14);
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 92% 40%,
+      rgba(220, 175, 100, 0.25) 0%,
+      rgba(250, 230, 190, 0) 58%
+    ),
+    linear-gradient(120deg, #fdf4e0 0%, #faf0d8 45%, #f8eacc 100%);
+  --card-label-bar: #d9a45c;
+  --card-sub: #b08040;
+  --online-num: #d9a45c;
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(255, 252, 246, 0.94),
+    rgba(250, 244, 232, 0.98)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #d9a45c, #9e6c24);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #fffcf6 0%, #fdf8f0 100%);
+  --footer-bg: #f8f0e0;
+  --section-soft: #fdf4e4;
+}

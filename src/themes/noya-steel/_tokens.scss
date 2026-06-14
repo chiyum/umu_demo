@@ -1,0 +1,134 @@
+// noya-steel（鈦銀琥珀）token 主檔
+// 主視覺特徵：深鈦灰金屬底（#1a1d22）+ 琥珀金屬高光 #d9a24b
+// 雙描邊金屬質感：外緣深灰邊 + 內緣琥珀光線
+// 左側按鈕：連體金屬 segmented rail——整欄單一圓角容器，細髮絲線分隔各分類
+//   active 段 = 內凹琥珀金屬高光（inset shadow + 漸層）
+// 右側卡片：clip-path 輕微斜切角 + 琥珀邊緣高光，2 欄排列
+// 配色三變體：
+//   amber（default）鈦銀琥珀 #d9a24b
+//   cyan  鈦青        #4fc6d0
+//   crimson 鈦緋      #e0566e
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-steel"] {
+  // ─────── 12 公約變數（預設 amber）───────
+  --color-primary: #d9a24b; // 琥珀金主色
+  --color-secondary: #e8c06a; // 琥珀金高光
+  --color-accent: #f0d08e; // 淺琥珀亮點
+  --bg-base: #12141a; // 最底深鈦黑
+  --bg-surface: #1e2128; // 卡片鈦灰底
+  --bg-overlay: rgba(217, 162, 75, 0.12); // 琥珀半透明覆層
+  --text-primary: #f0ece4; // 主文字（暖白）
+  --text-muted: #9a9590; // 次要文字（鈦灰）
+  --border: rgba(217, 162, 75, 0.3); // 琥珀邊框
+  --shadow: 0 10px 28px rgba(8, 8, 12, 0.65); // 深鈦陰影
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    rgba(80, 68, 32, 0.6) 0%,
+    rgba(26, 29, 34, 0) 60%
+  ); // 頂部琥珀暈光
+
+  --gradient-cta: linear-gradient(160deg, #d9a24b, #a06c20); // 琥珀 CTA
+
+  // ─────── 結構 / 對比 token ───────
+  // 深鈦漸層底（鈦黑 → 鈦深灰）
+  --app-bg:
+    radial-gradient(
+      120% 60% at 50% -8%,
+      rgba(80, 68, 32, 0.5) 0%,
+      rgba(26, 29, 34, 0) 55%
+    ),
+    linear-gradient(180deg, #1a1d22 0%, #16181e 48%, #12141a 100%);
+  --ink-soft: #c8c0b0; // 次要文字偏暖
+  --ink-mute: #7a7570; // 三級 / label 鈦灰
+
+  // 鈦灰玻璃卡（半透明深灰）
+  --glass: rgba(36, 38, 46, 0.7);
+
+  // 髮絲線邊（很細的琥珀光線）
+  --glass-line: rgba(217, 162, 75, 0.22);
+  --glow: rgba(217, 162, 75, 0.4); // active 琥珀光暈
+
+  // 品牌 mark 漸層（金屬質感）
+  --brand-mark-bg: linear-gradient(150deg, #c49040, #6e4c18);
+
+  // 登入 pill solid（琥珀漸層）
+  --pill-solid-bg: linear-gradient(160deg, #d9a24b, #a06c20);
+
+  // 公告條底（深鈦透明）
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(40, 36, 28, 0.7),
+    rgba(26, 24, 20, 0.7)
+  );
+
+  // 快捷 icon 球底（鈦灰 + 微琥珀）
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(60, 54, 40, 0.7),
+    rgba(36, 32, 24, 0.65)
+  );
+
+  // active tab 底（琥珀內凹）—— segmented rail 用
+  --tab-active-bg: linear-gradient(160deg, rgba(217, 162, 75, 0.28), rgba(140, 100, 30, 0.2));
+
+  // segmented rail 容器底（鈦灰金屬）
+  --rail-bg: linear-gradient(180deg, #242730, #1c1f26);
+
+  // rail 容器外緣雙描邊（外灰 + 內琥珀光線）
+  --rail-border: rgba(217, 162, 75, 0.18);
+
+  // rail 分隔髮絲線
+  --rail-divider: rgba(217, 162, 75, 0.15);
+
+  // rail active 段 inset shadow（模擬內凹琥珀高光）
+  --rail-active-inset:
+    inset 0 2px 6px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(217, 162, 75, 0.35),
+    0 1px 3px rgba(217, 162, 75, 0.2);
+
+  // 佔位遊戲卡（鈦灰漸層底）
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 92% 40%,
+      rgba(217, 162, 75, 0.18) 0%,
+      rgba(26, 29, 34, 0) 58%
+    ),
+    linear-gradient(120deg, #26282e 0%, #1e2028 45%, #18191e 100%);
+
+  // 卡片斜切角顏色（琥珀高光縮邊）
+  --card-clip-glow: rgba(217, 162, 75, 0.5);
+
+  // 卡片左側 accent bar
+  --card-label-bar: #d9a24b;
+  --card-sub: #c8a86a;
+
+  // 在線人數數字色
+  --online-num: #e8c06a;
+
+  // tabbar 底（深鈦漸層）
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(22, 24, 30, 0.65),
+    rgba(14, 15, 18, 0.97)
+  );
+
+  // tabbar 中央凸出球（琥珀漸層）
+  --tabbar-center-bg: linear-gradient(160deg, #d9a24b, #8a5c18);
+
+  // CTA 上的對比文字
+  --text-on-primary: #1a1208;
+
+  // desktop 補做用
+  --nav-bg: linear-gradient(180deg, #1a1d22 0%, #12141a 100%);
+  --footer-bg: #0e0f12;
+  --section-soft: #161820;
+
+  // 字體
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

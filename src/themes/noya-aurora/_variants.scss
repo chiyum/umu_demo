@@ -1,0 +1,179 @@
+// noya-aurora 版面替代配色
+// [data-theme="noya-aurora"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫元件實際讀到的對比 token，避免切換殘色。
+
+// magenta：洋紅電光 — accent 改洋紅（極度搶眼的霓虹電光粉）
+[data-theme="noya-aurora"][data-theme-color="magenta"] {
+  --color-primary: #ff5ac8; // 洋紅電光
+  --color-secondary: #ff8ede; // 高光粉白
+  --color-accent: #ff2eb8; // 深洋紅
+  --bg-base: #1a0a18; // 深夜玫瑰黑
+  --bg-surface: #28102a; // 卡片玫瑰底
+  --bg-overlay: rgba(255, 90, 200, 0.12);
+  --text-primary: #ffe8f8;
+  --text-muted: #c48eb4;
+  --border: rgba(255, 90, 200, 0.38);
+  --shadow: 0 10px 32px rgba(30, 4, 26, 0.7);
+  --gradient-hero: radial-gradient(
+    130% 55% at 50% -5%,
+    rgba(255, 90, 200, 0.22) 0%,
+    rgba(26, 10, 24, 0) 65%
+  );
+  --gradient-cta: linear-gradient(135deg, #ff5ac8, #c4208e);
+  --app-bg:
+    radial-gradient(
+      130% 55% at 50% -5%,
+      rgba(255, 90, 200, 0.22) 0%,
+      rgba(26, 10, 24, 0) 65%
+    ),
+    radial-gradient(
+      80% 40% at 85% 60%,
+      rgba(140, 60, 200, 0.1) 0%,
+      rgba(26, 10, 24, 0) 55%
+    ),
+    linear-gradient(180deg, #20101e 0%, #1a0a18 55%, #140714 100%);
+  --ink-soft: #d89ec4;
+  --ink-mute: #906080;
+  --glass: rgba(46, 16, 42, 0.6);
+  --glass-line: rgba(255, 90, 200, 0.25);
+  --glow: rgba(255, 90, 200, 0.55);
+  --brand-mark-bg: linear-gradient(150deg, #c4208e, #741258);
+  --pill-solid-bg: linear-gradient(135deg, #ff5ac8, #c4208e);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(46, 20, 44, 0.65),
+    rgba(26, 10, 24, 0.6)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(80, 30, 70, 0.65),
+    rgba(52, 14, 46, 0.55)
+  );
+  --tab-active-bg: linear-gradient(
+    150deg,
+    rgba(255, 90, 200, 0.22),
+    rgba(160, 40, 120, 0.18)
+  );
+  --gcard-bg:
+    radial-gradient(
+      110% 120% at 90% 35%,
+      rgba(255, 90, 200, 0.18) 0%,
+      rgba(26, 10, 24, 0) 60%
+    ),
+    linear-gradient(130deg, #281424 0%, #20101e 45%, #180c18 100%);
+  --card-label-bar: #ff5ac8;
+  --card-sub: #ff9ee6;
+  --online-num: #ff8ede;
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(26, 10, 24, 0.7),
+    rgba(16, 4, 16, 0.97)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #ff5ac8, #901870);
+  --text-on-primary: #1a0a18;
+  --nav-bg: linear-gradient(180deg, #20101e 0%, #140714 100%);
+  --footer-bg: #0e060e;
+  --section-soft: #1e0c1c;
+
+  // aurora 專有 token（magenta 色）
+  --aurora-rail-bg: rgba(28, 10, 26, 0.9);
+  --aurora-rail-border: rgba(255, 90, 200, 0.15);
+  --aurora-capsule-bg: linear-gradient(
+    135deg,
+    rgba(255, 90, 200, 0.25),
+    rgba(160, 40, 120, 0.18)
+  );
+  --aurora-capsule-glow: 0 0 18px rgba(255, 90, 200, 0.6),
+    0 0 36px rgba(255, 90, 200, 0.25);
+  --aurora-border-a: #ff5ac8;
+  --aurora-border-b: #8c7cff;
+  --aurora-border-c: #ff5ac8;
+}
+
+// violet：紫電 — accent 改紫電（神秘貴族深紫）
+[data-theme="noya-aurora"][data-theme-color="violet"] {
+  --color-primary: #8c7cff; // 紫電
+  --color-secondary: #b8acff; // 高光淡紫
+  --color-accent: #6a5aff; // 深電紫
+  --bg-base: #0c0a1e; // 深夜墨紫
+  --bg-surface: #161232; // 卡片紫底
+  --bg-overlay: rgba(140, 124, 255, 0.14);
+  --text-primary: #f0eeff;
+  --text-muted: #a89cce;
+  --border: rgba(140, 124, 255, 0.38);
+  --shadow: 0 10px 32px rgba(10, 6, 36, 0.7);
+  --gradient-hero: radial-gradient(
+    130% 55% at 50% -5%,
+    rgba(140, 124, 255, 0.22) 0%,
+    rgba(12, 10, 30, 0) 65%
+  );
+  --gradient-cta: linear-gradient(135deg, #8c7cff, #5040d0);
+  --app-bg:
+    radial-gradient(
+      130% 55% at 50% -5%,
+      rgba(140, 124, 255, 0.22) 0%,
+      rgba(12, 10, 30, 0) 65%
+    ),
+    radial-gradient(
+      80% 40% at 85% 60%,
+      rgba(52, 224, 208, 0.08) 0%,
+      rgba(12, 10, 30, 0) 55%
+    ),
+    linear-gradient(180deg, #161230 0%, #0e0c26 55%, #080620 100%);
+  --ink-soft: #b0a8d8;
+  --ink-mute: #7870a0;
+  --glass: rgba(24, 18, 60, 0.6);
+  --glass-line: rgba(140, 124, 255, 0.25);
+  --glow: rgba(140, 124, 255, 0.55);
+  --brand-mark-bg: linear-gradient(150deg, #5040d0, #301e80);
+  --pill-solid-bg: linear-gradient(135deg, #8c7cff, #5040d0);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(28, 22, 70, 0.65),
+    rgba(14, 10, 40, 0.6)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(60, 48, 140, 0.65),
+    rgba(36, 28, 100, 0.55)
+  );
+  --tab-active-bg: linear-gradient(
+    150deg,
+    rgba(140, 124, 255, 0.22),
+    rgba(80, 64, 200, 0.18)
+  );
+  --gcard-bg:
+    radial-gradient(
+      110% 120% at 90% 35%,
+      rgba(140, 124, 255, 0.18) 0%,
+      rgba(12, 10, 30, 0) 60%
+    ),
+    linear-gradient(130deg, #1c1840 0%, #161230 45%, #100e28 100%);
+  --card-label-bar: #8c7cff;
+  --card-sub: #c0b8ff;
+  --online-num: #b8acff;
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(12, 10, 30, 0.7),
+    rgba(6, 4, 20, 0.97)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #8c7cff, #4030b0);
+  --text-on-primary: #0a0820;
+  --nav-bg: linear-gradient(180deg, #161230 0%, #080620 100%);
+  --footer-bg: #06040e;
+  --section-soft: #0e0c1e;
+
+  // aurora 專有 token（violet 色）
+  --aurora-rail-bg: rgba(14, 10, 32, 0.9);
+  --aurora-rail-border: rgba(140, 124, 255, 0.15);
+  --aurora-capsule-bg: linear-gradient(
+    135deg,
+    rgba(140, 124, 255, 0.25),
+    rgba(80, 64, 200, 0.18)
+  );
+  --aurora-capsule-glow: 0 0 18px rgba(140, 124, 255, 0.6),
+    0 0 36px rgba(140, 124, 255, 0.25);
+  --aurora-border-a: #8c7cff;
+  --aurora-border-b: #34e0d0;
+  --aurora-border-c: #8c7cff;
+}

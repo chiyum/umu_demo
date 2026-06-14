@@ -1,0 +1,118 @@
+// noya-lux（曜黑燙金）token 主檔
+// 設計主軸：深色曜黑底（#0c0c0e 系）+ 香檳燙金 accent，
+// 古典奢華感，字體使用襯線凸顯品味
+// 配色三變體：
+//   champagne（default）香檳燙金 #d9b86a
+//   rosegold  玫瑰燙金 #e0a880
+//   platinum  鉑金白   #c9ccd2
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-lux"] {
+  // ─────── 12 公約變數（預設 champagne）───────
+  --color-primary: #d9b86a; // 香檳燙金
+  --color-secondary: #e8cc8c; // 高光金
+  --color-accent: #f0dcaa; // 淡金亮點
+  --bg-base: #0c0c0e; // 頁面最底曜黑
+  --bg-surface: #141416; // 卡片深黑底
+  --bg-overlay: rgba(217, 184, 106, 0.08); // 半透明金覆蓋
+  --text-primary: #f5edd8; // 主文字（米白金）
+  --text-muted: #a8956e; // 次要文字（舊金）
+  --border: rgba(217, 184, 106, 0.25); // 金細邊
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.7); // 深黑陰影
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    rgba(120, 88, 20, 0.6) 0%,
+    rgba(12, 12, 14, 0) 65%
+  ); // 頂部金暈
+
+  --gradient-cta: linear-gradient(
+    135deg,
+    #c8a44a 0%,
+    #e8cc8c 50%,
+    #c0922a 100%
+  ); // 金 CTA
+
+  // ─────── 結構 / 對比 token───────
+  // app 整體底（深黑 + 頂部金暈）
+  --app-bg:
+    radial-gradient(
+      120% 60% at 50% -8%,
+      rgba(120, 88, 20, 0.55) 0%,
+      rgba(12, 12, 14, 0) 65%
+    ),
+    linear-gradient(180deg, #141416 0%, #0e0e10 48%, #0a0a0c 100%);
+  --ink-soft: #c9a862; // 次要文字金色
+  --ink-mute: #7a6840; // 三級 / label 深金
+  --glass: rgba(30, 26, 16, 0.7); // 深金玻璃卡底
+  --glass-line: rgba(217, 184, 106, 0.2); // 金細邊
+  --glow: rgba(217, 184, 106, 0.3); // active 金光
+
+  // 品牌 mark 方塊漸層
+  --brand-mark-bg: linear-gradient(150deg, #c8a44a, #7a5a20);
+
+  // 登入 pill solid
+  --pill-solid-bg: linear-gradient(135deg, #c8a44a 0%, #e8cc8c 50%, #c0922a 100%);
+
+  // 公告條底
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(30, 24, 10, 0.8),
+    rgba(20, 16, 6, 0.8)
+  );
+
+  // 快捷 icon 球底
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(60, 46, 16, 0.8),
+    rgba(36, 28, 8, 0.7)
+  );
+
+  // active tab 底（金漸層填底）
+  --tab-active-bg: linear-gradient(
+    135deg,
+    rgba(200, 164, 74, 0.85) 0%,
+    rgba(160, 120, 40, 0.9) 100%
+  );
+
+  // 佔位遊戲卡金漸層底
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 92% 40%,
+      rgba(200, 164, 74, 0.25) 0%,
+      rgba(20, 14, 4, 0) 58%
+    ),
+    linear-gradient(120deg, #1e1808 0%, #141206 45%, #0e0c04 100%);
+
+  // 卡片左側標題 accent bar
+  --card-label-bar: #d9b86a;
+  --card-sub: #a8956e;
+
+  // 在線人數數字色
+  --online-num: #e8cc8c;
+
+  // tabbar 底
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(12, 12, 14, 0.7),
+    rgba(8, 8, 10, 0.98)
+  );
+
+  // tabbar 中央凸出球（金漸層）
+  --tabbar-center-bg: linear-gradient(160deg, #c8a44a, #7a5a20);
+
+  // CTA 上對比文字
+  --text-on-primary: #1a1200;
+
+  // desktop 補做用
+  --nav-bg: linear-gradient(180deg, #141416 0%, #0a0a0c 100%);
+  --footer-bg: #080808;
+  --section-soft: #101010;
+
+  // 字體：襯線凸顯古典奢華
+  --font-body: "Noto Serif TC", "Georgia", serif;
+  --font-display: "Noto Serif TC", "Georgia", serif;
+}

@@ -1,0 +1,153 @@
+// noya-starlit 版面替代配色
+// [data-theme="noya-starlit"][data-theme-color="xxx"] 雙重 selector
+// 每個 variant 覆寫元件實際讀到的對比 token，避免切換殘色。
+
+// 星雲粉：accent 改珠光粉紫，帶玫瑰溫度
+[data-theme="noya-starlit"][data-theme-color="nebula"] {
+  --color-primary: #e06ab0; // 珠光粉紫
+  --color-secondary: #ee96cc; // 高光粉
+  --color-accent: #f5c0e2; // 淺粉亮點
+  --bg-base: #1a0614; // 深玫瑰紫黑
+  --bg-surface: #2e0e22; // 卡片粉紫底
+  --bg-overlay: rgba(200, 60, 140, 0.28);
+  --text-primary: #fff0f8;
+  --text-muted: #f0a8d4;
+  --border: rgba(220, 100, 180, 0.3);
+  --shadow: 0 10px 28px rgba(50, 6, 40, 0.6);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #7a1848 0%,
+    rgba(122, 24, 72, 0) 60%
+  );
+  --gradient-cta: linear-gradient(180deg, #e06ab0, #a83880);
+  --app-bg:
+    radial-gradient(
+      ellipse 60% 30% at 75% 20%,
+      rgba(255, 80, 180, 0.08) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 25% at 20% 65%,
+      rgba(160, 40, 100, 0.1) 0%,
+      transparent 65%
+    ),
+    radial-gradient(120% 60% at 50% -8%, #7a1848 0%, rgba(122, 24, 72, 0) 60%),
+    linear-gradient(180deg, #2e0e22 0%, #220a1a 48%, #1a0614 100%);
+  --ink-soft: #f0a8d4;
+  --ink-mute: #c07098;
+  --glass: rgba(100, 24, 70, 0.32);
+  --glass-line: rgba(220, 100, 180, 0.28);
+  --glow: rgba(224, 106, 176, 0.5);
+  --brand-mark-bg: linear-gradient(150deg, #b04480, #7a1848);
+  --pill-solid-bg: linear-gradient(180deg, #e06ab0, #a83880);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(120, 28, 80, 0.5),
+    rgba(80, 12, 50, 0.5)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(160, 40, 100, 0.55),
+    rgba(90, 16, 60, 0.5)
+  );
+  --tab-active-bg: linear-gradient(
+    150deg,
+    rgba(224, 106, 176, 0.5),
+    rgba(140, 40, 100, 0.4)
+  );
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 92% 40%,
+      rgba(224, 80, 160, 0.4) 0%,
+      rgba(60, 10, 40, 0) 58%
+    ),
+    linear-gradient(120deg, #5a1840 0%, #2e0e22 45%, #220a1a 100%);
+  --card-label-bar: #e06ab0;
+  --card-sub: #ee96cc;
+  --online-num: #ee96cc;
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(40, 8, 28, 0.65),
+    rgba(18, 4, 14, 0.97)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #e06ab0, #a03476);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #2e0e22 0%, #1a0614 100%);
+  --footer-bg: #120410;
+  --section-soft: #200a1a;
+}
+
+// 宇宙藍：accent 改星際冰藍，冷靜科技感
+[data-theme="noya-starlit"][data-theme-color="cosmos"] {
+  --color-primary: #5aa8ff; // 星際冰藍
+  --color-secondary: #88c4ff; // 高光冰藍
+  --color-accent: #b8d8ff; // 淺藍亮點
+  --bg-base: #040c1a; // 深宇宙藍黑
+  --bg-surface: #0c1e36; // 卡片藍底
+  --bg-overlay: rgba(40, 100, 200, 0.28);
+  --text-primary: #eaf4ff;
+  --text-muted: #a0c8f0;
+  --border: rgba(80, 160, 255, 0.3);
+  --shadow: 0 10px 28px rgba(4, 14, 40, 0.6);
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    #0e3a80 0%,
+    rgba(14, 58, 128, 0) 60%
+  );
+  --gradient-cta: linear-gradient(180deg, #5aa8ff, #2868d0);
+  --app-bg:
+    radial-gradient(
+      ellipse 60% 30% at 75% 20%,
+      rgba(80, 160, 255, 0.08) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 25% at 20% 65%,
+      rgba(30, 80, 180, 0.1) 0%,
+      transparent 65%
+    ),
+    radial-gradient(120% 60% at 50% -8%, #0e3a80 0%, rgba(14, 58, 128, 0) 60%),
+    linear-gradient(180deg, #0c1e36 0%, #081426 48%, #040c1a 100%);
+  --ink-soft: #a0c8f0;
+  --ink-mute: #6090c0;
+  --glass: rgba(16, 50, 110, 0.32);
+  --glass-line: rgba(80, 160, 255, 0.28);
+  --glow: rgba(90, 168, 255, 0.5);
+  --brand-mark-bg: linear-gradient(150deg, #2868d0, #0e3a80);
+  --pill-solid-bg: linear-gradient(180deg, #5aa8ff, #2868d0);
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(16, 56, 120, 0.5),
+    rgba(8, 32, 80, 0.5)
+  );
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(30, 90, 180, 0.55),
+    rgba(12, 50, 110, 0.5)
+  );
+  --tab-active-bg: linear-gradient(
+    150deg,
+    rgba(90, 168, 255, 0.5),
+    rgba(30, 90, 180, 0.4)
+  );
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 92% 40%,
+      rgba(80, 160, 240, 0.4) 0%,
+      rgba(8, 26, 60, 0) 58%
+    ),
+    linear-gradient(120deg, #0e3060 0%, #0c1e36 45%, #081426 100%);
+  --card-label-bar: #5aa8ff;
+  --card-sub: #88c4ff;
+  --online-num: #88c4ff;
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(8, 18, 40, 0.65),
+    rgba(4, 8, 20, 0.97)
+  );
+  --tabbar-center-bg: linear-gradient(160deg, #5aa8ff, #2060c0);
+  --text-on-primary: #ffffff;
+  --nav-bg: linear-gradient(180deg, #0c1e36 0%, #040c1a 100%);
+  --footer-bg: #030810;
+  --section-soft: #080e20;
+}

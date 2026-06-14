@@ -1,0 +1,124 @@
+// noya-reef（珊瑚奶油）token 主檔
+// 主視覺特徵：奶油近白底（light theme）+ 珊瑚橙 #f0744e 主色
+// Squircle 設計語言：圓角 ~30% border-radius，柔和有機感
+// 左側按鈕：大 squircle icon 按鈕，icon 置中 + 下方 label，active = 珊瑚漸層填底 + 柔影
+// 右側頁面：最上方每日簽到 strip（7 天圓點 + 領取）+ 大 squircle 卡片
+// 配色三變體：
+//   coral（default）珊瑚橙 #f0744e
+//   mango 芒果黃     #eaa64e
+//   berry 莓果粉     #e0668a
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-reef"] {
+  // ─────── 12 公約變數（預設 coral）───────
+  --color-primary: #f0744e; // 珊瑚橙主色
+  --color-secondary: #f59270; // 珊瑚橙柔光
+  --color-accent: #fac0a4; // 淺珊瑚亮點
+  --bg-base: #faf8f4; // 奶油近白底
+  --bg-surface: #ffffff; // 卡片純白
+  --bg-overlay: rgba(240, 116, 78, 0.08); // 珊瑚半透明覆層
+  --text-primary: #2c2420; // 主文字（深可可色）
+  --text-muted: #9a8078; // 次要文字（暖灰）
+  --border: rgba(240, 116, 78, 0.2); // 珊瑚邊框
+  --shadow: 0 8px 24px rgba(60, 30, 20, 0.1); // 暖色柔影
+  --gradient-hero: radial-gradient(
+    120% 60% at 50% -8%,
+    rgba(240, 116, 78, 0.12) 0%,
+    rgba(250, 248, 244, 0) 60%
+  ); // 頂部珊瑚暈光
+
+  --gradient-cta: linear-gradient(160deg, #f0744e, #c8432a); // 珊瑚 CTA
+
+  // ─────── 結構 / 對比 token ───────
+  // 奶油底（光亮，近白）
+  --app-bg:
+    radial-gradient(
+      100% 50% at 50% -5%,
+      rgba(240, 116, 78, 0.08) 0%,
+      rgba(250, 248, 244, 0) 60%
+    ),
+    linear-gradient(180deg, #faf8f4 0%, #f8f5f0 100%);
+  --ink-soft: #6a5048; // 次要文字偏暖可可
+  --ink-mute: #b0988a; // 三級 / label 淺暖灰
+
+  // 白底柔影卡
+  --glass: rgba(255, 255, 255, 0.95);
+
+  // 珊瑚細邊（很輕）
+  --glass-line: rgba(240, 116, 78, 0.14);
+  --glow: rgba(240, 116, 78, 0.3); // active 珊瑚光暈
+
+  // 品牌 mark 漸層（珊瑚漸層）
+  --brand-mark-bg: linear-gradient(150deg, #f0744e, #c8432a);
+
+  // 登入 pill solid（珊瑚漸層）
+  --pill-solid-bg: linear-gradient(160deg, #f0744e, #c8432a);
+
+  // 公告條底（奶油淺珊瑚）
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(255, 248, 244, 0.9),
+    rgba(254, 244, 238, 0.9)
+  );
+
+  // 快捷 icon 球底（白底 + 珊瑚投影）
+  --qa-ico-bg: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 1),
+    rgba(252, 240, 232, 0.95)
+  );
+
+  // active tab 底（squircle active 珊瑚漸層）
+  --tab-active-bg: linear-gradient(160deg, #f0744e, #e8582e);
+
+  // squircle 按鈕靜態底
+  --sqbtn-bg: rgba(255, 255, 255, 0.9);
+
+  // 佔位遊戲卡（奶油粉漸層底）
+  --gcard-bg:
+    radial-gradient(
+      120% 140% at 92% 40%,
+      rgba(240, 116, 78, 0.15) 0%,
+      rgba(250, 248, 244, 0) 60%
+    ),
+    linear-gradient(120deg, #fdf0ea 0%, #faf5f0 45%, #f8f4ee 100%);
+
+  // 卡片左側 accent bar
+  --card-label-bar: #f0744e;
+  --card-sub: #d06040;
+
+  // 每日簽到 strip
+  --checkin-bg: linear-gradient(135deg, #fff5f0, #feeae0);
+  --checkin-claimed: #f0744e;
+  --checkin-unclaimed: #e8d8d0;
+  --checkin-today: rgba(240, 116, 78, 0.25);
+
+  // 在線人數數字色
+  --online-num: #f0744e;
+
+  // tabbar 底（奶油白半透明）
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(250, 248, 244, 0.7),
+    rgba(250, 246, 240, 0.97)
+  );
+
+  // tabbar 中央凸出球（珊瑚漸層）
+  --tabbar-center-bg: linear-gradient(160deg, #f0744e, #c8432a);
+
+  // CTA 上的對比文字
+  --text-on-primary: #ffffff;
+
+  // desktop 補做用
+  --nav-bg: linear-gradient(180deg, #ffffff 0%, #faf8f4 100%);
+  --footer-bg: #f0ece6;
+  --section-soft: #f4f0ea;
+
+  // 字體
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

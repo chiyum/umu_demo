@@ -1,0 +1,85 @@
+// noya-mint（薄荷清新）token 主檔
+// 設計主軸：純白/極淺薄荷底 + 極簡 tab indicator + 扁平白卡
+// 主視覺特徵：
+//   - 純白/極淺薄荷底（亮色系，brightness 判定為 light）
+//   - 薄荷綠 accent #2fb98a
+//   - 白卡：白底 + 極淡陰影 + 細薄荷邊框
+//   - 文字三階 #1a2e26 / #4a6e5e / #7aa090
+//   - 左側 tab：極簡文字+icon + active 用右緣 3px 薄荷直條 indicator + 粗體
+// 配色三變體：
+//   mint   預設 — 薄荷綠（原稿基準）
+//   sky    晴空藍 — accent 改晴空藍
+//   lemon  檸檬黃 — accent 改暖檸檬黃
+
+[data-theme="noya-mint"] {
+  // ─────── 12 公約變數（預設 mint）───────
+  --color-primary: #2fb98a; // 薄荷綠
+  --color-secondary: #24a07a; // 深一階薄荷
+  --color-accent: #7ddcbf; // 淺薄荷亮點
+  --bg-base: #f5fdf9; // 極淺薄荷底（最外層）
+  --bg-surface: #ffffff; // 白卡底
+  --bg-overlay: rgba(47, 185, 138, 0.08); // 極淡薄荷 overlay
+  --text-primary: #1a2e26; // 主文字（深墨綠）
+  --text-muted: #4a6e5e; // 次要文字
+  --border: rgba(47, 185, 138, 0.2); // 薄荷細邊框
+  --shadow: 0 4px 16px rgba(36, 100, 76, 0.08); // 極淡陰影
+  --gradient-hero: linear-gradient(
+    135deg,
+    rgba(47, 185, 138, 0.12) 0%,
+    rgba(47, 185, 138, 0) 60%
+  );
+  --gradient-cta: linear-gradient(135deg, #2fb98a, #1d9a72); // 薄荷 CTA
+
+  // ─────── 結構 / 對比 token（元件走 var()）───────
+  // app 整體極淺薄荷底（光線充足，清爽）
+  --app-bg: linear-gradient(180deg, #f0fdf9 0%, #f5fdf9 100%);
+  --ink-soft: #4a6e5e; // 次要文字
+  --ink-mute: #7aa090; // 三級 / label
+  // 白卡不用 glass，用實心白底
+  --glass: rgba(255, 255, 255, 0.9);
+  --glass-line: rgba(47, 185, 138, 0.18);
+  --glow: rgba(47, 185, 138, 0.3); // active 薄荷光
+
+  // 品牌 mark 方塊漸層
+  --brand-mark-bg: linear-gradient(135deg, #2fb98a, #1d9a72);
+
+  // 登入 pill solid
+  --pill-solid-bg: linear-gradient(135deg, #2fb98a, #1d9a72);
+
+  // 公告條底
+  --notice-bg: rgba(47, 185, 138, 0.07);
+
+  // 快捷 icon 球底
+  --qa-ico-bg: rgba(47, 185, 138, 0.1);
+
+  // active tab 底（極簡 — tab 不用大色塊，走 indicator + 背景淡薄荷）
+  --tab-active-bg: rgba(47, 185, 138, 0.06);
+
+  // 佔位遊戲卡（白底 + 薄荷 accent）
+  --gcard-bg: linear-gradient(135deg, #f0fdf9 0%, #e8f8f2 100%);
+
+  // 卡片左側標題 accent bar
+  --card-label-bar: #2fb98a;
+  --card-sub: #24a07a;
+
+  // 在線人數數字色
+  --online-num: #2fb98a;
+
+  // tabbar 底
+  --tabbar-bg: rgba(255, 255, 255, 0.96);
+
+  // tabbar 中央凸出球
+  --tabbar-center-bg: linear-gradient(135deg, #2fb98a, #1d9a72);
+
+  // CTA 上文字
+  --text-on-primary: #ffffff;
+
+  // desktop 補做用
+  --nav-bg: rgba(255, 255, 255, 0.97);
+  --footer-bg: #f0f8f4;
+  --section-soft: #f5fdf9;
+
+  // 字體
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+}

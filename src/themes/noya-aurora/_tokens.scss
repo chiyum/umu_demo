@@ -1,0 +1,136 @@
+// noya-aurora（極光霓虹）token 主檔
+// 設計主軸：深夜藍黑底 + 霓虹青紫高光 + 玻璃感卡片 + 流動漸層描邊
+// 底色深夜藍黑 #0a0d1a，主 accent 極光青 #34e0d0
+// 三色票：aurora（預設）青紫 / magenta 洋紅 / violet 紫電
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-aurora"] {
+  // ─────── 12 公約變數（預設 aurora 極光青紫）───────
+  --color-primary: #34e0d0; // 極光青
+  --color-secondary: #7dfff4; // 高光青白
+  --color-accent: #8c7cff; // 紫電亮點
+  --bg-base: #0a0d1a; // 深夜藍黑頁面底
+  --bg-surface: #111428; // 卡片底層
+  --bg-overlay: rgba(52, 224, 208, 0.12); // 青光半透明
+  --text-primary: #e8fffd; // 主文字（冷白）
+  --text-muted: #8eb8c4; // 次要文字
+  --border: rgba(52, 224, 208, 0.35); // 霓虹青邊
+  --shadow: 0 10px 32px rgba(4, 14, 30, 0.7); // 深黑陰影
+  --gradient-hero: radial-gradient(
+    130% 55% at 50% -5%,
+    rgba(52, 224, 208, 0.22) 0%,
+    rgba(10, 13, 26, 0) 65%
+  ); // 頂部極光柔光
+
+  --gradient-cta: linear-gradient(135deg, #34e0d0, #1fa896); // 青 CTA
+
+  // ─────── 結構 / 對比 token（元件走 var()）───────
+  // 深夜藍黑漸層底（帶極光光暈）
+  --app-bg:
+    radial-gradient(
+      130% 55% at 50% -5%,
+      rgba(52, 224, 208, 0.22) 0%,
+      rgba(10, 13, 26, 0) 65%
+    ),
+    radial-gradient(
+      80% 40% at 85% 60%,
+      rgba(140, 124, 255, 0.1) 0%,
+      rgba(10, 13, 26, 0) 55%
+    ),
+    linear-gradient(180deg, #0e1224 0%, #0a0d1a 55%, #080a16 100%);
+  --ink-soft: #9ecfd8; // 次要文字
+  --ink-mute: #5a8090; // 三級 label
+
+  // 玻璃卡底（深青黑半透明）
+  --glass: rgba(18, 28, 46, 0.6);
+  --glass-line: rgba(52, 224, 208, 0.25); // 玻璃邊
+  --glow: rgba(52, 224, 208, 0.5); // 霓虹發光
+
+  // 品牌 mark
+  --brand-mark-bg: linear-gradient(150deg, #1fa896, #0e5a52);
+
+  // 登入 pill solid
+  --pill-solid-bg: linear-gradient(135deg, #34e0d0, #1fa896);
+
+  // 公告條底
+  --notice-bg: linear-gradient(
+    180deg,
+    rgba(18, 34, 46, 0.65),
+    rgba(10, 18, 30, 0.6)
+  );
+
+  // 快捷 icon 球底
+  --qa-ico-bg: linear-gradient(
+    180deg,
+    rgba(30, 70, 80, 0.65),
+    rgba(14, 40, 52, 0.55)
+  );
+
+  // active tab 底（含霓虹光）
+  --tab-active-bg: linear-gradient(
+    150deg,
+    rgba(52, 224, 208, 0.22),
+    rgba(28, 140, 130, 0.18)
+  );
+
+  // 佔位遊戲卡底（深青漸層）
+  --gcard-bg:
+    radial-gradient(
+      110% 120% at 90% 35%,
+      rgba(52, 224, 208, 0.18) 0%,
+      rgba(10, 14, 26, 0) 60%
+    ),
+    linear-gradient(130deg, #111c30 0%, #0e1828 45%, #090c1c 100%);
+
+  // 卡片左側標題 accent bar
+  --card-label-bar: #34e0d0;
+  --card-sub: #6dfff2;
+
+  // 在線人數數字色
+  --online-num: #7dfff4;
+
+  // tabbar 底
+  --tabbar-bg: linear-gradient(
+    180deg,
+    rgba(10, 14, 28, 0.7),
+    rgba(6, 8, 18, 0.97)
+  );
+
+  // tabbar 中央凸出球
+  --tabbar-center-bg: linear-gradient(160deg, #34e0d0, #1088a0);
+
+  // 落在青 CTA 上的對比文字
+  --text-on-primary: #02100e;
+
+  // desktop 補做用
+  --nav-bg: linear-gradient(180deg, #0e1224 0%, #080a16 100%);
+  --footer-bg: #070910;
+  --section-soft: #0c0f1e;
+
+  // 字體（冷感科技）
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Sans TC", system-ui, sans-serif;
+
+  // ─────── aurora 專有 token（霓虹 rail + 描邊動畫）───────
+  // 左側 icon rail 背景
+  --aurora-rail-bg: rgba(12, 18, 32, 0.9);
+  --aurora-rail-border: rgba(52, 224, 208, 0.15);
+
+  // 展開 active 霓虹膠囊底色
+  --aurora-capsule-bg: linear-gradient(
+    135deg,
+    rgba(52, 224, 208, 0.25),
+    rgba(28, 140, 130, 0.18)
+  );
+  --aurora-capsule-glow: 0 0 18px rgba(52, 224, 208, 0.6),
+    0 0 36px rgba(52, 224, 208, 0.25);
+
+  // 流動漸層描邊 conic 顏色（Aurora 版本）
+  --aurora-border-a: #34e0d0;
+  --aurora-border-b: #8c7cff;
+  --aurora-border-c: #34e0d0;
+}

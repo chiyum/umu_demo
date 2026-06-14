@@ -1,0 +1,116 @@
+// noya-ink（東方墨竹宣紙）token 主檔
+// 設計主軸：宣紙米白底 + 墨竹翠 accent + 印章風方形 tab + 宣紙裱框卡片
+// 底色宣紙米白 #f5f0e8，以極淡紙紋 radial-gradient 疊加質感
+// 字體 --font-display 用 Noto Serif TC 襯線，強調東方書法氣韻
+// 三色票：jade（預設）墨竹翠 / vermillion 硃砂紅 / indigo 靛墨藍
+// 命名公約（全 theme 共用 12 CSS var）：
+// --color-primary / --color-secondary / --color-accent
+// --bg-base / --bg-surface / --bg-overlay
+// --text-primary / --text-muted / --border / --shadow
+// --gradient-hero / --gradient-cta
+
+[data-theme="noya-ink"] {
+  // ─────── 12 公約變數（預設 jade 墨竹翠）───────
+  --color-primary: #2f7d5e; // 墨竹翠
+  --color-secondary: #3d9e76; // 翠亮
+  --color-accent: #1a5c43; // 深竹暗
+  --bg-base: #f5f0e8; // 宣紙米白
+  --bg-surface: #ede7d8; // 卡片米色
+  --bg-overlay: rgba(47, 125, 94, 0.08); // 翠光半透明
+  --text-primary: #1a1208; // 墨黑主文字
+  --text-muted: #5a4e36; // 次要深棕
+  --border: rgba(47, 125, 94, 0.4); // 墨竹邊框
+  --shadow: 0 8px 24px rgba(40, 30, 10, 0.15); // 宣紙陰影（輕）
+  --gradient-hero: radial-gradient(
+    100% 50% at 50% -5%,
+    rgba(47, 125, 94, 0.1) 0%,
+    rgba(245, 240, 232, 0) 70%
+  ); // 頂部翠光
+
+  --gradient-cta: linear-gradient(135deg, #2f7d5e, #1a5c43); // 翠 CTA
+
+  // ─────── 結構 / 對比 token（元件走 var()）───────
+  // 宣紙底（含極淡紙紋 radial 疊加）
+  --app-bg:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(200, 180, 140, 0.12) 0%,
+      rgba(245, 240, 232, 0) 55%
+    ),
+    radial-gradient(
+      circle at 75% 80%,
+      rgba(180, 160, 120, 0.08) 0%,
+      rgba(245, 240, 232, 0) 50%
+    ),
+    #f5f0e8;
+  --ink-soft: #6b5a3e; // 次要文字（棕墨）
+  --ink-mute: #9e8a6a; // 三級 label（淡棕）
+
+  // 卡片半透明白紙質感
+  --glass: rgba(255, 252, 244, 0.7);
+  --glass-line: rgba(47, 125, 94, 0.2); // 細竹框線
+  --glow: rgba(47, 125, 94, 0.25); // 翠光（輕）
+
+  // 品牌 mark
+  --brand-mark-bg: linear-gradient(150deg, #2f7d5e, #1a5c43);
+
+  // 登入 pill solid（印章感紅底）
+  --pill-solid-bg: linear-gradient(135deg, #c8432e, #9e2a1c);
+
+  // 公告條底（宣紙感淡底）
+  --notice-bg: rgba(237, 231, 216, 0.8);
+
+  // 快捷 icon 球底
+  --qa-ico-bg: rgba(237, 231, 216, 0.9);
+
+  // active tab 底（硃砂紅印章感）
+  --tab-active-bg: #c8432e;
+
+  // 佔位遊戲卡底（宣紙底 + 淡紋）
+  --gcard-bg:
+    radial-gradient(
+      circle at 85% 30%,
+      rgba(47, 125, 94, 0.07) 0%,
+      rgba(237, 231, 216, 0) 55%
+    ),
+    linear-gradient(160deg, #e8e0cc 0%, #ede7d8 55%, #e2d8c4 100%);
+
+  // 卡片左側標題 accent bar（竹綠）
+  --card-label-bar: #2f7d5e;
+  --card-sub: #5a7a68;
+
+  // 在線人數數字色（翠）
+  --online-num: #2f7d5e;
+
+  // tabbar 底（宣紙白）
+  --tabbar-bg: rgba(245, 240, 232, 0.96);
+
+  // tabbar 中央凸出球（硃砂印章）
+  --tabbar-center-bg: linear-gradient(160deg, #c8432e, #9e2a1c);
+
+  // 落在深色 CTA 上的對比文字
+  --text-on-primary: #f5f0e8;
+
+  // desktop 補做用
+  --nav-bg: rgba(245, 240, 232, 0.97);
+  --footer-bg: #e8e0cc;
+  --section-soft: #ede7d8;
+
+  // 字體（顯示用：東方襯線；正文：無襯線為主）
+  --font-body: "Noto Sans TC", system-ui, sans-serif;
+  --font-display: "Noto Serif TC", serif;
+
+  // ─────── noya-ink 專有 token（印章風 tab）───────
+  // 印章方塊（方角 + 2px 墨框）
+  --ink-stamp-border: 2px solid #1a1208;
+  --ink-stamp-active-bg: #c8432e; // 硃砂紅印章底
+  --ink-stamp-active-color: #f5ece8; // 印章白字
+  --ink-stamp-active-border: 2px solid #9e2a1c;
+
+  // 分類欄與右側之間的墨竹分隔線（垂直）
+  --ink-divider: #2f7d5e;
+
+  // 宣紙裱框卡片雙層細框
+  --ink-frame-outer: rgba(47, 125, 94, 0.5);
+  --ink-frame-inner: rgba(47, 125, 94, 0.2);
+}
