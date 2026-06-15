@@ -39,13 +39,15 @@ const brightnessOptions: { key: BrightnessFilter; label: string }[] = [
 ];
 
 /**
- * 排序兩選一選項（順序：由舊到新 / 由新到舊）
+ * 排序三選一選項（順序：由舊到新 / 由新到舊 / 依編號）
  *
- * 預設 oldest 放第一個，與 store 預設值對齊，視覺上也呼應「先看舊款再看新款」的瀏覽動線
+ * - 預設 oldest 放第一個，與 store 預設值對齊，視覺上也呼應「先看舊款再看新款」的瀏覽動線
+ * - 「依編號」對應 store 的 "code"：依 label 前綴 a01 → a02 → … → b01 … 升序排列
  */
 const sortOptions: { key: SortOrder; label: string }[] = [
   { key: "oldest", label: "由舊到新" },
-  { key: "newest", label: "由新到舊" }
+  { key: "newest", label: "由新到舊" },
+  { key: "code", label: "依編號" }
 ];
 
 function pickSort(value: SortOrder): void {

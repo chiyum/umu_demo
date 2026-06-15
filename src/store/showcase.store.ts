@@ -34,12 +34,16 @@ export type PreviewDevice = "desktop" | "mobile";
  *
  * - "oldest"：由舊到新（預設）
  * - "newest"：由新到舊
+ * - "code"：依編號 label 前綴升序（a01 → a02 → … → b01 → …）
+ *           取 label 的 `<letter><nn>` 前綴比較：letter 升序為主鍵、兩位流水號升序為次鍵，
+ *           讓使用者「點了之後從 a01、a02 這樣排，a 類排完再換 b 類」
  *
  * 為什麼用 union 而非 boolean：
  * - 語意明確，避免「true = 由新到舊 還是 由舊到新」的歧義
+ * - 三態（oldest / newest / code）天然不適合 boolean，union 才表達得了
  * - UI segmented control 可直接綁這個值，與既有 BrightnessFilter 風格一致
  */
-export type SortOrder = "oldest" | "newest";
+export type SortOrder = "oldest" | "newest" | "code";
 
 /**
  * 沒有 releaseDate 的舊 theme 排序時視為「最早」用的哨兵字串
@@ -358,6 +362,37 @@ export const useShowcaseStore = defineStore("showcase", () => {
       idx: registryIndex.get(key) ?? Number.MAX_SAFE_INTEGER
     });
 
+    /**
+     * code 排序專用：從 label 解析 `<letter><nn>` 前綴成可比較 tuple
+     *
+     * label 規約為 `<letter><nn> · <名稱>`（例：`a01 · 霓虹`、`b01 · AT99`）。
+     * 用 regex 抓開頭的「一個小寫字母 + 一串數字」，letter 升序為主鍵、數字升序為次鍵。
+     *
+     * fallback 設計（不 crash 原則）：
+     * - label 不符格式（抓不到前綴）→ letter 給 "{"（ASCII 上大於 'z'，排到所有正常字母之後），
+     *   數字給 MAX_SAFE_INTEGER，再靠 registryIndex 當最終 tiebreaker，
+     *   讓格式異常的 theme 穩定沉到清單尾端而非讓排序爆掉
+     */
+    const codeKeyOf = (key: string, label: string) => {
+      const m = /^([a-z])(\d+)/.exec(label.trim());
+      return {
+        letter: m ? m[1] : "{",
+        num: m ? Number.parseInt(m[2], 10) : Number.MAX_SAFE_INTEGER,
+        idx: registryIndex.get(key) ?? Number.MAX_SAFE_INTEGER
+      };
+    };
+
+    // code 模式：依編號 label 前綴升序（a01 < a02 < … < b01 …），與 oldest/newest 互斥分支
+    if (sortOrder.value === "code") {
+      return [...filteredThemes.value].sort((a, b) => {
+        const ka = codeKeyOf(a.key, a.label);
+        const kb = codeKeyOf(b.key, b.label);
+        if (ka.letter !== kb.letter) return ka.letter < kb.letter ? -1 : 1;
+        if (ka.num !== kb.num) return ka.num - kb.num;
+        return ka.idx - kb.idx; // 前綴完全相同（理論不會）→ 用 registry 順序穩定收尾
+      });
+    }
+
     // 先一律以 oldest（升序）排出穩定結果，再依方向決定是否反向
     const ascending = [...filteredThemes.value].sort((a, b) => {
       const ka = sortKeyOf(a.key, a.releaseDate);
@@ -487,7 +522,12 @@ export const useShowcaseStore = defineStore("showcase", () => {
    * 在「由舊到新 / 由新到舊」之間切換
    *
    * 提供給「點一下切換」型 UI（若 UI 改用單顆 toggle 按鈕而非 segmented control 時可用）；
-   * 目前 filter-bar 用 segmented control（兩態各一顆 radio），主要呼叫 setSortOrder
+   * 目前 filter-bar 用 segmented control（每態各一顆 radio），主要呼叫 setSortOrder
+   *
+   * 注意：SortOrder 已擴成三態（oldest / newest / code），此 toggle 只在 oldest/newest
+   * 之間互換，刻意不納入 code——「依編號」是獨立語意，用 toggle 在三態間輪轉並不直覺。
+   * 若目前是 code，toggle 會落到 newest（非 code → 視為 newest 分支）。
+   * 保留此 export 是為了不破壞既有可能的引用；實際 UI 不靠它。
    */
   function toggleSortOrder(): void {
     sortOrder.value = sortOrder.value === "oldest" ? "newest" : "oldest";
