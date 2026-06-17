@@ -5,6 +5,14 @@ import debounce from "lodash/debounce";
 // 抽成模組層級常數，讓 UA helper 與混合判斷共用同一份數值，避免散落
 const MOBILE_WIDTH_THRESHOLD = 768;
 
+// 行動裝置 UA 關鍵字（提到模組層級，讓 isMobileUserAgent 與桌面模式 viewport 修正共用同一份，避免散落）：
+// - iPhone / iPod：iOS 手機
+// - Android.*Mobile：Android「手機」（Android 平板的 UA 不含 Mobile，會被當電腦版）
+// - Windows Phone / IEMobile：Windows 行動裝置
+// - BlackBerry / Opera Mini / webOS：其他較少見的行動瀏覽器
+const MOBILE_UA_REGEX =
+  /iPhone|iPod|Android.*Mobile|Windows Phone|IEMobile|BlackBerry|Opera Mini|webOS/i;
+
 /**
  * 偵測當前瀏覽器的 User-Agent 是否屬於「行動裝置」。
  *
@@ -23,17 +31,52 @@ function isMobileUserAgent(): boolean {
   // 防呆：非瀏覽器環境（理論上此 demo 不會 SSR，但保留保護避免 navigator 為 undefined 報錯）
   if (typeof navigator === "undefined" || !navigator.userAgent) return false;
 
-  const ua = navigator.userAgent;
+  return MOBILE_UA_REGEX.test(navigator.userAgent);
+}
 
-  // 涵蓋主流行動裝置 UA 關鍵字：
-  // - iPhone / iPod：iOS 手機
-  // - Android.*Mobile：Android「手機」（Android 平板的 UA 不含 Mobile，會被當電腦版）
-  // - Windows Phone / IEMobile：Windows 行動裝置
-  // - BlackBerry / Opera Mini / webOS：其他較少見的行動瀏覽器
-  const MOBILE_UA_REGEX =
-    /iPhone|iPod|Android.*Mobile|Windows Phone|IEMobile|BlackBerry|Opera Mini|webOS/i;
+/**
+ * 修正「iPhone 切到桌面版預覽（請求桌面版網站）」時電腦版 layout 跑版的問題。
+ *
+ * 問題背景：
+ * iOS Safari 按「請求桌面版網站」後，UA 會變成 Mac 桌面瀏覽器，網站因此載入電腦版
+ * layout（這是正確的，使用者本來就是要看電腦版）。但 iOS 仍遵守 index.html 的
+ * `width=device-width`，viewport 維持手機實體寬度（約 390px），於是電腦版 layout 被
+ * 硬塞進約 390px 的窄 viewport，導致跑版。
+ *
+ * Android Chrome 桌面模式則會無視 device-width，強制把 layout viewport 撐到約 980px
+ * 並把整頁縮放塞進螢幕，所以電腦版能完整顯示——這正是使用者想要的行為。
+ *
+ * 解法：偵測「桌面 UA + 觸控裝置 + 手機級窄 viewport」(= iPhone 桌面模式) 時，動態把
+ * viewport 改為固定寬度 980（對齊 Android Chrome 桌面模式），瀏覽器即會把電腦版整頁
+ * 縮放塞進螢幕，達到「以 100% 寬度當電腦版顯示」。
+ *
+ * 不受影響者：
+ * - 真桌機：maxTouchPoints 為 0，不命中，viewport 維持原樣。
+ * - 真手機（一般模式）：UA 仍是行動 UA，不命中，維持手機版 layout。
+ * - iPad（含預設桌面 UA / 桌面模式）：viewport 寬度 >= 768，螢幕本身就放得下電腦版，
+ *   不需強制縮放，維持 device-width。
+ */
+export function applyDesktopModeViewportFix(): void {
+  // 防呆：非瀏覽器環境直接跳過
+  if (typeof navigator === "undefined" || typeof document === "undefined") {
+    return;
+  }
 
-  return MOBILE_UA_REGEX.test(ua);
+  const isDesktopUA = !MOBILE_UA_REGEX.test(navigator.userAgent || "");
+  // 真桌機 maxTouchPoints 為 0；iOS / iPadOS 觸控裝置為 > 0，用來區分「桌面 UA 的真桌機」與「桌面模式的觸控裝置」
+  const isTouchDevice = navigator.maxTouchPoints > 1;
+  // viewport 仍是手機級窄寬，代表是 iPhone 之類窄螢幕（iPad 會 >= 768，不在此列）
+  const isPhoneSizedViewport = window.innerWidth < MOBILE_WIDTH_THRESHOLD;
+
+  // 三者皆成立才是「iPhone 桌面模式」：桌面 UA、可觸控、但 viewport 仍是手機窄寬
+  if (!(isDesktopUA && isTouchDevice && isPhoneSizedViewport)) return;
+
+  const viewportMeta = document.querySelector('meta[name="viewport"]');
+  if (!viewportMeta) return;
+
+  // 980 = 對齊 Android Chrome 桌面模式強制的 layout viewport 寬度，
+  // 讓電腦版整頁縮放塞進手機螢幕（保留可縮放，不鎖 user-scalable）
+  viewportMeta.setAttribute("content", "width=980");
 }
 
 /**

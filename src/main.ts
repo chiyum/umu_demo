@@ -1,6 +1,11 @@
 import { createApp } from "vue";
 import "@/assets/scss/main.scss";
 import App from "./App.vue";
+import { applyDesktopModeViewportFix } from "@/utils/use-device";
+
+// 在掛載前先修正 iPhone「桌面版預覽」的 viewport，
+// 讓電腦版 layout 比照 Android 整頁縮放顯示，避免被塞進手機窄寬導致跑版
+applyDesktopModeViewportFix();
 
 /** _app */
 import Layout from "@/_app/layouts";
