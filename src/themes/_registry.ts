@@ -1716,6 +1716,27 @@ const noyaReef: ThemeMeta = {
   releaseDate: NOYA_LIVE_V2_RELEASE_DATES.reef
 };
 
+// noya-lagoon（諾亞礁湖）沿用珊瑚配色，故直接共用 NOYA_REEF_COLORS
+const noyaLagoon: ThemeMeta = {
+  key: "noya-lagoon",
+  label: "c26 · 諾亞礁湖",
+  description:
+    "諾亞礁湖：以 c13 諾亞珊瑚為基底的手機改版——存款 / 取款 / 消息快捷功能移到 strip 左側，每日簽到改緊湊版（標題 + 今日領取小按鈕同行 space-between、7 天圓點可水平滑動）移到右側並與左側等高；電腦版沿用珊瑚版面，預設珊瑚橙 / 芒果黃 / 莓果粉三種配色",
+  desktop: () => import("./noya-lagoon/desktop.vue"),
+  mobile: () => import("./noya-lagoon/mobile.vue"),
+  defaultColor: "coral",
+  colors: NOYA_REEF_COLORS,
+  previews: buildPreviews("noya-lagoon"),
+  // 色變體截圖：跳過 default（coral），只列 mango / berry
+  colorPreviews: buildColorPreviews("noya-lagoon", NOYA_REEF_COLORS, "coral"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  // 奶油淺底
+  brightness: "light",
+  categories: ["live"],
+  releaseDate: "2026-06-19"
+};
+
 /** noya-starlit 配色（抽常數讓 colors 與 buildColorPreviews 共用） */
 const NOYA_STARLIT_COLORS: ColorVariant[] = [
   { key: "purple", label: "星夜紫", swatch: "#8a5cf0" },
@@ -2134,6 +2155,7 @@ export const themes: Record<string, ThemeMeta> = {
   "noya-ink": noyaInk,
   "noya-steel": noyaSteel,
   "noya-reef": noyaReef,
+  "noya-lagoon": noyaLagoon,
   "noya-starlit": noyaStarlit,
   "noya-mint": noyaMint,
   "noya-pill": noyaPill,

@@ -11,13 +11,13 @@ import {
 } from "./_data";
 
 /**
- * noya-reef（珊瑚奶油）手機版
+ * noya-lagoon（諾亞礁湖，c26）手機版 — 以 c13 諾亞珊瑚為基底的改版
  *
- * 視覺亮點：
- *   左側分類：大 squircle（border-radius ~30%）icon 按鈕，
- *     icon 置中 + 下方 label，active = 珊瑚漸層填底 + 柔影
- *   右側頁面：最上方一條「每日簽到」strip（7 天圓點 + 今日領取按鈕），
- *     下面接大 squircle 卡片（奶油底 + 珊瑚邊框 + 柔影）
+ * 與 c13 手機版的差異：
+ *   - 移除在線人數
+ *   - strip 改為「左快捷（存款 / 取款 / 消息）+ 右每日簽到」兩欄並等高
+ *   - 每日簽到緊湊版：head 一行 space-between（左標題 + 右「今日領取」小膠囊按鈕），
+ *     7 天圓點列 overflow-x 可水平滑動；右側內容區只留卡片列表
  *
  * Logo 接線：走 themeStore.currentLogo，不寫死品牌。
  */
@@ -30,33 +30,33 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
 </script>
 
 <template>
-  <div class="noya-reef-m">
-    <div class="noya-reef-m__app">
+  <div class="noya-lagoon-m">
+    <div class="noya-lagoon-m__app">
       <!-- Header：logo（走 store）+ 登入/註冊 pill -->
-      <header class="noya-reef-m__header">
-        <div class="noya-reef-m__brand">
-          <img class="noya-reef-m__logo" :src="logoSrc" :alt="logoLabel" />
+      <header class="noya-lagoon-m__header">
+        <div class="noya-lagoon-m__brand">
+          <img class="noya-lagoon-m__logo" :src="logoSrc" :alt="logoLabel" />
         </div>
-        <div class="noya-reef-m__head-right">
-          <span class="noya-reef-m__pill noya-reef-m__pill--solid"
+        <div class="noya-lagoon-m__head-right">
+          <span class="noya-lagoon-m__pill noya-lagoon-m__pill--solid"
             >會員登入</span
           >
-          <span class="noya-reef-m__pill">會員註冊</span>
+          <span class="noya-lagoon-m__pill">會員註冊</span>
         </div>
       </header>
 
       <!-- Hero banner -->
-      <section class="noya-reef-m__hero">
+      <section class="noya-lagoon-m__hero">
         <img :src="heroSrc" alt="首存 1000 送 1000 · 珊瑚礁尊享" />
       </section>
 
       <!-- 公告跑馬燈 -->
-      <div class="noya-reef-m__notice">
+      <div class="noya-lagoon-m__notice">
         <Icon
-          class="noya-reef-m__notice-horn"
+          class="noya-lagoon-m__notice-horn"
           icon="material-symbols:campaign-outline"
         />
-        <div class="noya-reef-m__notice-track">
+        <div class="noya-lagoon-m__notice-track">
           <p>
             <b>【系統公告】</b>自 5/1（00:00:00）起，ATM 存款最低金額將調整為
             300 元，感謝您的理解與配合！
@@ -64,93 +64,99 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
         </div>
       </div>
 
-      <!-- 在線人數 + 快捷功能 -->
-      <div class="noya-reef-m__strip">
-        <div class="noya-reef-m__online">在線人數：<b>3063</b></div>
-        <div class="noya-reef-m__quick">
+      <!--
+        strip：左側快捷功能（存款 / 取款 / 消息）+ 右側每日簽到（緊湊版）
+        在線人數已移除；每日簽到由原本右側內容區上方搬到這裡。
+      -->
+      <div class="noya-lagoon-m__strip">
+        <!-- 左側快捷功能 -->
+        <div class="noya-lagoon-m__quick">
           <div
             v-for="qa in QUICK_ACTIONS"
             :key="qa.key"
-            class="noya-reef-m__qa"
+            class="noya-lagoon-m__qa"
           >
-            <span class="noya-reef-m__qa-ico"><Icon :icon="qa.icon" /></span>
-            <span class="noya-reef-m__qa-label">{{ qa.label }}</span>
+            <span class="noya-lagoon-m__qa-ico"><Icon :icon="qa.icon" /></span>
+            <span class="noya-lagoon-m__qa-label">{{ qa.label }}</span>
+          </div>
+        </div>
+
+        <!--
+          右側每日簽到（緊湊版）：與左側快捷功能等高。
+          head 一行用 space-between：左「每日簽到」標題、右「今日領取」小按鈕；
+          7 天圓點列 overflow-x: auto，超出時可水平滑動。
+        -->
+        <div class="noya-lagoon-m__checkin noya-lagoon-m__checkin--compact">
+          <div class="noya-lagoon-m__checkin-head">
+            <div class="noya-lagoon-m__checkin-title">
+              <Icon icon="material-symbols:calendar-today-outline" />
+              <span>每日簽到</span>
+            </div>
+            <button type="button" class="noya-lagoon-m__checkin-cta">
+              <Icon icon="material-symbols:redeem" />
+              今日領取
+            </button>
+          </div>
+          <div class="noya-lagoon-m__checkin-days">
+            <div
+              v-for="d in CHECKIN_DAYS"
+              :key="d.day"
+              class="noya-lagoon-m__checkin-day"
+              :class="{
+                'noya-lagoon-m__checkin-day--claimed': d.claimed,
+                'noya-lagoon-m__checkin-day--today': d.day === 3
+              }"
+            >
+              <div class="noya-lagoon-m__checkin-dot">
+                <Icon v-if="d.claimed" icon="material-symbols:check-circle" />
+                <span v-else class="noya-lagoon-m__checkin-num">{{
+                  d.day
+                }}</span>
+              </div>
+              <span class="noya-lagoon-m__checkin-reward">{{ d.reward }}</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- 大廳：左 squircle 分類 + 右內容區 -->
-      <div class="noya-reef-m__lobby">
+      <div class="noya-lagoon-m__lobby">
         <!--
           左側 squircle 分類按鈕欄：
           每個按鈕是大 squircle（30% border-radius），icon 置中 + 下方 label。
           active = 珊瑚漸層填底 + 柔影
         -->
-        <div class="noya-reef-m__cats">
+        <div class="noya-lagoon-m__cats">
           <button
             v-for="cat in LOBBY_CATEGORIES"
             :key="cat.key"
             type="button"
-            class="noya-reef-m__sqbtn"
-            :class="{ 'noya-reef-m__sqbtn--on': activeCat === cat.key }"
+            class="noya-lagoon-m__sqbtn"
+            :class="{ 'noya-lagoon-m__sqbtn--on': activeCat === cat.key }"
             @click="activeCat = cat.key"
           >
-            <Icon class="noya-reef-m__sqbtn-ic" :icon="cat.icon" />
-            <span class="noya-reef-m__sqbtn-label">{{ cat.label }}</span>
+            <Icon class="noya-lagoon-m__sqbtn-ic" :icon="cat.icon" />
+            <span class="noya-lagoon-m__sqbtn-label">{{ cat.label }}</span>
           </button>
         </div>
 
-        <!-- 右側內容區 -->
-        <div class="noya-reef-m__content">
-          <!--
-            每日簽到 strip：7 天圓點（已領 = 珊瑚實心、未領 = 灰色、今日 = 珊瑚光環），
-            最右側「今日領取」按鈕。
-          -->
-          <div class="noya-reef-m__checkin">
-            <div class="noya-reef-m__checkin-head">
-              <Icon icon="material-symbols:calendar-today-outline" />
-              <span>每日簽到</span>
-            </div>
-            <div class="noya-reef-m__checkin-days">
-              <div
-                v-for="d in CHECKIN_DAYS"
-                :key="d.day"
-                class="noya-reef-m__checkin-day"
-                :class="{
-                  'noya-reef-m__checkin-day--claimed': d.claimed,
-                  'noya-reef-m__checkin-day--today': d.day === 3
-                }"
-              >
-                <div class="noya-reef-m__checkin-dot">
-                  <Icon v-if="d.claimed" icon="material-symbols:check-circle" />
-                  <span v-else class="noya-reef-m__checkin-num">{{
-                    d.day
-                  }}</span>
-                </div>
-                <span class="noya-reef-m__checkin-reward">{{ d.reward }}</span>
-              </div>
-            </div>
-            <button type="button" class="noya-reef-m__checkin-cta">
-              <Icon icon="material-symbols:redeem" />
-              今日領取
-            </button>
-          </div>
-
+        <!-- 右側內容區（每日簽到已移到上方 strip，這裡只留卡片列表） -->
+        <div class="noya-lagoon-m__content">
           <!-- 卡片列表（squircle 卡片） -->
-          <div class="noya-reef-m__cards" :key="activeCat">
+          <div class="noya-lagoon-m__cards" :key="activeCat">
             <template v-for="(c, i) in cards" :key="i">
-              <div class="noya-reef-m__sqcard">
+              <div class="noya-lagoon-m__sqcard">
                 <img
                   v-if="c.img"
-                  class="noya-reef-m__gfull"
+                  class="noya-lagoon-m__gfull"
                   :src="c.img"
                   :alt="c.alt"
                 />
-                <div v-else class="noya-reef-m__gcard">
-                  <div class="noya-reef-m__gcard-wm">{{ c.wm }}</div>
-                  <div class="noya-reef-m__gcard-label">
-                    <div class="noya-reef-m__gcard-big">{{ c.big }}</div>
-                    <div class="noya-reef-m__gcard-sub">{{ c.sub }}</div>
+                <div v-else class="noya-lagoon-m__gcard">
+                  <div class="noya-lagoon-m__gcard-wm">{{ c.wm }}</div>
+                  <div class="noya-lagoon-m__gcard-label">
+                    <div class="noya-lagoon-m__gcard-big">{{ c.big }}</div>
+                    <div class="noya-lagoon-m__gcard-sub">{{ c.sub }}</div>
                   </div>
                 </div>
               </div>
@@ -161,25 +167,25 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
     </div>
 
     <!-- 底部 tabbar（中間首頁凸出球） -->
-    <nav class="noya-reef-m__tabbar">
+    <nav class="noya-lagoon-m__tabbar">
       <div
         v-for="t in BOTTOM_TABS"
         :key="t.key"
-        class="noya-reef-m__nav"
-        :class="{ 'noya-reef-m__nav--center': t.center }"
+        class="noya-lagoon-m__nav"
+        :class="{ 'noya-lagoon-m__nav--center': t.center }"
       >
-        <span v-if="t.center" class="noya-reef-m__nav-badge">
+        <span v-if="t.center" class="noya-lagoon-m__nav-badge">
           <Icon :icon="t.icon" />
         </span>
-        <Icon v-else class="noya-reef-m__nav-ic" :icon="t.icon" />
-        <span class="noya-reef-m__nav-label">{{ t.label }}</span>
+        <Icon v-else class="noya-lagoon-m__nav-ic" :icon="t.icon" />
+        <span class="noya-lagoon-m__nav-label">{{ t.label }}</span>
       </div>
     </nav>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.noya-reef-m {
+.noya-lagoon-m {
   background: var(--bg-base);
   font-family: var(--font-body);
   min-height: 100vh;
@@ -291,7 +297,7 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
       color: var(--text-muted);
       white-space: nowrap;
       will-change: transform;
-      animation: noya-reef-marquee 18s linear infinite;
+      animation: noya-lagoon-marquee 18s linear infinite;
 
       // stylelint-disable-next-line no-descending-specificity
       b {
@@ -301,29 +307,22 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
     }
   }
 
-  // ===== Strip =====
+  // ===== Strip：左側快捷功能 + 右側每日簽到 =====
+  // align-items: stretch → 左快捷與右簽到等高
   &__strip {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 18px 6px;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px 14px 6px;
   }
 
-  &__online {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-soft);
-
-    // stylelint-disable-next-line no-descending-specificity
-    b {
-      color: var(--online-num);
-      font-weight: 700;
-    }
-  }
-
+  // 左側快捷功能（存款 / 取款 / 消息）：保留 icon 球 + 下方 label，靠左成一排，
+  // 垂直置中以對齊等高的右側簽到區塊
   &__quick {
+    flex: none;
     display: flex;
-    gap: 14px;
+    align-items: center;
+    gap: 10px;
   }
 
   &__qa {
@@ -334,8 +333,8 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
   }
 
   &__qa-ico {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
 
     // squircle icon 球
     border-radius: 30%;
@@ -409,11 +408,11 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
         0 2px 6px rgba(240, 116, 78, 0.2);
       color: var(--text-on-primary);
 
-      .noya-reef-m__sqbtn-ic {
+      .noya-lagoon-m__sqbtn-ic {
         color: var(--text-on-primary);
       }
 
-      .noya-reef-m__sqbtn-label {
+      .noya-lagoon-m__sqbtn-label {
         color: rgba(255, 255, 255, 0.95);
         font-weight: 700;
       }
@@ -445,33 +444,46 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
   }
 
   // ───── 每日簽到 strip ─────
+  // flex column：head（標題 + 領取按鈕）在上、7 天圓點列在下
   &__checkin {
     background: var(--checkin-bg);
     border-radius: 18px;
     border: 1.5px solid var(--border);
     padding: 12px 12px 10px;
     box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
   }
 
+  // head 一行用 space-between：左標題、右「今日領取」小按鈕
   &__checkin-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  // 左標題（icon + 每日簽到）
+  &__checkin-title {
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 13px;
     font-weight: 700;
     color: var(--color-primary);
-    margin-bottom: 10px;
 
     :deep(svg) {
       font-size: 16px;
     }
   }
 
+  // 7 天圓點列：overflow-x auto，子元素超出時可水平滑動
   &__checkin-days {
     display: flex;
     gap: 4px;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    overflow-x: auto;
   }
 
   &__checkin-day {
@@ -479,7 +491,8 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
     flex-direction: column;
     align-items: center;
     gap: 3px;
-    flex: 1;
+    flex: none;
+    width: 34px;
   }
 
   &__checkin-dot {
@@ -499,13 +512,13 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
     }
 
     // 已領取：珊瑚實心
-    .noya-reef-m__checkin-day--claimed & {
+    .noya-lagoon-m__checkin-day--claimed & {
       background: var(--checkin-claimed);
       color: #ffffff;
     }
 
     // 今日：珊瑚光環
-    .noya-reef-m__checkin-day--today & {
+    .noya-lagoon-m__checkin-day--today & {
       background: var(--checkin-claimed);
       color: #ffffff;
       box-shadow: 0 0 0 3px var(--checkin-today);
@@ -525,24 +538,25 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
     white-space: nowrap;
   }
 
+  // 「今日領取」小膠囊按鈕（移到 head 右側，靠右）
   &__checkin-cta {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 5px;
-    width: 100%;
-    padding: 8px;
-    border-radius: 12px;
+    gap: 4px;
+    flex: none;
+    padding: 5px 10px;
+    border-radius: 999px;
     background: var(--gradient-cta);
     color: var(--text-on-primary);
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 700;
     cursor: pointer;
     border: none;
-    box-shadow: 0 4px 12px rgba(240, 116, 78, 0.3);
+    box-shadow: 0 3px 10px rgba(240, 116, 78, 0.3);
+    white-space: nowrap;
 
     :deep(svg) {
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 
@@ -551,7 +565,7 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
     display: flex;
     flex-direction: column;
     gap: 12px;
-    animation: noya-reef-cards-in 0.28s ease;
+    animation: noya-lagoon-cards-in 0.28s ease;
   }
 
   // squircle 卡片包裝（大圓角）
@@ -647,7 +661,7 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
     &--center {
       margin-top: -22px;
 
-      .noya-reef-m__nav-label {
+      .noya-lagoon-m__nav-label {
         color: var(--color-primary);
         font-weight: 700;
       }
@@ -681,9 +695,47 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
     font-size: 11px;
     font-weight: 500;
   }
+
+  // ───── 每日簽到「緊湊版」（塞進 strip 右半）─────
+  // 放在最後，讓較高特異性的覆寫排在各 base 元件規則之後，避免 no-descending-specificity
+  &__checkin--compact {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+
+    .noya-lagoon-m__checkin-title {
+      font-size: 12px;
+    }
+
+    .noya-lagoon-m__checkin-days {
+      gap: 2px;
+    }
+
+    .noya-lagoon-m__checkin-day {
+      width: 36px;
+    }
+
+    .noya-lagoon-m__checkin-dot {
+      width: 22px;
+      height: 22px;
+      font-size: 11px;
+
+      :deep(svg) {
+        font-size: 14px;
+      }
+    }
+
+    .noya-lagoon-m__checkin-num {
+      font-size: 10px;
+    }
+
+    .noya-lagoon-m__checkin-reward {
+      font-size: 8px;
+    }
+  }
 }
 
-@keyframes noya-reef-marquee {
+@keyframes noya-lagoon-marquee {
   from {
     transform: translateX(8%);
   }
@@ -693,7 +745,7 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
   }
 }
 
-@keyframes noya-reef-cards-in {
+@keyframes noya-lagoon-cards-in {
   from {
     opacity: 0;
     transform: translateY(6px);
