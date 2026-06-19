@@ -1,9 +1,9 @@
-// noya-reef 版面替代配色
-// [data-theme="noya-reef"][data-theme-color="xxx"] 雙重 selector
+// noya-lagoon 版面替代配色
+// [data-theme="noya-lagoon"][data-theme-color="xxx"] 雙重 selector
 // 每個 variant 覆寫元件實際讀到的對比 token
 
 // 芒果黃：accent 改暖芒果黃（活力陽光）
-[data-theme="noya-reef"][data-theme-color="mango"] {
+[data-theme="noya-lagoon"][data-theme-color="mango"] {
   --color-primary: #eaa64e;
   --color-secondary: #f0bc6a;
   --color-accent: #f8d89a;
@@ -65,7 +65,7 @@
 }
 
 // 莓果粉：accent 改深玫瑰莓果（甜蜜浪漫）
-[data-theme="noya-reef"][data-theme-color="berry"] {
+[data-theme="noya-lagoon"][data-theme-color="berry"] {
   --color-primary: #e0668a;
   --color-secondary: #f080a0;
   --color-accent: #f8b0c8;
