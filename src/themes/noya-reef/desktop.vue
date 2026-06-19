@@ -46,7 +46,7 @@ const services = [
     desc: "智能金流系統，存款即時到帳、提款快速審核，全程透明安心。"
   },
   {
-    icon: "material-symbols:diversity-3-outline",
+    icon: "material-symbols:diversity-3",
     title: "多元品類",
     desc: "真人、體育、棋牌、電子、捕魚一站集合，暢玩各式娛樂。"
   },
@@ -166,7 +166,7 @@ const services = [
                   </div>
                 </div>
                 <button type="button" class="noya-reef-d__checkin-cta">
-                  <Icon icon="material-symbols:redeem-outline" />
+                  <Icon icon="material-symbols:redeem" />
                   今日領取
                 </button>
               </div>

@@ -64,9 +64,12 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
         </div>
       </div>
 
-      <!-- 在線人數 + 快捷功能 -->
+      <!--
+        strip：左側快捷功能（存款 / 取款 / 消息）+ 右側每日簽到（緊湊版）
+        在線人數已移除；每日簽到由原本右側內容區上方搬到這裡。
+      -->
       <div class="noya-reef-m__strip">
-        <div class="noya-reef-m__online">在線人數：<b>3063</b></div>
+        <!-- 左側快捷功能 -->
         <div class="noya-reef-m__quick">
           <div
             v-for="qa in QUICK_ACTIONS"
@@ -76,6 +79,39 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
             <span class="noya-reef-m__qa-ico"><Icon :icon="qa.icon" /></span>
             <span class="noya-reef-m__qa-label">{{ qa.label }}</span>
           </div>
+        </div>
+
+        <!--
+          右側每日簽到（緊湊版）：7 天圓點（已領 = 珊瑚實心、未領 = 灰色、
+          今日 = 珊瑚光環），下方「今日領取」按鈕。
+          為塞進 strip 右半，套 --compact 修飾把字級 / 圓點 / 間距整體縮小。
+        -->
+        <div class="noya-reef-m__checkin noya-reef-m__checkin--compact">
+          <div class="noya-reef-m__checkin-head">
+            <Icon icon="material-symbols:calendar-today-outline" />
+            <span>每日簽到</span>
+          </div>
+          <div class="noya-reef-m__checkin-days">
+            <div
+              v-for="d in CHECKIN_DAYS"
+              :key="d.day"
+              class="noya-reef-m__checkin-day"
+              :class="{
+                'noya-reef-m__checkin-day--claimed': d.claimed,
+                'noya-reef-m__checkin-day--today': d.day === 3
+              }"
+            >
+              <div class="noya-reef-m__checkin-dot">
+                <Icon v-if="d.claimed" icon="material-symbols:check-circle" />
+                <span v-else class="noya-reef-m__checkin-num">{{ d.day }}</span>
+              </div>
+              <span class="noya-reef-m__checkin-reward">{{ d.reward }}</span>
+            </div>
+          </div>
+          <button type="button" class="noya-reef-m__checkin-cta">
+            <Icon icon="material-symbols:redeem" />
+            今日領取
+          </button>
         </div>
       </div>
 
@@ -100,42 +136,8 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
           </button>
         </div>
 
-        <!-- 右側內容區 -->
+        <!-- 右側內容區（每日簽到已移到上方 strip，這裡只留卡片列表） -->
         <div class="noya-reef-m__content">
-          <!--
-            每日簽到 strip：7 天圓點（已領 = 珊瑚實心、未領 = 灰色、今日 = 珊瑚光環），
-            最右側「今日領取」按鈕。
-          -->
-          <div class="noya-reef-m__checkin">
-            <div class="noya-reef-m__checkin-head">
-              <Icon icon="material-symbols:calendar-today-outline" />
-              <span>每日簽到</span>
-            </div>
-            <div class="noya-reef-m__checkin-days">
-              <div
-                v-for="d in CHECKIN_DAYS"
-                :key="d.day"
-                class="noya-reef-m__checkin-day"
-                :class="{
-                  'noya-reef-m__checkin-day--claimed': d.claimed,
-                  'noya-reef-m__checkin-day--today': d.day === 3
-                }"
-              >
-                <div class="noya-reef-m__checkin-dot">
-                  <Icon v-if="d.claimed" icon="material-symbols:check-circle" />
-                  <span v-else class="noya-reef-m__checkin-num">{{
-                    d.day
-                  }}</span>
-                </div>
-                <span class="noya-reef-m__checkin-reward">{{ d.reward }}</span>
-              </div>
-            </div>
-            <button type="button" class="noya-reef-m__checkin-cta">
-              <Icon icon="material-symbols:redeem-outline" />
-              今日領取
-            </button>
-          </div>
-
           <!-- 卡片列表（squircle 卡片） -->
           <div class="noya-reef-m__cards" :key="activeCat">
             <template v-for="(c, i) in cards" :key="i">
@@ -301,29 +303,19 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
     }
   }
 
-  // ===== Strip =====
+  // ===== Strip：左側快捷功能 + 右側每日簽到 =====
   &__strip {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 18px 6px;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 14px 6px;
   }
 
-  &__online {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-soft);
-
-    // stylelint-disable-next-line no-descending-specificity
-    b {
-      color: var(--online-num);
-      font-weight: 700;
-    }
-  }
-
+  // 左側快捷功能（存款 / 取款 / 消息）：保留 icon 球 + 下方 label，靠左成一排
   &__quick {
+    flex: none;
     display: flex;
-    gap: 14px;
+    gap: 10px;
   }
 
   &__qa {
@@ -334,8 +326,8 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
   }
 
   &__qa-ico {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
 
     // squircle icon 球
     border-radius: 30%;
@@ -680,6 +672,51 @@ const cards = computed(() => LOBBY_CARDS[activeCat.value] ?? []);
   &__nav-label {
     font-size: 11px;
     font-weight: 500;
+  }
+
+  // ───── 每日簽到「緊湊版」（塞進 strip 右半）─────
+  // 放在最後，讓較高特異性的覆寫排在各 base 元件規則之後，避免 no-descending-specificity
+  &__checkin--compact {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 10px 9px;
+
+    .noya-reef-m__checkin-head {
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .noya-reef-m__checkin-days {
+      gap: 2px;
+      margin-bottom: 8px;
+    }
+
+    .noya-reef-m__checkin-dot {
+      width: 22px;
+      height: 22px;
+      font-size: 11px;
+
+      :deep(svg) {
+        font-size: 14px;
+      }
+    }
+
+    .noya-reef-m__checkin-num {
+      font-size: 10px;
+    }
+
+    .noya-reef-m__checkin-reward {
+      font-size: 7px;
+    }
+
+    .noya-reef-m__checkin-cta {
+      padding: 6px;
+      font-size: 12px;
+
+      :deep(svg) {
+        font-size: 14px;
+      }
+    }
   }
 }
 
