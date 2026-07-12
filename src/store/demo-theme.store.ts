@@ -140,8 +140,14 @@ function resolveInitialThemeQuery(): {
   let layoutKey = DEFAULT_LAYOUT_KEY;
   try {
     const path = window.location.pathname;
-    // 比對 /demo/<key>（或子路徑 /umu_demo/demo/<key>）
-    const match = path.match(/\/demo\/([^/?#]+)/);
+    // 比對 /demo/<key> 或 /preview/<key>（或子路徑 /umu_demo/demo|preview/<key>）
+    //
+    // 為什麼要一併認 /preview/：v4.12 新增 /preview/:layoutkey 獨立預覽路由（A9）。
+    // 初始 colorKey / logoKey 解析需要「正確的 layoutKey」才能拿對 theme.colors / theme.logos
+    // 做合法性檢查；若這裡只認 /demo/，preview 路由會 fallback 成 DEFAULT_LAYOUT_KEY（noya），
+    // 導致 `?color=neon-purple` 之類的參數被拿去跟 noya 的配色比對而落空，
+    // 分享連結 `/preview/at99?color=neon-purple` 會顯示成 at99 預設色而非指定色。
+    const match = path.match(/\/(?:demo|preview)\/([^/?#]+)/);
     if (match && themes[match[1]]) {
       layoutKey = match[1];
     }

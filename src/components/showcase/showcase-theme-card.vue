@@ -1,36 +1,35 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import type { ThemeMeta } from "@/themes/_types";
-import { getPreview } from "@/themes/_registry";
+import { getPreview, getThemeMainSwatch } from "@/themes/_registry";
 import { useShowcaseStore } from "@/store/showcase.store";
 
 /**
  * Showcase Theme Card — 單張版型展示卡片
  *
- * 設計：
- * - 上半部縮圖（desktop 預覽，依 showcaseLogoKey 切換 logo 版本），下半部標題 / 描述 / 兩個 CTA
- * - 「預覽」按鈕觸發 emit，由父層用 showcase store 開 dialog
- * - 「Demo」按鈕走 router.resolve + window.open 開新分頁
+ * 設計（v4.12 起改為「即時 HTML 預覽」）：
+ * - 上半部縮圖改用 iframe 嵌入 /preview/<key>（該 theme 的獨立乾淨預覽頁），
+ *   以 transform: scale() 縮放到卡片尺寸，呈現真實版面而非靜態截圖
+ * - 效能鐵則（72 套）：IntersectionObserver 懶載入——iframe 只在卡片進視窗才掛 src；
+ *   離開視窗即卸載以省記憶體（避免 72 個 SPA 同時常駐）
+ * - 退回策略：既有 WebP 截圖當 poster 先顯示，iframe 載入完成再淡入蓋上；
+ *   無對應 WebP 的新 theme 用 theme 主色漸層佔位，絕不破圖
+ * - 下半部標題 / 描述 / 兩個 CTA 維持不變
  *
- * 為什麼用 router.resolve 而不寫死字串：
- * - 部署到 GitHub Pages 是子路徑 /umu_demo/，router.resolve 會自動帶上 base
- * - 寫 `/demo/noya` 字串在 prod 會錯成 https://chiyum.github.io/demo/noya（缺前綴 → 404）
- * - resolve 拿到的 href 已是含 base 的完整相對路徑，window.open 用它最安全
+ * 為什麼 iframe src 用 /preview/<key> 而非 /demo/<key>：
+ * - /preview 是無 chrome 的乾淨版面（無 FAB），嵌進卡片不會被浮標擋住縮圖
+ * - 且不跑 URL sync，避免 iframe 內無謂的 history churn（見 layout-theme-preview）
  *
- * 為什麼 emit preview 而不在元件內 useShowcaseStore.openPreview：
- * - 預覽行為（開 dialog）由父層集中管理，元件對外只 emit 語意事件，較易測試與重用
- * - 但 showcaseLogoKey 是「畫面狀態」，本元件自己渲染就需要它，所以這層 useShowcaseStore 是讀不寫
+ * 為什麼「預覽」按鈕仍 emit 而不在元件內開 dialog：
+ * - 預覽 dialog 由父層（home.vue）集中管理，元件對外只 emit 語意事件，較易測試與重用
+ * - 但 showcaseLogoKey 是「畫面狀態」，本元件渲染 iframe src 就需要它，故這層 useShowcaseStore 是讀不寫
  */
 
 const props = defineProps<{
   theme: ThemeMeta;
   /**
-   * 是否為「依當前 logo 主色推薦」的版型
-   *
-   * 由父層（home.vue）依 showcaseStore.recommendedThemeKeys 計算傳入。
-   * 預設 false，避免 prop 漏傳時誤打徽章。
-   * 切 logo / 切篩選都會 reactive 更新（推薦集合 vs 篩選集合各自獨立 computed）
+   * 是否為「依當前 logo 主色推薦」的版型（由父層 home.vue 依 recommendedThemeKeys 計算傳入）
    */
   recommended?: boolean;
 }>();
@@ -46,38 +45,144 @@ const showcaseStore = useShowcaseStore();
 const colorSwatches = computed(() => props.theme.colors);
 
 /**
- * 卡片縮圖 src：依 showcaseLogoKey 從 previews 矩陣抓 desktop 圖
+ * iframe 內部渲染寬度（CSS px）——固定用桌機參考寬度
  *
- * 為什麼用 getPreview helper 而非直接 props.theme.previews[key].desktop：
- * - getPreview 內含 logoKey → defaultLogo → logos[0] fallback 鏈，避免無效 key 破圖
- * - 與 showcase-preview-dialog 共用同一個 helper，行為一致
+ * 為什麼固定 1280：
+ * - iframe 是獨立 browsing context，其 window.innerWidth = 此 CSS 寬度（1280）> 768 手機閾值，
+ *   故 iframe 內 useDevice 一律判為桌機、渲染 desktop.vue，與既有 WebP poster（桌面截圖）一致
+ * - 即使使用者在真手機上看 showcase，iframe 仍以 1280 寬渲染桌機版，縮放後預覽比例穩定
  */
-const thumbSrc = computed(() =>
+const PREVIEW_REFERENCE_WIDTH = 1280;
+
+/**
+ * 卡片縮圖 poster src：既有 WebP 截圖（依 showcaseLogoKey 切 logo 版本）
+ *
+ * 缺檔（20 套新 theme 無截圖）時 getPreview 回 ""，改用 theme 主色漸層佔位（見 template）。
+ */
+const posterSrc = computed(() =>
   getPreview(props.theme, showcaseStore.showcaseLogoKey, "desktop")
 );
 
+/** 無 WebP 時的漸層佔位底色（取 theme 代表色，避免破圖） */
+const posterGradientStyle = computed(() => {
+  const c = getThemeMainSwatch(props.theme);
+  return {
+    background: `linear-gradient(135deg, ${c} 0%, rgba(0, 0, 0, 0.35) 100%)`
+  };
+});
+
 /**
- * 點預覽：往上 emit，由父層決定行為（通常是開 ShowcasePreviewDialog）
+ * iframe src：/preview/<key>?color=<defaultColor>&logoKey=<showcaseLogoKey>
+ *
+ * 為什麼用 router.resolve(...).href：
+ * - 拿到含 BASE_URL 的完整 href，自動處理 GitHub Pages /umu_demo/ 子路徑；
+ *   寫死字串在 prod 會缺前綴 404
+ * - 帶 color = theme.defaultColor 讓 iframe 顯示該 theme 的預設配色（與 poster 一致）
+ * - 帶 logoKey = 使用者在 showcase 選定的 logo，卡片即時預覽跟著換 logo（與舊行為一致）
  */
+const previewSrc = computed(() => {
+  const query = new URLSearchParams({
+    color: props.theme.defaultColor,
+    logoKey: showcaseStore.showcaseLogoKey
+  }).toString();
+  return router.resolve(`/preview/${props.theme.key}?${query}`).href;
+});
+
+/**
+ * 縮圖容器（IntersectionObserver + ResizeObserver 的觀測目標）
+ *
+ * 用 ref(null) + template 的 ref="thumbWrap" 自動綁定（Vue 3.4 無 useTemplateRef，該 API 為 3.5+）
+ */
+const thumbWrap = ref<HTMLElement | null>(null);
+
+/** iframe 是否進入視窗（懶載入開關）；離開視窗即卸載省記憶體 */
+const isVisible = ref(false);
+/** iframe 是否已 load 完成（控制 poster 淡出） */
+const isFrameLoaded = ref(false);
+/** 縮放比例：容器寬 / 參考寬（1280）；預設 0.45 避免首拍未量測時的視覺跳動 */
+const scale = ref(0.45);
+
+/** iframe 內容盒寬高（參考寬 × 16:10 比例），scale 後剛好填滿 16:10 容器 */
+const frameStyle = computed(() => ({
+  width: `${PREVIEW_REFERENCE_WIDTH}px`,
+  height: `${(PREVIEW_REFERENCE_WIDTH * 10) / 16}px`,
+  transform: `scale(${scale.value})`
+}));
+
+let io: IntersectionObserver | null = null;
+let ro: ResizeObserver | null = null;
+
+/** iframe load 完成 → 標記已載入，觸發 poster 淡出 */
+function onFrameLoad(): void {
+  isFrameLoaded.value = true;
+}
+
+/** 依容器實際寬度重算縮放比例 */
+function recomputeScale(width: number): void {
+  if (width > 0) scale.value = width / PREVIEW_REFERENCE_WIDTH;
+}
+
+onMounted(() => {
+  const el = thumbWrap.value;
+  if (!el) return;
+
+  // 首拍先量一次，避免等到 observer callback 才有正確 scale
+  recomputeScale(el.clientWidth);
+
+  // ResizeObserver：容器寬度變動（RWD / grid 換欄）時同步縮放比例
+  ro = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      recomputeScale(entry.contentRect.width);
+    }
+  });
+  ro.observe(el);
+
+  // IntersectionObserver：進視窗才掛 iframe，離開即卸載（72 套避免同時常駐）
+  // rootMargin 300px：鄰近卡片提前掛載，捲動到時已載好，減少 poster 閃爍
+  io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          isVisible.value = true;
+        } else {
+          // 離開視窗：卸載 iframe（v-if）並重置載入旗標，回退顯示 poster
+          isVisible.value = false;
+          isFrameLoaded.value = false;
+        }
+      }
+    },
+    { rootMargin: "300px 0px" }
+  );
+  io.observe(el);
+});
+
+onBeforeUnmount(() => {
+  io?.disconnect();
+  ro?.disconnect();
+  io = null;
+  ro = null;
+});
+
+/**
+ * previewSrc 改變（使用者切 showcase logo）時，若 iframe 正掛載中，
+ * src 綁定會讓 iframe 重載 → 重置 isFrameLoaded 讓 poster 先蓋回、載完再淡出，避免顯示半載入畫面。
+ */
+watch(previewSrc, () => {
+  if (isVisible.value) isFrameLoaded.value = false;
+});
+
+/** 點預覽：往上 emit，由父層開 ShowcasePreviewDialog */
 function handlePreview(): void {
   emit("preview", props.theme.key);
 }
 
 /**
  * 點 Demo：開新分頁到 /demo/:layoutKey
- *
- * 為什麼用 router.resolve(...).href：
- * - 拿到含 BASE_URL 的完整 href，自動處理 /umu_demo/ 子路徑
- * - 直接 window.open(href, '_blank') 即可開新分頁
- *
- * noopener / noreferrer：避免新分頁有 window.opener 反向操控原頁（安全慣例）
+ * 用 router.resolve(...).href 取得含 base 的完整路徑（處理 /umu_demo/ 子路徑）；
+ * noopener/noreferrer 避免新分頁反向操控原頁。
  */
 function handleOpenDemo(): void {
-  // 用 path 字串 resolve 而不用 name：
-  // pages.ts 自動產的 route name 對含 `:` 的動態段邏輯較難預測（雖實測為 `demo-:layoutkey`），
-  // 用 path 字串走 resolve 在 vue-router 完全等價且不依賴 name 生成規律
   const route = router.resolve(`/demo/${props.theme.key}`);
-  // resolve 後的 href 已含 base，例如 /umu_demo/demo/noya
   window.open(route.href, "_blank", "noopener,noreferrer");
 }
 </script>
@@ -87,11 +192,7 @@ function handleOpenDemo(): void {
     class="theme-card"
     :class="{ 'theme-card--recommended': props.recommended }"
   >
-    <!--
-      推薦徽章：絕對定位在卡片右上角
-      - 不影響卡片本身點擊行為（pointer-events: none，徽章只是視覺標記）
-      - 用「LOGO 推薦」純文字 + 金色帶設計，避免 emoji
-    -->
+    <!-- 推薦徽章：絕對定位在卡片右上角，pointer-events:none 不攔截點擊 -->
     <span
       v-if="props.recommended"
       class="theme-card__badge"
@@ -102,32 +203,61 @@ function handleOpenDemo(): void {
       <span class="theme-card__badge-text">LOGO 推薦</span>
     </span>
 
-    <!-- 縮圖：點圖也算預覽（提高觸發機會） -->
-    <button
-      class="theme-card__thumb-btn"
-      type="button"
-      :aria-label="`預覽 ${props.theme.label}`"
-      @click="handlePreview"
-    >
-      <!--
-        效能：showcase 主頁會渲染全部 theme 卡片（>10 張），每張卡片一張 desktop 預覽圖。
-        - loading="lazy"：瀏覽器原生延遲載入 below-the-fold 圖，首屏只下載可見卡片
-        - decoding="async"：圖片解碼不阻塞主執行緒，捲動時也更順
-        - 防 CLS：外層 .theme-card__thumb-btn 已用 aspect-ratio: 16 / 10 佔位，
-          圖片載入前後不會跳版，不必再硬塞 width/height attribute（理由：實際渲染尺寸
-          由 CSS 控制，attribute 寫死的 intrinsic ratio 反而會被 CSS aspect-ratio 蓋掉）
-      -->
+    <!--
+      縮圖區：poster（底層）+ 即時 iframe（懶載入蓋在上層）+ 透明點擊按鈕（最上層）
+      - 用 div 當容器（而非 button）：iframe 屬互動內容不可置於 button 內（HTML 規範）
+      - 點擊由絕對定位的透明 button 承接，維持「點縮圖任一處 = 預覽」
+    -->
+    <div ref="thumbWrap" class="theme-card__thumb">
+      <!-- poster：有 WebP 用截圖，無截圖用 theme 主色漸層；iframe 載完後淡出 -->
       <img
-        :src="thumbSrc"
+        v-if="posterSrc"
+        :src="posterSrc"
         :alt="`${props.theme.label} 預覽縮圖`"
-        class="theme-card__thumb"
+        class="theme-card__poster"
+        :class="{ 'theme-card__poster--hidden': isFrameLoaded }"
         loading="lazy"
         decoding="async"
       />
-      <span class="theme-card__thumb-overlay">
-        <span class="theme-card__thumb-overlay-text">點擊預覽</span>
-      </span>
-    </button>
+      <div
+        v-else
+        class="theme-card__poster theme-card__poster--gradient"
+        :class="{ 'theme-card__poster--hidden': isFrameLoaded }"
+        :style="posterGradientStyle"
+        aria-hidden="true"
+      />
+
+      <!--
+        即時預覽 iframe：只在進視窗時掛載（isVisible），離開即卸載
+        - pointer-events:none：不攔截捲動 / 點擊，交給上層透明按鈕
+        - scrolling=no + tabindex=-1 + aria-hidden：純視覺預覽，不進 tab 序、不可捲動
+        - transform: scale() 由 frameStyle 依容器寬度算出
+      -->
+      <iframe
+        v-if="isVisible"
+        :src="previewSrc"
+        :title="`${props.theme.label} 即時預覽`"
+        class="theme-card__frame"
+        :style="frameStyle"
+        scrolling="no"
+        tabindex="-1"
+        aria-hidden="true"
+        loading="lazy"
+        @load="onFrameLoad"
+      />
+
+      <!-- 透明點擊層 + hover 遮罩文字 -->
+      <button
+        class="theme-card__thumb-btn"
+        type="button"
+        :aria-label="`預覽 ${props.theme.label}`"
+        @click="handlePreview"
+      >
+        <span class="theme-card__thumb-overlay">
+          <span class="theme-card__thumb-overlay-text">點擊預覽</span>
+        </span>
+      </button>
+    </div>
 
     <div class="theme-card__body">
       <h2 class="theme-card__title">{{ props.theme.label }}</h2>
@@ -188,7 +318,7 @@ function handleOpenDemo(): void {
     box-shadow: 0 12px 28px rgba(212, 165, 116, 0.24);
   }
 
-  // 推薦態：金色邊框 + 加重陰影，視覺上比一般卡片更搶眼
+  // 推薦態：金色邊框 + 加重陰影
   &--recommended {
     border-color: rgba(184, 133, 74, 0.6);
     box-shadow: 0 6px 22px rgba(184, 133, 74, 0.22);
@@ -203,7 +333,7 @@ function handleOpenDemo(): void {
     position: absolute;
     top: 14px;
     right: 14px;
-    z-index: 2;
+    z-index: 3;
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -215,9 +345,6 @@ function handleOpenDemo(): void {
     font-weight: 600;
     letter-spacing: 1px;
     box-shadow: 0 4px 10px rgba(184, 133, 74, 0.4);
-
-    // 徽章僅作為視覺標記，不應攔截點擊；確保「點卡片任何位置 = 觸發 thumb-btn 預覽」
-    // 但徽章本身有 role="note"，不該被點擊（也避免遮住底下縮圖按鈕）
     pointer-events: none;
   }
 
@@ -230,28 +357,58 @@ function handleOpenDemo(): void {
     line-height: 1;
   }
 
-  // stylelint no-descending-specificity：所有低 specificity 的 base 規則
-  // （&__thumb-btn / &__thumb / &__thumb-overlay / &__thumb-overlay-text）
-  // 必須宣告在高 specificity 的 hover combo 規則（&__thumb-btn:hover .xxx）之前。
-  // 為了維持「同主題的 selector 視覺上聚在一起」，把兩條 hover combo 集中放在 thumb 區塊末尾
-  &__thumb-btn {
+  // 縮圖容器：16:10 佔位（防 CLS），內含 poster / iframe / 點擊層三層疊放
+  &__thumb {
     position: relative;
-    padding: 0;
-    border: 0;
-    background: #faf5ef;
-    cursor: pointer;
-    overflow: hidden;
     aspect-ratio: 16 / 10;
-    display: block;
+    overflow: hidden;
+    background: #faf5ef;
   }
 
-  &__thumb {
+  // poster：鋪滿容器，iframe 載完後淡出
+  &__poster {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: top center;
     display: block;
-    transition: transform 0.4s ease;
+    z-index: 1;
+    transition: opacity 0.35s ease;
+  }
+
+  &__poster--gradient {
+    // 無 WebP 時的漸層佔位（背景色由 inline style 帶入 theme 主色）
+    object-fit: fill;
+  }
+
+  &__poster--hidden {
+    opacity: 0;
+  }
+
+  // 即時預覽 iframe：左上為原點縮放，鋪在 poster 之上
+  &__frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    transform-origin: top left;
+    pointer-events: none;
+    background: transparent;
+    z-index: 2;
+  }
+
+  // 透明點擊層：覆蓋整個縮圖，承接點擊 → 預覽
+  &__thumb-btn {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    display: block;
   }
 
   &__thumb-overlay {
@@ -275,11 +432,7 @@ function handleOpenDemo(): void {
     border-radius: 6px;
   }
 
-  // hover combo：必須在所有 base 規則之後，避免 stylelint no-descending-specificity 違規
-  &__thumb-btn:hover .theme-card__thumb {
-    transform: scale(1.03);
-  }
-
+  // hover：顯示遮罩文字（放在 base 規則之後，避免 stylelint no-descending-specificity 違規）
   &__thumb-btn:hover .theme-card__thumb-overlay {
     opacity: 1;
   }
@@ -303,7 +456,7 @@ function handleOpenDemo(): void {
     color: #8a7a6a;
     line-height: 1.6;
     margin: 0;
-    min-height: 44px; // 描述 1-2 行高度齊平
+    min-height: 44px;
   }
 
   &__swatches {

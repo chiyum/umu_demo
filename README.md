@@ -316,6 +316,16 @@ VUE_VITE_TS_START/                # 專案根目錄
 - 配色：由 URL query 控制，`?color=<colorKey>`，預設取該 theme 第一組配色
 - 持久化：FAB 切配色 / logo 時寫入 localStorage，下次同 theme 重新進入會 fallback 用
 
+**兩種預覽路由（v4.12 起）：**
+
+| 路由 | layout | 用途 | chrome |
+|---|---|---|---|
+| `/demo/:layoutkey` | `layout-theme-host` | 完整體驗頁，可用 FAB 切配色 / logo | 有 FAB、URL 雙向同步 |
+| `/preview/:layoutkey` | `layout-theme-preview` | 乾淨的**獨立可分享預覽頁**，也當 showcase 卡片即時預覽 iframe 的 src | **無** FAB、無 URL sync |
+
+- `/preview/:layoutkey` 只渲染該 theme 本體，URL 可直達、可分享（`?color=` / `?logoKey=` 一樣生效）；
+  走 GitHub Pages `/umu_demo/` base 與 404.html SPA fallback，重整不 404。機制決策見 `docs/adr/0002`。
+
 ### Theme 編號規約（v4.3）
 
 每個 theme 的 `label` 都帶「類別字母 + 兩位流水號」前綴，方便 showcase / FAB / preview dialog
@@ -894,24 +904,45 @@ Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」
 注意：chrome --dump-dom / chrome headless 之前踩過 mount-race 坑（SPA 還沒 mount 就截、profile 路徑卡 race），務必用 Playwright。
 networkidle 在 dev server 下可能因 HMR client polling 永不達成，用 domcontentloaded + 顯式 selector wait 較穩。
 
+### Showcase 卡片即時 HTML 預覽（v4.12 起）
+
+Showcase 卡片縮圖從「靜態 WebP 截圖」升級為「即時 HTML 預覽」：卡片內嵌 iframe
+載入該 theme 的獨立預覽頁 `/preview/<key>?color=<defaultColor>&logoKey=<showcaseLogoKey>`，
+以 `transform: scale(容器寬 / 1280)`（`transform-origin: top left`）縮到卡片 16:10 框內，
+呈現真實版面而非靜態圖。實作與取捨見 `docs/adr/0002`。
+
+效能與退回設計（`showcase-theme-card.vue`）：
+
+- **IntersectionObserver 懶載入**（rootMargin 300px）：iframe 只在卡片進視窗才掛 `src`，
+  離開視窗即 `v-if` 卸載——72 套不會同時常駐，捲動不明顯卡頓
+- **ResizeObserver**：依縮圖容器實際寬度重算 `scale`，RWD / grid 換欄自適應
+- **poster 退回**：既有 WebP 先顯示當底圖，iframe `@load` 完成後淡出蓋上；
+  **無 WebP 的新 theme** 用 theme 主色漸層佔位（`getThemeMainSwatch`），絕不破圖
+- **iframe 隔離**：`pointer-events: none` + `scrolling=no` + 透明點擊層承接「點縮圖 = 預覽」；
+  iframe 是獨立 browsing context，`window.innerWidth = 1280` 恆判為桌機、渲染 desktop.vue
+- **WebP 由「唯一縮圖」降為「首屏 poster（選配）」**：新增 theme **不再強制截圖**，
+  沒截圖也能靠即時 iframe 顯示真實版面 + 漸層 poster 過渡；既有 WebP 全數保留不刪
+
+> **新增 theme 免再截圖**：v4.12 前每套 theme 都得用 Playwright 補 WebP 縮圖；改即時 HTML 預覽後，
+> WebP 只是「載入 iframe 前的 poster 底圖」，缺檔會自動用 theme 主色漸層佔位，不影響卡片可用。
+
 ### Showcase 圖片 Lazy-Load 機制
 
 Showcase 主頁（`/home` 路由，根據 vue-router 自動產生規則 `src/pages/default/home.vue` → `/home`）
-會一次渲染全部 theme 卡片，每張卡片含一張 desktop 預覽圖；
-總圖數量隨 theme 增加會線性放大，網速慢時若全部圖片同時下載會嚴重拖慢首屏。
-為解決此問題，以下兩處 `<img>` 套用瀏覽器原生 lazy-load：
+會一次渲染全部 theme 卡片；卡片縮圖已改為即時 iframe（見上節），
+但預覽 dialog 內仍用 WebP `<img>`，套用瀏覽器原生 lazy-load：
 
-| 元件 | 圖片用途 | 屬性 |
+| 元件 | 圖片 / 預覽用途 | 屬性 |
 |---|---|---|
-| `showcase-theme-card.vue` | 卡片縮圖（desktop 預覽） | `loading="lazy"` + `decoding="async"` |
+| `showcase-theme-card.vue` | 卡片縮圖（**即時 iframe** + WebP/漸層 poster） | IntersectionObserver 懶載入 + poster `loading="lazy"` + `decoding="async"` |
 | `showcase-preview-dialog.vue` | 彈窗預覽圖（desktop / mobile，含 color 切換） | `loading="lazy"` + `decoding="async"` + spinner overlay |
 
 設計重點：
 
 - **only below-the-fold**：`showcase-hero` 沒有 `<img>`，`showcase-logo-switcher` 的
   logo 圖在首屏 above-the-fold（hero 下方平鋪 row），**不加 lazy** 以免閃爍
-- **防 CLS**：theme-card thumb 外層 `.theme-card__thumb-btn` 已用 `aspect-ratio: 16 / 10`
-  穩定佔位，圖片載入前後不會跳版。新增 `<img>` 時遵守同原則：用 CSS aspect-ratio
+- **防 CLS**：theme-card 縮圖容器 `.theme-card__thumb` 已用 `aspect-ratio: 16 / 10`
+  穩定佔位，iframe / poster 載入前後不會跳版。新增 `<img>` 時遵守同原則：用 CSS aspect-ratio
   或父容器固定尺寸佔位，**不要**靠 width/height attribute（CSS aspect-ratio 會蓋掉）
 - **`decoding="async"`**：把圖片解碼工作丟到非主執行緒，捲動與切換 tab 時更順
 - **dialog 內的圖**：dialog 用 `v-if` 動態 mount，理論上只在開啟時才下載；
