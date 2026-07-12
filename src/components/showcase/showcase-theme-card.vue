@@ -209,22 +209,30 @@ function handleOpenDemo(): void {
       - 點擊由絕對定位的透明 button 承接，維持「點縮圖任一處 = 預覽」
     -->
     <div ref="thumbWrap" class="theme-card__thumb">
-      <!-- poster：有 WebP 用截圖，無截圖用 theme 主色漸層；iframe 載完後淡出 -->
+      <!--
+        底層佔位：一律 theme 主色漸層（純 CSS、零網路請求），WebP / iframe 疊在其上
+        - 對所有 72 套皆為安全底圖：缺 WebP 的新 theme 只靠它；有 WebP 者被上層截圖蓋住
+      -->
+      <div
+        class="theme-card__poster theme-card__poster--gradient"
+        :style="posterGradientStyle"
+        aria-hidden="true"
+      />
+
+      <!--
+        WebP poster：僅在卡片接近視窗時（isVisible，IntersectionObserver rootMargin 300px）
+        才掛 src 發請求——硬保證「未進視窗的卡片 poster 不預抓」，收斂快捲時的瞬間連線爆量
+        （dev 模式曾見 poster webp 觸發 ERR_INSUFFICIENT_RESOURCES）。
+        loading=lazy + decoding=async 作為 belt-and-suspenders；iframe 載完後 poster 淡出顯示即時預覽。
+      -->
       <img
-        v-if="posterSrc"
+        v-if="posterSrc && isVisible"
         :src="posterSrc"
         :alt="`${props.theme.label} 預覽縮圖`"
         class="theme-card__poster"
         :class="{ 'theme-card__poster--hidden': isFrameLoaded }"
         loading="lazy"
         decoding="async"
-      />
-      <div
-        v-else
-        class="theme-card__poster theme-card__poster--gradient"
-        :class="{ 'theme-card__poster--hidden': isFrameLoaded }"
-        :style="posterGradientStyle"
-        aria-hidden="true"
       />
 
       <!--

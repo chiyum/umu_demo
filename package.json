@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:temp": "vite --mode temp",
-    "build": "vite build",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "preview": "vite preview",
     "lint:style": "stylelint \"src/**/*.{css,scss,sass,vue}\"",
     "lint:style:fix": "stylelint \"src/**/*.{css,scss,sass,vue}\" --fix",
@@ -45,6 +45,7 @@
     "@typescript-eslint/parser": "^8.0.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.5.1",
+    "cross-env": "^10.1.0",
     "eslint": "^9.1.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
