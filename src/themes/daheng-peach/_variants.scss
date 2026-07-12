@@ -1,0 +1,135 @@
+// daheng-peach（c27 · 大亨蜜桃真人）版面替代配色
+// 每個 [data-theme="daheng-peach"][data-theme-color="xxx"] 都重寫整份 token body（含結構對比 token），
+// 避免切色殘色；三色皆為 daheng-coral 調色盤的 hue-rotation。
+
+[data-theme="daheng-peach"][data-theme-color="peach"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(68% 0.16 50deg); // coral 珊瑚（主強調 / CTA / active）
+  --color-secondary: oklch(58% 0.17 50deg); // coral-deep 深珊瑚（漸層尾 / 標題）
+  --color-accent: oklch(85% 0.08 85deg); // apricot 杏色（柔和點綴）
+  --bg-base: #faf9f0; // 原稿 --bg 奶油近白底
+  --bg-surface: #ffffff; // 原稿 --card 純白卡片
+  --bg-overlay: #fdf6e7; // 原稿 --card2 奶油副底（chip hover / 軟按鈕底）
+  --text-primary: #3a3326; // 原稿 --txt 暖棕
+  --text-muted: #9b927c; // 原稿 --txt2 副文字
+  --border: rgba(60, 48, 30, 0.08); // 原稿 --line
+  --shadow: 0 6px 22px rgba(150, 115, 50, 0.1); // 原稿 --shadow 暖色柔影
+
+  // hero / app 區漸層暖背（杏 → 白，呼應 .daily 漸層底）
+  --gradient-hero: linear-gradient(150deg, #fdf6e7, #ffffff);
+
+  // 珊瑚 CTA（原稿 .btn-coral / .side a.on / .play 漸層）
+  --gradient-cta: linear-gradient(
+    135deg,
+    oklch(68% 0.16 50deg),
+    oklch(58% 0.17 50deg)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --cta-ink: #ffffff; // 落在珊瑚 CTA 上的對比文字（奶油底配白字）
+  --glow: oklch(68% 0.16 50deg / 0.35); // 珊瑚柔光（CTA / play 球陰影）
+  --soft-bg: #fdf6e7; // 軟按鈕 / chip 底（原稿 --card2）
+  --soft-hover: #fbf0d4; // 軟按鈕 hover（原稿 .btn-soft:hover）
+  --hot-bg: rgba(255, 255, 255, 0.85); // HOT 角標底（原稿 .gcard .hot）
+  --dock-bg: rgba(255, 255, 255, 0.92); // dock 半透明白底（原稿 .dock）
+  --dock-shadow: 0 10px 30px rgba(80, 63, 30, 0.18); // dock 陰影（原稿）
+  --topbar-bg: rgba(250, 249, 240, 0.9); // topbar 半透明奶油底（原稿）
+  --radius: 22px; // hero / daily / pcard 圓角（原稿 22px）
+  --radius-card: 26px; // squircle 遊戲大卡圓角（原稿 .gcard 26px）
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-peach"][data-theme-color="apricot"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(68% 0.16 65deg); // coral 珊瑚（主強調 / CTA / active）
+  --color-secondary: oklch(58% 0.17 65deg); // coral-deep 深珊瑚（漸層尾 / 標題）
+  --color-accent: oklch(85% 0.08 100deg); // apricot 杏色（柔和點綴）
+  --bg-base: #f9faf0; // 原稿 --bg 奶油近白底
+  --bg-surface: #ffffff; // 原稿 --card 純白卡片
+  --bg-overlay: #fdfce7; // 原稿 --card2 奶油副底（chip hover / 軟按鈕底）
+  --text-primary: #3a3826; // 原稿 --txt 暖棕
+  --text-muted: #9b9a7c; // 原稿 --txt2 副文字
+  --border: rgba(60, 55, 30, 0.08); // 原稿 --line
+  --shadow: 0 6px 22px rgba(150, 140, 50, 0.1); // 原稿 --shadow 暖色柔影
+
+  // hero / app 區漸層暖背（杏 → 白，呼應 .daily 漸層底）
+  --gradient-hero: linear-gradient(150deg, #fdfce7, #ffffff);
+
+  // 珊瑚 CTA（原稿 .btn-coral / .side a.on / .play 漸層）
+  --gradient-cta: linear-gradient(
+    135deg,
+    oklch(68% 0.16 65deg),
+    oklch(58% 0.17 65deg)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --cta-ink: #ffffff; // 落在珊瑚 CTA 上的對比文字（奶油底配白字）
+  --glow: oklch(68% 0.16 65deg / 0.35); // 珊瑚柔光（CTA / play 球陰影）
+  --soft-bg: #fdfce7; // 軟按鈕 / chip 底（原稿 --card2）
+  --soft-hover: #fbf9d4; // 軟按鈕 hover（原稿 .btn-soft:hover）
+  --hot-bg: rgba(255, 255, 255, 0.85); // HOT 角標底（原稿 .gcard .hot）
+  --dock-bg: rgba(255, 255, 255, 0.92); // dock 半透明白底（原稿 .dock）
+  --dock-shadow: 0 10px 30px rgba(80, 75, 30, 0.18); // dock 陰影（原稿）
+  --topbar-bg: rgba(249, 250, 240, 0.9); // topbar 半透明奶油底（原稿）
+  --radius: 22px; // hero / daily / pcard 圓角（原稿 22px）
+  --radius-card: 26px; // squircle 遊戲大卡圓角（原稿 .gcard 26px）
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-peach"][data-theme-color="coral"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(68% 0.16 35deg); // coral 珊瑚（主強調 / CTA / active）
+  --color-secondary: oklch(58% 0.17 35deg); // coral-deep 深珊瑚（漸層尾 / 標題）
+  --color-accent: oklch(85% 0.08 70deg); // apricot 杏色（柔和點綴）
+  --bg-base: #faf6f0; // 原稿 --bg 奶油近白底
+  --bg-surface: #ffffff; // 原稿 --card 純白卡片
+  --bg-overlay: #fdf1e7; // 原稿 --card2 奶油副底（chip hover / 軟按鈕底）
+  --text-primary: #3a2e26; // 原稿 --txt 暖棕
+  --text-muted: #9b8a7c; // 原稿 --txt2 副文字
+  --border: rgba(60, 40, 30, 0.08); // 原稿 --line
+  --shadow: 0 6px 22px rgba(150, 90, 50, 0.1); // 原稿 --shadow 暖色柔影
+
+  // hero / app 區漸層暖背（杏 → 白，呼應 .daily 漸層底）
+  --gradient-hero: linear-gradient(150deg, #fdf1e7, #ffffff);
+
+  // 珊瑚 CTA（原稿 .btn-coral / .side a.on / .play 漸層）
+  --gradient-cta: linear-gradient(
+    135deg,
+    oklch(68% 0.16 35deg),
+    oklch(58% 0.17 35deg)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --cta-ink: #ffffff; // 落在珊瑚 CTA 上的對比文字（奶油底配白字）
+  --glow: oklch(68% 0.16 35deg / 0.35); // 珊瑚柔光（CTA / play 球陰影）
+  --soft-bg: #fdf1e7; // 軟按鈕 / chip 底（原稿 --card2）
+  --soft-hover: #fbe6d4; // 軟按鈕 hover（原稿 .btn-soft:hover）
+  --hot-bg: rgba(255, 255, 255, 0.85); // HOT 角標底（原稿 .gcard .hot）
+  --dock-bg: rgba(255, 255, 255, 0.92); // dock 半透明白底（原稿 .dock）
+  --dock-shadow: 0 10px 30px rgba(80, 50, 30, 0.18); // dock 陰影（原稿）
+  --topbar-bg: rgba(250, 246, 240, 0.9); // topbar 半透明奶油底（原稿）
+  --radius: 22px; // hero / daily / pcard 圓角（原稿 22px）
+  --radius-card: 26px; // squircle 遊戲大卡圓角（原稿 .gcard 26px）
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

@@ -1,0 +1,108 @@
+// daheng-obsidian（e03 · 大亨曜金尊爵）版面替代配色
+// 每個 [data-theme="daheng-obsidian"][data-theme-color="xxx"] 都重寫整份 token body（含結構對比 token），
+// 避免切色殘色；三色皆為 daheng-onyx 調色盤的 hue-rotation。
+
+[data-theme="daheng-obsidian"][data-theme-color="obsidian"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #c8d45f; // 原稿 --gold（燙金主色 / nav active / 標題）
+  --color-secondary: #e4f090; // 原稿 --gold2（亮金 / CTA 上緣 / 高光）
+  --color-accent: #8f9a35; // 原稿 --gold-deep（深金 / CTA 下緣 / 漸層尾）
+  --bg-base: #0c0c09; // 原稿 --bg 近黑底
+  --bg-surface: #1a1a12; // 原稿 --card 卡片底
+  --bg-overlay: rgba(200, 212, 95, 0.1); // 金色半透明遮罩（ghost btn hover）
+  --text-primary: #edefdc; // 原稿 --txt
+  --text-muted: #979a78; // 原稿 --txt2
+  --border: rgba(200, 212, 95, 0.22); // 原稿 --line 金色細框
+  --shadow: 0 10px 24px rgba(200, 212, 95, 0.18); // 金色懸浮陰影（medal/arch hover）
+  // hero 本身無漸層底圖（純放 banner 圖），此處備一組金光暗底漸層供需漸層底的區塊使用
+  --gradient-hero: linear-gradient(160deg, #202115, #14140e);
+
+  // 燙金 CTA：亮金 → 深金（對齊原稿 .btn-gold linear-gradient(180deg,gold2,gold-deep)）
+  --gradient-cta: linear-gradient(180deg, #e4f090, #8f9a35);
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #14140e; // 原稿 --bg2（notice / arch meta 底）
+  --card-2: #202115; // 原稿 --card2（八角徽章 / 優惠卡漸層尾）
+  --line-2: rgba(200, 212, 95, 0.45); // 原稿 --line2（hover 強化金框 / ghost 邊）
+  --cta-ink: #1b1c0a; // 落在燙金 CTA 上的深色對比文字（原稿 #1c150a）
+  --radius: 6px; // 原稿 hero border-radius 主圓角
+  --inner-line: rgba(200, 212, 95, 0.35); // hero / 八角內框金線（原稿 .hero::after / .oct::before）
+
+  // ── 字體 stack（與其他 daheng theme 一致，serif 用於品牌字 / 標題）
+  --font-display:
+    "Noto Serif TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-obsidian"][data-theme-color="champagne"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #d2d45f; // 原稿 --gold（燙金主色 / nav active / 標題）
+  --color-secondary: #ecf090; // 原稿 --gold2（亮金 / CTA 上緣 / 高光）
+  --color-accent: #979a35; // 原稿 --gold-deep（深金 / CTA 下緣 / 漸層尾）
+  --bg-base: #0c0c09; // 原稿 --bg 近黑底
+  --bg-surface: #1a1a12; // 原稿 --card 卡片底
+  --bg-overlay: rgba(210, 212, 95, 0.1); // 金色半透明遮罩（ghost btn hover）
+  --text-primary: #efefdc; // 原稿 --txt
+  --text-muted: #9a9a78; // 原稿 --txt2
+  --border: rgba(210, 212, 95, 0.22); // 原稿 --line 金色細框
+  --shadow: 0 10px 24px rgba(210, 212, 95, 0.18); // 金色懸浮陰影（medal/arch hover）
+  // hero 本身無漸層底圖（純放 banner 圖），此處備一組金光暗底漸層供需漸層底的區塊使用
+  --gradient-hero: linear-gradient(160deg, #212115, #14140e);
+
+  // 燙金 CTA：亮金 → 深金（對齊原稿 .btn-gold linear-gradient(180deg,gold2,gold-deep)）
+  --gradient-cta: linear-gradient(180deg, #ecf090, #979a35);
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #14140e; // 原稿 --bg2（notice / arch meta 底）
+  --card-2: #212115; // 原稿 --card2（八角徽章 / 優惠卡漸層尾）
+  --line-2: rgba(210, 212, 95, 0.45); // 原稿 --line2（hover 強化金框 / ghost 邊）
+  --cta-ink: #1c1b0a; // 落在燙金 CTA 上的深色對比文字（原稿 #1c150a）
+  --radius: 6px; // 原稿 hero border-radius 主圓角
+  --inner-line: rgba(210, 212, 95, 0.35); // hero / 八角內框金線（原稿 .hero::after / .oct::before）
+
+  // ── 字體 stack（與其他 daheng theme 一致，serif 用於品牌字 / 標題）
+  --font-display:
+    "Noto Serif TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-obsidian"][data-theme-color="rose"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #d4745f; // 原稿 --gold（燙金主色 / nav active / 標題）
+  --color-secondary: #f0a490; // 原稿 --gold2（亮金 / CTA 上緣 / 高光）
+  --color-accent: #9a4935; // 原稿 --gold-deep（深金 / CTA 下緣 / 漸層尾）
+  --bg-base: #0c0a09; // 原稿 --bg 近黑底
+  --bg-surface: #1a1312; // 原稿 --card 卡片底
+  --bg-overlay: rgba(212, 116, 95, 0.1); // 金色半透明遮罩（ghost btn hover）
+  --text-primary: #efe0dc; // 原稿 --txt
+  --text-muted: #9a7e78; // 原稿 --txt2
+  --border: rgba(212, 116, 95, 0.22); // 原稿 --line 金色細框
+  --shadow: 0 10px 24px rgba(212, 116, 95, 0.18); // 金色懸浮陰影（medal/arch hover）
+  // hero 本身無漸層底圖（純放 banner 圖），此處備一組金光暗底漸層供需漸層底的區塊使用
+  --gradient-hero: linear-gradient(160deg, #211715, #140f0e);
+
+  // 燙金 CTA：亮金 → 深金（對齊原稿 .btn-gold linear-gradient(180deg,gold2,gold-deep)）
+  --gradient-cta: linear-gradient(180deg, #f0a490, #9a4935);
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #140f0e; // 原稿 --bg2（notice / arch meta 底）
+  --card-2: #211715; // 原稿 --card2（八角徽章 / 優惠卡漸層尾）
+  --line-2: rgba(212, 116, 95, 0.45); // 原稿 --line2（hover 強化金框 / ghost 邊）
+  --cta-ink: #1c0c0a; // 落在燙金 CTA 上的深色對比文字（原稿 #1c150a）
+  --radius: 6px; // 原稿 hero border-radius 主圓角
+  --inner-line: rgba(212, 116, 95, 0.35); // hero / 八角內框金線（原稿 .hero::after / .oct::before）
+
+  // ── 字體 stack（與其他 daheng theme 一致，serif 用於品牌字 / 標題）
+  --font-display:
+    "Noto Serif TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

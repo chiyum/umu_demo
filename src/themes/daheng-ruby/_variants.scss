@@ -1,0 +1,162 @@
+// daheng-ruby（e04 · 大亨紅寶尊榮）版面替代配色
+// 每個 [data-theme="daheng-ruby"][data-theme-color="xxx"] 都重寫整份 token body（含結構對比 token），
+// 避免切色殘色；三色皆為 daheng-crimson 調色盤的 hue-rotation。
+
+[data-theme="daheng-ruby"][data-theme-color="ruby"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #ff719e; // 原稿 --gold（主金，CTA / 標題 / 角標）
+  --color-secondary: #ffb0c8; // 原稿 --gold2（亮金，漸層高光）
+  --color-accent: #c92f6a; // 原稿 --gold-deep（深金，邊框 / 漸層收尾）
+  --bg-base: #5b0f5e; // 原稿 --bg 深紅底
+  --bg-surface: #79197c; // 原稿 --card 卡片底
+  --bg-overlay: rgba(255, 130, 175, 0.12); // 半透明金遮罩（hover / 高光）
+  --text-primary: #ffe0ec; // 原稿 --txt
+  --text-muted: #e8a0cf; // 原稿 --txt2
+  --border: rgba(255, 130, 175, 0.25); // 原稿 --line
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4); // 原稿 hero / 卡片陰影
+  // body 深紅雙 radial 漸層底（忠實重現原稿 html,body background）
+  --gradient-hero: radial-gradient(
+      120% 60% at 50% -10%,
+      #8e208d,
+      transparent 60%
+    ),
+    radial-gradient(100% 50% at 50% 110%, #410a43, transparent 60%), var(--bg-base);
+
+  // 金漸層 CTA（對齊原稿 .btn-gold：gold2 → gold → gold-deep）
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--color-secondary),
+    var(--color-primary) 55%,
+    var(--color-accent)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #6c146f; // 原稿 --bg2（副底）
+  --card-2: #8e208d; // 原稿 --card2（卡片底色2 / packet 漸層起點）
+  --line-2: rgba(255, 130, 175, 0.55); // 原稿 --line2（較亮金邊 / btn-line）
+  --cta-ink: #5b0852; // 落在金色 CTA / 角標上的深紅對比文字
+  --topbar-bg: rgba(78, 12, 80, 0.92); // 原稿 .topbar 半透明深紅
+  --dock-bg: rgba(68, 10, 70, 0.96); // 原稿 .dock 半透明深紅
+  --ink-shadow: #480a4a; // 金色字 text-shadow 深紅描邊
+  --radius: 14px; // 原稿 .hero border-radius
+
+  // 錢幣圓形入口底（對齊原稿 .coin .c 的 radial 漸層）
+  --coin-face: radial-gradient(circle at 32% 28%, #a3269e, #79197c 70%);
+
+  // packet 紅包卡漸層（對齊原稿 .packet：card2 → bg2）
+  --packet-bg: linear-gradient(135deg, #8e208d, #6c146f);
+
+  // ── 字體 stack（與其他 daheng theme 一致；serif 用於品牌字 / 標題）
+  --font-display:
+    "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-ruby"][data-theme-color="garnet"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #ff7371; // 原稿 --gold（主金，CTA / 標題 / 角標）
+  --color-secondary: #ffb2b0; // 原稿 --gold2（亮金，漸層高光）
+  --color-accent: #c92f37; // 原稿 --gold-deep（深金，邊框 / 漸層收尾）
+  --bg-base: #5e0f47; // 原稿 --bg 深紅底
+  --bg-surface: #7c195e; // 原稿 --card 卡片底
+  --bg-overlay: rgba(255, 130, 133, 0.12); // 半透明金遮罩（hover / 高光）
+  --text-primary: #ffe0e2; // 原稿 --txt
+  --text-muted: #e8a0b7; // 原稿 --txt2
+  --border: rgba(255, 130, 133, 0.25); // 原稿 --line
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4); // 原稿 hero / 卡片陰影
+  // body 深紅雙 radial 漸層底（忠實重現原稿 html,body background）
+  --gradient-hero: radial-gradient(
+      120% 60% at 50% -10%,
+      #8e2068,
+      transparent 60%
+    ),
+    radial-gradient(100% 50% at 50% 110%, #430a32, transparent 60%), var(--bg-base);
+
+  // 金漸層 CTA（對齊原稿 .btn-gold：gold2 → gold → gold-deep）
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--color-secondary),
+    var(--color-primary) 55%,
+    var(--color-accent)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #6f1454; // 原稿 --bg2（副底）
+  --card-2: #8e2068; // 原稿 --card2（卡片底色2 / packet 漸層起點）
+  --line-2: rgba(255, 130, 133, 0.55); // 原稿 --line2（較亮金邊 / btn-line）
+  --cta-ink: #5b0836; // 落在金色 CTA / 角標上的深紅對比文字
+  --topbar-bg: rgba(80, 12, 59, 0.92); // 原稿 .topbar 半透明深紅
+  --dock-bg: rgba(70, 10, 52, 0.96); // 原稿 .dock 半透明深紅
+  --ink-shadow: #4a0a37; // 金色字 text-shadow 深紅描邊
+  --radius: 14px; // 原稿 .hero border-radius
+
+  // 錢幣圓形入口底（對齊原稿 .coin .c 的 radial 漸層）
+  --coin-face: radial-gradient(circle at 32% 28%, #a32674, #7c195e 70%);
+
+  // packet 紅包卡漸層（對齊原稿 .packet：card2 → bg2）
+  --packet-bg: linear-gradient(135deg, #8e2068, #6f1454);
+
+  // ── 字體 stack（與其他 daheng theme 一致；serif 用於品牌字 / 標題）
+  --font-display:
+    "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-ruby"][data-theme-color="amethyst"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #ff71e5; // 原稿 --gold（主金，CTA / 標題 / 角標）
+  --color-secondary: #ffb0f0; // 原稿 --gold2（亮金，漸層高光）
+  --color-accent: #c92fb7; // 原稿 --gold-deep（深金，邊框 / 漸層收尾）
+  --bg-base: #340f5e; // 原稿 --bg 深紅底
+  --bg-surface: #48197c; // 原稿 --card 卡片底
+  --bg-overlay: rgba(255, 130, 238, 0.12); // 半透明金遮罩（hover / 高光）
+  --text-primary: #ffe0fc; // 原稿 --txt
+  --text-muted: #dda0e8; // 原稿 --txt2
+  --border: rgba(255, 130, 238, 0.25); // 原稿 --line
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4); // 原稿 hero / 卡片陰影
+  // body 深紅雙 radial 漸層底（忠實重現原稿 html,body background）
+  --gradient-hero: radial-gradient(
+      120% 60% at 50% -10%,
+      #58208e,
+      transparent 60%
+    ),
+    radial-gradient(100% 50% at 50% 110%, #240a43, transparent 60%), var(--bg-base);
+
+  // 金漸層 CTA（對齊原稿 .btn-gold：gold2 → gold → gold-deep）
+  --gradient-cta: linear-gradient(
+    180deg,
+    var(--color-secondary),
+    var(--color-primary) 55%,
+    var(--color-accent)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #3f146f; // 原稿 --bg2（副底）
+  --card-2: #58208e; // 原稿 --card2（卡片底色2 / packet 漸層起點）
+  --line-2: rgba(255, 130, 238, 0.55); // 原稿 --line2（較亮金邊 / btn-line）
+  --cta-ink: #3b085b; // 落在金色 CTA / 角標上的深紅對比文字
+  --topbar-bg: rgba(44, 12, 80, 0.92); // 原稿 .topbar 半透明深紅
+  --dock-bg: rgba(38, 10, 70, 0.96); // 原稿 .dock 半透明深紅
+  --ink-shadow: #280a4a; // 金色字 text-shadow 深紅描邊
+  --radius: 14px; // 原稿 .hero border-radius
+
+  // 錢幣圓形入口底（對齊原稿 .coin .c 的 radial 漸層）
+  --coin-face: radial-gradient(circle at 32% 28%, #6a26a3, #48197c 70%);
+
+  // packet 紅包卡漸層（對齊原稿 .packet：card2 → bg2）
+  --packet-bg: linear-gradient(135deg, #58208e, #3f146f);
+
+  // ── 字體 stack（與其他 daheng theme 一致；serif 用於品牌字 / 標題）
+  --font-display:
+    "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

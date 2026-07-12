@@ -352,7 +352,7 @@ VUE_VITE_TS_START/                # 專案根目錄
 4. 該主類別還沒有 theme → 從 `01` 起算
 5. 編號**一旦發布後不再改動**（重編會打散 sales demo 對外展示的順序記憶）
 
-#### 現有 theme 編號對照（51 個）
+#### 現有 theme 編號對照（72 個）
 
 | label | key | 主類別 |
 |---|---|---|
@@ -377,8 +377,18 @@ VUE_VITE_TS_START/                # 專案根目錄
 | `a19 · 大亨赤焰紅金` | `daheng-crimson` | general |
 | `a20 · 大亨鈦灰琥珀` | `daheng-titan` | general |
 | `a21 · 大亨冰川晨藍` | `daheng-glacier` | general |
+| `a22 · 大亨湛藍電競` | `daheng-flux` | general |
+| `a23 · 大亨紫晶夜宴` | `daheng-amethyst` | general |
+| `a24 · 大亨蒼翠金典` | `daheng-verdant` | general |
+| `a25 · 大亨赤金盛宴` | `daheng-scarlet` | general |
+| `a26 · 大亨鈷藍活力` | `daheng-cobalt` | general |
+| `a27 · 大亨碧波大廳` | `daheng-teal` | general |
+| `a28 · 大亨落日霓虹` | `daheng-sunset` | general |
 | `b01 · AT99` | `honest-at` | slots |
 | `b02 · AT Deluxe` | `at-deluxe` | slots |
+| `b03 · 大亨電漿電子` | `daheng-plasma` | slots |
+| `b04 · 大亨墨鋼電子` | `daheng-sable` | slots |
+| `b05 · 大亨象牙電子` | `daheng-ivory` | slots |
 | `c01 · 暖金` | `noya` | live |
 | `c02 · FG` | `honest-no6` | live |
 | `c03 · 橫向列表` | `dahsing-horizontal` | live |
@@ -404,9 +414,20 @@ VUE_VITE_TS_START/                # 專案根目錄
 | `c23 · 諾亞書籤` | `noya-bookmark` | live |
 | `c24 · 諾亞方磚` | `noya-squircle` | live |
 | `c25 · 諾亞分線` | `noya-tabline` | live |
+| `c26 · 諾亞礁湖` | `noya-lagoon` | live |
+| `c27 · 大亨蜜桃真人` | `daheng-peach` | live |
+| `c28 · 大亨霜藍真人` | `daheng-frost` | live |
+| `c29 · 大亨緋櫻真人` | `daheng-blush` | live |
+| `c30 · 大亨霧青真人` | `daheng-mist` | live |
+| `c31 · 大亨蘭夜真人` | `daheng-orchid` | live |
 | `d01 · 體育博彩` | `ant-sport` | sports |
+| `d02 · 大亨青銅競技` | `daheng-bronze` | sports |
+| `d03 · 大亨金盞體育` | `daheng-marigold` | sports |
+| `d04 · 大亨鋼藍競技` | `daheng-slate` | sports |
 | `e01 · 越南 VIP` | `vietvip` | luxury |
 | `e02 · 5D` | `fived` | luxury |
+| `e03 · 大亨曜金尊爵` | `daheng-obsidian` | luxury |
+| `e04 · 大亨紅寶尊榮` | `daheng-ruby` | luxury |
 
 ### 目錄結構
 
@@ -575,6 +596,22 @@ src/themes/
    `src/themes/<your-key>/_tokens.scss` 與 `_variants.scss` 並自動 `@use` 進去；
    只要檔名是 `_tokens.scss` / `_variants.scss` 就會被認到（variants 為可選）。
 5. **驗證**：`yarn build` 跑過後到 `/demo/<your-key>` 看效果（demo 路由格式：`/demo/:layoutkey`）
+
+> **複用佈局殼 + hue-rotation 新配色（v4.11，20 套一次新增）**：
+> 為壓低 build 體積 / 避免 GitHub Pages CI OOM（現有 52→72 套），本批新 theme **不新增 desktop/mobile.vue**，
+> 而是 registry 的 `desktop` / `mobile` lazy import **直接指向既有 daheng AWD 佈局殼**（如 `() => import("./daheng-neon/desktop.vue")`），
+> 每套只新增 `_tokens.scss` + `_variants.scss` 兩個 SCSS 檔（零新 JS chunk）。
+> 配色為對應殼原稿調色盤的 **hue-rotation**（保留 L / C / 對比，只換色相 → 暗底維持暗、亮底維持亮、切色不破圖）。
+> **鐵則**：複用殼時，新 theme 的 `_tokens.scss` 必須完整重寫該殼 token 契約的**每一個 token**
+> （不只 12 個公用 var，還有殼元件實讀的所有結構 token，如 `--bg-2` / `--glow-c` / `--coin-face` / `--radius-card`…），
+> 缺一即該殼只在此 theme 破圖。變體 `_variants.scss` 亦逐色重寫整份 token body，避免切色殘色。
+> 本批 20 套（複用殼）：
+> - general：`daheng-flux`(neon) `daheng-amethyst`(night) `daheng-verdant`(emerald) `daheng-scarlet`(crimson) `daheng-cobalt`(fresh) `daheng-teal`(glacier) `daheng-sunset`(neon)
+> - slots：`daheng-plasma`(neon) `daheng-sable`(onyx) `daheng-ivory`(emerald)
+> - live：`daheng-peach`(coral) `daheng-frost`(glacier) `daheng-blush`(coral) `daheng-mist`(titan) `daheng-orchid`(night)
+> - sports：`daheng-bronze`(titan) `daheng-marigold`(fresh) `daheng-slate`(titan)
+> - luxury：`daheng-obsidian`(onyx) `daheng-ruby`(crimson)
+> 產生腳本：一次性 hue-rotation 生成器（不進 repo，紀錄於 ADR）。
 
 ### CSS Var 命名公約
 

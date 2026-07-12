@@ -1,0 +1,51 @@
+// daheng-frost（c28 · 大亨霜藍真人）token 主檔
+// 複用佈局殼：daheng-glacier（其 desktop.vue / mobile.vue 由 _registry.ts lazy import 直接沿用）
+// 配色：以 daheng-glacier 原稿調色盤做 hue-rotation（保留 L / C / 對比，只換色相）產生的全新配色
+// 預設色 frost（色相位移 30deg）；另 periwinkle / ice 兩替代色見 _variants.scss。
+// 命名公約：完整沿用 daheng-glacier 的 token 契約（12 個公用 CSS var + 該殼元件實讀的所有結構 token），
+// 缺一即該殼在本 theme 破圖，故整份 token body 逐一位移後重寫。
+
+[data-theme="daheng-frost"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(62% 0.13 275deg); // 原稿 --blue（主強調 / CTA / 角標字）
+  --color-secondary: oklch(52% 0.13 280deg); // 原稿 --blue-deep（深藍 / logo 字）
+  --color-accent: oklch(90% 0.04 265deg); // 原稿 --ice（冰藍 / 圖示底）
+  --bg-base: #eeeef8; // 原稿 --bg（頁底主色）
+  --bg-surface: #ffffff; // 原稿 --card（卡片白底）
+  --bg-overlay: #e2e2f4; // 原稿 --bg2（次底 / hover 底）
+  --text-primary: #242440; // 原稿 --txt
+  --text-muted: #7f7da0; // 原稿 --txt2
+  --border: rgba(45, 40, 130, 0.1); // 原稿 --line
+  --shadow: 0 6px 20px rgba(55, 50, 140, 0.1); // 原稿 --shadow（柔和藍陰影）
+
+  // hero 在原稿無漸層文案，沿用主漸層做為品牌色容器
+  --gradient-hero: linear-gradient(
+    150deg,
+    oklch(62% 0.13 275deg),
+    oklch(52% 0.13 280deg)
+  );
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(62% 0.13 275deg),
+    oklch(52% 0.13 280deg)
+  ); // 原稿 .btn-blue 藍漸層
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  // 原稿 body 的淺藍漸層底，由 host wrapper 重現
+  --page-grad: linear-gradient(180deg, #f4f4fc, var(--bg-base) 30%);
+  --topbar-bg: rgba(244, 244, 252, 0.9); // 原稿 .topbar 半透明白
+  --cta-shadow: 0 4px 14px oklch(62% 0.13 275deg / 0.35); // 原稿 .btn-blue 陰影
+  --rail-on-shadow: 0 6px 16px oklch(62% 0.13 275deg / 0.4); // 原稿 .rail a.on 陰影
+  --gcard-hover-shadow: 0 14px 30px rgba(55, 50, 140, 0.2); // 原稿 .gcard:hover
+  --dock-shadow: 0 10px 28px rgba(55, 50, 140, 0.22); // 原稿 .dock 陰影
+  --pin-ring: oklch(62% 0.13 275deg / 0.15); // 原稿 .sec-head .pin 外環
+  --cta-ink: #ffffff; // 落在藍漸層 CTA 上的對比文字
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

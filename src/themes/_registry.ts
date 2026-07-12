@@ -2115,6 +2115,572 @@ const noyaTabline: ThemeMeta = {
 };
 
 /** 對外暴露的 theme 表，key 是 layoutKey */
+/* ── v4.11 新增 20 套：複用 daheng AWD 佈局殼 + hue-rotation 新配色（見 docs/adr）── */
+
+/** a22 · 大亨湛藍電競（複用 daheng-neon 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_FLUX_COLORS: ColorVariant[] = [
+  { key: "azure", label: "湛藍", swatch: "#4053ff" },
+  { key: "indigo", label: "靛藍", swatch: "#4072ff" },
+  { key: "teal", label: "青碧", swatch: "#40ffbd" }
+];
+
+/** a23 · 大亨紫晶夜宴（複用 daheng-night 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_AMETHYST_COLORS: ColorVariant[] = [
+  { key: "amethyst", label: "紫晶", swatch: "#bb5cf0" },
+  { key: "violet", label: "電紫", swatch: "#c85cf0" },
+  { key: "plum", label: "梅紫", swatch: "#f05cdb" }
+];
+
+/** a24 · 大亨蒼翠金典（複用 daheng-emerald 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_VERDANT_COLORS: ColorVariant[] = [
+  { key: "verdant", label: "蒼翠", swatch: "#6cd8a3" },
+  { key: "jade", label: "翡翠", swatch: "#6cd7d8" },
+  { key: "olive", label: "橄欖金", swatch: "#7dd86c" }
+];
+
+/** a25 · 大亨赤金盛宴（複用 daheng-crimson 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_SCARLET_COLORS: ColorVariant[] = [
+  { key: "scarlet", label: "赤金", swatch: "#fdff71" },
+  { key: "amber", label: "琥珀金", swatch: "#f1ff71" },
+  { key: "rose", label: "玫瑰金", swatch: "#ff8b71" }
+];
+
+/** a26 · 大亨鈷藍活力（複用 daheng-fresh 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_COBALT_COLORS: ColorVariant[] = [
+  { key: "cobalt", label: "鈷藍", swatch: "#503fe0" },
+  { key: "azure", label: "晴空藍", swatch: "#423fe0" },
+  { key: "indigo", label: "靛藍", swatch: "#3fc2e0" }
+];
+
+/** a27 · 大亨碧波大廳（複用 daheng-glacier 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_TEAL_COLORS: ColorVariant[] = [
+  { key: "teal", label: "碧波", swatch: "#3fe090" },
+  { key: "aqua", label: "水漾青", swatch: "#3fe04d" },
+  { key: "azure", label: "晴藍", swatch: "#3fc5e0" }
+];
+
+/** a28 · 大亨落日霓虹（複用 daheng-neon 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_SUNSET_COLORS: ColorVariant[] = [
+  { key: "sunset", label: "落日橙", swatch: "#ff9d40" },
+  { key: "magenta", label: "洋紅", swatch: "#ff4072" },
+  { key: "amber", label: "琥珀", swatch: "#ffec40" }
+];
+
+/** b03 · 大亨電漿電子（複用 daheng-neon 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_PLASMA_COLORS: ColorVariant[] = [
+  { key: "plasma", label: "電漿桃", swatch: "#ff4072" },
+  { key: "magenta", label: "洋紅", swatch: "#ff40b2" },
+  { key: "violet", label: "電紫", swatch: "#ec40ff" }
+];
+
+/** b04 · 大亨墨鋼電子（複用 daheng-onyx 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_SABLE_COLORS: ColorVariant[] = [
+  { key: "steel", label: "墨鋼銀", swatch: "#5f84d4" },
+  { key: "cyan", label: "冷青金", swatch: "#5fbfd4" },
+  { key: "violet", label: "夜紫金", swatch: "#745fd4" }
+];
+
+/** b05 · 大亨象牙電子（複用 daheng-emerald 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_IVORY_COLORS: ColorVariant[] = [
+  { key: "ivory", label: "象牙金", swatch: "#c5d86c" },
+  { key: "champagne", label: "香檳金", swatch: "#d8d06c" },
+  { key: "rose", label: "玫瑰金", swatch: "#d8886c" }
+];
+
+/** c27 · 大亨蜜桃真人（複用 daheng-coral 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_PEACH_COLORS: ColorVariant[] = [
+  { key: "peach", label: "蜜桃", swatch: "#e09e52" },
+  { key: "apricot", label: "杏橘", swatch: "#e0c152" },
+  { key: "coral", label: "珊瑚", swatch: "#e07a52" }
+];
+
+/** c28 · 大亨霜藍真人（複用 daheng-glacier 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_FROST_COLORS: ColorVariant[] = [
+  { key: "frost", label: "霜藍", swatch: "#3f3fe0" },
+  { key: "periwinkle", label: "長春藍", swatch: "#3f4ce0" },
+  { key: "ice", label: "冰晶青", swatch: "#3fe0c6" }
+];
+
+/** c29 · 大亨緋櫻真人（複用 daheng-coral 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_BLUSH_COLORS: ColorVariant[] = [
+  { key: "blush", label: "緋櫻", swatch: "#e05289" },
+  { key: "rose", label: "玫瑰粉", swatch: "#e052b8" },
+  { key: "fuchsia", label: "洋紅", swatch: "#e05259" }
+];
+
+/** c30 · 大亨霧青真人（複用 daheng-titan 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_MIST_COLORS: ColorVariant[] = [
+  { key: "mist", label: "霧青", swatch: "#4bd9ba" },
+  { key: "teal", label: "湖青", swatch: "#4bc9d9" },
+  { key: "sky", label: "天青", swatch: "#4b9ad9" }
+];
+
+/** c31 · 大亨蘭夜真人（複用 daheng-night 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_ORCHID_COLORS: ColorVariant[] = [
+  { key: "orchid", label: "蘭紫", swatch: "#f05cc2" },
+  { key: "magenta", label: "洋蘭紅", swatch: "#f05c78" },
+  { key: "violet", label: "夜紫", swatch: "#d45cf0" }
+];
+
+/** d02 · 大亨青銅競技（複用 daheng-titan 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_BRONZE_COLORS: ColorVariant[] = [
+  { key: "bronze", label: "青銅金", swatch: "#d5d94b" },
+  { key: "amber", label: "琥珀", swatch: "#d9d14b" },
+  { key: "copper", label: "赤銅", swatch: "#d9734b" }
+];
+
+/** d03 · 大亨金盞體育（複用 daheng-fresh 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_MARIGOLD_COLORS: ColorVariant[] = [
+  { key: "marigold", label: "金盞黃", swatch: "#e0803f" },
+  { key: "amber", label: "琥珀橙", swatch: "#e0bb3f" },
+  { key: "lime", label: "青檸", swatch: "#e03f49" }
+];
+
+/** d04 · 大亨鋼藍競技（複用 daheng-titan 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_SLATE_COLORS: ColorVariant[] = [
+  { key: "slate", label: "鋼藍", swatch: "#4b82d9" },
+  { key: "cobalt", label: "鈷藍", swatch: "#4bb1d9" },
+  { key: "cyan", label: "電光青", swatch: "#4bd9ba" }
+];
+
+/** e03 · 大亨曜金尊爵（複用 daheng-onyx 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_OBSIDIAN_COLORS: ColorVariant[] = [
+  { key: "obsidian", label: "曜金", swatch: "#c8d45f" },
+  { key: "champagne", label: "香檳金", swatch: "#d2d45f" },
+  { key: "rose", label: "玫瑰金", swatch: "#d4745f" }
+];
+
+/** e04 · 大亨紅寶尊榮（複用 daheng-crimson 佈局殼 + hue-rotation 新配色）配色 */
+const DAHENG_RUBY_COLORS: ColorVariant[] = [
+  { key: "ruby", label: "紅寶金", swatch: "#ff719e" },
+  { key: "garnet", label: "石榴紅", swatch: "#ff7371" },
+  { key: "amethyst", label: "紫晶金", swatch: "#ff71e5" }
+];
+
+/** a22 · 大亨湛藍電競：複用 daheng-neon 佈局殼（desktop/mobile 直接沿用），配色為 daheng-neon 調色盤 hue-rotation */
+const dahengFlux: ThemeMeta = {
+  key: "daheng-flux",
+  label: "a22 · 大亨湛藍電競",
+  description:
+    "湛藍電競版面，複用 daheng-neon 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-neon/desktop.vue"),
+  mobile: () => import("./daheng-neon/mobile.vue"),
+  defaultColor: "azure",
+  colors: DAHENG_FLUX_COLORS,
+  previews: buildPreviews("daheng-flux"),
+  colorPreviews: buildColorPreviews("daheng-flux", DAHENG_FLUX_COLORS, "azure"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["general", "slots"]
+};
+
+/** a23 · 大亨紫晶夜宴：複用 daheng-night 佈局殼（desktop/mobile 直接沿用），配色為 daheng-night 調色盤 hue-rotation */
+const dahengAmethyst: ThemeMeta = {
+  key: "daheng-amethyst",
+  label: "a23 · 大亨紫晶夜宴",
+  description:
+    "紫晶夜宴版面，複用 daheng-night 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-night/desktop.vue"),
+  mobile: () => import("./daheng-night/mobile.vue"),
+  defaultColor: "amethyst",
+  colors: DAHENG_AMETHYST_COLORS,
+  previews: buildPreviews("daheng-amethyst"),
+  colorPreviews: buildColorPreviews(
+    "daheng-amethyst",
+    DAHENG_AMETHYST_COLORS,
+    "amethyst"
+  ),
+  defaultLogo: "long-heng",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["general"]
+};
+
+/** a24 · 大亨蒼翠金典：複用 daheng-emerald 佈局殼（desktop/mobile 直接沿用），配色為 daheng-emerald 調色盤 hue-rotation */
+const dahengVerdant: ThemeMeta = {
+  key: "daheng-verdant",
+  label: "a24 · 大亨蒼翠金典",
+  description:
+    "蒼翠金典版面，複用 daheng-emerald 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-emerald/desktop.vue"),
+  mobile: () => import("./daheng-emerald/mobile.vue"),
+  defaultColor: "verdant",
+  colors: DAHENG_VERDANT_COLORS,
+  previews: buildPreviews("daheng-verdant"),
+  colorPreviews: buildColorPreviews(
+    "daheng-verdant",
+    DAHENG_VERDANT_COLORS,
+    "verdant"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["general", "luxury"]
+};
+
+/** a25 · 大亨赤金盛宴：複用 daheng-crimson 佈局殼（desktop/mobile 直接沿用），配色為 daheng-crimson 調色盤 hue-rotation */
+const dahengScarlet: ThemeMeta = {
+  key: "daheng-scarlet",
+  label: "a25 · 大亨赤金盛宴",
+  description:
+    "赤金盛宴版面，複用 daheng-crimson 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-crimson/desktop.vue"),
+  mobile: () => import("./daheng-crimson/mobile.vue"),
+  defaultColor: "scarlet",
+  colors: DAHENG_SCARLET_COLORS,
+  previews: buildPreviews("daheng-scarlet"),
+  colorPreviews: buildColorPreviews(
+    "daheng-scarlet",
+    DAHENG_SCARLET_COLORS,
+    "scarlet"
+  ),
+  defaultLogo: "long-heng",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["general", "luxury"]
+};
+
+/** a26 · 大亨鈷藍活力：複用 daheng-fresh 佈局殼（desktop/mobile 直接沿用），配色為 daheng-fresh 調色盤 hue-rotation */
+const dahengCobalt: ThemeMeta = {
+  key: "daheng-cobalt",
+  label: "a26 · 大亨鈷藍活力",
+  description:
+    "鈷藍活力版面，複用 daheng-fresh 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-fresh/desktop.vue"),
+  mobile: () => import("./daheng-fresh/mobile.vue"),
+  defaultColor: "cobalt",
+  colors: DAHENG_COBALT_COLORS,
+  previews: buildPreviews("daheng-cobalt"),
+  colorPreviews: buildColorPreviews(
+    "daheng-cobalt",
+    DAHENG_COBALT_COLORS,
+    "cobalt"
+  ),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  brightness: "light",
+  categories: ["general", "live"]
+};
+
+/** a27 · 大亨碧波大廳：複用 daheng-glacier 佈局殼（desktop/mobile 直接沿用），配色為 daheng-glacier 調色盤 hue-rotation */
+const dahengTeal: ThemeMeta = {
+  key: "daheng-teal",
+  label: "a27 · 大亨碧波大廳",
+  description:
+    "碧波大廳版面，複用 daheng-glacier 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-glacier/desktop.vue"),
+  mobile: () => import("./daheng-glacier/mobile.vue"),
+  defaultColor: "teal",
+  colors: DAHENG_TEAL_COLORS,
+  previews: buildPreviews("daheng-teal"),
+  colorPreviews: buildColorPreviews("daheng-teal", DAHENG_TEAL_COLORS, "teal"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  brightness: "light",
+  categories: ["general"]
+};
+
+/** a28 · 大亨落日霓虹：複用 daheng-neon 佈局殼（desktop/mobile 直接沿用），配色為 daheng-neon 調色盤 hue-rotation */
+const dahengSunset: ThemeMeta = {
+  key: "daheng-sunset",
+  label: "a28 · 大亨落日霓虹",
+  description:
+    "落日霓虹版面，複用 daheng-neon 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-neon/desktop.vue"),
+  mobile: () => import("./daheng-neon/mobile.vue"),
+  defaultColor: "sunset",
+  colors: DAHENG_SUNSET_COLORS,
+  previews: buildPreviews("daheng-sunset"),
+  colorPreviews: buildColorPreviews(
+    "daheng-sunset",
+    DAHENG_SUNSET_COLORS,
+    "sunset"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["general"]
+};
+
+/** b03 · 大亨電漿電子：複用 daheng-neon 佈局殼（desktop/mobile 直接沿用），配色為 daheng-neon 調色盤 hue-rotation */
+const dahengPlasma: ThemeMeta = {
+  key: "daheng-plasma",
+  label: "b03 · 大亨電漿電子",
+  description:
+    "電漿電子版面，複用 daheng-neon 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-neon/desktop.vue"),
+  mobile: () => import("./daheng-neon/mobile.vue"),
+  defaultColor: "plasma",
+  colors: DAHENG_PLASMA_COLORS,
+  previews: buildPreviews("daheng-plasma"),
+  colorPreviews: buildColorPreviews(
+    "daheng-plasma",
+    DAHENG_PLASMA_COLORS,
+    "plasma"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["slots", "general"]
+};
+
+/** b04 · 大亨墨鋼電子：複用 daheng-onyx 佈局殼（desktop/mobile 直接沿用），配色為 daheng-onyx 調色盤 hue-rotation */
+const dahengSable: ThemeMeta = {
+  key: "daheng-sable",
+  label: "b04 · 大亨墨鋼電子",
+  description:
+    "墨鋼電子版面，複用 daheng-onyx 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-onyx/desktop.vue"),
+  mobile: () => import("./daheng-onyx/mobile.vue"),
+  defaultColor: "steel",
+  colors: DAHENG_SABLE_COLORS,
+  previews: buildPreviews("daheng-sable"),
+  colorPreviews: buildColorPreviews(
+    "daheng-sable",
+    DAHENG_SABLE_COLORS,
+    "steel"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["slots", "luxury"]
+};
+
+/** b05 · 大亨象牙電子：複用 daheng-emerald 佈局殼（desktop/mobile 直接沿用），配色為 daheng-emerald 調色盤 hue-rotation */
+const dahengIvory: ThemeMeta = {
+  key: "daheng-ivory",
+  label: "b05 · 大亨象牙電子",
+  description:
+    "象牙電子版面，複用 daheng-emerald 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-emerald/desktop.vue"),
+  mobile: () => import("./daheng-emerald/mobile.vue"),
+  defaultColor: "ivory",
+  colors: DAHENG_IVORY_COLORS,
+  previews: buildPreviews("daheng-ivory"),
+  colorPreviews: buildColorPreviews(
+    "daheng-ivory",
+    DAHENG_IVORY_COLORS,
+    "ivory"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["slots"]
+};
+
+/** c27 · 大亨蜜桃真人：複用 daheng-coral 佈局殼（desktop/mobile 直接沿用），配色為 daheng-coral 調色盤 hue-rotation */
+const dahengPeach: ThemeMeta = {
+  key: "daheng-peach",
+  label: "c27 · 大亨蜜桃真人",
+  description:
+    "蜜桃真人版面，複用 daheng-coral 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-coral/desktop.vue"),
+  mobile: () => import("./daheng-coral/mobile.vue"),
+  defaultColor: "peach",
+  colors: DAHENG_PEACH_COLORS,
+  previews: buildPreviews("daheng-peach"),
+  colorPreviews: buildColorPreviews(
+    "daheng-peach",
+    DAHENG_PEACH_COLORS,
+    "peach"
+  ),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  brightness: "light",
+  categories: ["live"]
+};
+
+/** c28 · 大亨霜藍真人：複用 daheng-glacier 佈局殼（desktop/mobile 直接沿用），配色為 daheng-glacier 調色盤 hue-rotation */
+const dahengFrost: ThemeMeta = {
+  key: "daheng-frost",
+  label: "c28 · 大亨霜藍真人",
+  description:
+    "霜藍真人版面，複用 daheng-glacier 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-glacier/desktop.vue"),
+  mobile: () => import("./daheng-glacier/mobile.vue"),
+  defaultColor: "frost",
+  colors: DAHENG_FROST_COLORS,
+  previews: buildPreviews("daheng-frost"),
+  colorPreviews: buildColorPreviews(
+    "daheng-frost",
+    DAHENG_FROST_COLORS,
+    "frost"
+  ),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  brightness: "light",
+  categories: ["live", "general"]
+};
+
+/** c29 · 大亨緋櫻真人：複用 daheng-coral 佈局殼（desktop/mobile 直接沿用），配色為 daheng-coral 調色盤 hue-rotation */
+const dahengBlush: ThemeMeta = {
+  key: "daheng-blush",
+  label: "c29 · 大亨緋櫻真人",
+  description:
+    "緋櫻真人版面，複用 daheng-coral 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-coral/desktop.vue"),
+  mobile: () => import("./daheng-coral/mobile.vue"),
+  defaultColor: "blush",
+  colors: DAHENG_BLUSH_COLORS,
+  previews: buildPreviews("daheng-blush"),
+  colorPreviews: buildColorPreviews(
+    "daheng-blush",
+    DAHENG_BLUSH_COLORS,
+    "blush"
+  ),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  brightness: "light",
+  categories: ["live", "luxury"]
+};
+
+/** c30 · 大亨霧青真人：複用 daheng-titan 佈局殼（desktop/mobile 直接沿用），配色為 daheng-titan 調色盤 hue-rotation */
+const dahengMist: ThemeMeta = {
+  key: "daheng-mist",
+  label: "c30 · 大亨霧青真人",
+  description:
+    "霧青真人版面，複用 daheng-titan 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-titan/desktop.vue"),
+  mobile: () => import("./daheng-titan/mobile.vue"),
+  defaultColor: "mist",
+  colors: DAHENG_MIST_COLORS,
+  previews: buildPreviews("daheng-mist"),
+  colorPreviews: buildColorPreviews("daheng-mist", DAHENG_MIST_COLORS, "mist"),
+  defaultLogo: "umu",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["live"]
+};
+
+/** c31 · 大亨蘭夜真人：複用 daheng-night 佈局殼（desktop/mobile 直接沿用），配色為 daheng-night 調色盤 hue-rotation */
+const dahengOrchid: ThemeMeta = {
+  key: "daheng-orchid",
+  label: "c31 · 大亨蘭夜真人",
+  description:
+    "蘭夜真人版面，複用 daheng-night 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-night/desktop.vue"),
+  mobile: () => import("./daheng-night/mobile.vue"),
+  defaultColor: "orchid",
+  colors: DAHENG_ORCHID_COLORS,
+  previews: buildPreviews("daheng-orchid"),
+  colorPreviews: buildColorPreviews(
+    "daheng-orchid",
+    DAHENG_ORCHID_COLORS,
+    "orchid"
+  ),
+  defaultLogo: "long-heng",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["live"]
+};
+
+/** d02 · 大亨青銅競技：複用 daheng-titan 佈局殼（desktop/mobile 直接沿用），配色為 daheng-titan 調色盤 hue-rotation */
+const dahengBronze: ThemeMeta = {
+  key: "daheng-bronze",
+  label: "d02 · 大亨青銅競技",
+  description:
+    "青銅競技版面，複用 daheng-titan 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-titan/desktop.vue"),
+  mobile: () => import("./daheng-titan/mobile.vue"),
+  defaultColor: "bronze",
+  colors: DAHENG_BRONZE_COLORS,
+  previews: buildPreviews("daheng-bronze"),
+  colorPreviews: buildColorPreviews(
+    "daheng-bronze",
+    DAHENG_BRONZE_COLORS,
+    "bronze"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["sports", "general"]
+};
+
+/** d03 · 大亨金盞體育：複用 daheng-fresh 佈局殼（desktop/mobile 直接沿用），配色為 daheng-fresh 調色盤 hue-rotation */
+const dahengMarigold: ThemeMeta = {
+  key: "daheng-marigold",
+  label: "d03 · 大亨金盞體育",
+  description:
+    "金盞體育版面，複用 daheng-fresh 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-fresh/desktop.vue"),
+  mobile: () => import("./daheng-fresh/mobile.vue"),
+  defaultColor: "marigold",
+  colors: DAHENG_MARIGOLD_COLORS,
+  previews: buildPreviews("daheng-marigold"),
+  colorPreviews: buildColorPreviews(
+    "daheng-marigold",
+    DAHENG_MARIGOLD_COLORS,
+    "marigold"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  brightness: "light",
+  categories: ["sports"]
+};
+
+/** d04 · 大亨鋼藍競技：複用 daheng-titan 佈局殼（desktop/mobile 直接沿用），配色為 daheng-titan 調色盤 hue-rotation */
+const dahengSlate: ThemeMeta = {
+  key: "daheng-slate",
+  label: "d04 · 大亨鋼藍競技",
+  description:
+    "鋼藍競技版面，複用 daheng-titan 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-titan/desktop.vue"),
+  mobile: () => import("./daheng-titan/mobile.vue"),
+  defaultColor: "slate",
+  colors: DAHENG_SLATE_COLORS,
+  previews: buildPreviews("daheng-slate"),
+  colorPreviews: buildColorPreviews(
+    "daheng-slate",
+    DAHENG_SLATE_COLORS,
+    "slate"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["sports"]
+};
+
+/** e03 · 大亨曜金尊爵：複用 daheng-onyx 佈局殼（desktop/mobile 直接沿用），配色為 daheng-onyx 調色盤 hue-rotation */
+const dahengObsidian: ThemeMeta = {
+  key: "daheng-obsidian",
+  label: "e03 · 大亨曜金尊爵",
+  description:
+    "曜金尊爵版面，複用 daheng-onyx 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-onyx/desktop.vue"),
+  mobile: () => import("./daheng-onyx/mobile.vue"),
+  defaultColor: "obsidian",
+  colors: DAHENG_OBSIDIAN_COLORS,
+  previews: buildPreviews("daheng-obsidian"),
+  colorPreviews: buildColorPreviews(
+    "daheng-obsidian",
+    DAHENG_OBSIDIAN_COLORS,
+    "obsidian"
+  ),
+  defaultLogo: "dahsing",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["luxury", "slots"]
+};
+
+/** e04 · 大亨紅寶尊榮：複用 daheng-crimson 佈局殼（desktop/mobile 直接沿用），配色為 daheng-crimson 調色盤 hue-rotation */
+const dahengRuby: ThemeMeta = {
+  key: "daheng-ruby",
+  label: "e04 · 大亨紅寶尊榮",
+  description:
+    "紅寶尊榮版面，複用 daheng-crimson 佈局殼，配色為原稿調色盤 hue-rotation 之全新配色，可切 3 種配色",
+  desktop: () => import("./daheng-crimson/desktop.vue"),
+  mobile: () => import("./daheng-crimson/mobile.vue"),
+  defaultColor: "ruby",
+  colors: DAHENG_RUBY_COLORS,
+  previews: buildPreviews("daheng-ruby"),
+  colorPreviews: buildColorPreviews("daheng-ruby", DAHENG_RUBY_COLORS, "ruby"),
+  defaultLogo: "long-heng",
+  logos: SHARED_LOGOS,
+  brightness: "dark",
+  categories: ["luxury"]
+};
+
 export const themes: Record<string, ThemeMeta> = {
   noya,
   at99,
@@ -2167,7 +2733,27 @@ export const themes: Record<string, ThemeMeta> = {
   "noya-bubble": noyaBubble,
   "noya-bookmark": noyaBookmark,
   "noya-squircle": noyaSquircle,
-  "noya-tabline": noyaTabline
+  "noya-tabline": noyaTabline,
+  "daheng-flux": dahengFlux,
+  "daheng-amethyst": dahengAmethyst,
+  "daheng-verdant": dahengVerdant,
+  "daheng-scarlet": dahengScarlet,
+  "daheng-cobalt": dahengCobalt,
+  "daheng-teal": dahengTeal,
+  "daheng-sunset": dahengSunset,
+  "daheng-plasma": dahengPlasma,
+  "daheng-sable": dahengSable,
+  "daheng-ivory": dahengIvory,
+  "daheng-peach": dahengPeach,
+  "daheng-frost": dahengFrost,
+  "daheng-blush": dahengBlush,
+  "daheng-mist": dahengMist,
+  "daheng-orchid": dahengOrchid,
+  "daheng-bronze": dahengBronze,
+  "daheng-marigold": dahengMarigold,
+  "daheng-slate": dahengSlate,
+  "daheng-obsidian": dahengObsidian,
+  "daheng-ruby": dahengRuby
 };
 
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */

@@ -1,0 +1,138 @@
+// daheng-teal（a27 · 大亨碧波大廳）版面替代配色
+// 每個 [data-theme="daheng-teal"][data-theme-color="xxx"] 都重寫整份 token body（含結構對比 token），
+// 避免切色殘色；三色皆為 daheng-glacier 調色盤的 hue-rotation。
+
+[data-theme="daheng-teal"][data-theme-color="teal"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(62% 0.13 185deg); // 原稿 --blue（主強調 / CTA / 角標字）
+  --color-secondary: oklch(52% 0.13 190deg); // 原稿 --blue-deep（深藍 / logo 字）
+  --color-accent: oklch(90% 0.04 175deg); // 原稿 --ice（冰藍 / 圖示底）
+  --bg-base: #eef8f3; // 原稿 --bg（頁底主色）
+  --bg-surface: #ffffff; // 原稿 --card（卡片白底）
+  --bg-overlay: #e2f4eb; // 原稿 --bg2（次底 / hover 底）
+  --text-primary: #244032; // 原稿 --txt
+  --text-muted: #7da090; // 原稿 --txt2
+  --border: rgba(40, 130, 90, 0.1); // 原稿 --line
+  --shadow: 0 6px 20px rgba(50, 140, 100, 0.1); // 原稿 --shadow（柔和藍陰影）
+
+  // hero 在原稿無漸層文案，沿用主漸層做為品牌色容器
+  --gradient-hero: linear-gradient(
+    150deg,
+    oklch(62% 0.13 185deg),
+    oklch(52% 0.13 190deg)
+  );
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(62% 0.13 185deg),
+    oklch(52% 0.13 190deg)
+  ); // 原稿 .btn-blue 藍漸層
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  // 原稿 body 的淺藍漸層底，由 host wrapper 重現
+  --page-grad: linear-gradient(180deg, #f4fcf8, var(--bg-base) 30%);
+  --topbar-bg: rgba(244, 252, 248, 0.9); // 原稿 .topbar 半透明白
+  --cta-shadow: 0 4px 14px oklch(62% 0.13 185deg / 0.35); // 原稿 .btn-blue 陰影
+  --rail-on-shadow: 0 6px 16px oklch(62% 0.13 185deg / 0.4); // 原稿 .rail a.on 陰影
+  --gcard-hover-shadow: 0 14px 30px rgba(50, 140, 100, 0.2); // 原稿 .gcard:hover
+  --dock-shadow: 0 10px 28px rgba(50, 140, 100, 0.22); // 原稿 .dock 陰影
+  --pin-ring: oklch(62% 0.13 185deg / 0.15); // 原稿 .sec-head .pin 外環
+  --cta-ink: #ffffff; // 落在藍漸層 CTA 上的對比文字
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-teal"][data-theme-color="aqua"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(62% 0.13 160deg); // 原稿 --blue（主強調 / CTA / 角標字）
+  --color-secondary: oklch(52% 0.13 165deg); // 原稿 --blue-deep（深藍 / logo 字）
+  --color-accent: oklch(90% 0.04 150deg); // 原稿 --ice（冰藍 / 圖示底）
+  --bg-base: #eef8ef; // 原稿 --bg（頁底主色）
+  --bg-surface: #ffffff; // 原稿 --card（卡片白底）
+  --bg-overlay: #e2f4e4; // 原稿 --bg2（次底 / hover 底）
+  --text-primary: #244026; // 原稿 --txt
+  --text-muted: #7da081; // 原稿 --txt2
+  --border: rgba(40, 130, 52, 0.1); // 原稿 --line
+  --shadow: 0 6px 20px rgba(50, 140, 62, 0.1); // 原稿 --shadow（柔和藍陰影）
+
+  // hero 在原稿無漸層文案，沿用主漸層做為品牌色容器
+  --gradient-hero: linear-gradient(
+    150deg,
+    oklch(62% 0.13 160deg),
+    oklch(52% 0.13 165deg)
+  );
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(62% 0.13 160deg),
+    oklch(52% 0.13 165deg)
+  ); // 原稿 .btn-blue 藍漸層
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  // 原稿 body 的淺藍漸層底，由 host wrapper 重現
+  --page-grad: linear-gradient(180deg, #f4fcf5, var(--bg-base) 30%);
+  --topbar-bg: rgba(244, 252, 245, 0.9); // 原稿 .topbar 半透明白
+  --cta-shadow: 0 4px 14px oklch(62% 0.13 160deg / 0.35); // 原稿 .btn-blue 陰影
+  --rail-on-shadow: 0 6px 16px oklch(62% 0.13 160deg / 0.4); // 原稿 .rail a.on 陰影
+  --gcard-hover-shadow: 0 14px 30px rgba(50, 140, 62, 0.2); // 原稿 .gcard:hover
+  --dock-shadow: 0 10px 28px rgba(50, 140, 62, 0.22); // 原稿 .dock 陰影
+  --pin-ring: oklch(62% 0.13 160deg / 0.15); // 原稿 .sec-head .pin 外環
+  --cta-ink: #ffffff; // 落在藍漸層 CTA 上的對比文字
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-teal"][data-theme-color="azure"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(62% 0.13 225deg); // 原稿 --blue（主強調 / CTA / 角標字）
+  --color-secondary: oklch(52% 0.13 230deg); // 原稿 --blue-deep（深藍 / logo 字）
+  --color-accent: oklch(90% 0.04 215deg); // 原稿 --ice（冰藍 / 圖示底）
+  --bg-base: #eef6f8; // 原稿 --bg（頁底主色）
+  --bg-surface: #ffffff; // 原稿 --card（卡片白底）
+  --bg-overlay: #e2f1f4; // 原稿 --bg2（次底 / hover 底）
+  --text-primary: #243b40; // 原稿 --txt
+  --text-muted: #7d99a0; // 原稿 --txt2
+  --border: rgba(40, 110, 130, 0.1); // 原稿 --line
+  --shadow: 0 6px 20px rgba(50, 120, 140, 0.1); // 原稿 --shadow（柔和藍陰影）
+
+  // hero 在原稿無漸層文案，沿用主漸層做為品牌色容器
+  --gradient-hero: linear-gradient(
+    150deg,
+    oklch(62% 0.13 225deg),
+    oklch(52% 0.13 230deg)
+  );
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(62% 0.13 225deg),
+    oklch(52% 0.13 230deg)
+  ); // 原稿 .btn-blue 藍漸層
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  // 原稿 body 的淺藍漸層底，由 host wrapper 重現
+  --page-grad: linear-gradient(180deg, #f4fbfc, var(--bg-base) 30%);
+  --topbar-bg: rgba(244, 251, 252, 0.9); // 原稿 .topbar 半透明白
+  --cta-shadow: 0 4px 14px oklch(62% 0.13 225deg / 0.35); // 原稿 .btn-blue 陰影
+  --rail-on-shadow: 0 6px 16px oklch(62% 0.13 225deg / 0.4); // 原稿 .rail a.on 陰影
+  --gcard-hover-shadow: 0 14px 30px rgba(50, 120, 140, 0.2); // 原稿 .gcard:hover
+  --dock-shadow: 0 10px 28px rgba(50, 120, 140, 0.22); // 原稿 .dock 陰影
+  --pin-ring: oklch(62% 0.13 225deg / 0.15); // 原稿 .sec-head .pin 外環
+  --cta-ink: #ffffff; // 落在藍漸層 CTA 上的對比文字
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

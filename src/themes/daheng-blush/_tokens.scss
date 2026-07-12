@@ -1,0 +1,50 @@
+// daheng-blush（c29 · 大亨緋櫻真人）token 主檔
+// 複用佈局殼：daheng-coral（其 desktop.vue / mobile.vue 由 _registry.ts lazy import 直接沿用）
+// 配色：以 daheng-coral 原稿調色盤做 hue-rotation（保留 L / C / 對比，只換色相）產生的全新配色
+// 預設色 blush（色相位移 320deg）；另 rose / fuchsia 兩替代色見 _variants.scss。
+// 命名公約：完整沿用 daheng-coral 的 token 契約（12 個公用 CSS var + 該殼元件實讀的所有結構 token），
+// 缺一即該殼在本 theme 破圖，故整份 token body 逐一位移後重寫。
+
+[data-theme="daheng-blush"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(68% 0.16 355deg); // coral 珊瑚（主強調 / CTA / active）
+  --color-secondary: oklch(58% 0.17 355deg); // coral-deep 深珊瑚（漸層尾 / 標題）
+  --color-accent: oklch(85% 0.08 30deg); // apricot 杏色（柔和點綴）
+  --bg-base: #faf0f1; // 原稿 --bg 奶油近白底
+  --bg-surface: #ffffff; // 原稿 --card 純白卡片
+  --bg-overlay: #fde7ec; // 原稿 --card2 奶油副底（chip hover / 軟按鈕底）
+  --text-primary: #3a262b; // 原稿 --txt 暖棕
+  --text-muted: #9b7c83; // 原稿 --txt2 副文字
+  --border: rgba(60, 30, 40, 0.08); // 原稿 --line
+  --shadow: 0 6px 22px rgba(150, 50, 77, 0.1); // 原稿 --shadow 暖色柔影
+
+  // hero / app 區漸層暖背（杏 → 白，呼應 .daily 漸層底）
+  --gradient-hero: linear-gradient(150deg, #fde7ec, #ffffff);
+
+  // 珊瑚 CTA（原稿 .btn-coral / .side a.on / .play 漸層）
+  --gradient-cta: linear-gradient(
+    135deg,
+    oklch(68% 0.16 355deg),
+    oklch(58% 0.17 355deg)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --cta-ink: #ffffff; // 落在珊瑚 CTA 上的對比文字（奶油底配白字）
+  --glow: oklch(68% 0.16 355deg / 0.35); // 珊瑚柔光（CTA / play 球陰影）
+  --soft-bg: #fde7ec; // 軟按鈕 / chip 底（原稿 --card2）
+  --soft-hover: #fbd4dc; // 軟按鈕 hover（原稿 .btn-soft:hover）
+  --hot-bg: rgba(255, 255, 255, 0.85); // HOT 角標底（原稿 .gcard .hot）
+  --dock-bg: rgba(255, 255, 255, 0.92); // dock 半透明白底（原稿 .dock）
+  --dock-shadow: 0 10px 30px rgba(80, 30, 43, 0.18); // dock 陰影（原稿）
+  --topbar-bg: rgba(250, 240, 241, 0.9); // topbar 半透明奶油底（原稿）
+  --radius: 22px; // hero / daily / pcard 圓角（原稿 22px）
+  --radius-card: 26px; // squircle 遊戲大卡圓角（原稿 .gcard 26px）
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

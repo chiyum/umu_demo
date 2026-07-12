@@ -1,0 +1,117 @@
+// daheng-bronze（d02 · 大亨青銅競技）版面替代配色
+// 每個 [data-theme="daheng-bronze"][data-theme-color="xxx"] 都重寫整份 token body（含結構對比 token），
+// 避免切色殘色；三色皆為 daheng-titan 調色盤的 hue-rotation。
+
+[data-theme="daheng-bronze"][data-theme-color="bronze"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(78% 0.13 95deg); // amber 琥珀金（主強調 / 角標 / 數據）
+  --color-secondary: oklch(66% 0.13 90deg); // amber-deep 深琥珀（漸層尾 / 次強調）
+  --color-accent: oklch(78% 0.13 95deg); // 琥珀亮點（沿用 amber）
+  --bg-base: #141419; // 原稿 --bg 鈦灰深底
+  --bg-surface: #21202b; // 原稿 --card 卡片底
+  --bg-overlay: rgba(231, 232, 80, 0.08); // 半透明琥珀遮罩（rail hover）
+  --text-primary: #ecede3; // 原稿 --txt 暖白
+  --text-muted: #8b8d82; // 原稿 --txt-2 灰褐
+  --border: rgba(231, 232, 80, 0.16); // 原稿 --line 暖金描邊
+  --shadow: 0 12px 26px rgba(0, 0, 0, 0.45); // 原稿 .gcard:hover 投影
+  --gradient-hero: linear-gradient(160deg, #21202b, #1a1a22); // hero 容器底（壓縮 banner 外框）
+  --gradient-cta: linear-gradient(
+    160deg,
+    oklch(78% 0.13 95deg),
+    oklch(66% 0.13 90deg)
+  ); // 琥珀金屬 CTA（原稿 .btn-amber）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #1a1a22; // 原稿 --bg2（notice / rail 圖示底 / 數據條底）
+  --card-2: #282735; // 原稿 --card2（卡片漸層尾 / 進階對比）
+  --line-n: rgba(255, 255, 255, 0.07); // 原稿 --line-n 中性白描邊
+  --glow: oklch(78% 0.13 95deg / 0.35); // 琥珀外發光（原稿 rail.on / btn-amber 陰影）
+  --cta-ink: #202206; // 落在琥珀 CTA 上的深色對比文字（原稿 #221806）
+  --radius: 14px; // 原稿 hero / 通用圓角
+  --radius-card: 22px 22px 22px 60px; // 原稿 .gcard 圓角斜切（左下大圓角）
+  --rail-on-ink: #202206; // rail 選中態深色文字
+
+  // ── 字體 stack（與其他 daheng theme 一致，原稿用 Noto Sans TC）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-bronze"][data-theme-color="amber"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(78% 0.13 90deg); // amber 琥珀金（主強調 / 角標 / 數據）
+  --color-secondary: oklch(66% 0.13 85deg); // amber-deep 深琥珀（漸層尾 / 次強調）
+  --color-accent: oklch(78% 0.13 90deg); // 琥珀亮點（沿用 amber）
+  --bg-base: #141419; // 原稿 --bg 鈦灰深底
+  --bg-surface: #20202b; // 原稿 --card 卡片底
+  --bg-overlay: rgba(232, 221, 80, 0.08); // 半透明琥珀遮罩（rail hover）
+  --text-primary: #edede3; // 原稿 --txt 暖白
+  --text-muted: #8c8d82; // 原稿 --txt-2 灰褐
+  --border: rgba(232, 221, 80, 0.16); // 原稿 --line 暖金描邊
+  --shadow: 0 12px 26px rgba(0, 0, 0, 0.45); // 原稿 .gcard:hover 投影
+  --gradient-hero: linear-gradient(160deg, #20202b, #1a1a22); // hero 容器底（壓縮 banner 外框）
+  --gradient-cta: linear-gradient(
+    160deg,
+    oklch(78% 0.13 90deg),
+    oklch(66% 0.13 85deg)
+  ); // 琥珀金屬 CTA（原稿 .btn-amber）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #1a1a22; // 原稿 --bg2（notice / rail 圖示底 / 數據條底）
+  --card-2: #272735; // 原稿 --card2（卡片漸層尾 / 進階對比）
+  --line-n: rgba(255, 255, 255, 0.07); // 原稿 --line-n 中性白描邊
+  --glow: oklch(78% 0.13 90deg / 0.35); // 琥珀外發光（原稿 rail.on / btn-amber 陰影）
+  --cta-ink: #222106; // 落在琥珀 CTA 上的深色對比文字（原稿 #221806）
+  --radius: 14px; // 原稿 hero / 通用圓角
+  --radius-card: 22px 22px 22px 60px; // 原稿 .gcard 圓角斜切（左下大圓角）
+  --rail-on-ink: #222106; // rail 選中態深色文字
+
+  // ── 字體 stack（與其他 daheng theme 一致，原稿用 Noto Sans TC）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-bronze"][data-theme-color="copper"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(78% 0.13 50deg); // amber 琥珀金（主強調 / 角標 / 數據）
+  --color-secondary: oklch(66% 0.13 45deg); // amber-deep 深琥珀（漸層尾 / 次強調）
+  --color-accent: oklch(78% 0.13 50deg); // 琥珀亮點（沿用 amber）
+  --bg-base: #141819; // 原稿 --bg 鈦灰深底
+  --bg-surface: #20282b; // 原稿 --card 卡片底
+  --bg-overlay: rgba(232, 119, 80, 0.08); // 半透明琥珀遮罩（rail hover）
+  --text-primary: #ede7e3; // 原稿 --txt 暖白
+  --text-muted: #8d8682; // 原稿 --txt-2 灰褐
+  --border: rgba(232, 119, 80, 0.16); // 原稿 --line 暖金描邊
+  --shadow: 0 12px 26px rgba(0, 0, 0, 0.45); // 原稿 .gcard:hover 投影
+  --gradient-hero: linear-gradient(160deg, #20282b, #1a2022); // hero 容器底（壓縮 banner 外框）
+  --gradient-cta: linear-gradient(
+    160deg,
+    oklch(78% 0.13 50deg),
+    oklch(66% 0.13 45deg)
+  ); // 琥珀金屬 CTA（原稿 .btn-amber）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #1a2022; // 原稿 --bg2（notice / rail 圖示底 / 數據條底）
+  --card-2: #273135; // 原稿 --card2（卡片漸層尾 / 進階對比）
+  --line-n: rgba(255, 255, 255, 0.07); // 原稿 --line-n 中性白描邊
+  --glow: oklch(78% 0.13 50deg / 0.35); // 琥珀外發光（原稿 rail.on / btn-amber 陰影）
+  --cta-ink: #220f06; // 落在琥珀 CTA 上的深色對比文字（原稿 #221806）
+  --radius: 14px; // 原稿 hero / 通用圓角
+  --radius-card: 22px 22px 22px 60px; // 原稿 .gcard 圓角斜切（左下大圓角）
+  --rail-on-ink: #220f06; // rail 選中態深色文字
+
+  // ── 字體 stack（與其他 daheng theme 一致，原稿用 Noto Sans TC）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

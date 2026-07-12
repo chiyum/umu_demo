@@ -1,0 +1,183 @@
+// daheng-verdant（a24 · 大亨蒼翠金典）版面替代配色
+// 每個 [data-theme="daheng-verdant"][data-theme-color="xxx"] 都重寫整份 token body（含結構對比 token），
+// 避免切色殘色；三色皆為 daheng-emerald 調色盤的 hue-rotation。
+
+[data-theme="daheng-verdant"][data-theme-color="verdant"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #6cd8a3; // gold（主品牌金）
+  --color-secondary: #a6f0cd; // gold-2（亮金高光）
+  --color-accent: #6cd8a3; // 金色亮點
+  --bg-base: #140b1f; // 原稿 --bg 墨綠底
+  --bg-surface: #211431; // 原稿 --card 卡片底
+  --bg-overlay: rgba(108, 216, 163, 0.06); // 半透明金遮罩
+  --text-primary: #d8f2e6; // 原稿 --txt 暖米白
+  --text-muted: #a19eb3; // 原稿 --txt-2 霧綠
+  --border: rgba(108, 216, 163, 0.22); // 原稿 --line 金邊
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45); // 原稿 hero 深陰影
+  --gradient-hero: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(108, 216, 163, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #251539, #160b23); // 原稿 s-g1 漸層
+
+  --gradient-cta: linear-gradient(
+    160deg,
+    #a6f0cd,
+    #6cd8a3 60%,
+    #46b07b
+  ); // 金色 CTA（原稿 btn-gold）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #1a1029; // 原稿 --bg2（VIP / hero 副底）
+  --card-2: #271a3b; // 原稿 --card-2（promo 漸層尾）
+  --gold-dim: rgba(108, 216, 163, 0.35); // 金色細描線 / 描邊
+  --cta-ink: #062415; // 落在金色 CTA 上的深色對比文字
+  --radius: 10px; // 原稿 --r
+
+  // hero 文字 slide 漸層背景（對齊原稿 .s-g1 / .s-g2，L64-69）
+  --hero-slide-g1: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(108, 216, 163, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #251539, #160b23);
+  --hero-slide-g2: radial-gradient(
+      70% 120% at 50% -15%,
+      rgba(108, 216, 163, 0.18),
+      transparent 55%
+    ),
+    linear-gradient(190deg, #211232, #130a1f);
+
+  // ── 字體 stack：古典襯線標題 + 黑體內文（對齊原稿 Noto Serif TC）
+  --font-display:
+    "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    sans-serif;
+
+  // 頁面整體背景 radial 柔光（對齊原稿 html,body）
+  --page-bg: radial-gradient(120% 80% at 50% -10%, #241638, transparent 60%),
+    #140b1f;
+}
+
+[data-theme="daheng-verdant"][data-theme-color="jade"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #6cd7d8; // gold（主品牌金）
+  --color-secondary: #a6eef0; // gold-2（亮金高光）
+  --color-accent: #6cd7d8; // 金色亮點
+  --bg-base: #1e0b1f; // 原稿 --bg 墨綠底
+  --bg-surface: #301431; // 原稿 --card 卡片底
+  --bg-overlay: rgba(108, 215, 216, 0.06); // 半透明金遮罩
+  --text-primary: #d8f1f2; // 原稿 --txt 暖米白
+  --text-muted: #ab9eb3; // 原稿 --txt-2 霧綠
+  --border: rgba(108, 215, 216, 0.22); // 原稿 --line 金邊
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45); // 原稿 hero 深陰影
+  --gradient-hero: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(108, 215, 216, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #371539, #220b23); // 原稿 s-g1 漸層
+
+  --gradient-cta: linear-gradient(
+    160deg,
+    #a6eef0,
+    #6cd7d8 60%,
+    #46b0b0
+  ); // 金色 CTA（原稿 btn-gold）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #261029; // 原稿 --bg2（VIP / hero 副底）
+  --card-2: #381a3b; // 原稿 --card-2（promo 漸層尾）
+  --gold-dim: rgba(108, 215, 216, 0.35); // 金色細描線 / 描邊
+  --cta-ink: #062424; // 落在金色 CTA 上的深色對比文字
+  --radius: 10px; // 原稿 --r
+
+  // hero 文字 slide 漸層背景（對齊原稿 .s-g1 / .s-g2，L64-69）
+  --hero-slide-g1: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(108, 215, 216, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #371539, #220b23);
+  --hero-slide-g2: radial-gradient(
+      70% 120% at 50% -15%,
+      rgba(108, 215, 216, 0.18),
+      transparent 55%
+    ),
+    linear-gradient(190deg, #311232, #1e0a1f);
+
+  // ── 字體 stack：古典襯線標題 + 黑體內文（對齊原稿 Noto Serif TC）
+  --font-display:
+    "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    sans-serif;
+
+  // 頁面整體背景 radial 柔光（對齊原稿 html,body）
+  --page-bg: radial-gradient(120% 80% at 50% -10%, #351638, transparent 60%),
+    #1e0b1f;
+}
+
+[data-theme="daheng-verdant"][data-theme-color="olive"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #7dd86c; // gold（主品牌金）
+  --color-secondary: #b1f0a6; // gold-2（亮金高光）
+  --color-accent: #7dd86c; // 金色亮點
+  --bg-base: #0b101f; // 原稿 --bg 墨綠底
+  --bg-surface: #141a31; // 原稿 --card 卡片底
+  --bg-overlay: rgba(125, 216, 108, 0.06); // 半透明金遮罩
+  --text-primary: #dcf2d8; // 原稿 --txt 暖米白
+  --text-muted: #9ea9b3; // 原稿 --txt-2 霧綠
+  --border: rgba(125, 216, 108, 0.22); // 原稿 --line 金邊
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45); // 原稿 hero 深陰影
+  --gradient-hero: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(125, 216, 108, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #151d39, #0b1023); // 原稿 s-g1 漸層
+
+  --gradient-cta: linear-gradient(
+    160deg,
+    #b1f0a6,
+    #7dd86c 60%,
+    #57b046
+  ); // 金色 CTA（原稿 btn-gold）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #101729; // 原稿 --bg2（VIP / hero 副底）
+  --card-2: #1a233b; // 原稿 --card-2（promo 漸層尾）
+  --gold-dim: rgba(125, 216, 108, 0.35); // 金色細描線 / 描邊
+  --cta-ink: #0b2406; // 落在金色 CTA 上的深色對比文字
+  --radius: 10px; // 原稿 --r
+
+  // hero 文字 slide 漸層背景（對齊原稿 .s-g1 / .s-g2，L64-69）
+  --hero-slide-g1: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(125, 216, 108, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #151d39, #0b1023);
+  --hero-slide-g2: radial-gradient(
+      70% 120% at 50% -15%,
+      rgba(125, 216, 108, 0.18),
+      transparent 55%
+    ),
+    linear-gradient(190deg, #121932, #0a0f1f);
+
+  // ── 字體 stack：古典襯線標題 + 黑體內文（對齊原稿 Noto Serif TC）
+  --font-display:
+    "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    sans-serif;
+
+  // 頁面整體背景 radial 柔光（對齊原稿 html,body）
+  --page-bg: radial-gradient(120% 80% at 50% -10%, #161e38, transparent 60%),
+    #0b101f;
+}

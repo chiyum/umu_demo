@@ -1,0 +1,65 @@
+// daheng-flux（a22 · 大亨湛藍電競）token 主檔
+// 複用佈局殼：daheng-neon（其 desktop.vue / mobile.vue 由 _registry.ts lazy import 直接沿用）
+// 配色：以 daheng-neon 原稿調色盤做 hue-rotation（保留 L / C / 對比，只換色相）產生的全新配色
+// 預設色 azure（色相位移 40deg）；另 indigo / teal 兩替代色見 _variants.scss。
+// 命名公約：完整沿用 daheng-neon 的 token 契約（12 個公用 CSS var + 該殼元件實讀的所有結構 token），
+// 缺一即該殼在本 theme 破圖，故整份 token body 逐一位移後重寫。
+
+[data-theme="daheng-flux"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(82% 0.14 250deg); // cyan（主強調 / 排名首位）
+  --color-secondary: oklch(62% 0.21 335deg); // violet（次強調 / 排名次位）
+  --color-accent: oklch(82% 0.14 250deg); // 霓虹亮點（沿用 cyan）
+  --bg-base: #0c0714; // 原稿 --bg 深藍底
+  --bg-surface: #1d122e; // 原稿 --card 卡片底
+  --bg-overlay: rgba(170, 120, 255, 0.06); // 半透明藍遮罩（sidebar hover）
+  --text-primary: #eee8f8; // 原稿 --txt
+  --text-muted: #9d8ab8; // 原稿 --txt-2
+  --border: rgba(170, 120, 255, 0.14); // 原稿 --line
+  --shadow: 0 0 40px rgba(64, 83, 255, 0.08); // 霓虹外發光（原稿 hero shadow）
+  --gradient-hero: radial-gradient(
+      80% 120% at 85% 20%,
+      rgba(255, 90, 250, 0.35),
+      transparent 60%
+    ),
+    radial-gradient(70% 120% at 10% 90%, rgba(64, 83, 255, 0.25), transparent 55%),
+    linear-gradient(140deg, #180d28, #2a1031); // 原稿 s-v1 漸層背景
+
+  --gradient-cta: linear-gradient(
+    120deg,
+    oklch(82% 0.14 250deg),
+    oklch(62% 0.21 335deg)
+  ); // 青→紫霓虹 CTA（原稿 btn-neon）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #150d22; // 原稿 --bg-2（notice / tabs / bottomnav 底）
+  --card-2: #25183a; // 原稿 --card-2（promo 卡漸層尾）
+  --glow-c: rgba(64, 83, 255, 0.35); // cyan 發光
+  --glow-v: rgba(255, 90, 250, 0.3); // violet 發光
+  --cta-ink: #110a1a; // 落在霓虹 CTA 上的深色對比文字
+  --radius: 14px; // 原稿 --r
+
+  // hero 文字 slide 漸層背景（對齊原稿 .s-v1 / .s-v2，L62-69）
+  --hero-slide-v1: radial-gradient(
+      80% 120% at 85% 20%,
+      rgba(255, 90, 250, 0.35),
+      transparent 60%
+    ),
+    radial-gradient(70% 120% at 10% 90%, rgba(64, 83, 255, 0.25), transparent 55%),
+    linear-gradient(140deg, #180d28, #2a1031);
+  --hero-slide-v2: radial-gradient(
+      70% 110% at 15% 15%,
+      rgba(64, 83, 255, 0.3),
+      transparent 55%
+    ),
+    radial-gradient(80% 130% at 90% 85%, rgba(255, 90, 250, 0.3), transparent 60%),
+    linear-gradient(220deg, #1b1030, #2e0f2d);
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

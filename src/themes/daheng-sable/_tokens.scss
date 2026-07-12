@@ -1,0 +1,41 @@
+// daheng-sable（b04 · 大亨墨鋼電子）token 主檔
+// 複用佈局殼：daheng-onyx（其 desktop.vue / mobile.vue 由 _registry.ts lazy import 直接沿用）
+// 配色：以 daheng-onyx 原稿調色盤做 hue-rotation（保留 L / C / 對比，只換色相）產生的全新配色
+// 預設色 steel（色相位移 180deg）；另 cyan / violet 兩替代色見 _variants.scss。
+// 命名公約：完整沿用 daheng-onyx 的 token 契約（12 個公用 CSS var + 該殼元件實讀的所有結構 token），
+// 缺一即該殼在本 theme 破圖，故整份 token body 逐一位移後重寫。
+
+[data-theme="daheng-sable"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #5f84d4; // 原稿 --gold（燙金主色 / nav active / 標題）
+  --color-secondary: #90acf0; // 原稿 --gold2（亮金 / CTA 上緣 / 高光）
+  --color-accent: #35549a; // 原稿 --gold-deep（深金 / CTA 下緣 / 漸層尾）
+  --bg-base: #090a0c; // 原稿 --bg 近黑底
+  --bg-surface: #12151a; // 原稿 --card 卡片底
+  --bg-overlay: rgba(95, 132, 212, 0.1); // 金色半透明遮罩（ghost btn hover）
+  --text-primary: #dce2ef; // 原稿 --txt
+  --text-muted: #78839a; // 原稿 --txt2
+  --border: rgba(95, 132, 212, 0.22); // 原稿 --line 金色細框
+  --shadow: 0 10px 24px rgba(95, 132, 212, 0.18); // 金色懸浮陰影（medal/arch hover）
+  // hero 本身無漸層底圖（純放 banner 圖），此處備一組金光暗底漸層供需漸層底的區塊使用
+  --gradient-hero: linear-gradient(160deg, #151921, #0e1014);
+
+  // 燙金 CTA：亮金 → 深金（對齊原稿 .btn-gold linear-gradient(180deg,gold2,gold-deep)）
+  --gradient-cta: linear-gradient(180deg, #90acf0, #35549a);
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #0e1014; // 原稿 --bg2（notice / arch meta 底）
+  --card-2: #151921; // 原稿 --card2（八角徽章 / 優惠卡漸層尾）
+  --line-2: rgba(95, 132, 212, 0.45); // 原稿 --line2（hover 強化金框 / ghost 邊）
+  --cta-ink: #0a111c; // 落在燙金 CTA 上的深色對比文字（原稿 #1c150a）
+  --radius: 6px; // 原稿 hero border-radius 主圓角
+  --inner-line: rgba(95, 132, 212, 0.35); // hero / 八角內框金線（原稿 .hero::after / .oct::before）
+
+  // ── 字體 stack（與其他 daheng theme 一致，serif 用於品牌字 / 標題）
+  --font-display:
+    "Noto Serif TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

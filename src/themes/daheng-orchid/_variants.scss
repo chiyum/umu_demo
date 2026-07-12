@@ -1,0 +1,150 @@
+// daheng-orchid（c31 · 大亨蘭夜真人）版面替代配色
+// 每個 [data-theme="daheng-orchid"][data-theme-color="xxx"] 都重寫整份 token body（含結構對比 token），
+// 避免切色殘色；三色皆為 daheng-night 調色盤的 hue-rotation。
+
+[data-theme="daheng-orchid"][data-theme-color="orchid"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #f05cc2; // 紫（分類圓鈕 / 燈板邊框 / 主強調）
+  --color-secondary: oklch(85% 0.15 150deg); // 金（jackpot / 金幣 / 餘額數字）
+  --color-accent: #ccffc0; // 金高光（燈泡 / VIP 球 / coin 反光）
+  --bg-base: #3c0b33; // 原稿 --bg-bot 深紫夜空底（漸層終點）
+  --bg-surface: #551041; // 原稿 jackboard / promo 卡片紫底
+  --bg-overlay: rgba(0, 0, 0, 0.5); // 原稿 pill 半透明黑遮罩
+  --text-primary: #ffffff; // 原稿 --txt
+  --text-muted: #f0aedf; // 原稿 --txt-2
+  --border: rgba(255, 255, 255, 0.14); // 原稿 --line
+  --shadow: 0 14px 32px rgba(0, 0, 0, 0.5); // 原稿 jackboard / 卡片陰影
+  // 夜空紫漸層底（原稿 html,body linear-gradient(180deg,#33176e,#140b3c 70%)）
+  --gradient-hero: linear-gradient(180deg, #6e1752, #3c0b33 70%);
+
+  // 儲值 btn3d 立體綠金 CTA（原稿 .btn3d 綠色漸層）
+  --gradient-cta: linear-gradient(
+    180deg,
+    oklch(82% 0.17 210deg),
+    oklch(66% 0.18 212deg) 50%,
+    oklch(52% 0.16 215deg)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-top: #6e1752; // 原稿 --bg-top 漸層起點（夜空頂）
+  --bg-bot: #3c0b33; // 原稿 --bg-bot 漸層終點
+  --gold: oklch(85% 0.15 150deg); // 原稿 --gold（金）
+  --gold-hi: #ccffc0; // 原稿 --gold-hi（金高光）
+  --gold-lo: oklch(66% 0.14 138deg); // 金低光（漸層尾 / 立體陰影）
+  --purple: #f05cc2; // 紫亮（分類圓鈕邊框）
+  --purple-deep: #c9439f; // 紫深（燈板邊框）
+  --hud-bg: linear-gradient(
+    180deg,
+    rgba(52, 10, 42, 0.96),
+    rgba(76, 15, 59, 0.88)
+  ); // HUD 頂欄毛玻璃底
+
+  --board-bg: linear-gradient(170deg, #551041, #3e0a31); // jackboard 燈板底
+  --cta-shadow: oklch(38% 0.12 216deg); // btn3d 立體底邊陰影
+  --radius: 18px; // 原稿 --r
+
+  // ── 字體 stack（Baloo 2 圓潤手遊字 + 中文 fallback，與原稿一致）
+  // Baloo 2 由各 SFC <style> @import Google Fonts 載入（同來源做法）
+  --font-display:
+    "Baloo 2", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --font-body:
+    "Baloo 2", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+[data-theme="daheng-orchid"][data-theme-color="magenta"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #f05c78; // 紫（分類圓鈕 / 燈板邊框 / 主強調）
+  --color-secondary: oklch(85% 0.15 180deg); // 金（jackpot / 金幣 / 餘額數字）
+  --color-accent: #c0ffd3; // 金高光（燈泡 / VIP 球 / coin 反光）
+  --bg-base: #3c0b1b; // 原稿 --bg-bot 深紫夜空底（漸層終點）
+  --bg-surface: #55101e; // 原稿 jackboard / promo 卡片紫底
+  --bg-overlay: rgba(0, 0, 0, 0.5); // 原稿 pill 半透明黑遮罩
+  --text-primary: #ffffff; // 原稿 --txt
+  --text-muted: #f0aebe; // 原稿 --txt-2
+  --border: rgba(255, 255, 255, 0.14); // 原稿 --line
+  --shadow: 0 14px 32px rgba(0, 0, 0, 0.5); // 原稿 jackboard / 卡片陰影
+  // 夜空紫漸層底（原稿 html,body linear-gradient(180deg,#33176e,#140b3c 70%)）
+  --gradient-hero: linear-gradient(180deg, #6e1726, #3c0b1b 70%);
+
+  // 儲值 btn3d 立體綠金 CTA（原稿 .btn3d 綠色漸層）
+  --gradient-cta: linear-gradient(
+    180deg,
+    oklch(82% 0.17 240deg),
+    oklch(66% 0.18 242deg) 50%,
+    oklch(52% 0.16 245deg)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-top: #6e1726; // 原稿 --bg-top 漸層起點（夜空頂）
+  --bg-bot: #3c0b1b; // 原稿 --bg-bot 漸層終點
+  --gold: oklch(85% 0.15 180deg); // 原稿 --gold（金）
+  --gold-hi: #c0ffd3; // 原稿 --gold-hi（金高光）
+  --gold-lo: oklch(66% 0.14 168deg); // 金低光（漸層尾 / 立體陰影）
+  --purple: #f05c78; // 紫亮（分類圓鈕邊框）
+  --purple-deep: #c9435c; // 紫深（燈板邊框）
+  --hud-bg: linear-gradient(
+    180deg,
+    rgba(52, 10, 21, 0.96),
+    rgba(76, 15, 28, 0.88)
+  ); // HUD 頂欄毛玻璃底
+
+  --board-bg: linear-gradient(170deg, #55101e, #3e0a17); // jackboard 燈板底
+  --cta-shadow: oklch(38% 0.12 246deg); // btn3d 立體底邊陰影
+  --radius: 18px; // 原稿 --r
+
+  // ── 字體 stack（Baloo 2 圓潤手遊字 + 中文 fallback，與原稿一致）
+  // Baloo 2 由各 SFC <style> @import Google Fonts 載入（同來源做法）
+  --font-display:
+    "Baloo 2", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --font-body:
+    "Baloo 2", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+[data-theme="daheng-orchid"][data-theme-color="violet"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #d45cf0; // 紫（分類圓鈕 / 燈板邊框 / 主強調）
+  --color-secondary: oklch(85% 0.15 120deg); // 金（jackpot / 金幣 / 餘額數字）
+  --color-accent: #ecffc0; // 金高光（燈泡 / VIP 球 / coin 反光）
+  --bg-base: #2d0b3c; // 原稿 --bg-bot 深紫夜空底（漸層終點）
+  --bg-surface: #471055; // 原稿 jackboard / promo 卡片紫底
+  --bg-overlay: rgba(0, 0, 0, 0.5); // 原稿 pill 半透明黑遮罩
+  --text-primary: #ffffff; // 原稿 --txt
+  --text-muted: #e0aef0; // 原稿 --txt-2
+  --border: rgba(255, 255, 255, 0.14); // 原稿 --line
+  --shadow: 0 14px 32px rgba(0, 0, 0, 0.5); // 原稿 jackboard / 卡片陰影
+  // 夜空紫漸層底（原稿 html,body linear-gradient(180deg,#33176e,#140b3c 70%)）
+  --gradient-hero: linear-gradient(180deg, #5f176e, #2d0b3c 70%);
+
+  // 儲值 btn3d 立體綠金 CTA（原稿 .btn3d 綠色漸層）
+  --gradient-cta: linear-gradient(
+    180deg,
+    oklch(82% 0.17 180deg),
+    oklch(66% 0.18 182deg) 50%,
+    oklch(52% 0.16 185deg)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-top: #5f176e; // 原稿 --bg-top 漸層起點（夜空頂）
+  --bg-bot: #2d0b3c; // 原稿 --bg-bot 漸層終點
+  --gold: oklch(85% 0.15 120deg); // 原稿 --gold（金）
+  --gold-hi: #ecffc0; // 原稿 --gold-hi（金高光）
+  --gold-lo: oklch(66% 0.14 108deg); // 金低光（漸層尾 / 立體陰影）
+  --purple: #d45cf0; // 紫亮（分類圓鈕邊框）
+  --purple-deep: #b043c9; // 紫深（燈板邊框）
+  --hud-bg: linear-gradient(
+    180deg,
+    rgba(41, 10, 52, 0.96),
+    rgba(63, 15, 76, 0.88)
+  ); // HUD 頂欄毛玻璃底
+
+  --board-bg: linear-gradient(170deg, #471055, #310a3e); // jackboard 燈板底
+  --cta-shadow: oklch(38% 0.12 186deg); // btn3d 立體底邊陰影
+  --radius: 18px; // 原稿 --r
+
+  // ── 字體 stack（Baloo 2 圓潤手遊字 + 中文 fallback，與原稿一致）
+  // Baloo 2 由各 SFC <style> @import Google Fonts 載入（同來源做法）
+  --font-display:
+    "Baloo 2", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --font-body:
+    "Baloo 2", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}

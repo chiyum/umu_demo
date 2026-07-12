@@ -1,0 +1,261 @@
+// daheng-marigold（d03 · 大亨金盞體育）版面替代配色
+// 每個 [data-theme="daheng-marigold"][data-theme-color="xxx"] 都重寫整份 token body（含結構對比 token），
+// 避免切色殘色；三色皆為 daheng-fresh 調色盤的 hue-rotation。
+
+[data-theme="daheng-marigold"][data-theme-color="marigold"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(60% 0.17 60deg); // 主藍（按鈕 / nav active）
+  --color-secondary: oklch(45% 0.16 63deg); // 深藍（標題 / logo 文字）
+  --color-accent: oklch(72% 0.16 223deg); // 橘色點綴（CTA 球 / hotdot / 圓點）
+  --bg-base: #fbf2ee; // 原稿 --bg 藍白淺底
+  --bg-surface: #ffffff; // 原稿 --card 純白卡片
+  --bg-overlay: oklch(94% 0.03 53deg); // 原稿 --blue-soft 軟藍（softbtn / 圖示底）
+  --text-primary: #4a3222; // 原稿 --txt
+  --text-muted: #a38674; // 原稿 --txt-2
+  --border: oklch(90% 0.02 56deg); // 原稿 --line
+  --shadow: 0 6px 22px rgba(178, 100, 46, 0.1); // 原稿 --shadow 柔藍陰影
+  --gradient-hero: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(78% 0.13 28deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(62% 0.17 60deg), oklch(50% 0.18 76deg)); // 原稿 s-b1
+
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(68% 0.16 53deg),
+    oklch(60% 0.17 60deg)
+  ); // 主藍 CTA（原稿 btn-blue）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --blue-deep: oklch(45% 0.16 63deg); // 深藍（與 secondary 同義，語意保留）
+  --gradient-orange: linear-gradient(
+    150deg,
+    oklch(78% 0.15 233deg),
+    oklch(72% 0.16 223deg)
+  ); // 橘色 CTA（原稿 btn-orange / hotdot / 底部凸球）
+
+  --gradient-jackpot: linear-gradient(
+    120deg,
+    oklch(50% 0.16 70deg),
+    oklch(62% 0.17 56deg)
+  ); // 彩金池橫條藍漸層
+
+  --gradient-app: linear-gradient(
+    130deg,
+    oklch(55% 0.17 66deg),
+    oklch(66% 0.16 50deg)
+  ); // App banner 藍漸層
+
+  --mini-1: linear-gradient(
+    140deg,
+    oklch(70% 0.14 328deg),
+    oklch(55% 0.14 343deg)
+  ); // hero mini m1（青綠）
+
+  --mini-2: linear-gradient(
+    140deg,
+    oklch(66% 0.16 113deg),
+    oklch(52% 0.18 98deg)
+  ); // hero mini m2（紫）
+
+  --promo-c1: oklch(93% 0.05 53deg); // 優惠圖示底色（藍）
+  --promo-c2: oklch(94% 0.06 243deg); // 優惠圖示底色（橘）
+  --promo-c3: oklch(93% 0.05 328deg); // 優惠圖示底色（綠）
+  --cta-ink: #ffffff; // 落在藍 / 橘 CTA 上的對比文字（白）
+  --radius: 18px; // 原稿 --r
+
+  // hero 文字 slide 漸層背景（對齊原稿 .s-b1 / .s-b2，L59-64；白字疊上）
+  --hero-slide-b1: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(78% 0.13 28deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(62% 0.17 60deg), oklch(50% 0.18 76deg));
+  --hero-slide-b2: radial-gradient(
+      80% 140% at 10% 110%,
+      oklch(80% 0.14 243deg / 0.75),
+      transparent 55%
+    ),
+    linear-gradient(220deg, oklch(72% 0.16 223deg), oklch(62% 0.18 203deg));
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-marigold"][data-theme-color="amber"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(60% 0.17 82deg); // 主藍（按鈕 / nav active）
+  --color-secondary: oklch(45% 0.16 85deg); // 深藍（標題 / logo 文字）
+  --color-accent: oklch(72% 0.16 245deg); // 橘色點綴（CTA 球 / hotdot / 圓點）
+  --bg-base: #fbf7ee; // 原稿 --bg 藍白淺底
+  --bg-surface: #ffffff; // 原稿 --card 純白卡片
+  --bg-overlay: oklch(94% 0.03 75deg); // 原稿 --blue-soft 軟藍（softbtn / 圖示底）
+  --text-primary: #4a4122; // 原稿 --txt
+  --text-muted: #a39774; // 原稿 --txt-2
+  --border: oklch(90% 0.02 78deg); // 原稿 --line
+  --shadow: 0 6px 22px rgba(178, 148, 46, 0.1); // 原稿 --shadow 柔藍陰影
+  --gradient-hero: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(78% 0.13 50deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(62% 0.17 82deg), oklch(50% 0.18 98deg)); // 原稿 s-b1
+
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(68% 0.16 75deg),
+    oklch(60% 0.17 82deg)
+  ); // 主藍 CTA（原稿 btn-blue）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --blue-deep: oklch(45% 0.16 85deg); // 深藍（與 secondary 同義，語意保留）
+  --gradient-orange: linear-gradient(
+    150deg,
+    oklch(78% 0.15 255deg),
+    oklch(72% 0.16 245deg)
+  ); // 橘色 CTA（原稿 btn-orange / hotdot / 底部凸球）
+
+  --gradient-jackpot: linear-gradient(
+    120deg,
+    oklch(50% 0.16 92deg),
+    oklch(62% 0.17 78deg)
+  ); // 彩金池橫條藍漸層
+
+  --gradient-app: linear-gradient(
+    130deg,
+    oklch(55% 0.17 88deg),
+    oklch(66% 0.16 72deg)
+  ); // App banner 藍漸層
+
+  --mini-1: linear-gradient(
+    140deg,
+    oklch(70% 0.14 350deg),
+    oklch(55% 0.14 5deg)
+  ); // hero mini m1（青綠）
+
+  --mini-2: linear-gradient(
+    140deg,
+    oklch(66% 0.16 135deg),
+    oklch(52% 0.18 120deg)
+  ); // hero mini m2（紫）
+
+  --promo-c1: oklch(93% 0.05 75deg); // 優惠圖示底色（藍）
+  --promo-c2: oklch(94% 0.06 265deg); // 優惠圖示底色（橘）
+  --promo-c3: oklch(93% 0.05 350deg); // 優惠圖示底色（綠）
+  --cta-ink: #ffffff; // 落在藍 / 橘 CTA 上的對比文字（白）
+  --radius: 18px; // 原稿 --r
+
+  // hero 文字 slide 漸層背景（對齊原稿 .s-b1 / .s-b2，L59-64；白字疊上）
+  --hero-slide-b1: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(78% 0.13 50deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(62% 0.17 82deg), oklch(50% 0.18 98deg));
+  --hero-slide-b2: radial-gradient(
+      80% 140% at 10% 110%,
+      oklch(80% 0.14 265deg / 0.75),
+      transparent 55%
+    ),
+    linear-gradient(220deg, oklch(72% 0.16 245deg), oklch(62% 0.18 225deg));
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}
+
+[data-theme="daheng-marigold"][data-theme-color="lime"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: oklch(60% 0.17 32deg); // 主藍（按鈕 / nav active）
+  --color-secondary: oklch(45% 0.16 35deg); // 深藍（標題 / logo 文字）
+  --color-accent: oklch(72% 0.16 195deg); // 橘色點綴（CTA 球 / hotdot / 圓點）
+  --bg-base: #fbeef0; // 原稿 --bg 藍白淺底
+  --bg-surface: #ffffff; // 原稿 --card 純白卡片
+  --bg-overlay: oklch(94% 0.03 25deg); // 原稿 --blue-soft 軟藍（softbtn / 圖示底）
+  --text-primary: #4a2225; // 原稿 --txt
+  --text-muted: #a37478; // 原稿 --txt-2
+  --border: oklch(90% 0.02 28deg); // 原稿 --line
+  --shadow: 0 6px 22px rgba(178, 46, 54, 0.1); // 原稿 --shadow 柔藍陰影
+  --gradient-hero: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(78% 0.13 0deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(62% 0.17 32deg), oklch(50% 0.18 48deg)); // 原稿 s-b1
+
+  --gradient-cta: linear-gradient(
+    150deg,
+    oklch(68% 0.16 25deg),
+    oklch(60% 0.17 32deg)
+  ); // 主藍 CTA（原稿 btn-blue）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --blue-deep: oklch(45% 0.16 35deg); // 深藍（與 secondary 同義，語意保留）
+  --gradient-orange: linear-gradient(
+    150deg,
+    oklch(78% 0.15 205deg),
+    oklch(72% 0.16 195deg)
+  ); // 橘色 CTA（原稿 btn-orange / hotdot / 底部凸球）
+
+  --gradient-jackpot: linear-gradient(
+    120deg,
+    oklch(50% 0.16 42deg),
+    oklch(62% 0.17 28deg)
+  ); // 彩金池橫條藍漸層
+
+  --gradient-app: linear-gradient(
+    130deg,
+    oklch(55% 0.17 38deg),
+    oklch(66% 0.16 22deg)
+  ); // App banner 藍漸層
+
+  --mini-1: linear-gradient(
+    140deg,
+    oklch(70% 0.14 300deg),
+    oklch(55% 0.14 315deg)
+  ); // hero mini m1（青綠）
+
+  --mini-2: linear-gradient(
+    140deg,
+    oklch(66% 0.16 85deg),
+    oklch(52% 0.18 70deg)
+  ); // hero mini m2（紫）
+
+  --promo-c1: oklch(93% 0.05 25deg); // 優惠圖示底色（藍）
+  --promo-c2: oklch(94% 0.06 215deg); // 優惠圖示底色（橘）
+  --promo-c3: oklch(93% 0.05 300deg); // 優惠圖示底色（綠）
+  --cta-ink: #ffffff; // 落在藍 / 橘 CTA 上的對比文字（白）
+  --radius: 18px; // 原稿 --r
+
+  // hero 文字 slide 漸層背景（對齊原稿 .s-b1 / .s-b2，L59-64；白字疊上）
+  --hero-slide-b1: radial-gradient(
+      90% 150% at 90% -10%,
+      oklch(78% 0.13 0deg / 0.8),
+      transparent 55%
+    ),
+    linear-gradient(140deg, oklch(62% 0.17 32deg), oklch(50% 0.18 48deg));
+  --hero-slide-b2: radial-gradient(
+      80% 140% at 10% 110%,
+      oklch(80% 0.14 215deg / 0.75),
+      transparent 55%
+    ),
+    linear-gradient(220deg, oklch(72% 0.16 195deg), oklch(62% 0.18 175deg));
+
+  // ── 字體 stack（與其他 daheng theme 一致）
+  --font-display:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+  --font-body:
+    "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei UI",
+    "Microsoft JhengHei", pmingliu, sans-serif;
+}

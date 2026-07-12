@@ -1,0 +1,66 @@
+// daheng-verdant（a24 · 大亨蒼翠金典）token 主檔
+// 複用佈局殼：daheng-emerald（其 desktop.vue / mobile.vue 由 _registry.ts lazy import 直接沿用）
+// 配色：以 daheng-emerald 原稿調色盤做 hue-rotation（保留 L / C / 對比，只換色相）產生的全新配色
+// 預設色 verdant（色相位移 110deg）；另 jade / olive 兩替代色見 _variants.scss。
+// 命名公約：完整沿用 daheng-emerald 的 token 契約（12 個公用 CSS var + 該殼元件實讀的所有結構 token），
+// 缺一即該殼在本 theme 破圖，故整份 token body 逐一位移後重寫。
+
+[data-theme="daheng-verdant"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #6cd8a3; // gold（主品牌金）
+  --color-secondary: #a6f0cd; // gold-2（亮金高光）
+  --color-accent: #6cd8a3; // 金色亮點
+  --bg-base: #140b1f; // 原稿 --bg 墨綠底
+  --bg-surface: #211431; // 原稿 --card 卡片底
+  --bg-overlay: rgba(108, 216, 163, 0.06); // 半透明金遮罩
+  --text-primary: #d8f2e6; // 原稿 --txt 暖米白
+  --text-muted: #a19eb3; // 原稿 --txt-2 霧綠
+  --border: rgba(108, 216, 163, 0.22); // 原稿 --line 金邊
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45); // 原稿 hero 深陰影
+  --gradient-hero: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(108, 216, 163, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #251539, #160b23); // 原稿 s-g1 漸層
+
+  --gradient-cta: linear-gradient(
+    160deg,
+    #a6f0cd,
+    #6cd8a3 60%,
+    #46b07b
+  ); // 金色 CTA（原稿 btn-gold）
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-2: #1a1029; // 原稿 --bg2（VIP / hero 副底）
+  --card-2: #271a3b; // 原稿 --card-2（promo 漸層尾）
+  --gold-dim: rgba(108, 216, 163, 0.35); // 金色細描線 / 描邊
+  --cta-ink: #062415; // 落在金色 CTA 上的深色對比文字
+  --radius: 10px; // 原稿 --r
+
+  // hero 文字 slide 漸層背景（對齊原稿 .s-g1 / .s-g2，L64-69）
+  --hero-slide-g1: radial-gradient(
+      75% 130% at 50% 115%,
+      rgba(108, 216, 163, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(170deg, #251539, #160b23);
+  --hero-slide-g2: radial-gradient(
+      70% 120% at 50% -15%,
+      rgba(108, 216, 163, 0.18),
+      transparent 55%
+    ),
+    linear-gradient(190deg, #211232, #130a1f);
+
+  // ── 字體 stack：古典襯線標題 + 黑體內文（對齊原稿 Noto Serif TC）
+  --font-display:
+    "Noto Serif TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    serif;
+  --font-body:
+    "Noto Sans TC", "PingFang TC", "微軟正黑體", "Microsoft JhengHei UI",
+    sans-serif;
+
+  // 頁面整體背景 radial 柔光（對齊原稿 html,body）
+  --page-bg: radial-gradient(120% 80% at 50% -10%, #241638, transparent 60%),
+    #140b1f;
+}

@@ -1,0 +1,55 @@
+// daheng-orchid（c31 · 大亨蘭夜真人）token 主檔
+// 複用佈局殼：daheng-night（其 desktop.vue / mobile.vue 由 _registry.ts lazy import 直接沿用）
+// 配色：以 daheng-night 原稿調色盤做 hue-rotation（保留 L / C / 對比，只換色相）產生的全新配色
+// 預設色 orchid（色相位移 60deg）；另 magenta / violet 兩替代色見 _variants.scss。
+// 命名公約：完整沿用 daheng-night 的 token 契約（12 個公用 CSS var + 該殼元件實讀的所有結構 token），
+// 缺一即該殼在本 theme 破圖，故整份 token body 逐一位移後重寫。
+
+[data-theme="daheng-orchid"] {
+  // ── 12 個必要 CSS Var（命名公約鐵則）─────────────────
+  --color-primary: #f05cc2; // 紫（分類圓鈕 / 燈板邊框 / 主強調）
+  --color-secondary: oklch(85% 0.15 150deg); // 金（jackpot / 金幣 / 餘額數字）
+  --color-accent: #ccffc0; // 金高光（燈泡 / VIP 球 / coin 反光）
+  --bg-base: #3c0b33; // 原稿 --bg-bot 深紫夜空底（漸層終點）
+  --bg-surface: #551041; // 原稿 jackboard / promo 卡片紫底
+  --bg-overlay: rgba(0, 0, 0, 0.5); // 原稿 pill 半透明黑遮罩
+  --text-primary: #ffffff; // 原稿 --txt
+  --text-muted: #f0aedf; // 原稿 --txt-2
+  --border: rgba(255, 255, 255, 0.14); // 原稿 --line
+  --shadow: 0 14px 32px rgba(0, 0, 0, 0.5); // 原稿 jackboard / 卡片陰影
+  // 夜空紫漸層底（原稿 html,body linear-gradient(180deg,#33176e,#140b3c 70%)）
+  --gradient-hero: linear-gradient(180deg, #6e1752, #3c0b33 70%);
+
+  // 儲值 btn3d 立體綠金 CTA（原稿 .btn3d 綠色漸層）
+  --gradient-cta: linear-gradient(
+    180deg,
+    oklch(82% 0.17 210deg),
+    oklch(66% 0.18 212deg) 50%,
+    oklch(52% 0.16 215deg)
+  );
+
+  // ── 結構 / 對比 token（元件走 var() 不寫死）───────
+  --bg-top: #6e1752; // 原稿 --bg-top 漸層起點（夜空頂）
+  --bg-bot: #3c0b33; // 原稿 --bg-bot 漸層終點
+  --gold: oklch(85% 0.15 150deg); // 原稿 --gold（金）
+  --gold-hi: #ccffc0; // 原稿 --gold-hi（金高光）
+  --gold-lo: oklch(66% 0.14 138deg); // 金低光（漸層尾 / 立體陰影）
+  --purple: #f05cc2; // 紫亮（分類圓鈕邊框）
+  --purple-deep: #c9439f; // 紫深（燈板邊框）
+  --hud-bg: linear-gradient(
+    180deg,
+    rgba(52, 10, 42, 0.96),
+    rgba(76, 15, 59, 0.88)
+  ); // HUD 頂欄毛玻璃底
+
+  --board-bg: linear-gradient(170deg, #551041, #3e0a31); // jackboard 燈板底
+  --cta-shadow: oklch(38% 0.12 216deg); // btn3d 立體底邊陰影
+  --radius: 18px; // 原稿 --r
+
+  // ── 字體 stack（Baloo 2 圓潤手遊字 + 中文 fallback，與原稿一致）
+  // Baloo 2 由各 SFC <style> @import Google Fonts 載入（同來源做法）
+  --font-display:
+    "Baloo 2", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --font-body:
+    "Baloo 2", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
