@@ -194,6 +194,37 @@ function resolveInitialThemeQuery(): {
 }
 
 /**
+ * 偵測當前是否為「/preview 唯讀預覽情境」
+ *
+ * 為什麼需要（reviewer 批 4 抓到的副作用）：
+ * - /preview/<key> 與 /demo/<key> 共用同一個 demo-theme store + 同一組 LS 鍵
+ *   （casino-demo:colorKey:v3 / logoKey:v3:* / fabPosition:v3）
+ * - showcase 卡片縮圖（A8）每張都在 iframe 內開 /preview?color=<defaultColor>，詳情 modal（A11）
+ *   使用者點 swatch 也在 iframe 內切色。每個 iframe 是獨立 app / pinia，但**同源共享 localStorage**，
+ *   故 iframe 內 store 的 persist watch 會把「某 theme 的預設色 / 縮圖指定色」靜默寫進全域 demo 偏好，
+ *   污染使用者下次開 /demo 時看到的配色 / logo（預覽面本不該有副作用）
+ *
+ * 對策：/preview 情境下 store 進「唯讀預覽模式」——只讀 URL query 決定當前顯示，**完全不回寫 LS**。
+ * - /demo/<key> 維持會 persist 的行為（那是使用者主動玩 demo，記住偏好是對的）
+ * - 獨立分享的 /preview/<key>?color=X 仍照 URL 正確顯示（resolveInitialThemeQuery 已讀 query），只是不回寫 LS
+ *
+ * 為什麼用 pathname 偵測而非 route meta / query flag：
+ * - 本檔 resolveInitialThemeQuery 既有的 layoutKey 解析就是以 pathname 比對 /(?:demo|preview)/，
+ *   沿用同一套 signal 最一致、零額外相依（不必等 route ready、不必改路由 meta）
+ * - store 是 singleton，init 時判定一次即可：iframe / 分享頁的 pathname 在其生命週期內固定為 /preview/*，
+ *   不會中途變成 /demo（真要換頁是整個 document reload → 全新 store 重新判定）
+ */
+function detectPreviewReadonly(): boolean {
+  try {
+    // 認 /preview/<key> 或含 base 子路徑 /umu_demo/preview/<key>
+    return /\/preview\/[^/?#]+/.test(window.location.pathname);
+  } catch {
+    // window 不存在（理論上此 demo 不 SSR）→ 視為非唯讀，維持原 persist 行為
+    return false;
+  }
+}
+
+/**
  * 此 store 內部使用 useRoute()，必須在 Vue component / composable / setup context 中被首次呼叫
  * （即被 router-view 渲染的 component 內），否則 useRoute 會回 undefined
  *
@@ -206,6 +237,14 @@ export const useDemoThemeStore = defineStore("demo-theme", () => {
   // v4.6 起改用 resolveInitialThemeQuery（同時讀 ?color= 與 ?logoKey=），
   // 解決截圖 script 用 ?logoKey= 開新 page 時被 store→URL watcher immediate 覆蓋的 bug
   const initial = resolveInitialThemeQuery();
+
+  /**
+   * 唯讀預覽模式旗標（/preview 情境）：為 true 時完全不回寫 LS（見 detectPreviewReadonly + docs/adr/0003）
+   *
+   * 在 store init 判定一次即固定；用來 gate 下方三個 persist watch，
+   * 讓 /preview（含 showcase 卡片縮圖 iframe、詳情 modal iframe、獨立分享頁）不污染全域 demo 偏好
+   */
+  const isPreviewReadonly = detectPreviewReadonly();
 
   /**
    * layoutKey：完全 derived from route.params.layoutkey
@@ -338,16 +377,21 @@ export const useDemoThemeStore = defineStore("demo-theme", () => {
   }
 
   // ---- persist 副作用 ----
-  // colorKey 仍 persist（使用者偏好）；layoutKey 不 persist（URL 才是 source of truth）
-  watch(colorKey, (v) => safeSetLS(LS_COLOR_KEY, v));
-  watch(fabPosition, (v) => safeSetLS(LS_FAB_POSITION, JSON.stringify(v)), {
-    deep: true
-  });
-  // logoKey 寫到「按 theme 分流」的 LS key，避免不同 theme 互相覆蓋
-  watch(logoKey, (v) => {
-    if (!v) return;
-    safeSetLS(LS_LOGO_KEY_PREFIX + layoutKey.value, v);
-  });
+  // 唯讀預覽模式（/preview）完全跳過 persist：不掛任何回寫 LS 的 watch，
+  // 避免 showcase 卡片縮圖 / 詳情 modal 的預覽 iframe 靜默污染全域 demo 偏好（reviewer 批 4）。
+  // /demo 情境（isPreviewReadonly=false）維持原本會記住使用者偏好的行為。
+  if (!isPreviewReadonly) {
+    // colorKey 仍 persist（使用者偏好）；layoutKey 不 persist（URL 才是 source of truth）
+    watch(colorKey, (v) => safeSetLS(LS_COLOR_KEY, v));
+    watch(fabPosition, (v) => safeSetLS(LS_FAB_POSITION, JSON.stringify(v)), {
+      deep: true
+    });
+    // logoKey 寫到「按 theme 分流」的 LS key，避免不同 theme 互相覆蓋
+    watch(logoKey, (v) => {
+      if (!v) return;
+      safeSetLS(LS_LOGO_KEY_PREFIX + layoutKey.value, v);
+    });
+  }
 
   return {
     // state（layoutKey 是 computed，其餘 ref / computed）

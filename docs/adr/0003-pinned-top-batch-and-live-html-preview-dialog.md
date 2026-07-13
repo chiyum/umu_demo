@@ -55,3 +55,9 @@
   - `PINNED_THEME_KEYS` 的 key 必須與 themes map 註冊的新批 key 完全一致（緊鄰放置便於對照）。
   - iframe 每開一個 modal 會載入一個獨立 SPA context；一次僅 1 個、關閉即卸載，成本可控。
 - **build**：純前端 runtime，不增 build 體積；本機 `yarn build`（不帶 env）exit 0、無 OOM（實測 2m31s）。
+
+### 補充：`/preview` store 唯讀（reviewer 批 4 修正）
+
+`/preview/<key>` 與 `/demo/<key>` 共用同一個 `demo-theme` store + 同一組 LS 鍵；預覽 iframe（卡片縮圖 A8、詳情 modal A11）與 /demo 同源共享 `localStorage`，其 persist watch 會把「預覽用的預設色 / 縮圖指定色 / modal 切色」**靜默寫進全域 demo 偏好**，污染使用者下次開 /demo 的配色 / logo。此問題 A8/A9 上線後已存在，A11 的 modal 切色放大它。
+
+修法：`demo-theme.store.ts` 於 init 以 `detectPreviewReadonly()`（pathname 比對 `/preview/`）判定唯讀模式，唯讀時**不掛 color / logo / fabPosition 三個 persist watch**——只讀 URL query 決定顯示、完全不回寫 LS。/demo 情境維持原本會記住偏好的行為；獨立分享的 `/preview/<key>?color=X` 仍照 URL 正確顯示。沿用本檔既有的 `/(?:demo|preview)/` pathname signal，零額外相依、store singleton init 判定一次即固定。
