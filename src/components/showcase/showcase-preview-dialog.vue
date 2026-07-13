@@ -405,11 +405,16 @@ function pickColor(colorKey: string): void {
   justify-content: center;
   padding: 24px;
 
-  // 自身吃滿，內部 panel 自定義寬高
+  // 自身吃滿，內部 panel 自定義寬高。
+  // 為什麼用明確 height 而非只有 max-height（QA 批 4 修正）：
+  // 父層 .preview 是 align-items:center，panel 不會縱向撐滿；若 panel 只有 max-height、無明確 height，
+  // panel 高度 = 內容高度（僅 header + swatch 列）→ body 的 flex:1 拿不到自由空間 → 塌陷為 0
+  // → recomputeScale 讀到 body 高度 <=0 直接 return、scale 停在 1、iframe 被 0 高 body + overflow:hidden
+  // 裁掉，使用者完全看不到即時預覽。給明確 height:92vh 後 body flex:1 才有實際高度可分配。
   &__panel {
     width: 100%;
     max-width: 1080px;
-    max-height: 92vh;
+    height: 92vh;
     background: #ffffff;
     border-radius: 16px;
     overflow: hidden;
