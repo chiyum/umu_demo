@@ -7,9 +7,14 @@ import {
   colorDistance,
   getThemeMainSwatch,
   getLocalToday,
-  isThemeReleased
+  isThemeReleased,
+  isThemePinned
 } from "@/themes/_registry";
-import type { ThemeBrightness, ThemeCategory } from "@/themes/_types";
+import type {
+  ThemeBrightness,
+  ThemeCategory,
+  ThemeMeta
+} from "@/themes/_types";
 
 /**
  * Showcase store — 服務「/」showcase 主頁
@@ -350,6 +355,16 @@ export const useShowcaseStore = defineStore("showcase", () => {
    * 為什麼建一份 registryIndex map 而非每次 indexOf：
    * - listThemes() 回的順序就是 registry 插入順序（Object.values）
    * - 用 Map 一次建好 key→index，排序比較時 O(1) 查，避免 N 次 indexOf 退化成 O(N^2)
+   *
+   * 置頂分區（v4.13，見 docs/adr/0003）：
+   * - 最新批次（PINNED_THEME_KEYS 的 20 套）一律浮到最前，不受排序方向影響
+   * - 作法：先把 base 依 isThemePinned 切成 pinned / rest 兩區，各自套「當前排序方向」的
+   *   同一個 comparator，再 pinned 在前、rest 在後串接
+   * - 為什麼這樣才對：這 20 套無 releaseDate，若沿用單一排序會被哨兵邏輯併入「最早」群組排到
+   *   舊版面之後（實測落在第 14-33 位）；分區置頂讓「預設 oldest」下 20 套新版面在最前、
+   *   52 套舊版面維持既有 oldest 相對序在後，且不引入任何日期閘門（全部可見）
+   * - 為什麼 pinned 分區內仍套排序方向（而非固定順序）：切「由新到舊 / 依編號」時，
+   *   置頂 20 套內部也照該方向呈現，行為一致好預期；預設 oldest 下 pinned 內部即 registry 宣告序
    */
   const sortedThemes = computed(() => {
     // registryIndex：listThemes() 的順序即 registry 宣告順序，作為穩定 tiebreaker
@@ -382,27 +397,42 @@ export const useShowcaseStore = defineStore("showcase", () => {
       };
     };
 
-    // code 模式：依編號 label 前綴升序（a01 < a02 < … < b01 …），與 oldest/newest 互斥分支
-    if (sortOrder.value === "code") {
-      return [...filteredThemes.value].sort((a, b) => {
-        const ka = codeKeyOf(a.key, a.label);
-        const kb = codeKeyOf(b.key, b.label);
-        if (ka.letter !== kb.letter) return ka.letter < kb.letter ? -1 : 1;
-        if (ka.num !== kb.num) return ka.num - kb.num;
-        return ka.idx - kb.idx; // 前綴完全相同（理論不會）→ 用 registry 順序穩定收尾
+    /**
+     * 在「單一分區內」依當前 sortOrder 排序（回傳新陣列，不改原陣列）
+     *
+     * 抽成 helper 是為了讓「置頂分區」與「其餘分區」共用同一套排序規則：
+     * - code：依編號 label 前綴升序（a01 < a02 < … < b01 …）
+     * - oldest：releaseDate（哨兵補齊）升序，registryIndex 當 tiebreaker
+     * - newest：oldest 結果的精確反向（含 tiebreaker），保證雙向順序完全相反
+     */
+    const sortWithinPartition = (list: ThemeMeta[]): ThemeMeta[] => {
+      if (sortOrder.value === "code") {
+        return [...list].sort((a, b) => {
+          const ka = codeKeyOf(a.key, a.label);
+          const kb = codeKeyOf(b.key, b.label);
+          if (ka.letter !== kb.letter) return ka.letter < kb.letter ? -1 : 1;
+          if (ka.num !== kb.num) return ka.num - kb.num;
+          return ka.idx - kb.idx; // 前綴完全相同（理論不會）→ 用 registry 順序穩定收尾
+        });
+      }
+
+      // 先一律以 oldest（升序）排出穩定結果，再依方向決定是否反向
+      const ascending = [...list].sort((a, b) => {
+        const ka = sortKeyOf(a.key, a.releaseDate);
+        const kb = sortKeyOf(b.key, b.releaseDate);
+        if (ka.date !== kb.date) return ka.date < kb.date ? -1 : 1;
+        return ka.idx - kb.idx;
       });
-    }
 
-    // 先一律以 oldest（升序）排出穩定結果，再依方向決定是否反向
-    const ascending = [...filteredThemes.value].sort((a, b) => {
-      const ka = sortKeyOf(a.key, a.releaseDate);
-      const kb = sortKeyOf(b.key, b.releaseDate);
-      if (ka.date !== kb.date) return ka.date < kb.date ? -1 : 1;
-      return ka.idx - kb.idx;
-    });
+      // newest = oldest 的精確反向（含 tiebreaker），保證雙向順序完全相反
+      return sortOrder.value === "newest" ? ascending.reverse() : ascending;
+    };
 
-    // newest = oldest 的精確反向（含 tiebreaker），保證雙向順序完全相反
-    return sortOrder.value === "newest" ? ascending.reverse() : ascending;
+    // 置頂分區：pinned（最新批次）一律在最前，各分區內套同一排序方向
+    const base = filteredThemes.value;
+    const pinned = base.filter((t) => isThemePinned(t.key));
+    const rest = base.filter((t) => !isThemePinned(t.key));
+    return [...sortWithinPartition(pinned), ...sortWithinPartition(rest)];
   });
 
   /** 給 UI 判斷便利用 */

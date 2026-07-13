@@ -2756,6 +2756,58 @@ export const themes: Record<string, ThemeMeta> = {
   "daheng-ruby": dahengRuby
 };
 
+/**
+ * 「置頂（最新批次）」theme key 集合 — showcase 主頁排序時一律浮到最前（見 docs/adr/0003）
+ *
+ * 為什麼需要這個集合：
+ * - v4.11 新增的 20 套（a22-a28 / b03-b05 / c27-c31 / d02-d04 / e03-e04）刻意「不帶 releaseDate」
+ *   （即時全開、不走排程），但預設排序 oldest 的哨兵邏輯（無 releaseDate → "0000-00-00" 視為最早）
+ *   會把它們與最早建立的 13 套原始 theme 併入同一「最早」群組，再按 registryIndex 排到「原始 13 套之後」，
+ *   造成使用者預設一進站看到的前段全是舊版面、20 套新版面被夾在第 14-33 位（實測），誤以為沒上線
+ * - 語意上這 20 套才是「最新」，應置頂。但「預設 oldest + 最新置頂」本質互斥，
+ *   無法只靠日期排序達成（給近期日期會在 oldest 下排到最後、改預設 newest 會反轉舊版面相對序）
+ *
+ * 解法（明確 order 權重）：用這個 Set 標記「置頂批次」，sortedThemes 先做「置頂分區」
+ * （pinned 一律在最前，各分區內再套使用者選的排序方向），達成：
+ * - 預設 oldest：20 套新版面（按此 registry 宣告序 a22→e04）在前，52 套舊版面維持既有 oldest 相對序在後
+ * - 不引入任何日期閘門，20 套全部可見（本來就無 releaseDate，永遠顯示）
+ *
+ * 為什麼用「key 的 Set」而非在 ThemeMeta 加 `pinned` 欄位：
+ * - 單一來源、集中一處即可一眼看到「哪 20 套被置頂」，不必散落到 20 個 theme 物件各加一行
+ * - 下一批新版面上架時，整批替換這個 Set 即可（把舊批移出、新批移入），維護成本最低
+ * - 排序是 showcase 層行為，用「置頂名單」表達比在資料層每個 theme 綁旗標更貼近意圖
+ *
+ * 注意：這 20 套 key 必須與上方「v4.11 新增 20 套」ThemeMeta 宣告完全一致（key typo 不會被 TS 擋，
+ * 但緊鄰 themes map，review 時可直接對照）。
+ */
+export const PINNED_THEME_KEYS: ReadonlySet<string> = new Set([
+  "daheng-flux",
+  "daheng-amethyst",
+  "daheng-verdant",
+  "daheng-scarlet",
+  "daheng-cobalt",
+  "daheng-teal",
+  "daheng-sunset",
+  "daheng-plasma",
+  "daheng-sable",
+  "daheng-ivory",
+  "daheng-peach",
+  "daheng-frost",
+  "daheng-blush",
+  "daheng-mist",
+  "daheng-orchid",
+  "daheng-bronze",
+  "daheng-marigold",
+  "daheng-slate",
+  "daheng-obsidian",
+  "daheng-ruby"
+]);
+
+/** 純函式：判斷某 theme key 是否屬於「置頂（最新批次）」名單，給 showcase store 排序用 */
+export function isThemePinned(key: string): boolean {
+  return PINNED_THEME_KEYS.has(key);
+}
+
 /** 預設版面（首次進站、query 與 localStorage 都缺時使用） */
 export const DEFAULT_LAYOUT_KEY = "noya";
 

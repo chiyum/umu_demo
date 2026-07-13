@@ -52,6 +52,37 @@ const themeStore = useDemoThemeStore();
 // isMobile 由 App.vue 透過 provide 注入（iframe 內為該 iframe 自己的 window 寬度判斷）
 const isMobile = inject<Ref<boolean>>("isMobile");
 
+/**
+ * `?device=desktop|mobile` 強制覆蓋渲染裝置（v4.13，showcase 詳情 modal 手機分頁用）
+ *
+ * 為什麼需要這個覆蓋：
+ * - useDevice 的判斷是「UA 為行動關鍵字 AND innerWidth<=768」兩者皆真才算手機（見 use-device.ts）。
+ *   桌機瀏覽器 UA 非行動關鍵字 → isMobile 恆 false，即使把 iframe 縮到 390px 也只會渲染 desktop.vue
+ * - showcase 詳情 modal 的「手機版」分頁要在桌機上把 iframe 嵌成手機版面，
+ *   單靠縮窄 iframe 寬度無法觸發 mobile.vue，必須由外層明確指定 device
+ *
+ * 語意：
+ * - `?device=mobile` → 強制渲染 mobile.vue（不看 UA）
+ * - `?device=desktop` → 強制渲染 desktop.vue
+ * - 未帶 device → 沿用 inject 的 isMobile（獨立分享 /preview 連結在真手機看到手機版、桌機看到桌機版，行為不變）
+ *
+ * 為什麼放在 /preview 而非 /demo：
+ * - /preview 定位就是「可被嵌入 / 可分享的乾淨渲染面」，加一個明確的 device 覆蓋參數符合其職責
+ * - /demo 是完整體驗頁，維持依實際裝置自動判斷即可
+ */
+const forcedIsMobile = computed<boolean | null>(() => {
+  const raw = route.query.device;
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  if (value === "mobile") return true;
+  if (value === "desktop") return false;
+  return null;
+});
+
+/** 實際採用的裝置判斷：優先 ?device= 覆蓋，否則沿用 inject 的 isMobile */
+const effectiveIsMobile = computed<boolean>(
+  () => forcedIsMobile.value ?? isMobile?.value ?? false
+);
+
 /** 從 route 拿 layoutkey（型別保護：可能 string / string[] / undefined） */
 const routeLayoutKey = computed<string | null>(() => {
   const raw = route.params.layoutkey;
@@ -80,7 +111,7 @@ watchEffect(() => {
  */
 const ThemeComponent = computed(() => {
   const theme = themeStore.currentTheme;
-  const loader = isMobile?.value ? theme.mobile : theme.desktop;
+  const loader = effectiveIsMobile.value ? theme.mobile : theme.desktop;
   return defineAsyncComponent({
     loader,
     onError(err) {

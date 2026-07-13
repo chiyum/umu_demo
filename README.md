@@ -799,17 +799,22 @@ Showcase 主頁（`/home`）在 hero + logo 切換器下方新增「篩選列」
 
 篩選與排序狀態（`filterBrightness` / `filterCategories` / `sortOrder`）存在 `useShowcaseStore`，**不 persist 到 LS**：屬 per-session 探索行為，重新進站重新自由瀏覽更合適。
 
-#### 排序機制（v4.6）
+#### 排序機制（v4.6，v4.13 加入置頂分區）
 
 主頁版型清單可切換排序方向，**預設「由舊到新」**（sales demo 依開發時間順序掃過所有版型，先看基礎款再看新款）。
 
-- **state**：`useShowcaseStore.sortOrder`（`"oldest" | "newest"`，預設 `"oldest"`），action `setSortOrder(v)` / `toggleSortOrder()`
+- **state**：`useShowcaseStore.sortOrder`（`"oldest" | "newest" | "code"`，預設 `"oldest"`），action `setSortOrder(v)` / `toggleSortOrder()`
 - **computed**：`sortedThemes` 以 `filteredThemes` 為 base（已過排程 + 使用者篩選）做穩定排序
   - 排序鍵 tuple = `[releaseDate ?? "0000-00-00", registryIndex]`
   - 沒有 `releaseDate` 的舊 theme 視為「最早」（哨兵 `"0000-00-00"`，它們確實最早建立），彼此 / 與有日期者之間用 `registryIndex`（`listThemes()` 插入順序）當穩定 tiebreaker
   - oldest = 升序；newest = oldest 結果的「精確反向」（`reverse()`，含 tiebreaker），保證雙向順序完全相反
+  - code = 依 label 前綴 `a01 → a02 → … → b01 …` 升序
+- **置頂分區（v4.13，見 `docs/adr/0003`）**：最新批次（`PINNED_THEME_KEYS` 的 20 套：a22-a28 / b03-b05 / c27-c31 / d02-d04 / e03-e04）**一律浮到最前**，不受排序方向影響。作法：先把 base 依 `isThemePinned` 切成 `pinned` / `rest` 兩區，各自套「當前排序方向」的同一 comparator（`sortWithinPartition`），再 `pinned` 在前、`rest` 在後串接
+  - 動機：這 20 套刻意無 `releaseDate`（即時全開），若沿用單一排序會被哨兵歸入「最早」群組排到舊版面之後（實測第 14-33 位），使用者以為沒上線；置頂分區讓「預設 oldest」下 20 套新版面在最前、52 套舊版面維持既有 oldest 相對序在後，且不引入日期閘門（全部可見）
+  - 為什麼用 `PINNED_THEME_KEYS`（Set）而非在 `ThemeMeta` 加 `pinned` 欄位：單一來源、集中一處看得到整批、下一批可整批替換；緊鄰 `_registry.ts` 的 themes map 便於 review 對照
+  - **下一批新版面上架時**：決定是否把置頂名單換成新批（舊批移出、新批移入），並同步更新本節
 - **UI**：`showcase-filter-bar.vue` 的排序 segmented control（與明暗同風格，`role="radiogroup"` + `aria-checked`）
-- `home.vue` 的 `visibleThemes` 從 `filteredThemes` 改讀 `sortedThemes`，排程 + 篩選 + 排序三層疊加都生效
+- `home.vue` 的 `visibleThemes` 從 `filteredThemes` 改讀 `sortedThemes`，排程 + 篩選 + 排序 + 置頂四層疊加都生效
 
 #### Logo 推薦演算法
 
@@ -926,16 +931,26 @@ Showcase 卡片縮圖從「靜態 WebP 截圖」升級為「即時 HTML 預覽�
 > **新增 theme 免再截圖**：v4.12 前每套 theme 都得用 Playwright 補 WebP 縮圖；改即時 HTML 預覽後，
 > WebP 只是「載入 iframe 前的 poster 底圖」，缺檔會自動用 theme 主色漸層佔位，不影響卡片可用。
 
+### 詳情 modal 即時 HTML 預覽（v4.13 起）
+
+卡片「預覽」開的 `showcase-preview-dialog.vue`，桌面版 / 手機版兩分頁從靜態 WebP `<img>` 升級為即時 iframe：
+
+- **iframe src**：`/preview/<key>?color=<activeColorKey>&logoKey=<showcaseLogoKey>&device=<previewDevice>`（複用 A9 路由）
+- **縮放**：桌機分頁參考視口 `1280×820`、手機分頁 `390×800`，`ResizeObserver` 依 modal 預覽框寬高算 `scale = min(框寬/w, 框高/h)`（contain，最大不放大），viewport 盒 `= dims × scale`，iframe 內在 `dims` 尺寸再 `transform: scale()`（`transform-origin: top left`）填滿盒
+- **配色切換即時反映**：點 swatch 改 `?color=` → iframe 重載對應配色真實版面，對所有 `colors>=2` 的 theme 都有效（不再依賴 `colorPreviews` 色截圖）
+- **效能**：一次最多掛 1 個 iframe（桌機 / 手機分頁互斥，切分頁改 src 重載），dialog 用 `v-if` 動態 mount、關閉整塊卸載，不需 IntersectionObserver
+
+> **關鍵：手機分頁必須帶 `?device=mobile`。** `useDevice`（`src/utils/use-device.ts`）是「行動 UA **AND** `innerWidth<=768`」兩者皆真才算手機；桌機瀏覽器 UA 下即使把 iframe 縮到 390px 也只會渲染 `desktop.vue`。故手機分頁無法只靠縮窄 iframe 觸發手機版，必須由 modal 明確帶 `?device=`，讓 `/preview` 的 `forcedIsMobile` 強制渲染對應版面（未帶 `device` 時沿用 inject 的 `isMobile`，獨立分享連結行為不變）。動機與取捨見 `docs/adr/0003`。
+
 ### Showcase 圖片 Lazy-Load 機制
 
 Showcase 主頁（`/home` 路由，根據 vue-router 自動產生規則 `src/pages/default/home.vue` → `/home`）
-會一次渲染全部 theme 卡片；卡片縮圖已改為即時 iframe（見上節），
-但預覽 dialog 內仍用 WebP `<img>`，套用瀏覽器原生 lazy-load：
+會一次渲染全部 theme 卡片；卡片縮圖與詳情 dialog 皆已改為即時 iframe（見上節與下節）：
 
-| 元件 | 圖片 / 預覽用途 | 屬性 |
+| 元件 | 預覽用途 | 機制 |
 |---|---|---|
 | `showcase-theme-card.vue` | 卡片縮圖（**即時 iframe** + WebP/漸層 poster） | IntersectionObserver 懶載入 + poster `loading="lazy"` + `decoding="async"` |
-| `showcase-preview-dialog.vue` | 彈窗預覽圖（desktop / mobile，含 color 切換） | `loading="lazy"` + `decoding="async"` + spinner overlay |
+| `showcase-preview-dialog.vue` | 詳情 modal 預覽（desktop / mobile 分頁，含 color 切換） | **即時 iframe**（`transform: scale` 縮框）+ `loading="lazy"` + spinner overlay |
 
 設計重點：
 
